@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-stealth-950: #080a0f;
+  --color-stealth-900: #0e121a;
+  --color-stealth-800: #1a202c;
+  --color-registry-teal: #00e5ff;
+  --color-registry-teal-secondary: #00b8d4;
+  --color-registry-rose: #d946ef;
+  --color-registry-amber: #f59e0b;
+  --color-registry-cobalt: #2563eb;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50/50 text-slate-900 dark:bg-stealth-950 dark:text-slate-100 transition-colors duration-300;
+    background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.02) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+  
+  .dark body {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0, 240, 255, 0.02) 1px, transparent 0);
+  }
+}
+
+@layer components {
+  .cinematic-overlay {
+    @apply fixed inset-0 z-[200] bg-white dark:bg-stealth-950 flex flex-col items-center justify-center p-8 text-center;
+  }
+  
+  .cinematic-title {
+    @apply text-4xl md:text-8xl font-black italic uppercase tracking-tighter leading-none text-slate-900 dark:text-white;
+  }
+  
+  .cinematic-subtitle {
+    @apply text-registry-teal font-black tracking-[0.4em] uppercase text-[10px] md:text-xs mt-4;
+  }
+
+  .glass-card {
+    @apply bg-white/80 dark:bg-stealth-900/60 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-2xl shadow-slate-200/40 dark:shadow-black/20;
+  }
+
+  .tech-border {
+    @apply border border-slate-200/60 dark:border-white/5;
+  }
+
+  .glow-teal { @apply shadow-[0_0_20px_rgba(0,240,255,0.15)] dark:shadow-[0_0_25px_rgba(0,240,255,0.3)]; }
+  .glow-rose { @apply shadow-[0_0_20px_rgba(255,61,113,0.15)] dark:shadow-[0_0_25px_rgba(255,61,113,0.3)]; }
+  .technical-label { @apply text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-slate-400; }
+  
+  .terminal-text {
+    @apply font-mono text-registry-teal;
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.2);
+  }
+  .dark .terminal-text {
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+  }
+  
+  .neural-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.02) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+  .dark .neural-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0, 240, 255, 0.03) 1px, transparent 0);
+  }
+
+  .clinical-card {
+    @apply bg-white dark:bg-stealth-900 border border-slate-200/80 dark:border-white/5 rounded-[2rem] shadow-2xl shadow-slate-200/60 dark:shadow-black/40 transition-all duration-300;
+  }
+
+  .clinical-shadow {
+    @apply shadow-2xl shadow-slate-200/60 dark:shadow-black/40;
+  }
+
+  /* Recipe 1: Technical Dashboard / Data Grid inspired */
+  .data-grid-border {
+    @apply border border-slate-200 dark:border-white/10;
+  }
+  
+  .data-row-hover {
+    @apply transition-all duration-200 hover:bg-slate-900 hover:text-white dark:hover:bg-registry-teal dark:hover:text-stealth-950;
+  }
+
+  /* Recipe 3: Hardware / Specialist Tool inspired */
+  .hardware-knob {
+    @apply w-12 h-12 rounded-full border-2 border-slate-300 dark:border-white/20 bg-slate-100 dark:bg-stealth-800 shadow-inner flex items-center justify-center;
+  }
+
+  /* Recipe 7: Atmospheric / Immersive Media inspired */
+  .atmosphere-bg {
+    background: 
+      radial-gradient(circle at 50% 30%, rgba(0, 229, 255, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 10% 80%, rgba(217, 70, 239, 0.05) 0%, transparent 50%);
+    @apply backdrop-blur-3xl;
+  }
+
+  .glass-morphism {
+    @apply bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-glitch {
+  animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 229, 255, 0.05), transparent);
+  z-index: 99;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
