@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user preferences and study data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID from Firebase Auth" },
+        "name": { "type": "string", "description": "User's display name" },
+        "email": { "type": "string", "description": "User's email address" },
+        "studyGoals": { "type": "string", "description": "User's study objectives" },
+        "learningStyle": { "type": "string", "description": "User's preferred learning method" },
+        "birthDate": { "type": "string", "description": "User's birth date for spiritual timing" },
+        "birthTime": { "type": "string", "description": "User's birth time for spiritual timing" },
+        "streak": { "type": "integer", "description": "Current study streak in days" },
+        "lastStudyDate": { "type": "string", "description": "Last date the user studied" }
+      },
+      "required": ["uid", "email"]
+    },
+    "ExamResult": {
+      "title": "Exam Result",
+      "description": "Stores the results of a mock exam.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User ID of the student" },
+        "score": { "type": "number", "description": "Final score percentage" },
+        "total": { "type": "integer", "description": "Total number of questions" },
+        "timeTaken": { "type": "integer", "description": "Time taken in seconds" },
+        "passed": { "type": "boolean", "description": "Whether the user passed" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the exam was completed" },
+        "moduleBreakdown": { "type": "object", "description": "Score breakdown per topic" }
+      },
+      "required": ["uid", "score", "total", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "UserProfile",
+      "description": "User profile data indexed by UID"
+    },
+    "/examResults": {
+      "schema": "ExamResult",
+      "description": "Collection of all exam results"
+    }
+  }
+}

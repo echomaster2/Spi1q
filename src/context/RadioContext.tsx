@@ -66,20 +66,6 @@ const DEFAULT_STATIONS: Station[] = [
     color: 'from-teal-400 to-emerald-500'
   },
   {
-    id: 'spi-physics-2',
-    name: 'Doppler Shift Dance',
-    genre: 'Suno / Electronic',
-    url: 'https://suno.com/song/de485ce0-36f5-4af7-8a13-8db6656524bc',
-    color: 'from-blue-400 to-indigo-500'
-  },
-  {
-    id: 'spi-attenuation',
-    name: 'Attenuation',
-    genre: 'Suno / Physics',
-    url: 'https://suno.com/song/de485ce0-36f5-4af7-8a13-8db6656524bc',
-    color: 'from-orange-400 to-red-500'
-  },
-  {
     id: 'spi-transducer',
     name: 'The Transducer',
     genre: 'Suno / Physics',
@@ -269,16 +255,29 @@ export const RadioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        return parsed.map((s: Station) => ({ ...s, url: transformSunoUrl(s.url) }));
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((s: Station) => ({ ...s, url: transformSunoUrl(s.url) }));
+        }
       } catch (e) {
         return INITIAL_STATIONS;
       }
     }
     return INITIAL_STATIONS;
   });
-  
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentStation, setCurrentStation] = useState(stations[0]);
+  const [currentStation, setCurrentStation] = useState<Station>(() => {
+    const saved = localStorage.getItem('neural_radio_stations');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return { ...parsed[0], url: transformSunoUrl(parsed[0].url) };
+        }
+      } catch (e) {}
+    }
+    return INITIAL_STATIONS[0];
+  });
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -396,11 +395,14 @@ export const RadioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       <audio 
         key={`${currentStation.url}-${useCors}`}
         ref={audioRef} 
-        src={currentStation.url} 
+        src={useCors ? `/api/proxy-stream?url=${encodeURIComponent(currentStation.url)}` : currentStation.url} 
         crossOrigin={useCors ? "anonymous" : undefined}
         autoPlay={false}
         onCanPlay={() => {
           if (isPlaying) {
+            if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
+              audioContextRef.current.resume().catch(() => {});
+            }
             audioRef.current?.play().catch(err => {
               console.error("Playback failed after canplay:", err);
             });

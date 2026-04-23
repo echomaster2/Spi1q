@@ -13,6 +13,7 @@ import { generateText, generateSpeech } from '../src/services/aiService';
 import { UserProfile as UserProfileType, Module, LessonContentMap } from '../types';
 import { AudioCache } from '../src/lib/audioCache';
 import { CompanionAvatar, CompanionSkin } from './CompanionAvatar';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 interface UserProfileProps {
   profile: UserProfileType | null;
@@ -36,6 +37,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
 }) => {
   const [name, setName] = useState(profile?.name || '');
   const [email, setEmail] = useState(profile?.email || '');
+  const [registryDate, setRegistryDate] = useState(profile?.registryDate || '');
   const [studyGoals, setStudyGoals] = useState(profile?.studyGoals || '');
   const [learningStyle, setLearningStyle] = useState<UserProfileType['learningStyle']>(profile?.learningStyle || 'visual');
   const [companionSkin, setCompanionSkin] = useState<CompanionSkin>(profile?.companionSkin || 'default');
@@ -56,7 +58,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
   const [alertMessage, setAlertMessage] = useState<{ title: string, body: string } | null>(null);
 
   const handleSave = () => {
-    onUpdate({ name, email, studyGoals, learningStyle, aiPersonalizedPlan, companionSkin, profileAvatar });
+    onUpdate({ name, email, registryDate, studyGoals, learningStyle, aiPersonalizedPlan, companionSkin, profileAvatar });
     setIsEditing(false);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
@@ -126,7 +128,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
         if (!content || !content.narrationScript) continue;
 
         try {
-          const base64Audio = await generateSpeech(`Mature professional educator with a deep, authoritative voice: ${content.narrationScript}`, 'Charon');
+          const base64Audio = await generateSpeech(content.narrationScript, 'Kore');
           if (base64Audio) {
             await AudioCache.set(lesson.id, base64Audio);
             if (userId) {
@@ -155,54 +157,58 @@ export const UserProfile: React.FC<UserProfileProps> = ({
   };
 
   return (
-    <div className={`flex flex-col h-full ${isDarkMode ? 'bg-slate-950' : 'bg-white'} transition-colors duration-500 overflow-hidden relative z-[150]`}>
-      <header className={`p-6 ${isDarkMode ? 'bg-stealth-950 text-white border-white/10' : 'bg-white text-slate-900 border-slate-100'} flex justify-between items-center shrink-0 border-b transition-colors`}>
-        <div className="flex items-center space-x-4">
-          <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-            {profileAvatar === 'sonographer' ? <Stethoscope className="w-6 h-6 text-white" /> :
-             profileAvatar === 'student' ? <GraduationCap className="w-6 h-6 text-white" /> :
-             profileAvatar === 'doctor' ? <HeartPulse className="w-6 h-6 text-white" /> :
-             profileAvatar === 'nurse' ? <Activity className="w-6 h-6 text-white" /> :
-             <User className="w-6 h-6 text-white" />}
+    <div className={`flex flex-col h-full ${isDarkMode ? 'bg-slate-950/40' : 'bg-white/40'} backdrop-blur-3xl transition-colors duration-500 overflow-hidden relative z-[150] premium-glass shadow-premium`}>
+      <header className={`p-8 ${isDarkMode ? 'bg-stealth-950/40 text-white border-white/10' : 'bg-white/40 text-slate-900 border-slate-100'} flex justify-between items-center shrink-0 border-b transition-colors backdrop-blur-3xl`}>
+        <div className="flex items-center space-x-5">
+          <div className="w-12 h-12 bg-gradient-to-br from-registry-teal to-registry-cobalt rounded-2xl flex items-center justify-center shadow-glow">
+            {profileAvatar === 'sonographer' ? <Stethoscope className="w-7 h-7 text-white" /> :
+             profileAvatar === 'student' ? <GraduationCap className="w-7 h-7 text-white" /> :
+             profileAvatar === 'doctor' ? <HeartPulse className="w-7 h-7 text-white" /> :
+             profileAvatar === 'nurse' ? <Activity className="w-7 h-7 text-white" /> :
+             <User className="w-7 h-7 text-white" />}
           </div>
           <div>
-            <h4 className="text-lg font-black tracking-tight italic uppercase leading-none">User Profile</h4>
-            <p className={`text-[10px] ${isDarkMode ? 'opacity-50' : 'text-slate-400'} font-black uppercase tracking-widest mt-1`}>System Identity & Settings</p>
+            <h4 className="text-xl font-black tracking-tighter italic uppercase leading-none">User Profile</h4>
+            <p className={`text-[10px] ${isDarkMode ? 'opacity-50' : 'text-slate-400'} font-black uppercase tracking-[0.3em] mt-1.5`}>System Identity & Settings</p>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           {onPlayNarration && (
             <button 
               onClick={onPlayNarration} 
               disabled={isTtsLoading}
-              className={`p-2 rounded-xl transition-all ${isNarrating ? 'bg-registry-rose animate-pulse' : isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}
+              className={`p-3 rounded-2xl transition-all ${isNarrating ? 'bg-registry-rose animate-pulse glow-rose text-white' : isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}
             >
-              {isTtsLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : isNarrating ? <Pause className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+              {isTtsLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : isNarrating ? <Pause className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
             </button>
           )}
-          <button onClick={onClose} className={`p-2 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'} rounded-xl transition-all`} title="Close Profile">
-            <X className="w-6 h-6" />
+          <button onClick={onClose} className={`p-3 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'} rounded-2xl transition-all`} title="Close Profile">
+            <X className="w-7 h-7" />
           </button>
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-8">
+      <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide">
         {/* Profile Card */}
-        <section className={`${isDarkMode ? 'bg-slate-900/50 border-white/5' : 'bg-slate-50 border-slate-200'} rounded-[2.5rem] p-8 relative overflow-hidden group border`}>
-          <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-            <div className="flex flex-col items-center space-y-4">
+        <section className={`${isDarkMode ? 'bg-slate-900/40 border-white/5' : 'bg-slate-50/40 border-slate-200'} rounded-5xl p-10 relative overflow-hidden group border backdrop-blur-3xl shadow-premium`}>
+          <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+          <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-10">
+            <div className="flex flex-col items-center space-y-5">
               <div className="relative group">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] bg-gradient-to-br from-teal-500 to-blue-600 flex items-center justify-center text-white text-4xl font-black italic shadow-2xl overflow-hidden">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-4xl bg-gradient-to-br from-registry-teal to-registry-cobalt flex items-center justify-center text-white text-5xl font-black italic shadow-glow overflow-hidden border-4 border-white/20"
+                >
                   {profile?.photoUrl ? (
                     <img src={profile.photoUrl} alt={name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
-                    profileAvatar === 'sonographer' ? <Stethoscope className="w-12 h-12" /> :
-                    profileAvatar === 'student' ? <GraduationCap className="w-12 h-12" /> :
-                    profileAvatar === 'doctor' ? <HeartPulse className="w-12 h-12" /> :
-                    profileAvatar === 'nurse' ? <Activity className="w-12 h-12" /> :
-                    <User className="w-12 h-12" />
+                    profileAvatar === 'sonographer' ? <Stethoscope className="w-16 h-16" /> :
+                    profileAvatar === 'student' ? <GraduationCap className="w-16 h-16" /> :
+                    profileAvatar === 'doctor' ? <HeartPulse className="w-16 h-16" /> :
+                    profileAvatar === 'nurse' ? <Activity className="w-16 h-16" /> :
+                    <User className="w-16 h-16" />
                   )}
-                </div>
+                </motion.div>
                 <input 
                   type="file" 
                   ref={fileInputRef} 
@@ -224,68 +230,152 @@ export const UserProfile: React.FC<UserProfileProps> = ({
               </div>
               <button 
                 onClick={() => fileInputRef.current?.click()}
-                className={`flex items-center space-x-2 px-4 py-2 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'} rounded-xl shadow-sm border hover:bg-slate-50 dark:hover:bg-slate-700 transition-all`}
+                className={`flex items-center space-x-3 px-6 py-3 ${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-slate-100'} rounded-2xl shadow-sm border hover:bg-slate-50 dark:hover:bg-slate-700 transition-all`}
               >
-                <Camera className="w-4 h-4 text-teal-600" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Update Photo</span>
+                <Camera className="w-5 h-5 text-registry-teal" />
+                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">Update Photo</span>
               </button>
             </div>
 
-            <div className="flex-1 text-center md:text-left space-y-4">
+            <div className="flex-1 text-center md:text-left space-y-6">
               {isEditing ? (
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <input 
                     type="text" 
                     value={name} 
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Full Name"
-                    className={`w-full p-4 ${isDarkMode ? 'bg-slate-950' : 'bg-white'} rounded-2xl font-black text-sm outline-none border-2 border-transparent focus:border-teal-500 transition-all`}
+                    className={`w-full p-5 ${isDarkMode ? 'bg-slate-950/50' : 'bg-white/50'} rounded-3xl font-black text-base outline-none border-2 border-transparent focus:border-registry-teal transition-all backdrop-blur-xl`}
                   />
                   <input 
                     type="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email Address"
-                    className={`w-full p-4 ${isDarkMode ? 'bg-slate-950' : 'bg-white'} rounded-2xl font-black text-sm outline-none border-2 border-transparent focus:border-teal-500 transition-all`}
+                    className={`w-full p-5 ${isDarkMode ? 'bg-slate-950/50' : 'bg-white/50'} rounded-3xl font-black text-base outline-none border-2 border-transparent focus:border-registry-teal transition-all backdrop-blur-xl`}
                   />
-                  <div className="flex space-x-3">
-                    <button onClick={handleSave} className="flex-1 py-3 bg-teal-600 text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-lg">Save Changes</button>
-                    <button onClick={() => setIsEditing(false)} className={`px-6 py-3 ${isDarkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-200 text-slate-600'} rounded-xl font-black uppercase tracking-widest text-[10px]`}>Cancel</button>
+                  <div className="space-y-1.5">
+                    <label className="text-[9px] font-black uppercase text-slate-500 tracking-widest block px-2">Target Registry Date</label>
+                    <input 
+                      type="date" 
+                      value={registryDate} 
+                      onChange={(e) => setRegistryDate(e.target.value)}
+                      className={`w-full p-5 ${isDarkMode ? 'bg-slate-950/50' : 'bg-white/50'} rounded-3xl font-black text-base outline-none border-2 border-transparent focus:border-registry-teal transition-all backdrop-blur-xl`}
+                    />
+                  </div>
+                  <div className="flex space-x-4">
+                    <button onClick={handleSave} className="flex-1 py-4 bg-registry-teal text-stealth-950 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-glow">Save Changes</button>
+                    <button onClick={() => setIsEditing(false)} className={`px-8 py-4 ${isDarkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-200 text-slate-600'} rounded-2xl font-black uppercase tracking-widest text-[11px]`}>Cancel</button>
                   </div>
                 </div>
               ) : (
                 <>
-                  <div className="space-y-1">
-                    <h3 className={`text-2xl md:text-4xl font-black italic uppercase tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{name || 'Unnamed User'}</h3>
-                    <p className={`text-sm font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} flex items-center justify-center md:justify-start gap-2`}>
-                      <Mail className="w-3.5 h-3.5" /> {email || 'No email linked'}
-                    </p>
+                  <div className="space-y-2">
+                    <h3 className={`text-3xl md:text-5xl font-black italic uppercase tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{name || 'Unnamed User'}</h3>
+                    <div className={`text-base font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} flex flex-col md:flex-row items-center justify-center md:justify-start gap-4`}>
+                      <span className="flex items-center gap-2"><Mail className="w-4 h-4 text-registry-teal" /> {email || 'No email linked'}</span>
+                      {registryDate && <span className="flex items-center gap-2"><Calendar className="w-4 h-4 text-registry-rose" /> Registry: {new Date(registryDate).toLocaleDateString()}</span>}
+                    </div>
                   </div>
-                  <button onClick={() => setIsEditing(true)} className="flex items-center space-x-2 text-[10px] font-black uppercase text-teal-600 tracking-widest hover:underline">
-                    <Edit3 className="w-3 h-3" /> <span>Modify Identity</span>
+                  <button onClick={() => setIsEditing(true)} className="flex items-center space-x-3 text-[11px] font-black uppercase text-registry-teal tracking-[0.2em] hover:underline">
+                    <Edit3 className="w-4 h-4" /> <span>Modify Identity</span>
                   </button>
                 </>
               )}
             </div>
           </div>
-          <User className="absolute -bottom-10 -right-10 w-48 h-48 text-teal-500/5 rotate-12" />
+          <User className="absolute -bottom-16 -right-16 w-64 h-64 text-registry-teal/5 rotate-12" />
         </section>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { label: 'Registry Rank', value: `Level ${Math.floor(totalCompleted / 10) + 1}`, icon: Award, color: 'text-amber-500' },
-            { label: 'Study Streak', value: `${streak} Days`, icon: Zap, color: 'text-teal-500' },
-            { label: 'Accuracy', value: '94%', icon: Target, color: 'text-blue-500' },
-            { label: 'Nodes Synced', value: totalCompleted.toString(), icon: Shield, color: 'text-teal-500' },
+            { label: 'Registry Rank', value: `Level ${Math.floor(totalCompleted / 10) + 1}`, icon: Award, color: 'text-registry-amber', bg: 'bg-registry-amber/10' },
+            { label: 'Study Streak', value: `${streak} Days`, icon: Zap, color: 'text-registry-teal', bg: 'bg-registry-teal/10' },
+            { label: 'Accuracy', value: `${profile?.diagnosticAccuracy || 94}%`, icon: Target, color: 'text-registry-cobalt', bg: 'bg-registry-cobalt/10' },
+            { label: 'Nodes Synced', value: totalCompleted.toString(), icon: Shield, color: 'text-registry-teal', bg: 'bg-registry-teal/10' },
           ].map((stat, i) => (
-            <div key={i} className={`${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'} p-6 rounded-[2rem] border shadow-sm flex flex-col items-center text-center space-y-2`}>
-              <stat.icon className={`w-6 h-6 ${stat.color}`} />
-              <span className={`text-xl font-black italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
-              <span className="text-[8px] font-black uppercase text-slate-400 tracking-widest">{stat.label}</span>
-            </div>
+            <motion.div 
+              key={i} 
+              whileHover={{ y: -5 }}
+              className={`${isDarkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-white/40 border-slate-100'} p-8 rounded-4xl border shadow-premium flex flex-col items-center text-center space-y-3 backdrop-blur-3xl`}
+            >
+              <div className={`p-4 rounded-2xl ${stat.bg}`}>
+                <stat.icon className={`w-7 h-7 ${stat.color}`} />
+              </div>
+              <span className={`text-2xl font-black italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
+              <span className="text-[9px] font-black uppercase text-slate-400 tracking-[0.2em]">{stat.label}</span>
+            </motion.div>
           ))}
         </div>
+
+        {/* Mock Exam History (If Any) */}
+        {profile?.examHistory && profile.examHistory.length > 0 && (
+          <section className={`${isDarkMode ? 'bg-slate-900/40 border-white/5' : 'bg-slate-50/40 border-slate-200'} rounded-[2.5rem] p-8 md:p-10 border relative overflow-hidden group shadow-premium`}>
+            <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+            <div className="relative z-10 space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-lg md:text-xl font-black uppercase italic tracking-tighter flex items-center space-x-3">
+                    <Award className="w-5 h-5 text-registry-teal" />
+                    <span>Mock Registry History</span>
+                  </h4>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Performance visualization over time</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-xl md:text-2xl font-black italic">
+                    {Math.round(profile.examHistory[profile.examHistory.length - 1].score)}%
+                  </div>
+                  <div className="text-[8px] font-black text-registry-teal uppercase tracking-widest">Latest Score</div>
+                </div>
+              </div>
+
+              <div className="h-64 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={profile.examHistory.map((ex, i) => ({
+                    name: `Exam ${i + 1}`,
+                    score: Math.round(ex.score),
+                    date: new Date(ex.date).toLocaleDateString()
+                  }))}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'} vertical={false} />
+                    <XAxis 
+                      dataKey="name" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 10, fontWeight: 800 }}
+                    />
+                    <YAxis 
+                      domain={[0, 100]} 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 10, fontWeight: 800 }}
+                      tickFormatter={(val) => `${val}%`}
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: isDarkMode ? '#080a0f' : '#ffffff',
+                        border: '1px solid rgba(0,242,234,0.2)',
+                        borderRadius: '24px',
+                        fontSize: '11px',
+                        fontWeight: 900,
+                        textTransform: 'uppercase'
+                      }}
+                      itemStyle={{ color: '#00f2ea' }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="score" 
+                      stroke="#00f2ea" 
+                      strokeWidth={3} 
+                      dot={{ fill: '#00f2ea', strokeWidth: 2, r: 4 }} 
+                      activeDot={{ r: 6, fill: '#00f2ea', strokeWidth: 0 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Learning Profile Section */}
         <section className="space-y-6">
@@ -307,8 +397,8 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                       onClick={() => setProfileAvatar(av.id as any)}
                       className={`p-4 rounded-xl flex items-center justify-center transition-all border-2 ${
                         profileAvatar === av.id 
-                          ? 'bg-teal-600 border-teal-600 text-white shadow-lg' 
-                          : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-teal-500/30`
+                          ? 'bg-registry-teal border-registry-teal text-white shadow-lg' 
+                          : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-registry-teal/30`
                       }`}
                     >
                       <av.icon className="w-5 h-5" />
@@ -326,8 +416,8 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                       onClick={() => setCompanionSkin(skin)}
                       className={`p-2 rounded-xl flex flex-col items-center space-y-2 transition-all border-2 ${
                         companionSkin === skin 
-                          ? 'bg-teal-600 border-teal-600 text-white shadow-lg' 
-                          : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-teal-500/30`
+                          ? 'bg-registry-teal border-registry-teal text-white shadow-lg' 
+                          : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-registry-teal/30`
                       }`}
                     >
                       <div className="scale-[0.4] -m-8">
@@ -358,8 +448,8 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                       onClick={() => setLearningStyle(style)}
                       className={`py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${
                         learningStyle === style 
-                          ? 'bg-teal-600 border-teal-600 text-white shadow-lg' 
-                          : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-teal-500/30`
+                          ? 'bg-registry-teal border-registry-teal text-white shadow-lg' 
+                          : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-registry-teal/30`
                       }`}
                     >
                       {style}
@@ -386,7 +476,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             <button 
               onClick={generateAIPlan}
               disabled={isGenerating || !studyGoals}
-              className="flex items-center space-x-2 px-4 py-2 bg-teal-600/10 text-teal-600 rounded-xl hover:bg-teal-600/20 transition-all disabled:opacity-30"
+              className="flex items-center space-x-2 px-4 py-2 bg-registry-teal/10 text-registry-teal rounded-xl hover:bg-registry-teal/20 transition-all disabled:opacity-30"
             >
               {isGenerating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
               <span className="text-[8px] font-black uppercase tracking-widest">Generate New Plan</span>
@@ -426,15 +516,15 @@ export const UserProfile: React.FC<UserProfileProps> = ({
           <div className="flex items-center justify-between px-2">
             <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em]">Offline Access</h5>
             {isBulkCaching && (
-              <span className="text-[8px] font-black text-teal-500 uppercase tracking-widest animate-pulse">
+              <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest animate-pulse">
                 Caching {cacheProgress.current}/{cacheProgress.total}
               </span>
             )}
           </div>
           <div className={`${isDarkMode ? 'bg-slate-900/50 border-white/5' : 'bg-slate-50 border-slate-200'} rounded-[2.5rem] p-8 border space-y-4`}>
             <div className="flex items-center space-x-4 mb-2">
-              <div className="p-3 bg-teal-500/10 rounded-2xl">
-                <Database className="w-6 h-6 text-teal-500" />
+              <div className="p-3 bg-registry-teal/10 rounded-2xl">
+                <Database className="w-6 h-6 text-registry-teal" />
               </div>
               <div className="flex-1">
                 <p className={`text-xs font-black uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Lecture Cache</p>
@@ -445,7 +535,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             {isBulkCaching ? (
               <div className={`w-full h-12 ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'} rounded-xl overflow-hidden relative`}>
                 <motion.div 
-                  className="absolute inset-y-0 left-0 bg-teal-500"
+                  className="absolute inset-y-0 left-0 bg-registry-teal"
                   initial={{ width: 0 }}
                   animate={{ width: `${(cacheProgress.current / cacheProgress.total) * 100}%` }}
                 />
@@ -457,7 +547,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
               <div className="flex flex-col space-y-2">
                 <button 
                   onClick={cacheAllLectures}
-                  className="w-full py-4 bg-teal-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all flex items-center justify-center space-x-2"
+                  className="w-full py-4 bg-registry-teal text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all flex items-center justify-center space-x-2"
                 >
                   <Download className="w-4 h-4" />
                   <span>Cache All Lectures</span>
@@ -598,7 +688,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] bg-teal-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center space-x-3"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] bg-registry-teal text-stealth-950 px-8 py-4 rounded-2xl shadow-2xl flex items-center space-x-3"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span className="font-black uppercase tracking-widest text-[10px]">Identity Updated Successfully</span>

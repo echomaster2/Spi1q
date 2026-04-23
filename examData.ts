@@ -141,12 +141,33 @@ export const MOCK_EXAM_QUESTIONS: ExamQuestion[] = [
     correct: 2,
     explanation: "ALARA (As Low As Reasonably Achievable) means minimizing patient exposure by using the lowest output power and shortest scan time possible.",
     moduleTitle: "Bioeffects & Safety"
+  },
+  {
+    question: "Which of the following is considered an acoustic variable?",
+    options: ["Frequency", "Period", "Pressure", "Wavelength"],
+    correct: 2,
+    explanation: "Acoustic variables include pressure, density, temperature, and particle motion. Frequency and period are acoustic parameters, not variables.",
+    moduleTitle: "Physical Principles"
+  },
+  {
+    question: "How does adjusting the overall gain affect the ultrasound image?",
+    options: ["Increases the transmitted acoustic power", "Amplifies all returning echoes equally", "Improves lateral resolution", "Changes the frequency of the sound wave"],
+    correct: 1,
+    explanation: "Overall gain controls the amplification of all returning echoes, making the entire image brighter or darker without changing the patient's ultrasound exposure.",
+    moduleTitle: "Instrumentation"
+  },
+  {
+    question: "Which artifact results in the appearance of a false anatomical structure deep to a highly reflective interface?",
+    options: ["Shadowing", "Enhancement", "Mirror Image", "Refraction"],
+    correct: 2,
+    explanation: "Mirror image artifact occurs when sound bounces off a strong reflector, incorrectly placing a duplicate structure deeper in the image.",
+    moduleTitle: "Artifacts"
+  },
+  {
+    question: "If the propagation speed in the second medium is greater than in the first medium, how will the transmitted beam be refracted?",
+    options: ["It will bend towards the normal", "It will bend away from the normal", "It will not bend", "It will be completely reflected"],
+    correct: 1,
+    explanation: "According to Snell's Law, when transmission speed increases, the transmitted beam bends away from the incident normal.",
+    moduleTitle: "Physical Principles"
   }
-  // ... (I will add more in a real implementation, but for this task I'll fill with 110 items)
-].concat(Array.from({ length: 90 }, (_, i) => ({
-  question: `[Placeholder Question ${i + 21}] Which parameter is directly related to the ${['frequency', 'wavelength', 'amplitude', 'power', 'intensity'][i % 5]}?`,
-  options: ["Option A", "Option B", "Option C", "Option D"],
-  correct: i % 4,
-  explanation: "This is a placeholder explanation for the expanded mock exam. In a production environment, this would contain high-yield SPI content.",
-  moduleTitle: "General Physics"
-})));
+];

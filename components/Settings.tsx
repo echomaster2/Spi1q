@@ -4,10 +4,11 @@ import {
   Volume2, Shield, Database, Trash2, ChevronRight,
   User, Lock, Globe, Zap, Layers, Maximize, Minimize,
   Monitor, ShieldCheck, Loader2, Download, RefreshCw, Grid, Plus, Sparkles,
-  AlertTriangle
+  AlertTriangle, Brain, CheckCircle2 as CheckCircleIcon, XCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
+import { checkAIHealth } from '../src/services/aiService';
 
 interface SettingsProps {
   onClose: () => void;
@@ -20,9 +21,12 @@ interface SettingsProps {
   onUpdateProfile: (updates: any) => void;
   onCacheAll: () => void;
   isCachingAll: boolean;
+  cachingProgress: { current: number, total: number };
   cachedCount: number;
   totalCount: number;
   onOpenAssetLibrary: () => void;
+  onOpenAdminDashboard: () => void;
+  onRestartOnboarding: () => void;
 }
 
 export const Settings: React.FC<SettingsProps> = ({ 
@@ -36,9 +40,12 @@ export const Settings: React.FC<SettingsProps> = ({
   onUpdateProfile,
   onCacheAll,
   isCachingAll,
+  cachingProgress,
   cachedCount,
   totalCount,
-  onOpenAssetLibrary
+  onOpenAssetLibrary,
+  onOpenAdminDashboard,
+  onRestartOnboarding
 }) => {
   const [isFullscreen, setIsFullscreen] = React.useState(!!document.fullscreenElement);
 
@@ -63,6 +70,25 @@ export const Settings: React.FC<SettingsProps> = ({
   };
 
   const [showWipeConfirm, setShowWipeConfirm] = useState(false);
+  const [aiHealth, setAiHealth] = useState<any>(null);
+  const [isCheckingHealth, setIsCheckingHealth] = useState(false);
+
+  const runHealthCheck = async () => {
+    setIsCheckingHealth(true);
+    try {
+      const status = await checkAIHealth();
+      setAiHealth(status);
+      toast.success("Neural integrity check complete.");
+    } catch (e) {
+      toast.error("Deep neural scan failed. Check connections.");
+    } finally {
+      setIsCheckingHealth(false);
+    }
+  };
+
+  React.useEffect(() => {
+    runHealthCheck();
+  }, []);
 
   const clearData = () => {
     localStorage.clear();
@@ -326,14 +352,73 @@ export const Settings: React.FC<SettingsProps> = ({
               </div>
 
               {isCachingAll && (
-                <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
-                  <motion.div 
-                    className="absolute inset-y-0 left-0 bg-registry-teal"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(cachedCount / totalCount) * 100}%` }}
-                  />
+                <div className="space-y-2 relative z-10">
+                  <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-registry-teal">
+                    <span>Syncing Neural Nodes...</span>
+                    <span>{cachingProgress.current} / {cachingProgress.total}</span>
+                  </div>
+                  <div className="relative h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <motion.div 
+                      className="absolute inset-y-0 left-0 bg-registry-teal shadow-[0_0_10px_rgba(45,212,191,0.5)]"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(cachingProgress.current / cachingProgress.total) * 100}%` }}
+                    />
+                  </div>
                 </div>
               )}
+            </div>
+          </section>
+
+          {/* AI System Integrity Section */}
+          <section className="space-y-4">
+            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+              <Brain className="w-3 h-3 mr-2 text-registry-teal" />
+              AI System Integrity
+            </h5>
+            <div className={`${isDarkMode ? 'bg-stealth-900/50 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-3xl border p-6 space-y-6 relative overflow-hidden`}>
+              <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+              
+              <div className="space-y-4 relative z-10">
+                {[
+                  { id: 'gemini', label: 'Gemini Prime', provider: 'Google AI', data: aiHealth?.gemini },
+                  { id: 'openai', label: 'GPT-4o Backup', provider: 'OpenAI', data: aiHealth?.openai },
+                  { id: 'elevenlabs', label: 'Vocal Synthesis', provider: 'ElevenLabs', data: aiHealth?.elevenlabs }
+                ].map((s) => (
+                  <div key={s.id} className="flex items-center justify-between group">
+                    <div className="flex items-center space-x-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all ${
+                        s.data?.ok ? 'bg-registry-teal/10 border-registry-teal/20 text-registry-teal' : 'bg-registry-rose/10 border-registry-rose/20 text-registry-rose opacity-50'
+                      }`}>
+                         {s.data?.ok ? <CheckCircleIcon className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
+                      </div>
+                      <div>
+                        <p className={`text-xs font-black uppercase tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{s.label}</p>
+                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none mt-0.5">{s.provider} • {isCheckingHealth ? 'SCANNING...' : s.data?.message || 'OFFLINE'}</p>
+                      </div>
+                    </div>
+                    {s.data?.ok && (
+                      <div className="px-3 py-1 bg-registry-teal/10 border border-registry-teal/20 rounded-full">
+                        <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest">ACTIVE</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                <button 
+                  onClick={runHealthCheck}
+                  disabled={isCheckingHealth}
+                  className={`w-full py-4 mt-2 flex items-center justify-center space-x-2 rounded-2xl border font-black uppercase tracking-[0.2em] text-[10px] transition-all ${
+                    isDarkMode ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
+                  }`}
+                >
+                  <RefreshCw className={`w-3 h-3 ${isCheckingHealth ? 'animate-spin' : ''}`} />
+                  <span>{isCheckingHealth ? 'Synthesizing...' : 'Rerun Diagnostic'}</span>
+                </button>
+
+                <p className="text-[8px] font-bold text-slate-500 text-center uppercase tracking-widest italic opacity-60">
+                  Fallback logic engages OpenAI automatically if Gemini capacity is exceeded.
+                </p>
+              </div>
             </div>
           </section>
 
@@ -459,6 +544,39 @@ export const Settings: React.FC<SettingsProps> = ({
           <section className="space-y-4">
             <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Shield className="w-3 h-3 mr-2 text-registry-rose" />
+              Admin Controls
+            </h5>
+            <div className={`${isDarkMode ? 'bg-stealth-900/50 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-3xl border p-6 space-y-6 relative overflow-hidden`}>
+              <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+              
+              <div className="flex items-center justify-between relative z-10">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-registry-rose/10 rounded-2xl border border-registry-rose/20">
+                    <Shield className="w-5 h-5 text-registry-rose" />
+                  </div>
+                  <div className="text-left">
+                    <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Admin Interface</h6>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                      Manage Media Library & Content
+                    </p>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={onOpenAdminDashboard}
+                  className="px-4 py-2 bg-registry-rose text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center space-x-2 shadow-lg shadow-registry-rose/20"
+                >
+                  <Lock className="w-3 h-3" />
+                  <span>Open Admin</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Security & Data */}
+          <section className="space-y-4">
+            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+              <Shield className="w-3 h-3 mr-2 text-registry-rose" />
               Security & Data
             </h5>
             <div className={`${isDarkMode ? 'bg-stealth-900/50 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-3xl border overflow-hidden relative`}>
@@ -507,6 +625,24 @@ export const Settings: React.FC<SettingsProps> = ({
                   <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse" />
                   <span className="text-[8px] text-registry-teal font-black uppercase tracking-widest">READY</span>
                 </div>
+              </button>
+
+              <div className={`h-px ${isDarkMode ? 'bg-white/5' : 'bg-slate-100'} mx-6`} />
+
+              <button 
+                onClick={onRestartOnboarding}
+                className={`w-full p-6 flex items-center justify-between transition-all group relative z-10 ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}
+              >
+                <div className="flex items-center space-x-4">
+                  <div className={`p-3 ${isDarkMode ? 'bg-registry-teal/10' : 'bg-registry-teal/5'} rounded-2xl group-hover:bg-registry-teal group-hover:text-stealth-950 transition-all border border-registry-teal/20`}>
+                    <Sparkles className="w-5 h-5 text-registry-teal group-hover:text-stealth-950" />
+                  </div>
+                  <div className="text-left">
+                    <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Restart Tour</h6>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Neural onboarding sequence</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-registry-teal transition-colors" />
               </button>
 
               <div className={`h-px ${isDarkMode ? 'bg-white/5' : 'bg-slate-100'} mx-6`} />

@@ -1,10 +1,22 @@
 import React, { useState, useMemo } from 'react';
-import { Search, X, Book, Hash, ChevronLeft, Bookmark, Waves, Volume2, Pause, Loader2, Zap, Activity, Shield, Thermometer, Maximize2, MoveRight, Repeat, ArrowDownUp, Layers, Cpu, Binary, Monitor, Stethoscope } from 'lucide-react';
-import { motion } from 'motion/react';
+import { Search, X, Book, Hash, ChevronLeft, Bookmark, Waves, Volume2, Pause, Loader2, Zap, Activity, Shield, Thermometer, Maximize2, MoveRight, Repeat, ArrowDownUp, Layers, Cpu, Binary, Monitor, Stethoscope, Brain, FileVideo, Trash2, Target, HeartPulse, FlaskConical, Clock, Timer } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { FullscreenToggle } from './FullscreenToggle';
-import { GlossaryTerm } from '../types';
+import { GlossaryTerm, UserProfile as UserProfileType } from '../types';
+import { generateText } from '../src/services/aiService';
+import { toast } from 'sonner';
 
-const SPI_GLOSSARY: GlossaryTerm[] = [
+interface GlossaryProps {
+  isDarkMode: boolean;
+  onClose: () => void;
+  onPlayNarration?: (text: string, id: string) => void;
+  isNarrating?: boolean;
+  isTtsLoading?: boolean;
+  profile?: UserProfileType;
+  onUpdateProfile?: (updates: Partial<UserProfileType>) => void;
+}
+
+export const SPI_GLOSSARY: GlossaryTerm[] = [
   // BIOEFFECTS & SAFETY
   { 
     term: "ALARA", 
@@ -92,6 +104,32 @@ const SPI_GLOSSARY: GlossaryTerm[] = [
         <Thermometer className="w-3 h-3 text-registry-rose mt-1" />
       </div>
     )
+  },
+  {
+    term: "Dosimetry",
+    definition: "The science of identifying and measuring the characteristics of an ultrasound beam that are relevant to its potential for producing biological effects.",
+    category: "Bioeffects",
+    clinicalPearl: "Dosimetry helps establish safety standards by quantifying the energy delivered to tissues.",
+    visual: <Target className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "In Vivo",
+    definition: "Research performed within the living body of a plant or animal.",
+    category: "Bioeffects",
+    visual: <HeartPulse className="w-4 h-4 text-registry-rose" />
+  },
+  {
+    term: "In Vitro",
+    definition: "Research performed outside the living body, in an artificial environment like a test tube.",
+    category: "Bioeffects",
+    visual: <FlaskConical className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Hydrophone",
+    definition: "A small transducer element on the end of a narrow needle used to measure the pressure and intensity of an ultrasound beam.",
+    category: "Bioeffects",
+    clinicalPearl: "Hydrophones are essential for quality control and ensuring transducers meet safety specifications.",
+    visual: <Activity className="w-4 h-4 text-registry-teal" />
   },
 
   // WAVES & PARAMETERS
@@ -223,6 +261,26 @@ const SPI_GLOSSARY: GlossaryTerm[] = [
         ))}
       </div>
     )
+  },
+  {
+    term: "Bandwidth",
+    definition: "The range of frequencies contained within an ultrasound pulse. Bandwidth = Max Frequency - Min Frequency.",
+    category: "Waves",
+    clinicalPearl: "Short pulses (high damping) have a wide bandwidth, while long pulses (low damping) have a narrow bandwidth.",
+    visual: (
+      <div className="flex items-end space-x-0.5 h-6">
+        {[2, 4, 8, 10, 8, 4, 2].map((h, i) => (
+          <div key={i} className="w-1 bg-registry-teal" style={{ height: `${h*2}px` }} />
+        ))}
+      </div>
+    )
+  },
+  {
+    term: "Quality Factor (Q-Factor)",
+    definition: "A unitless number inversely related to bandwidth. Q-Factor = Main Frequency / Bandwidth.",
+    category: "Waves",
+    clinicalPearl: "Imaging transducers are low-Q because they use damping to create short pulses with a wide bandwidth.",
+    visual: <Target className="w-4 h-4 text-registry-teal" />
   },
 
   // PULSED WAVE PARAMETERS
@@ -491,6 +549,24 @@ const SPI_GLOSSARY: GlossaryTerm[] = [
         <Zap className="w-4 h-4 text-white" />
       </motion.div>
     )
+  },
+  {
+    term: "Subdicing",
+    definition: "Dividing a PZT crystal into smaller pieces (sub-elements) to reduce grating lobes in array transducers.",
+    category: "Transducers",
+    visual: <Layers className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Dynamic Aperture",
+    definition: "A technique where the system changes the number of active elements used to transmit or receive pulses to maintain a constant beam width at different depths.",
+    category: "Transducers",
+    visual: <Maximize2 className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Vector Array",
+    definition: "A transducer that combines linear sequential and linear phased array technologies, creating a trapezoidal image format.",
+    category: "Transducers",
+    visual: <MoveRight className="w-4 h-4 text-registry-teal rotate-45" />
   },
   { 
     term: "Fresnel Zone", 
@@ -878,26 +954,472 @@ const SPI_GLOSSARY: GlossaryTerm[] = [
         <circle cx="25" cy="10" r="2" fill="currentColor" fillOpacity="0.3" />
       </svg>
     )
+  },
+
+  // ARTIFACTS
+  {
+    term: "Shadowing",
+    definition: "The reduction in echo amplitude from reflectors that lie behind a strongly attenuating structure (e.g., gallstone).",
+    category: "Artifacts",
+    clinicalPearl: "Shadowing is a useful artifact! It confirms the presence of a solid, attenuating structure like a calcification or stone.",
+    visual: (
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg" alt="Shadowing" className="w-full h-full object-cover rounded-md" referrerPolicy="no-referrer" />
+    )
+  },
+  {
+    term: "Enhancement",
+    definition: "The increase in echo amplitude from reflectors that lie behind a weakly attenuating structure (e.g., simple cyst).",
+    category: "Artifacts",
+    clinicalPearl: "Enhancement proves a structure is fluid-filled. If you see enhancement behind a mass, it's likely a cyst.",
+    visual: (
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg" alt="Enhancement" className="w-full h-full object-cover rounded-md" referrerPolicy="no-referrer" />
+    )
+  },
+  {
+    term: "Reverberation",
+    definition: "Multiple, equally spaced echoes caused by the bouncing of the sound wave between two strong reflectors.",
+    category: "Artifacts",
+    clinicalPearl: "Reverberation looks like a 'ladder' or 'venetian blinds'. It often occurs at the anterior wall of the bladder or gallbladder.",
+    visual: (
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Doppler_ultrasound_of_systolic_velocity_%28Vs%29%2C_diastolic_velocity_%28Vd%29%2C_acceleration_time_%28AoAT%29%2C_systolic_acceleration_%28Ao_Accel%29_and_resistive_index_%28RI%29_of_normal_kidney.jpg" alt="Reverberation" className="w-full h-full object-cover rounded-md" referrerPolicy="no-referrer" />
+    )
+  },
+  {
+    term: "Mirror Image",
+    definition: "An artifact created when sound reflects off a strong specular reflector (like the diaphragm) and creates a duplicate image deeper than the real one.",
+    category: "Artifacts",
+    clinicalPearl: "The 'mirror' is always the strong reflector. The duplicate is always deeper than the real structure.",
+    visual: (
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ultrasound_mirror_image_artifact.jpg/800px-Ultrasound_mirror_image_artifact.jpg" alt="Mirror Image" className="w-full h-full object-cover rounded-md" referrerPolicy="no-referrer" />
+    )
+  },
+  {
+    term: "Comet Tail",
+    definition: "A form of reverberation artifact with closely spaced echoes, often seen with metallic objects or adenomyomatosis.",
+    category: "Artifacts",
+    clinicalPearl: "Comet tail is essentially reverberation where the spaces are so small they merge into a solid line.",
+    visual: (
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Comet_tail_artifact_on_ultrasound.jpg/800px-Comet_tail_artifact_on_ultrasound.jpg" alt="Comet Tail" className="w-full h-full object-cover rounded-md" referrerPolicy="no-referrer" />
+    )
+  },
+  {
+    term: "Speed Error",
+    definition: "Occurs when the assumed speed of sound (1,540 m/s) is incorrect, causing reflectors to be placed at the wrong depth.",
+    category: "Artifacts",
+    clinicalPearl: "If the medium speed is > 1540 m/s, the reflector is placed too shallow. If < 1540 m/s, it's placed too deep.",
+    visual: (
+      <div className="flex items-center space-x-2">
+        <div className="w-1 h-8 bg-white/20" />
+        <div className="flex flex-col space-y-2">
+          <div className="w-2 h-2 bg-registry-teal rounded-full" />
+          <div className="w-2 h-2 bg-registry-teal/20 rounded-full translate-x-4" />
+        </div>
+      </div>
+    )
+  },
+  {
+    term: "Side Lobes",
+    definition: "Secondary sound beams outside the main beam axis, produced by single-crystal transducers.",
+    category: "Artifacts",
+    visual: (
+      <div className="relative w-12 h-8">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-8 bg-registry-teal/40" />
+        <div className="absolute top-2 left-2 w-1 h-4 bg-registry-teal/10 rotate-[-30deg]" />
+        <div className="absolute top-2 right-2 w-1 h-4 bg-registry-teal/10 rotate-[30deg]" />
+      </div>
+    )
+  },
+
+  // RESOLUTION EXPANSION
+  {
+    term: "Elevational Resolution",
+    definition: "Also known as slice thickness; the resolution in the third dimension of the beam.",
+    category: "Resolution",
+    clinicalPearl: "Slice thickness artifact can cause 'fill-in' of small cystic structures because the beam is wider than the cyst.",
+    visual: (
+      <div className="relative w-10 h-10">
+        <div className="absolute inset-0 border border-white/10 rounded-lg skew-x-12" />
+        <div className="absolute inset-2 border border-registry-teal rounded-lg skew-x-12" />
+      </div>
+    )
+  },
+
+  // DOPPLER EXPANSION
+  {
+    term: "Continuous Wave (CW) Doppler",
+    definition: "A Doppler technique using two crystals (one constantly sending, one constantly receiving). No aliasing, but no range resolution.",
+    category: "Doppler",
+    clinicalPearl: "Use CW for very high velocity flows (like severe stenosis) where PW would alias.",
+    visual: (
+      <div className="flex space-x-2">
+        <div className="w-8 h-8 rounded-full border-2 border-registry-teal flex items-center justify-center">
+          <Repeat className="w-4 h-4 text-registry-teal" />
+        </div>
+      </div>
+    )
+  },
+  {
+    term: "Fast Fourier Transform (FFT)",
+    definition: "The mathematical process used to process Pulsed Wave and Continuous Wave Doppler signals into a spectral display.",
+    category: "Doppler",
+    visual: (
+      <div className="grid grid-cols-4 gap-0.5 items-end h-6">
+        {[4, 8, 6, 10].map((h, i) => (
+          <div key={i} className="w-1.5 bg-registry-teal" style={{ height: `${h*2}px` }} />
+        ))}
+      </div>
+    )
+  },
+  {
+    term: "Autocorrelation",
+    definition: "The mathematical process used to process Color Doppler signals; faster but less accurate than FFT.",
+    category: "Doppler",
+    visual: (
+      <div className="flex items-center space-x-1">
+        <Binary className="w-4 h-4 text-registry-teal" />
+        <div className="w-4 h-4 rounded-full border border-registry-teal/30 animate-spin" />
+      </div>
+    )
+  },
+
+  // INSTRUMENTATION EXPANSION
+  {
+    term: "Output Power",
+    definition: "Adjusts the strength of the sound pulse sent into the body. Affects patient exposure (Bioeffects).",
+    category: "Instrumentation",
+    clinicalPearl: "To increase image brightness, always increase Receiver Gain first (ALARA). Only increase Output Power if gain is maxed out.",
+    visual: (
+      <div className="flex items-center space-x-1">
+        <Zap className="w-4 h-4 text-registry-rose" />
+        <div className="w-8 h-2 bg-stealth-800 rounded-full overflow-hidden">
+          <motion.div animate={{ width: ["20%", "90%", "20%"] }} transition={{ duration: 2, repeat: Infinity }} className="h-full bg-registry-rose" />
+        </div>
+      </div>
+    )
+  },
+  {
+    term: "Spatial Compounding",
+    definition: "A method of using different imaging angles to produce a single real-time image, reducing speckle and shadows.",
+    category: "Instrumentation",
+    clinicalPearl: "Spatial compounding improves image quality but reduces temporal resolution (frame rate).",
+    visual: (
+      <div className="relative w-10 h-10">
+        <Layers className="w-6 h-6 text-registry-teal absolute top-0 left-0" />
+        <Layers className="w-6 h-6 text-registry-teal/40 absolute top-2 left-2" />
+        <Layers className="w-6 h-6 text-registry-teal/20 absolute top-4 left-4" />
+      </div>
+    )
+  },
+  {
+    term: "Fill-in Interpolation",
+    definition: "A pre-processing method that predicts gray-scale levels of missing data between scan lines.",
+    category: "Instrumentation",
+    visual: (
+      <div className="grid grid-cols-3 gap-1">
+        <div className="w-2 h-2 bg-white" />
+        <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1, repeat: Infinity }} className="w-2 h-2 bg-registry-teal" />
+        <div className="w-2 h-2 bg-white" />
+      </div>
+    )
+  },
+
+  // PHYSICS BASICS EXPANSION
+  {
+    term: "Acoustic Variables",
+    definition: "Pressure, Density, and Distance (particle motion). These are the variables that oscillate in a sound wave.",
+    category: "Waves",
+    visual: (
+      <div className="flex space-x-1">
+        <div className="w-2 h-2 bg-white rounded-full animate-bounce" />
+        <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce delay-75" />
+        <div className="w-2 h-2 bg-white/30 rounded-full animate-bounce delay-150" />
+      </div>
+    )
+  },
+  {
+    term: "Stiffness",
+    definition: "The ability of a tissue to resist compression. Stiffness is directly related to propagation speed.",
+    category: "Waves",
+    clinicalPearl: "Stiffness is the opposite of elasticity and compressibility. Bulk Modulus is another word for stiffness.",
+    visual: (
+      <div className="w-8 h-8 bg-slate-700 rounded-md flex items-center justify-center border-2 border-white/20">
+        <div className="w-4 h-4 bg-white/10 rounded-sm" />
+      </div>
+    )
+  },
+  {
+    term: "Grating Lobes",
+    definition: "Secondary sound beams outside the main beam axis, produced by array transducers. Can be reduced by apodization and subdicing.",
+    category: "Artifacts",
+    visual: (
+      <div className="relative w-12 h-8">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-8 bg-registry-teal/40" />
+        <div className="flex justify-between w-full px-1">
+          <div className="w-0.5 h-4 bg-registry-teal/10 rotate-[-45deg]" />
+          <div className="w-0.5 h-4 bg-registry-teal/10 rotate-[45deg]" />
+        </div>
+      </div>
+    )
+  },
+  {
+    term: "Range Ambiguity",
+    definition: "An artifact where deep structures are placed too shallow because the next pulse is sent before the previous echo returns.",
+    category: "Artifacts",
+    clinicalPearl: "To fix range ambiguity, decrease the PRF (increase the imaging depth).",
+    visual: (
+      <div className="flex flex-col items-center space-y-1">
+        <div className="w-8 h-0.5 bg-registry-teal" />
+        <div className="w-8 h-0.5 bg-registry-teal/20" />
+        <div className="w-8 h-0.5 bg-registry-teal/10" />
+      </div>
+    )
+  },
+  {
+    term: "Harmonic Imaging",
+    definition: "The creation of an image from sound reflections at twice the transmitted frequency (the second harmonic).",
+    category: "Instrumentation",
+    clinicalPearl: "Harmonics improve image quality by reducing noise and increasing lateral resolution, as the harmonic beam is narrower.",
+    visual: (
+      <div className="flex items-center space-x-2">
+        <Waves className="w-4 h-4 text-slate-500" />
+        <MoveRight className="w-3 h-3 text-registry-teal" />
+        <div className="flex flex-col -space-y-1">
+          <Waves className="w-4 h-4 text-registry-teal" />
+          <Waves className="w-4 h-4 text-registry-teal" />
+        </div>
+      </div>
+    )
+  },
+  {
+    term: "Elastography",
+    definition: "A dynamic imaging technique that estimates the stiffness of tissues (their elastic properties).",
+    category: "Instrumentation",
+    clinicalPearl: "Malignant tumors are often stiffer than benign ones. Elastography provides 'virtual palpation'.",
+    visual: (
+      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 via-green-500 to-red-500 opacity-60 flex items-center justify-center">
+        <div className="w-4 h-4 border-2 border-white rounded-full" />
+      </div>
+    )
+  },
+  {
+    term: "Contrast Agents",
+    definition: "Gas-filled microbubbles injected into the bloodstream to increase the reflectivity of blood.",
+    category: "Bioeffects",
+    clinicalPearl: "Contrast agents have a different acoustic impedance than blood, creating strong reflections. Monitor MI carefully!",
+    visual: (
+      <div className="flex space-x-1">
+        {[1, 2, 3].map(i => (
+          <motion.div 
+            key={i}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1, repeat: Infinity, delay: i * 0.3 }}
+            className="w-3 h-3 rounded-full border border-registry-teal bg-registry-teal/10" 
+          />
+        ))}
+      </div>
+    )
+  },
+  {
+    term: "Audible Sound",
+    definition: "Sound waves with frequencies between 20 Hz and 20,000 Hz, detectable by the human ear.",
+    category: "Waves",
+    visual: <Volume2 className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Diagnostic Ultrasound",
+    definition: "Ultrasound used for medical imaging, typically ranging from 2 MHz to 20 MHz.",
+    category: "Waves",
+    visual: <Stethoscope className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Bulk Modulus",
+    definition: "A measure of a medium's resistance to compression (stiffness). Directly related to propagation speed.",
+    category: "Waves",
+    visual: <Maximize2 className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Rayls",
+    definition: "The unit of acoustic impedance (Z). 1 Rayl = 1 kg/(m²·s).",
+    category: "Media Interaction",
+    visual: <Hash className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Snell's Law",
+    definition: "The formula used to calculate the angle of refraction: sin(θt)/sin(θi) = c2/c1.",
+    category: "Media Interaction",
+    visual: <MoveRight className="w-4 h-4 text-registry-teal rotate-45" />
+  },
+  {
+    term: "Critical Angle",
+    definition: "The incident angle at which total internal reflection occurs and no sound is transmitted into the second medium.",
+    category: "Media Interaction",
+    visual: <X className="w-4 h-4 text-registry-rose" />
+  },
+  {
+    term: "Apodization",
+    definition: "The process of varying the voltage to individual elements in an array to reduce side lobes and grating lobes.",
+    category: "Transducers",
+    visual: <Zap className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Rectification",
+    definition: "A step in demodulation that converts all negative voltages into positive voltages.",
+    category: "Instrumentation",
+    visual: <ArrowDownUp className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Enveloping",
+    definition: "Also called smoothing; a step in demodulation that creates a smooth line around the rectified peaks.",
+    category: "Instrumentation",
+    visual: <Waves className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "DICOM",
+    definition: "Digital Imaging and Communications in Medicine. The standard protocol for medical imaging data exchange.",
+    category: "Instrumentation",
+    visual: <Binary className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "PACS",
+    definition: "Picture Archiving and Communication System. The digital storage and retrieval system for medical images.",
+    category: "Instrumentation",
+    visual: <Monitor className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Frame Rate",
+    definition: "The number of images (frames) displayed per second, measured in Hertz (Hz). Higher frame rate equals better temporal resolution.",
+    category: "Instrumentation",
+    clinicalPearl: "Frame rate is limited by imaging depth and the number of pulses per scan line.",
+    visual: <Repeat className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Line Density",
+    definition: "The number of scan lines per degree or per centimeter in an image.",
+    category: "Instrumentation",
+    clinicalPearl: "Higher line density improves spatial resolution but decreases frame rate (temporal resolution).",
+    visual: <Layers className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Persistence",
+    definition: "Also called temporal averaging; a processing technique that averages multiple previous frames to create a smoother image with less noise.",
+    category: "Instrumentation",
+    clinicalPearl: "Persistence is great for stationary structures but causes blurring of moving structures like the heart.",
+    visual: <Clock className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Frequency Compounding",
+    definition: "An image processing method where the reflected signal is divided into sub-bands of frequencies, which are then combined to reduce noise and speckle.",
+    category: "Instrumentation",
+    visual: <Waves className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Coded Excitation",
+    definition: "A sophisticated method of improving image quality by creating very long sound pulses with complex patterns of frequencies.",
+    category: "Instrumentation",
+    clinicalPearl: "Coded excitation improves signal-to-noise ratio, axial resolution, and penetration.",
+    visual: <Binary className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "A-Mode",
+    definition: "Amplitude mode; displays the strength of reflections as vertical spikes on a graph. Used for precise distance measurements.",
+    category: "Instrumentation",
+    visual: <Activity className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "M-Mode",
+    definition: "Motion mode; displays the movement of reflectors over time. Used for cardiac and fetal heart rate assessment.",
+    category: "Instrumentation",
+    visual: <Timer className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Pressure Gradient",
+    definition: "The difference in pressure between two points; the driving force behind fluid flow.",
+    category: "Doppler",
+    visual: <ArrowDownUp className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Resistance",
+    definition: "The opposition to flow, determined by the length and radius of the vessel and the viscosity of the fluid.",
+    category: "Doppler",
+    visual: <X className="w-4 h-4 text-registry-rose" />
+  },
+  {
+    term: "Viscosity",
+    definition: "The internal friction of a fluid; its 'thickness'. Measured in Poise.",
+    category: "Doppler",
+    visual: <Waves className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Inertia",
+    definition: "The tendency of a fluid to resist changes in its velocity.",
+    category: "Doppler",
+    visual: <Zap className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Pulsatility",
+    definition: "Flow that varies with the cardiac cycle, typical of arterial circulation.",
+    category: "Doppler",
+    visual: <Activity className="w-4 h-4 text-registry-rose" />
+  },
+  {
+    term: "Bruit",
+    definition: "An abnormal sound heard with a stethoscope, caused by turbulent blood flow in an artery.",
+    category: "Doppler",
+    visual: <Volume2 className="w-4 h-4 text-registry-teal" />
+  },
+  {
+    term: "Thrill",
+    definition: "A palpable vibration felt over a vessel, caused by turbulent blood flow.",
+    category: "Doppler",
+    visual: <Activity className="w-4 h-4 text-registry-teal" />
   }
 ];
-
-interface GlossaryProps {
-  onClose: () => void;
-  onPlayNarration?: (text: string, id: string) => void;
-  isNarrating?: boolean;
-  isTtsLoading?: boolean;
-  isDarkMode?: boolean;
-}
 
 export const Glossary: React.FC<GlossaryProps> = ({ 
   onClose, 
   onPlayNarration, 
   isNarrating, 
   isTtsLoading,
-  isDarkMode
+  isDarkMode,
+  profile,
+  onUpdateProfile
 }) => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [explainingId, setExplainingId] = useState<string | null>(null);
+  const [fullscreenTerm, setFullscreenTerm] = useState<GlossaryTerm | null>(null);
+
+  const handleNeuralExplain = async (term: string) => {
+    if (explainingId === term) return;
+    setExplainingId(term);
+    try {
+      const prompt = `Provide a detailed, high-yield ultrasound physics explanation for the SPI exam term: "${term}". 
+      Include key formulas if applicable, clinical relevance, and a "Neural Tip" for remembering it. 
+      Format with clear headings and bullet points. Max 150 words.`;
+      const explanation = await generateText(prompt);
+      if (explanation && onUpdateProfile) {
+        onUpdateProfile({
+          lexiconAIExplainers: {
+            ...(profile?.lexiconAIExplainers || {}),
+            [term]: explanation
+          }
+        });
+      }
+    } catch (e) {
+      console.error("Neural Explain Error", e);
+      toast.error("Neural Link Interrupted. Please try again.");
+    } finally {
+      setExplainingId(null);
+    }
+  };
+
+  const handleRemoveOverride = (term: string) => {
+    if (onUpdateProfile) {
+      const nextOverrides = { ...(profile?.lexiconOverrides || {}) };
+      delete nextOverrides[term];
+      onUpdateProfile({ lexiconOverrides: nextOverrides });
+    }
+  };
 
   const categories = useMemo(() => {
     const cats = new Set(SPI_GLOSSARY.map(t => t.category));
@@ -912,6 +1434,34 @@ export const Glossary: React.FC<GlossaryProps> = ({
       return matchesSearch && matchesCategory;
     }).sort((a, b) => a.term.localeCompare(b.term));
   }, [search, activeCategory]);
+
+  const handleTermClick = (linkedTerm: string) => {
+    setSearch(linkedTerm);
+    setActiveCategory(null);
+  };
+
+  const renderDefinitionWithLinks = (text: string) => {
+    const terms = SPI_GLOSSARY.map(t => t.term).sort((a, b) => b.length - a.length);
+    // Escape special characters and create regex
+    const regex = new RegExp(`\\b(${terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})\\b`, 'gi');
+    
+    const parts = text.split(regex);
+    return parts.map((part, i) => {
+      const match = terms.find(t => t.toLowerCase() === part.toLowerCase());
+      if (match) {
+        return (
+          <button 
+            key={i} 
+            onClick={() => handleTermClick(match)}
+            className="text-registry-teal font-black hover:underline underline-offset-4 decoration-2"
+          >
+            {part}
+          </button>
+        );
+      }
+      return part;
+    });
+  };
 
   return (
     <div className={`fixed inset-0 z-[200] ${isDarkMode ? 'bg-stealth-950' : 'bg-slate-50'} flex flex-col overflow-hidden transition-colors duration-500`}>
@@ -957,8 +1507,16 @@ export const Glossary: React.FC<GlossaryProps> = ({
             placeholder="SEARCH REGISTRY TERMS..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className={`w-full pl-11 md:pl-12 pr-4 py-3 md:py-4 ${isDarkMode ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:border-registry-teal/50' : 'bg-slate-100 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-registry-teal/30'} border rounded-xl md:rounded-2xl font-black text-xs md:text-sm outline-none transition-all shadow-sm`}
+            className={`w-full pl-11 md:pl-12 pr-12 py-3 md:py-4 ${isDarkMode ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:border-registry-teal/50' : 'bg-slate-100 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-registry-teal/30'} border rounded-xl md:rounded-2xl font-black text-xs md:text-sm outline-none transition-all shadow-sm`}
           />
+          {search && (
+            <button 
+              onClick={() => setSearch('')}
+              className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-500 hover:text-white' : 'hover:bg-slate-200 text-slate-400 hover:text-slate-900'}`}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
         
         <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
@@ -982,7 +1540,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
 
       <div className={`flex-1 overflow-y-auto p-4 md:p-6 space-y-4 ${isDarkMode ? 'bg-stealth-950' : 'bg-slate-50'} relative z-10 transition-colors duration-500`}>
         {filteredTerms.length > 0 ? (
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 md:gap-6">
             {filteredTerms.map((term, idx) => (
               <motion.div 
                 key={idx}
@@ -1003,6 +1561,21 @@ export const Glossary: React.FC<GlossaryProps> = ({
                           {isTtsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : isNarrating ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                         </button>
                       )}
+                      <button 
+                        onClick={() => handleNeuralExplain(term.term)}
+                        disabled={explainingId === term.term}
+                        className={`p-2 rounded-xl transition-all ${explainingId === term.term ? 'bg-registry-teal/20 animate-pulse' : isDarkMode ? 'bg-white/5 text-slate-400 hover:text-registry-teal' : 'bg-slate-50 text-slate-400 hover:text-registry-teal'}`}
+                        title="Neural AI Explain"
+                      >
+                        {explainingId === term.term ? <Loader2 className="w-4 h-4 animate-spin" /> : <Brain className="w-4 h-4" />}
+                      </button>
+                      <button 
+                        onClick={() => setFullscreenTerm(term)}
+                        className={`p-2 rounded-xl transition-all ${isDarkMode ? 'bg-white/5 text-slate-400 hover:text-registry-teal' : 'bg-slate-50 text-slate-400 hover:text-registry-teal'}`}
+                        title="Focus Mode"
+                      >
+                        <Maximize2 className="w-4 h-4" />
+                      </button>
                       <div className={`p-2 ${isDarkMode ? 'bg-white/5 border-white/10 group-hover:border-registry-teal/20' : 'bg-slate-50 border-slate-200 group-hover:border-registry-teal/10'} rounded-lg border transition-colors`}>
                         <Bookmark className="w-4 h-4 text-registry-teal" />
                       </div>
@@ -1012,15 +1585,56 @@ export const Glossary: React.FC<GlossaryProps> = ({
                       <span className={`text-[8px] font-black ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} uppercase tracking-widest`}>{term.category}</span>
                     </div>
                   </div>
-                  {term.visual && (
+                  {profile?.lexiconOverrides?.[term.term] ? (
+                    <div className="relative group/asset shrink-0">
+                      <div className="w-24 h-16 rounded-xl overflow-hidden border border-registry-teal/30 shadow-lg">
+                        {profile.lexiconOverrides[term.term].type === 'video' ? (
+                          profile.lexiconOverrides[term.term].data ? (
+                            <video src={profile.lexiconOverrides[term.term].data} className="w-full h-full object-cover" muted loop onMouseEnter={(e) => e.currentTarget.play()} onMouseLeave={(e) => e.currentTarget.pause()} />
+                          ) : null
+                        ) : (
+                          profile.lexiconOverrides[term.term].data ? (
+                            <img src={profile.lexiconOverrides[term.term].data} alt={term.term} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                          ) : null
+                        )}
+                      </div>
+                      <button 
+                        onClick={() => handleRemoveOverride(term.term)}
+                        className="absolute -top-2 -right-2 p-1 bg-registry-rose text-white rounded-full opacity-0 group-hover/asset:opacity-100 transition-opacity shadow-md"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ) : term.visual && (
                     <div className={`shrink-0 p-3 ${isDarkMode ? 'bg-white/5 border-white/10 group-hover:border-registry-teal/20' : 'bg-slate-50 border-slate-200 group-hover:border-registry-teal/10'} rounded-xl border flex items-center justify-center min-w-[60px] transition-colors`}>
                       {term.visual}
                     </div>
                   )}
                 </div>
                 <p className={`text-xs md:text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}>
-                  {term.definition}
+                  {renderDefinitionWithLinks(term.definition)}
                 </p>
+
+                {profile?.lexiconAIExplainers?.[term.term] && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className={`mt-4 p-4 rounded-xl border ${isDarkMode ? 'bg-stealth-950/50 border-registry-teal/20' : 'bg-slate-50 border-registry-teal/10'} relative overflow-hidden`}
+                  >
+                    <div className="absolute top-0 right-0 p-2 opacity-5">
+                      <Brain className="w-12 h-12 text-registry-teal" />
+                    </div>
+                    <div className="relative z-10">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="w-1 h-1 bg-registry-teal rounded-full animate-ping" />
+                        <span className="text-[8px] font-black uppercase text-registry-teal tracking-widest">Neural AI Insight</span>
+                      </div>
+                      <div className={`text-[10px] md:text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} whitespace-pre-wrap`}>
+                        {profile.lexiconAIExplainers[term.term]}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
                 {term.clinicalPearl && (
                   <div className={`mt-4 p-4 rounded-xl border ${isDarkMode ? 'bg-registry-teal/5 border-registry-teal/20' : 'bg-registry-teal/5 border-registry-teal/10'} relative overflow-hidden group/pearl`}>
                     <div className="absolute top-0 right-0 p-2 opacity-5 group-hover/pearl:opacity-10 transition-opacity">
@@ -1030,7 +1644,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
                       <Zap className="w-3 h-3 text-registry-teal mt-0.5 shrink-0" />
                       <p className={`text-[10px] md:text-xs font-bold italic leading-relaxed ${isDarkMode ? 'text-teal-400/80' : 'text-teal-600/80'}`}>
                         <span className="uppercase font-black mr-1 tracking-widest">Clinical Pearl:</span>
-                        {term.clinicalPearl}
+                        {renderDefinitionWithLinks(term.clinicalPearl)}
                       </p>
                     </div>
                   </div>
@@ -1050,6 +1664,108 @@ export const Glossary: React.FC<GlossaryProps> = ({
       <footer className={`p-4 md:p-6 border-t ${isDarkMode ? 'border-white/10 bg-stealth-950 text-slate-400' : 'border-slate-200 bg-white text-slate-500'} text-center pb-24 md:pb-6 transition-colors`}>
         <p className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em]">Source: ARDMS SPI Content Outline</p>
       </footer>
+
+      <AnimatePresence>
+        {fullscreenTerm && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] bg-stealth-950/95 backdrop-blur-2xl p-6 md:p-20 overflow-y-auto flex items-center justify-center"
+          >
+            <motion.button 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              onClick={() => setFullscreenTerm(null)}
+              className="fixed top-8 right-8 p-4 bg-white/10 border border-white/10 text-white rounded-full hover:bg-registry-rose hover:border-registry-rose transition-all z-10"
+            >
+              <X className="w-6 h-6" />
+            </motion.button>
+            
+            <motion.div 
+              layoutId={`term-${fullscreenTerm.term}`}
+              className="max-w-4xl w-full space-y-12"
+            >
+              <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-12">
+                <div className="space-y-6 flex-1 text-center md:text-left">
+                  <div className="flex flex-col md:flex-row items-center md:items-end gap-4">
+                    <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter text-white uppercase leading-none">
+                      {fullscreenTerm.term}
+                    </h2>
+                    <span className="text-xs font-black uppercase tracking-[0.4em] text-registry-teal bg-registry-teal/10 px-4 py-2 rounded-full border border-registry-teal/20 mb-2">
+                      {fullscreenTerm.category}
+                    </span>
+                  </div>
+                  <p className="text-xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
+                    {renderDefinitionWithLinks(fullscreenTerm.definition)}
+                  </p>
+                </div>
+                
+                <div className="p-12 md:p-20 bg-white/5 rounded-[4rem] border border-white/10 flex items-center justify-center min-w-[300px] min-h-[300px] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-registry-teal/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="scale-[2.5] md:scale-[3.5] relative z-10">
+                    {profile?.lexiconOverrides?.[fullscreenTerm.term] ? (
+                       profile.lexiconOverrides[fullscreenTerm.term].type === 'video' ? (
+                        profile.lexiconOverrides[fullscreenTerm.term].data ? (
+                          <video src={profile.lexiconOverrides[fullscreenTerm.term].data} className="w-16 h-12 object-cover rounded-sm" muted loop autoPlay />
+                        ) : null
+                      ) : (
+                        profile.lexiconOverrides[fullscreenTerm.term].data ? (
+                          <img src={profile.lexiconOverrides[fullscreenTerm.term].data} alt={fullscreenTerm.term} className="w-16 h-12 object-cover rounded-sm" referrerPolicy="no-referrer" />
+                        ) : null
+                      )
+                    ) : (
+                      fullscreenTerm.visual
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {fullscreenTerm.clinicalPearl && (
+                  <motion.div 
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="p-10 bg-registry-rose/10 border border-registry-rose/20 rounded-[3rem] space-y-4 relative overflow-hidden group/pearl"
+                  >
+                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover/pearl:opacity-20 transition-opacity">
+                      <Stethoscope className="w-32 h-32 text-registry-rose" />
+                    </div>
+                    <div className="flex items-center space-x-3 text-registry-rose">
+                      <Zap className="w-6 h-6 animate-pulse" />
+                      <span className="text-sm font-black uppercase tracking-widest">Clinical Protocol</span>
+                    </div>
+                    <p className="text-lg md:text-xl font-bold italic leading-relaxed text-slate-200">
+                      {renderDefinitionWithLinks(fullscreenTerm.clinicalPearl)}
+                    </p>
+                  </motion.div>
+                )}
+
+                {profile?.lexiconAIExplainers?.[fullscreenTerm.term] && (
+                  <motion.div 
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="p-10 bg-registry-teal/10 border border-registry-teal/20 rounded-[3rem] space-y-4 relative overflow-hidden group/explain"
+                  >
+                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover/explain:opacity-20 transition-opacity">
+                      <Brain className="w-32 h-32 text-registry-teal" />
+                    </div>
+                    <div className="flex items-center space-x-3 text-registry-teal">
+                      <div className="w-2 h-2 bg-registry-teal rounded-full animate-ping" />
+                      <span className="text-sm font-black uppercase tracking-widest">Neural Insight</span>
+                    </div>
+                    <div className="text-sm md:text-base font-medium leading-relaxed text-slate-300 whitespace-pre-wrap">
+                      {profile.lexiconAIExplainers[fullscreenTerm.term]}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -12,15 +12,15 @@ interface Achievement {
   progress: number;
 }
 
-export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean }> = ({ progress, isDarkMode }) => {
+export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean; profile?: any }> = ({ progress, isDarkMode, profile }) => {
   const achievements: Achievement[] = [
     { 
       id: '1', title: 'First Pulse', desc: 'Complete your first lesson', 
-      icon: Zap, color: 'text-amber-500', unlocked: progress > 0, progress: progress > 0 ? 100 : 0 
+      icon: Zap, color: 'text-registry-amber', unlocked: progress > 0, progress: progress > 0 ? 100 : 0 
     },
     { 
       id: '2', title: 'Acoustic Master', desc: 'Reach 50% total progress', 
-      icon: Star, color: 'text-teal-500', unlocked: progress >= 50, progress: Math.min(100, (progress / 50) * 100) 
+      icon: Star, color: 'text-registry-teal', unlocked: progress >= 50, progress: Math.min(100, (progress / 50) * 100) 
     },
     { 
       id: '3', title: 'Registry Ready', desc: 'Reach 100% total progress', 
@@ -28,15 +28,21 @@ export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean }> 
     },
     { 
       id: '4', title: 'Neural Link', desc: 'Interact with Harvey 10 times', 
-      icon: Brain, color: 'text-indigo-500', unlocked: true, progress: 100 
+      icon: Brain, color: 'text-registry-cobalt', 
+      unlocked: (profile?.harveyInteractionCount || 0) >= 10, 
+      progress: Math.min(100, ((profile?.harveyInteractionCount || 0) / 10) * 100) 
     },
     { 
       id: '5', title: 'Artifact Hunter', desc: 'Complete the Artifacts module', 
-      icon: Target, color: 'text-teal-500', unlocked: false, progress: 45 
+      icon: Target, color: 'text-registry-teal', 
+      unlocked: false, // This would need actual module-specific progress
+      progress: 0 
     },
     { 
       id: '6', title: 'Synaptic Streak', desc: 'Maintain a 7-day study streak', 
-      icon: Award, color: 'text-orange-500', unlocked: true, progress: 100 
+      icon: Award, color: 'text-registry-amber', 
+      unlocked: (profile?.streak || 0) >= 7, 
+      progress: Math.min(100, ((profile?.streak || 0) / 7) * 100) 
     }
   ];
 
@@ -64,7 +70,7 @@ export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean }> 
         {achievements.map((a) => (
           <div 
             key={a.id} 
-            className={`p-6 rounded-[2rem] border transition-all group relative overflow-hidden ${
+            className={`p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border transition-all group relative overflow-hidden ${
               a.unlocked 
                 ? isDarkMode ? 'bg-stealth-900 border-white/10 shadow-lg hover:border-registry-teal/50' : 'bg-white border-slate-200 shadow-sm hover:border-registry-teal/50'
                 : isDarkMode ? 'bg-stealth-950 border-dashed border-white/5 opacity-40' : 'bg-slate-50 border-dashed border-slate-200 opacity-40'
@@ -89,7 +95,7 @@ export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean }> 
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <h5 className={`font-black uppercase text-xs tracking-wider ${a.unlocked ? isDarkMode ? 'text-white' : 'text-slate-900' : 'text-slate-600'}`}>{a.title}</h5>
-                  {a.unlocked && <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse shadow-[0_0_5px_#00e5ff]" />}
+                  {a.unlocked && <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse shadow-glow" />}
                 </div>
                 <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest leading-tight mb-4">{a.desc}</p>
                 
@@ -106,7 +112,7 @@ export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean }> 
                           key={i}
                           className={`flex-1 rounded-full transition-all duration-500 ${
                             isActive 
-                              ? (a.unlocked ? 'bg-registry-teal shadow-[0_0_3px_#00e5ff]' : 'bg-slate-700') 
+                              ? (a.unlocked ? 'bg-registry-teal shadow-glow' : 'bg-slate-700') 
                               : 'bg-white/5'
                           }`}
                         />

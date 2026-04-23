@@ -21,13 +21,37 @@ export class AudioCache {
   static async get(id: string): Promise<string | null> {
     try {
       const db = await this.openDB();
-      return new Promise((resolve, reject) => {
+      const localData = await new Promise<string | null>((resolve, reject) => {
         const transaction = db.transaction(this.storeName, 'readonly');
         const store = transaction.objectStore(this.storeName);
         const request = store.get(id);
         request.onerror = () => reject(request.error);
         request.onsuccess = () => resolve(request.result || null);
       });
+      
+      if (localData) return localData;
+      
+      // Fallback: Check pre-generated static cache in `/audio_cache/`
+      // The id here is a cacheKey like "1.1_hash" or "onboarding_complete_hash" so we extract the lessonId.
+      const lastUnderscore = id.lastIndexOf('_');
+      const lessonId = lastUnderscore !== -1 ? id.substring(0, lastUnderscore) : id;
+      if (lessonId && lessonId.length > 0) {
+        try {
+          const res = await fetch(`/audio_cache/${lessonId}.txt`);
+          if (res.ok) {
+            const b64 = await res.text();
+            if (b64 && b64.length > 100) {
+              // Save into IndexedDB for next time
+              await this.set(id, b64);
+              return b64;
+            }
+          }
+        } catch (e) {
+          console.warn("Could not fetch pre-generated cache for", lessonId);
+        }
+      }
+
+      return null;
     } catch (e) {
       console.error('IndexedDB get error:', e);
       return null;

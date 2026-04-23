@@ -112,7 +112,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           
           <button 
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors ${isExpanded ? isDarkMode ? 'text-white' : 'text-slate-900' : 'text-slate-400'}`}
+            className={`p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${isExpanded ? isDarkMode ? 'text-white' : 'text-slate-900' : 'text-slate-400'}`}
+            aria-label={isExpanded ? "Collapse audio player" : "Expand audio player"}
+            aria-expanded={isExpanded}
           >
             {isExpanded ? <ChevronDown className="w-6 h-6" /> : <ChevronUp className="w-5 h-5" />}
           </button>
@@ -147,11 +149,12 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           <button 
             onClick={onToggle}
             disabled={isLoading}
-            className={`flex items-center justify-center rounded-full transition-all ${
+            className={`flex items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${
               isExpanded 
                 ? 'w-20 h-20 bg-registry-teal hover:bg-registry-teal/80 text-white shadow-xl shadow-registry-teal/20' 
                 : 'w-10 h-10 bg-registry-teal/10 text-registry-teal hover:bg-registry-teal/20'
             }`}
+            aria-label={isPlaying ? "Pause study pulse" : "Play study pulse"}
           >
             {isPlaying ? (
               <Pause className={isExpanded ? 'w-8 h-8' : 'w-5 h-5'} fill="currentColor" />
@@ -162,11 +165,12 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           
           <button 
             onClick={onStop}
-            className={`flex items-center justify-center rounded-full transition-all ${
+            className={`flex items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-rose ${
               isExpanded 
                 ? 'w-16 h-16 bg-registry-rose/20 text-registry-rose hover:bg-registry-rose/30' 
                 : 'w-10 h-10 bg-registry-rose/10 text-registry-rose hover:bg-registry-rose/20'
             }`}
+            aria-label="Stop study pulse"
           >
             <Square className={isExpanded ? 'w-6 h-6' : 'w-4 h-4'} fill="currentColor" />
           </button>

@@ -10,6 +10,12 @@ const __dirname = path.dirname(__filename);
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
+      base: './',
+      build: { 
+        minify: false,
+        outDir: 'dist',
+        emptyOutDir: true
+      },
       server: {
         port: 3000,
         host: '0.0.0.0',
@@ -25,7 +31,7 @@ export default defineConfig(({ mode }) => {
       },
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, '.'),
+          '@': path.resolve(__dirname, './src'),
         }
       }
     };

@@ -6,7 +6,7 @@ interface InteractiveWaveProps {
   color?: string;
 }
 
-export const InteractiveWave: React.FC<InteractiveWaveProps> = ({ isDarkMode, color = '#00F5FF' }) => {
+export const InteractiveWave: React.FC<InteractiveWaveProps> = ({ isDarkMode, color = '#00d2ff' }) => {
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -43,7 +43,7 @@ export const InteractiveWave: React.FC<InteractiveWaveProps> = ({ isDarkMode, co
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative w-full h-48 md:h-64 rounded-[2.5rem] overflow-hidden cursor-crosshair group border-2 transition-all ${
+      className={`relative w-full h-48 md:h-64 2xl:h-96 rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden cursor-crosshair group border-2 transition-all ${
         isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-white border-slate-200 shadow-inner'
       }`}
     >
@@ -97,13 +97,13 @@ export const InteractiveWave: React.FC<InteractiveWaveProps> = ({ isDarkMode, co
           <motion.div
             animate={{
               scale: [1, 1.1, 1],
-              opacity: [0.5, 0.8, 0.5]
+              opacity: [0.3, 0.6, 0.3]
             }}
             transition={{ duration: 4, repeat: Infinity }}
-            className="w-24 h-24 rounded-full border-2 border-registry-teal/30 flex items-center justify-center relative"
+            className="w-24 h-24 rounded-full border-2 border-registry-teal/20 flex items-center justify-center relative"
           >
-            <div className="w-16 h-16 rounded-full bg-registry-teal/10 animate-pulse" />
-            <div className="absolute inset-0 rounded-full border border-registry-teal/20 animate-ping" style={{ animationDuration: '3s' }} />
+            <div className="w-16 h-16 rounded-full bg-registry-teal/5 animate-pulse" />
+            <div className="absolute inset-0 rounded-full border border-registry-teal/10 animate-ping" style={{ animationDuration: '3s' }} />
           </motion.div>
           <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Acoustic Pulse Core</p>
           <p className="text-[8px] font-bold text-registry-teal/50 uppercase tracking-widest">Click to emit wave • Hover to focus</p>

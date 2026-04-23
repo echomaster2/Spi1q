@@ -112,6 +112,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
 
     const score = Math.round((correctCount / total) * 100);
     setResults({
+      date: new Date().toISOString(),
       score,
       total,
       timeTaken: 120 * 60 - timeLeft,

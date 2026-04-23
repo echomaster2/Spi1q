@@ -68,8 +68,9 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
       for (let i = 0; i < 10; i++) sum += dataArray[i]; // Focus on bass frequencies
       const avgBass = sum / 10;
       const pulse = 1 + (avgBass / 255) * 0.15;
-      if (canvas.parentElement) {
-        canvas.parentElement.style.setProperty('--radio-pulse', pulse.toString());
+      const container = canvas.closest('.radio-container');
+      if (container instanceof HTMLElement) {
+        container.style.setProperty('--radio-pulse', pulse.toString());
       }
 
       // Draw circular visualizer
@@ -129,7 +130,7 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-stealth-950 text-slate-900 dark:text-white overflow-hidden relative transition-colors duration-500">
+    <div className="radio-container flex flex-col h-full bg-white dark:bg-stealth-950 text-slate-900 dark:text-white overflow-hidden relative transition-colors duration-500">
       <header className="p-6 border-b border-slate-100 dark:border-white/10 flex items-center justify-between backdrop-blur-xl bg-white/80 dark:bg-stealth-950/50 sticky top-0 z-10 transition-colors">
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-registry-teal rounded-xl flex items-center justify-center shadow-lg shadow-registry-teal/20 animate-pulse">
@@ -161,9 +162,9 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
         </div>
 
         <div className="relative z-10 w-full max-w-md space-y-12 text-center">
-          <motion.div
-            style={{ scale: 'var(--radio-pulse, 1)' }}
-            className={`w-64 h-64 mx-auto rounded-[3rem] bg-gradient-to-br ${currentStation.color} shadow-2xl flex items-center justify-center relative overflow-hidden group`}
+          <div
+            style={{ transform: 'scale(var(--radio-pulse, 1))' }}
+            className={`transition-transform duration-75 w-64 h-64 mx-auto rounded-[3rem] bg-gradient-to-br ${currentStation.color} shadow-2xl flex items-center justify-center relative overflow-hidden group`}
           >
             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
             <Music className={`w-24 h-24 text-white/80 ${isPlaying ? 'animate-bounce' : ''}`} />
@@ -171,7 +172,7 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
             {/* Orbital Rings */}
             <div className="absolute inset-0 border-4 border-white/10 rounded-full animate-[spin_10s_linear_infinite]" />
             <div className="absolute inset-4 border-2 border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-          </motion.div>
+          </div>
 
           <div className="space-y-2">
             <h3 className="text-3xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white">{currentStation.name}</h3>

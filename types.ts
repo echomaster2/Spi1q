@@ -43,9 +43,11 @@ export interface Quiz {
 
 export interface LessonData {
   title: string;
+  description?: string;
   content: React.ReactNode;
   quiz?: AdvancedQuestion; // Upgraded to AdvancedQuestion
   narrationScript?: string;
+  clinicalImages?: { url: string; caption: string }[];
 }
 
 export interface LessonContentMap {
@@ -71,6 +73,7 @@ export interface ExamQuestion extends Quiz {
 }
 
 export interface ExamResults {
+  date: string; // ISO string
   score: number;
   total: number;
   timeTaken: number;
@@ -109,6 +112,7 @@ export interface GlossaryTerm {
   category: string;
   visual?: React.ReactNode;
   clinicalPearl?: string;
+  aiExplainer?: string;
 }
 
 export interface DailyQuizState {
@@ -119,12 +123,22 @@ export interface DailyQuizState {
   answers?: number[];
 }
 
+export interface Scenario {
+  id: string;
+  part: number;
+  category: string;
+  scenario: string;
+  answer: string;
+}
+
 export interface UserProfile {
+  uid?: string;
   name?: string;
   email?: string;
   dailyInsight: string;
   lastInsightTimestamp: number;
   scriptVault: { id: string; title: string; content: string; timestamp: number }[];
+  registryDate?: string; // YYYY-MM-DD
   birthDate?: string; // YYYY-MM-DD
   birthTime?: string; // HH:mm
   activityHistory?: { date: string; count: number }[]; // History of lessons completed per day
@@ -139,9 +153,19 @@ export interface UserProfile {
   photoUrl?: string;
   profileAvatar?: 'default' | 'sonographer' | 'student' | 'doctor' | 'nurse';
   companionSkin?: 'default' | 'neon' | 'stealth' | 'golden' | 'sonographer' | 'student';
+  visualOverrides?: Record<string, { id: string; type: 'image' | 'video' | 'stock' | 'gif'; data: string }>;
+  lexiconOverrides?: Record<string, { id: string; type: 'image' | 'video' | 'stock' | 'gif'; data: string }>;
+  lexiconAIExplainers?: Record<string, string>;
+  hasCompletedOnboarding?: boolean;
   volume?: number;
   isPrivateMode?: boolean;
   lastManualSync?: number;
+  examHistory?: ExamResults[];
+  harveyInteractionCount?: number;
+  studyTimeTotal?: number; // in seconds
+  diagnosticAccuracy?: number;
+  streak?: number;
+  scenariosCompleted?: string[];
 }
 
 declare global {

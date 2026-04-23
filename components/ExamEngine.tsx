@@ -4,11 +4,65 @@ import {
   Timer, CheckCircle2, XCircle, ChevronRight, 
   ChevronLeft, Award, RefreshCw, AlertCircle, 
   Brain, Target, Clock, ShieldCheck, ArrowRight,
-  BarChart3, BookOpen, Sparkles
+  BarChart3, BookOpen, Sparkles, Activity
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AdvancedQuestion, UserProfile, ExamResults } from '../types';
-import { generateExamQuestions } from '../src/services/aiService';
+import { generateExamQuestions, AIServiceError } from '../src/services/aiService';
+import { db, auth } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'sonner';
+
+enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+interface FirestoreErrorInfo {
+  error: string;
+  operationType: OperationType;
+  path: string | null;
+  authInfo: {
+    userId: string | undefined;
+    email: string | null | undefined;
+    emailVerified: boolean | undefined;
+    isAnonymous: boolean | undefined;
+    tenantId: string | null | undefined;
+    providerInfo: {
+      providerId: string;
+      displayName: string | null;
+      email: string | null;
+      photoUrl: string | null;
+    }[];
+  }
+}
+
+function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errInfo: FirestoreErrorInfo = {
+    error: error instanceof Error ? error.message : String(error),
+    authInfo: {
+      userId: auth.currentUser?.uid,
+      email: auth.currentUser?.email,
+      emailVerified: auth.currentUser?.emailVerified,
+      isAnonymous: auth.currentUser?.isAnonymous,
+      tenantId: auth.currentUser?.tenantId,
+      providerInfo: auth.currentUser?.providerData.map(provider => ({
+        providerId: provider.providerId,
+        displayName: provider.displayName,
+        email: provider.email,
+        photoUrl: provider.photoURL
+      })) || []
+    },
+    operationType,
+    path
+  }
+  console.error('Firestore Error: ', JSON.stringify(errInfo));
+  throw new Error(JSON.stringify(errInfo));
+}
 
 interface ExamEngineProps {
   profile: UserProfile | null;
@@ -21,6 +75,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
   profile, isDarkMode, onComplete, onClose 
 }) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'active' | 'finished'>('idle');
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const [questions, setQuestions] = useState<AdvancedQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -28,31 +83,55 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [results, setResults] = useState<ExamResults | null>(null);
 
-  const EXAM_DURATION = 1200; // 20 minutes for 10 questions (simulated)
+  const EXAM_DURATION = 7200; // 120 minutes for 110 questions
 
   const startExam = async () => {
     if (!profile) return;
     setStatus('loading');
+    setLoadingProgress(0);
     try {
-      const generated = await generateExamQuestions(profile, 10);
-      if (generated && generated.length > 0) {
-        setQuestions(generated);
+      // Fetch 110 questions in batches to avoid AI timeout/limit
+      const totalQuestions = 110;
+      const batchSize = 22; // 5 batches
+      let allGenerated: AdvancedQuestion[] = [];
+
+      for (let i = 0; i < 5; i++) {
+        const batch = await generateExamQuestions(profile, batchSize);
+        if (batch && batch.length > 0) {
+          allGenerated = [...allGenerated, ...batch];
+          setLoadingProgress(((i + 1) / 5) * 100);
+        }
+      }
+
+      if (allGenerated.length > 0) {
+        setQuestions(allGenerated.slice(0, totalQuestions));
         setStartTime(Date.now());
         setTimeRemaining(EXAM_DURATION);
         setStatus('active');
         setCurrentIndex(0);
         setAnswers({});
+        toast.success("Exam initialized successfully!");
       } else {
         throw new Error("Failed to generate questions");
       }
-    } catch (err) {
-      console.error("Exam start error:", err);
+    } catch (err: any) {
+      console.error("Exam generation failed:", err);
       setStatus('idle');
-      alert("System error: Could not initialize exam registry. Please try again.");
+      if (err instanceof AIServiceError) {
+        if (err.type === 'Quota') {
+          toast.error("AI capacity reached. Please try again tomorrow.");
+        } else if (err.type === 'Config') {
+          toast.error("AI Exam module is not fully configured.");
+        } else {
+          toast.error(`Exam Error: ${err.message}`);
+        }
+      } else {
+        toast.error("System error: Could not initialize exam registry. Please check your connection.");
+      }
     }
   };
 
-  const finishExam = useCallback(() => {
+  const finishExam = useCallback(async () => {
     const timeTaken = Math.floor((Date.now() - startTime) / 1000);
     let correctCount = 0;
     const breakdown: Record<string, { correct: number; total: number }> = {};
@@ -70,6 +149,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
 
     const score = (correctCount / questions.length) * 100;
     const finalResults: ExamResults = {
+      date: new Date().toISOString(),
       score,
       total: questions.length,
       timeTaken,
@@ -79,6 +159,21 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
 
     setResults(finalResults);
     setStatus('finished');
+
+    // Save to Firestore if authenticated
+    if (auth.currentUser) {
+      const path = 'examResults';
+      try {
+        await addDoc(collection(db, path), {
+          ...finalResults,
+          uid: auth.currentUser.uid,
+          timestamp: serverTimestamp(),
+        });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.CREATE, path);
+      }
+    }
+
     onComplete(finalResults);
   }, [questions, answers, startTime, onComplete]);
 
@@ -132,38 +227,65 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
 
   if (status === 'idle') {
     return (
-      <div className={`flex flex-col h-full ${isDarkMode ? 'bg-slate-950 text-white' : 'bg-white text-slate-900'} p-8 items-center justify-center text-center space-y-8`}>
-        <div className="w-24 h-24 bg-teal-600/20 rounded-[2.5rem] flex items-center justify-center mb-4">
-          <Award className="w-12 h-12 text-teal-500" />
-        </div>
-        <div className="space-y-4 max-w-md">
-          <h2 className="text-4xl font-black italic uppercase tracking-tighter">SPI Mock Registry</h2>
-          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs leading-relaxed">
-            Simulate the high-pressure environment of the ARDMS SPI Exam. 10 AI-generated questions covering all core physics domains.
+      <div className={`flex flex-col h-full ${isDarkMode ? 'bg-stealth-950 text-white' : 'bg-white text-slate-900'} p-8 md:p-16 items-center justify-center text-center space-y-12 relative overflow-hidden`}>
+        <div className="absolute inset-0 scanline opacity-10 pointer-events-none" />
+        <div className="absolute inset-0 neural-grid opacity-[0.03] pointer-events-none" />
+        
+        <motion.div 
+           initial={{ scale: 0.8, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           className="relative"
+        >
+          <div className="w-24 h-24 md:w-32 md:h-32 bg-registry-teal/10 rounded-[2.5rem] md:rounded-[3.5rem] flex items-center justify-center mb-4 border-2 tech-border glow-teal group relative overflow-hidden backdrop-blur-3xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-registry-teal/20 to-transparent animate-pulse-glow" />
+            <Award className="w-12 h-12 md:w-16 md:h-16 text-registry-teal relative z-10 drop-shadow-glow" />
+          </div>
+          <div className="absolute -top-4 -right-4 px-3 py-1 bg-registry-rose text-white text-[8px] font-black rounded-full shadow-glow animate-bounce">HIGH STAKES</div>
+        </motion.div>
+
+        <div className="space-y-6 max-w-2xl">
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-registry-teal italic">Neural Authentication Required</span>
+          <h2 className="text-4xl md:text-7xl font-black italic uppercase tracking-tighter leading-none select-none">
+            SPI Mock <span className="text-registry-teal">Registry</span>
+          </h2>
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] md:text-xs leading-relaxed max-w-lg mx-auto italic opacity-80">
+            Simulate the high-pressure environment of the ARDMS SPI Exam. 110 synchronized registry nodes covering all core physical topologies.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
-          <div className={`p-4 rounded-2xl border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-            <Clock className="w-5 h-5 text-teal-500 mx-auto mb-2" />
-            <p className="text-[10px] font-black uppercase tracking-widest">20 Minutes</p>
-          </div>
-          <div className={`p-4 rounded-2xl border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-            <Target className="w-5 h-5 text-blue-500 mx-auto mb-2" />
-            <p className="text-[10px] font-black uppercase tracking-widest">75% to Pass</p>
-          </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-xl">
+          {[
+            { label: 'Time Limit', value: '120 MIN', icon: Clock, color: 'text-registry-teal' },
+            { label: 'Target Node', value: '75% PASS', icon: Target, color: 'text-registry-amber' },
+            { label: 'Encryption', value: 'AES-256', icon: ShieldCheck, color: 'text-registry-cobalt' },
+            { label: 'Latency', value: '4MS', icon: Activity, color: 'text-registry-rose' },
+          ].map((stat, i) => (
+            <div key={i} className={`p-5 rounded-[1.5rem] border-2 tech-border ${isDarkMode ? 'bg-white/5' : 'bg-slate-50 border-slate-200'} flex flex-col items-center justify-center space-y-2 group hover:border-registry-teal/40 transition-all`}>
+              <stat.icon className={`w-5 h-5 ${stat.color} group-hover:scale-110 transition-transform`} />
+              <p className="text-[11px] font-black italic tracking-tighter">{stat.value}</p>
+              <p className="text-[7px] font-black uppercase text-slate-500 tracking-widest">{stat.label}</p>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col w-full max-w-sm gap-3">
+
+        <div className="flex flex-col w-full max-w-sm gap-4 pt-4 relative z-10">
           <button 
             onClick={startExam}
-            className="w-full py-5 bg-teal-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-xl shadow-teal-600/20 hover:scale-[1.02] active:scale-95 transition-all"
+            className="w-full py-6 bg-registry-teal text-stealth-950 rounded-[2.5rem] font-black uppercase tracking-[0.3em] text-xs shadow-2xl hover:shadow-glow hover:scale-[1.03] active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal relative overflow-hidden group/btn"
+            aria-label="Initialize SPI Mock Exam"
           >
-            Initialize Exam
+            <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer pointer-events-none opacity-30" />
+            <span className="relative z-10 flex items-center justify-center space-x-3">
+              <span>Initialize Registry Link</span>
+              <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+            </span>
           </button>
           <button 
             onClick={onClose}
-            className={`w-full py-4 ${isDarkMode ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-500'} rounded-[2rem] font-black uppercase tracking-widest text-[10px]`}
+            className={`w-full py-4 ${isDarkMode ? 'bg-white/5 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'} rounded-[2rem] font-black uppercase tracking-[0.3em] text-[9px] transition-all`}
+            aria-label="Return to Study Dashboard"
           >
-            Return to Study
+            Return to Study Command
           </button>
         </div>
       </div>
@@ -179,7 +301,14 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
         </div>
         <div className="text-center space-y-2">
           <h3 className="text-xl font-black italic uppercase tracking-tighter">Generating Registry Nodes</h3>
-          <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest animate-pulse">Synthesizing unique physics scenarios...</p>
+          <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest animate-pulse">Synthesizing unique physics scenarios... {Math.round(loadingProgress)}%</p>
+          <div className="w-48 h-1 bg-slate-800 rounded-full mx-auto mt-4 overflow-hidden">
+            <motion.div 
+              className="h-full bg-teal-500"
+              initial={{ width: 0 }}
+              animate={{ width: `${loadingProgress}%` }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -232,11 +361,13 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
                 <button
                   key={idx}
                   onClick={() => handleAnswer(idx)}
-                  className={`w-full p-6 rounded-2xl border-2 text-left transition-all flex items-center justify-between group ${
+                  className={`w-full p-6 rounded-2xl border-2 text-left transition-all flex items-center justify-between group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
                     answers[q.id] === idx 
                       ? 'bg-teal-600 border-teal-600 text-white shadow-lg shadow-teal-600/20' 
                       : `${isDarkMode ? 'bg-slate-900 border-white/5 hover:border-teal-500/30' : 'bg-white border-slate-100 hover:border-teal-500/30'} text-slate-400`
                   }`}
+                  aria-label={`Option ${String.fromCharCode(65 + idx)}: ${option}`}
+                  aria-pressed={answers[q.id] === idx}
                 >
                   <div className="flex items-center space-x-4">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black italic ${
@@ -259,16 +390,18 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
           <button 
             onClick={prevQuestion}
             disabled={currentIndex === 0}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all ${
+            className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
               currentIndex === 0 ? 'opacity-30' : 'hover:bg-white/5'
             }`}
+            aria-label="Previous question"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Previous</span>
           </button>
           <button 
             onClick={nextQuestion}
-            className="flex items-center space-x-2 px-8 py-4 bg-teal-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-teal-600/20 hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center space-x-2 px-8 py-4 bg-teal-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-teal-600/20 hover:scale-105 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            aria-label={currentIndex === questions.length - 1 ? 'Finish Exam' : 'Next Question'}
           >
             <span>{currentIndex === questions.length - 1 ? 'Finish Exam' : 'Next Question'}</span>
             <ChevronRight className="w-4 h-4" />

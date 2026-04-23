@@ -9,7 +9,11 @@ interface DailyChallengeProps {
 
 export const DailyChallenge: React.FC<DailyChallengeProps> = ({ onStart, isDarkMode }) => {
   return (
-    <div className={`${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-[2.5rem] p-8 border shadow-2xl relative overflow-hidden group relative z-10`}>
+    <motion.div 
+      whileHover={{ y: -5, scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
+      className={`${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-[2.5rem] p-8 border shadow-2xl relative overflow-hidden group relative z-10`}
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 neural-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none" />
@@ -52,7 +56,9 @@ export const DailyChallenge: React.FC<DailyChallengeProps> = ({ onStart, isDarkM
           </div>
         </div>
 
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={onStart}
           className="w-full py-4 bg-registry-cobalt hover:bg-blue-400 text-white rounded-2xl font-black italic uppercase text-xs tracking-widest transition-all flex items-center justify-center space-x-2 group/btn relative overflow-hidden shadow-lg shadow-registry-cobalt/20"
         >
@@ -60,8 +66,8 @@ export const DailyChallenge: React.FC<DailyChallengeProps> = ({ onStart, isDarkM
           <Zap className="w-4 h-4 relative z-10" />
           <span className="relative z-10">Initiate Challenge</span>
           <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 relative z-10" />
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };

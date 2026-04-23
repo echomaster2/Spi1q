@@ -13,7 +13,7 @@ export const NeuralLoad: React.FC<NeuralLoadProps> = ({ data = [45, 52, 48, 70, 
   const retention = Math.min(98, 70 + (avgLoad / 5));
 
   return (
-    <section className={`${isDarkMode ? 'bg-slate-900 dark:bg-slate-950 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-[2.5rem] md:rounded-[3rem] p-6 md:p-12 border shadow-2xl relative overflow-hidden group`}>
+    <section className={`${isDarkMode ? 'bg-slate-900 dark:bg-slate-950 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-12 border shadow-2xl relative overflow-hidden group`}>
       <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
         <Activity className="w-24 h-24 md:w-32 md:h-32 text-registry-teal" />
       </div>

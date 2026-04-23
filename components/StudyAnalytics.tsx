@@ -12,7 +12,7 @@ interface StudyAnalyticsProps {
   isDarkMode?: boolean;
 }
 
-export const StudyAnalytics: React.FC<StudyAnalyticsProps> = ({ moduleBreakdown, activityHistory = [], isDarkMode }) => {
+export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> = ({ moduleBreakdown, activityHistory = [], isDarkMode, profile }) => {
   const modules = Object.entries(moduleBreakdown);
   
   // Prepare data for RadarChart
@@ -29,11 +29,39 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps> = ({ moduleBreakdown,
     count: item.count,
   }));
 
-  const chartColor = '#00f0ff'; // registry-teal
+  const chartColor = '#22d3ee'; // registry-teal
   const secondaryColor = '#f43f5e'; // registry-rose
 
+
+  // Derived stats
+  const accuracy = profile?.diagnosticAccuracy || 92.4;
+  const studyHours = profile?.studyTimeTotal ? (profile.studyTimeTotal / 3600).toFixed(1) : "14.2";
+
+  // SPI Readiness Score Calculation
+  const calculateReadiness = () => {
+    const weights = {
+      progress: 0.3,
+      accuracy: 0.3,
+      consistency: 0.2,
+      scenarios: 0.2
+    };
+
+    const avgProgress = modules.length > 0 ? modules.reduce((acc, [_, v]) => acc + v, 0) / modules.length : 0;
+    const consistency = (activityHistory.length / 7) * 100;
+    const scenarioProgress = ((profile?.scenariosCompleted?.length || 0) / 15) * 100; // Assume 15 scenarios total
+
+    const score = (avgProgress * weights.progress) + 
+                  (accuracy * weights.accuracy) + 
+                  (Math.min(100, consistency) * weights.consistency) + 
+                  (Math.min(100, scenarioProgress) * weights.scenarios);
+    
+    return Math.round(score);
+  };
+
+  const readinessScore = calculateReadiness();
+
   return (
-    <div className={`${isDarkMode ? 'atmosphere-bg border-white/5 shadow-2xl' : 'bg-white border-slate-200 shadow-sm'} rounded-[2.5rem] p-8 border space-y-8 relative overflow-hidden group relative z-10`}>
+    <div className={`${isDarkMode ? 'atmosphere-bg border-white/5 shadow-2xl' : 'bg-white border-slate-200 shadow-sm'} rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 border space-y-6 md:space-y-8 relative overflow-hidden group relative z-10`}>
       {/* Background Elements */}
       <div className="absolute inset-0 neural-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none" />
@@ -48,12 +76,18 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps> = ({ moduleBreakdown,
             <p className="text-[8px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Data Stream: ACTIVE</p>
           </div>
         </div>
-        <div className="flex flex-col items-end">
-          <div className="flex items-center space-x-2 text-registry-teal">
-            <TrendingUp className="w-4 h-4" />
-            <span className="text-[10px] font-black uppercase tracking-widest">+12.4%</span>
-          </div>
-          <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest">Efficiency Delta</span>
+        <div className="flex items-center space-x-4">
+           <div className="text-right">
+              <div className={`text-2xl font-black italic tabular-nums leading-none ${readinessScore > 75 ? 'text-green-500' : 'text-amber-500'}`}>
+                {readinessScore}%
+              </div>
+              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mt-1">SPI Readiness</p>
+           </div>
+           <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center p-1 ${readinessScore > 75 ? 'border-green-500/30' : 'border-amber-500/30'}`}>
+              <div className={`w-full h-full rounded-full flex items-center justify-center ${readinessScore > 75 ? 'bg-green-500' : 'bg-amber-500'} shadow-[0_0_15px_rgba(34,197,94,0.4)]`}>
+                 <Target className="w-4 h-4 text-white" />
+              </div>
+           </div>
         </div>
       </div>
 
@@ -154,14 +188,14 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps> = ({ moduleBreakdown,
           <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-rose transition-colors">Diagnostic Accuracy</p>
           <div className="flex items-center space-x-2">
             <Target className="w-4 h-4 text-registry-rose" />
-            <span className={`text-lg font-mono font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>92.4%</span>
+            <span className={`text-lg font-mono font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{accuracy}%</span>
           </div>
         </div>
         <div className={`p-4 rounded-2xl border space-y-1 group/stat hover:border-registry-teal/30 transition-colors ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
           <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-teal transition-colors">Neural Focus Time</p>
           <div className="flex items-center space-x-2">
             <Activity className="w-4 h-4 text-registry-teal" />
-            <span className={`text-lg font-mono font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>14.2h</span>
+            <span className={`text-lg font-mono font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studyHours}h</span>
           </div>
         </div>
       </div>

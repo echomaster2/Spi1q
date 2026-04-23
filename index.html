@@ -16,16 +16,28 @@
     
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="SPI Master - High Fidelity Ultrasound Prep" />
-    <meta property="og:description" content="Interactive acoustic physics simulations for registry-bound sonographers." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1200&auto=format&fit=crop" />
+    <meta property="og:title" content="EchoMaster - SPI Registry Master" />
+    <meta property="og:description" content="High-fidelity interactive acoustic physics simulations for sonographers." />
+    <meta property="og:image" content="https://picsum.photos/seed/ultrasound/1200/630" />
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="stylesheet" href="/index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="error-log" style="color: red; position: fixed; top: 0; left: 0; z-index: 9999; background: white; padding: 10px; display: none;"></div>
+    <script>
+      window.addEventListener('error', function(e) {
+        var el = document.getElementById('error-log');
+        el.style.display = 'block';
+        el.innerText += e.message + ' at ' + e.filename + ':' + e.lineno + '\n';
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var el = document.getElementById('error-log');
+        el.style.display = 'block';
+        el.innerText += 'Unhandled rejection: ' + (e.reason && e.reason.message || e.reason) + '\n';
+      });
+    </script>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

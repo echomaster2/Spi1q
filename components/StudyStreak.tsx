@@ -14,7 +14,11 @@ export const StudyStreak: React.FC<StudyStreakProps> = ({ streak, completedToday
   const todayIndex = (new Date().getDay() + 6) % 7; // Monday = 0
 
   return (
-    <div className={`${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-[2.5rem] p-8 border shadow-2xl relative overflow-hidden group relative z-10`}>
+    <motion.div 
+      whileHover={{ y: -5, scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
+      className={`${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 border shadow-2xl relative overflow-hidden group relative z-10`}
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 neural-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none" />
@@ -93,6 +97,6 @@ export const StudyStreak: React.FC<StudyStreakProps> = ({ streak, completedToday
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

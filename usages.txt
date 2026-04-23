@@ -1,0 +1,7 @@
+102:import { lessonContent as externalLessonContent } from './src/data/lessonContent';
+221:const lessonContent: LessonContentMap = {
+2233:      const content = lessonContent[lesson.id];
+2265:        const content = lessonContent[lesson.id];
+2349:        const content = lessonContent[lesson.id];
+2411:    const baseData = lessonContent[lessonId] || { 
+3919:                lessonContent={lessonContent}

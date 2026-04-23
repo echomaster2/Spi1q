@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { CheckCircle2, AlertCircle, ArrowRight, Target, RefreshCw, Terminal, Activity } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckCircle2, AlertCircle, ArrowRight, Terminal, Activity, Zap, Cpu, Scan, RefreshCw } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AdvancedQuestion } from '../types';
 
 interface AdvancedQuizProps {
@@ -14,8 +15,13 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
   const [isCorrect, setIsCorrect] = useState(false);
   const [labels, setLabels] = useState<Record<string, string>>({});
   const [formulaInputs, setFormulaInputs] = useState<Record<string, string>>({});
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const checkAnswer = () => {
+  const checkAnswer = async () => {
+    setIsAnalyzing(true);
+    // Simulate diagnostic processing
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
     let correct = false;
     if (question.type === 'mcq') {
       correct = userAnswer === question.correctAnswer;
@@ -32,6 +38,7 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
     
     setIsCorrect(correct);
     setShowFeedback(true);
+    setIsAnalyzing(false);
     if (correct) {
       onComplete();
     }
@@ -45,141 +52,196 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
   };
 
   return (
-    <div className={`${isDarkMode ? 'bg-stealth-900 border-white/5' : 'bg-white border-slate-200 shadow-sm'} rounded-3xl md:rounded-[3rem] p-6 md:p-12 shadow-2xl border-2 relative overflow-hidden transition-all duration-500 group`}>
-      <div className="absolute inset-0 pointer-events-none opacity-5">
-        <div className="scanline opacity-20" />
-      </div>
+    <div className={`premium-glass rounded-[2rem] md:rounded-[3.5rem] p-6 md:p-14 border tech-border shadow-premium relative overflow-hidden transition-all duration-700 group ${isDarkMode ? 'bg-stealth-950/40' : 'bg-white/40'}`}>
+      <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+      <div className="absolute inset-0 neural-grid opacity-[0.03] pointer-events-none" />
       
-      <div className="flex items-center justify-between mb-10 relative z-10">
-        <div className="flex items-center space-x-4">
-          <div className={`${isDarkMode ? 'bg-registry-teal/20 border-registry-teal/30' : 'bg-registry-teal/10 border-registry-teal/20'} p-3 rounded-2xl glow-teal`}>
-            <Terminal className="w-6 h-6 text-registry-teal" />
+      {/* Decorative Corner Accents */}
+      <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-registry-teal/20 rounded-tl-[3.5rem] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-registry-teal/20 rounded-br-[3.5rem] pointer-events-none" />
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 relative z-10 border-b tech-border pb-8">
+        <div className="flex items-center space-x-6">
+          <div className="relative">
+            <div className="w-14 h-14 bg-registry-teal/10 rounded-2xl flex items-center justify-center border border-registry-teal/20 glow-teal group-hover:rotate-12 transition-transform duration-500 backdrop-blur-xl">
+               <Cpu className="w-7 h-7 text-registry-teal" />
+            </div>
+            <motion.div 
+               animate={{ opacity: [0.2, 1, 0.2] }}
+               transition={{ duration: 2, repeat: Infinity }}
+               className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-registry-teal rounded-full blur-sm"
+            />
           </div>
           <div>
-            <h4 className={`text-lg md:text-2xl font-black uppercase italic tracking-tight leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Certification Terminal</h4>
-            <div className="flex items-center space-x-2 mt-1">
-              <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse" />
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.3em]">Neural Validation Active</span>
+            <span className="col-header text-registry-teal opacity-100 flex items-center space-x-2">
+               <span className="w-2 h-[1px] bg-registry-teal" />
+               <span>Certification_Terminal</span>
+            </span>
+            <h4 className={`text-2xl md:text-4xl font-black uppercase italic tracking-tighter leading-none mt-2 ${isDarkMode ? 'text-white' : 'text-slate-900'} drop-shadow-md`}>Verification Engine</h4>
+            <div className="flex items-center space-x-3 mt-3">
+              <div className="flex space-x-0.5">
+                 {[1, 2, 3, 4].map(i => (
+                    <div key={i} className={`w-1 h-3 rounded-full ${i <= 2 ? 'bg-registry-teal animate-pulse' : 'bg-white/10'}`} />
+                 ))}
+              </div>
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em] italic font-bold">Neural Sync: STABLE // X-704</span>
             </div>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="hidden sm:flex flex-col items-end">
-            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Protocol</span>
-            <span className="text-[10px] font-mono text-registry-teal">SPI-704-B</span>
-          </div>
-          {showFeedback && (
-            <button onClick={reset} className="p-3 bg-slate-100 dark:bg-white/5 hover:bg-registry-teal/10 hover:text-registry-teal rounded-xl transition-all group" title="Reset Terminal">
-              <RefreshCw className="w-5 h-5 text-slate-400 group-hover:rotate-180 transition-transform duration-500" />
-            </button>
-          )}
+        
+        <div className="flex flex-col items-end">
+           <span className="col-header opacity-40">Security_Level</span>
+           <span className="text-xl font-black italic text-registry-rose tracking-tighter">MAX-ELITE</span>
         </div>
       </div>
 
-      <div className="space-y-8 md:space-y-12 relative z-10">
-        <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-registry-teal/20 rounded-full" />
-          <p className={`text-lg md:text-2xl font-bold leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-700'} pl-4`}>
+      <div className="space-y-12 md:space-y-20 relative z-10">
+        <div className="relative max-w-5xl">
+           <div className="absolute -left-10 top-0 bottom-0 w-2 bg-registry-teal/30 rounded-full blur-[2px]" />
+           <p className={`text-2xl md:text-5xl font-black leading-[1.05] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'} drop-shadow-xl italic`}>
             {question.question}
-          </p>
+           </p>
+           <div className="flex items-center space-x-4 mt-6">
+              <span className="text-[10px] font-mono text-registry-teal/60 font-black uppercase tracking-[0.3em]">Query_Payload_ID: {question.id}</span>
+              <div className="h-px flex-1 bg-white/5" />
+           </div>
         </div>
 
         {question.visualContext && (
-          <div className={`p-4 md:p-8 ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-slate-50 border-slate-100'} rounded-[2rem] md:rounded-[3rem] border relative group overflow-x-auto scrollbar-hide shadow-inner`}>
-            <div className="absolute top-4 right-4 flex items-center space-x-2 opacity-30">
-              <Activity className="w-4 h-4 text-registry-teal" />
-              <span className="text-[8px] font-black uppercase tracking-widest">Diagnostic Feed</span>
-            </div>
-            <div className="relative min-w-[300px]">
-              {question.visualContext}
-              
-              {question.type === 'labeling' && question.labelData?.map((l) => (
-                <div 
-                  key={l.id} 
-                  className="absolute" 
-                  style={{ top: `${l.y}%`, left: `${l.x}%` }}
-                >
-                  <div className="relative group/label">
-                    <div className="w-4 h-4 bg-registry-teal rounded-full animate-ping absolute -top-2 -left-2 opacity-20" />
-                    <div className="absolute -top-1 -left-1 w-2 h-2 bg-registry-teal rounded-full shadow-[0_0_10px_rgba(0,229,255,1)]" />
-                    <input 
-                      disabled={showFeedback}
-                      type="text" 
-                      placeholder="Input ID"
-                      value={labels[l.id] || ''}
-                      onChange={(e) => setLabels(prev => ({ ...prev, [l.id]: e.target.value }))}
-                      className={`w-24 md:w-32 px-3 py-2 ${isDarkMode ? 'bg-stealth-800/90 border-registry-teal/30' : 'bg-white/90 border-slate-200'} backdrop-blur-sm border-2 rounded-xl text-[10px] md:text-[11px] font-black text-center transition-all outline-none shadow-lg ${
-                        showFeedback 
-                          ? (labels[l.id]?.toLowerCase().trim() === l.label.toLowerCase().trim() ? 'border-registry-teal text-registry-teal' : 'border-registry-rose text-registry-rose')
-                          : 'focus:border-registry-teal focus:scale-105'
-                      }`}
-                    />
-                  </div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`p-6 md:p-10 ${isDarkMode ? 'bg-stealth-950/60 border-white/5 shadow-inner' : 'bg-slate-50 border-slate-200'} rounded-[2.5rem] md:rounded-[4rem] border relative group overflow-hidden`}
+          >
+             <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+             <div className="absolute top-6 right-8 flex items-center space-x-3 opacity-40">
+                <Activity className="w-5 h-5 text-registry-teal animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] font-mono italic">Diagnostic Feed</span>
+             </div>
+             
+             <div className="relative min-w-[300px] flex justify-center">
+                <div className="relative w-full max-w-3xl">
+                  {question.visualContext}
+                  
+                  {question.type === 'labeling' && question.labelData?.map((l) => (
+                    <div 
+                      key={l.id} 
+                      className="absolute" 
+                      style={{ top: `${l.y}%`, left: `${l.x}%` }}
+                    >
+                      <div className="relative group/label">
+                        <div className="w-6 h-6 bg-registry-teal rounded-full animate-ping absolute -top-3 -left-3 opacity-20" />
+                        <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-registry-teal rounded-full shadow-glow" />
+                        <input 
+                          disabled={showFeedback || isAnalyzing}
+                          type="text" 
+                          placeholder="INPUT ID"
+                          value={labels[l.id] || ''}
+                          onChange={(e) => setLabels(prev => ({ ...prev, [l.id]: e.target.value }))}
+                          className={`w-32 md:w-40 px-5 py-3 ${isDarkMode ? 'bg-stealth-800/95 border-registry-teal/40' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-2 rounded-2xl text-[11px] md:text-sm font-black text-center transition-all outline-none focus:glow-teal focus:scale-105 shadow-2xl ${
+                            showFeedback 
+                              ? (labels[l.id]?.toLowerCase().trim() === l.label.toLowerCase().trim() ? 'border-registry-teal text-registry-teal' : 'border-registry-rose text-registry-rose shadow-glow')
+                              : 'group-hover/label:border-registry-teal/60'
+                          }`}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
+             </div>
+          </motion.div>
         )}
 
-        <div className="grid gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {question.type === 'mcq' && question.options?.map((opt, i) => (
-            <button 
+            <motion.button 
               key={i} 
-              disabled={showFeedback}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+              disabled={showFeedback || isAnalyzing}
               onClick={() => setUserAnswer(i)}
-              className={`p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] text-left font-bold text-sm md:text-lg transition-all flex items-center space-x-4 md:space-x-6 border-2 active:scale-[0.98] relative overflow-hidden group/opt ${
+              className={`p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] text-left transition-all flex items-start space-x-6 border-2 relative overflow-hidden group/opt ${
                 userAnswer === i 
-                  ? isDarkMode ? 'bg-registry-teal/10 border-registry-teal text-white glow-teal' : 'bg-registry-teal/5 border-registry-teal text-slate-900 glow-teal' 
-                  : isDarkMode ? 'bg-slate-800/50 border-transparent hover:border-white/10' : 'bg-slate-50 border-transparent hover:border-slate-200'
-              } ${showFeedback && i === question.correctAnswer ? 'border-registry-teal bg-registry-teal/5' : ''}`}
+                  ? 'bg-registry-teal/10 border-registry-teal shadow-glow' 
+                  : isDarkMode ? 'bg-white/5 border-transparent hover:border-white/10' : 'bg-slate-50 border-transparent hover:border-slate-200'
+              } ${showFeedback && i === question.correctAnswer ? 'border-emerald-500 bg-emerald-500/5' : ''} ${showFeedback && userAnswer === i && i !== question.correctAnswer ? 'border-registry-rose bg-registry-rose/5' : ''}`}
             >
-              {userAnswer === i && (
-                <div className="absolute inset-0 bg-gradient-to-r from-registry-teal/10 to-transparent pointer-events-none" />
-              )}
-              <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl border-2 flex items-center justify-center font-black text-xs md:text-sm shrink-0 transition-all ${userAnswer === i ? 'bg-registry-teal text-white border-registry-teal glow-teal' : 'text-slate-400 border-slate-200 dark:border-white/10 group-hover/opt:border-registry-teal/50'}`}>{String.fromCharCode(65 + i)}</div>
-              <span className="leading-tight relative z-10">{opt}</span>
+              <div className={`mt-1.5 w-10 h-10 md:w-12 md:h-12 rounded-2xl border-2 flex items-center justify-center font-black text-sm md:text-lg shrink-0 transition-all ${userAnswer === i ? 'bg-registry-teal text-stealth-950 border-registry-teal shadow-glow scale-110' : 'text-slate-500 border-slate-200 dark:border-white/10 group-hover/opt:border-registry-teal/40 group-hover/opt:text-registry-teal'}`}>
+                {String.fromCharCode(65 + i)}
+              </div>
+              <div className="flex-1 space-y-1">
+                 <span className={`text-sm md:text-lg font-bold leading-tight block ${userAnswer === i ? 'text-registry-teal' : isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                   {opt}
+                 </span>
+                 {showFeedback && i === question.correctAnswer && (
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 italic block mt-2">Verified Protocol Path</span>
+                 )}
+              </div>
               {showFeedback && i === question.correctAnswer && (
-                <CheckCircle2 className="w-6 h-6 text-registry-teal ml-auto shrink-0" />
+                 <CheckCircle2 className="w-8 h-8 text-emerald-500 absolute top-6 right-8 group-hover/opt:scale-110 transition-transform" />
               )}
-            </button>
+            </motion.button>
           ))}
         </div>
 
-        {!showFeedback ? (
-          <button 
-            onClick={checkAnswer}
-            disabled={userAnswer === null && question.type === 'mcq'}
-            className="w-full py-6 md:py-8 bg-registry-teal hover:bg-registry-teal/90 disabled:opacity-30 text-white rounded-2xl md:rounded-[3rem] font-black uppercase tracking-[0.3em] text-xs md:text-base shadow-2xl shadow-registry-teal/20 transition-all flex items-center justify-center space-x-4 active:scale-95 group/btn"
-          >
-            <span className="group-hover/btn:translate-x-1 transition-transform">Submit to Central Registry</span>
-            <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
-          </button>
-        ) : (
-          <div className={`p-8 md:p-12 rounded-[2.5rem] md:rounded-[4rem] animate-in slide-in-from-top-6 duration-700 border-2 ${isCorrect ? 'bg-registry-teal/5 border-registry-teal/30' : 'bg-registry-rose/5 border-registry-rose/30'}`}>
-            <div className="flex items-start space-x-6">
-              <div className={`p-4 rounded-2xl ${isCorrect ? 'bg-registry-teal glow-teal' : 'bg-registry-rose glow-rose'} text-white shrink-0`}>
-                {isCorrect ? <CheckCircle2 className="w-8 h-8" /> : <AlertCircle className="w-8 h-8" />}
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <h5 className={`text-lg md:text-2xl font-black uppercase italic tracking-tight ${isCorrect ? 'text-registry-teal dark:text-registry-teal/80' : 'text-registry-rose dark:text-registry-rose/80'}`}>
-                    {isCorrect ? 'Validation Successful' : 'Acoustic Error Detected'}
-                  </h5>
-                  <div className={`h-px flex-1 ${isCorrect ? 'bg-registry-teal/20' : 'bg-registry-rose/20'}`} />
+        <div className="relative pt-6">
+          <AnimatePresence mode="wait">
+            {!showFeedback ? (
+              <motion.button 
+                key="submit"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                onClick={checkAnswer}
+                disabled={(userAnswer === null && question.type === 'mcq') || isAnalyzing}
+                className={`w-full py-8 md:py-12 bg-registry-teal text-stealth-950 rounded-[2.5rem] md:rounded-[4rem] font-black uppercase tracking-[0.4em] text-sm md:text-lg shadow-2xl transition-all flex items-center justify-center space-x-6 relative overflow-hidden group/btn ${isAnalyzing ? 'cursor-wait opacity-80' : 'hover:scale-[1.02] hover:shadow-glow'}`}
+              >
+                <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer pointer-events-none opacity-20" />
+                
+                {isAnalyzing ? (
+                   <>
+                     <RefreshCw className="w-7 h-7 animate-spin" />
+                     <span>Diagnostic Analysis In Progress...</span>
+                   </>
+                ) : (
+                  <>
+                    <span className="relative z-10">Synchronize Mastery Path</span>
+                    <ArrowRight className="w-7 h-7 relative z-10 group-hover/btn:translate-x-3 transition-transform duration-500" />
+                  </>
+                )}
+              </motion.button>
+            ) : (
+              <motion.div 
+                key="feedback"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className={`p-10 md:p-16 rounded-[3rem] md:rounded-[5rem] border-2 shadow-2xl relative overflow-hidden flex flex-col items-center text-center ${isCorrect ? 'bg-emerald-500/5 border-emerald-500/30' : 'bg-registry-rose/5 border-registry-rose/30'}`}
+              >
+                <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+                <div className={`mb-8 p-6 rounded-3xl ${isCorrect ? 'bg-emerald-500 glow-teal' : 'bg-registry-rose glow-rose'} text-stealth-950`}>
+                  {isCorrect ? <CheckCircle2 className="w-12 h-12" /> : <AlertCircle className="w-12 h-12" />}
                 </div>
-                <p className="text-sm md:text-lg font-medium leading-relaxed opacity-90 italic border-l-4 pl-6 border-current">
-                  {question.explanation}
-                </p>
-                <div className="flex items-center space-x-4 pt-2">
-                  <div className="flex items-center space-x-1">
-                    <div className={`w-1.5 h-1.5 rounded-full ${isCorrect ? 'bg-registry-teal' : 'bg-registry-rose'}`} />
-                    <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Registry Log: 0x44F2</span>
+                <h5 className={`text-3xl md:text-6xl font-black uppercase italic tracking-tighter mb-6 ${isCorrect ? 'text-emerald-500' : 'text-registry-rose'}`}>
+                  {isCorrect ? 'Sync Successful' : 'Validation Error'}
+                </h5>
+                <div className="max-w-2xl mx-auto space-y-6">
+                  <p className={`text-lg md:text-2xl font-medium leading-relaxed italic ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                    "{question.explanation}"
+                  </p>
+                  <div className="flex items-center justify-center space-x-6 pt-4 border-t border-white/10">
+                    <div className="flex items-center space-x-2">
+                       <Zap className={`w-4 h-4 ${isCorrect ? 'text-emerald-500' : 'text-registry-rose'}`} />
+                       <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Log ID: 0x{Math.random().toString(16).slice(2, 6).toUpperCase()}</span>
+                    </div>
+                    <div className="w-2 h-2 rounded-full bg-slate-500 opacity-20" />
+                    <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Topology: Alpha-4</span>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

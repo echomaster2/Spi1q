@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
 import { generateText } from '../src/services/aiService';
 import { Send, Brain, User, Bot, X, Sparkles, ChevronLeft, Save, Volume2, Pause, Loader2, Activity, Stethoscope } from 'lucide-react';
 import { CLINICAL_TIPS } from '../src/constants/clinicalTips';
 import { ChatMessage } from '../types';
+import { updateQuestProgress } from '../src/lib/questUtils';
 import { FullscreenToggle } from './FullscreenToggle';
 import { CompanionAvatar } from './CompanionAvatar';
 
@@ -16,9 +18,10 @@ interface AITutorProps {
   isNarrating?: boolean;
   isTtsLoading?: boolean;
   profile?: any;
+  onUpdateProfile?: (updates: any) => void;
 }
 
-export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVault, isDarkMode, onPlayNarration, isNarrating, isTtsLoading, profile }) => {
+export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVault, isDarkMode, onPlayNarration, isNarrating, isTtsLoading, profile, onUpdateProfile }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'model',
@@ -38,6 +41,16 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+
+    // Update quest progress
+    updateQuestProgress('q3', 1);
+    updateQuestProgress('q5', 1);
+
+    // Update profile interaction count
+    if (onUpdateProfile) {
+      const currentCount = profile?.harveyInteractionCount || 0;
+      onUpdateProfile({ harveyInteractionCount: currentCount + 1 });
+    }
 
     if (window.aistudio) {
       const hasKey = await window.aistudio.hasSelectedApiKey();
@@ -82,19 +95,34 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-stealth-950 shadow-2xl transition-colors duration-300 relative z-[100] overflow-hidden neural-grid">
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-registry-teal/5 to-transparent" />
-        <div className="scanline opacity-30" />
+    <div className="flex flex-col h-full premium-glass shadow-premium transition-colors duration-300 relative z-[100] overflow-hidden neural-grid">
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-registry-teal/10 to-transparent" />
+        <div className="absolute bottom-0 right-0 w-full h-[300px] bg-gradient-to-t from-registry-rose/5 to-transparent" />
+        <div className={`absolute top-1/4 left-1/4 w-96 h-96 ${isDarkMode ? 'bg-registry-teal/10' : 'bg-registry-teal/5'} blur-[160px] rounded-full`} />
+        <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${isDarkMode ? 'bg-registry-rose/10' : 'bg-registry-rose/5'} blur-[160px] rounded-full`} />
+        <div className="scanline" />
       </div>
 
-      <header className={`p-4 md:p-6 ${isDarkMode ? 'bg-stealth-950/80' : 'bg-white/80'} backdrop-blur-xl text-slate-900 dark:text-white flex justify-between items-center flex-shrink-0 border-b border-slate-100 dark:border-white/10 transition-colors relative z-10`}>
-        <div className="flex items-center space-x-3">
-          <button onClick={onClose} className="p-2 -ml-2 text-slate-400 dark:text-white/70 hover:text-registry-teal transition-colors" title="Close Tutor">
+      {/* Sidebar Rail (Recipe 11: SaaS Landing) */}
+      <div className="absolute left-4 top-40 bottom-40 w-px bg-gradient-to-b from-transparent via-registry-teal/20 to-transparent hidden lg:block z-0">
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center space-y-24 opacity-20">
+            <span className="writing-mode-vertical text-[7px] font-black uppercase tracking-[0.5em] text-registry-teal">NEURAL_SYNC_CHANNEL_04</span>
+            <span className="writing-mode-vertical text-[7px] font-black uppercase tracking-[0.5em] text-registry-rose">X_PROT_VAULT_ACTIVE</span>
+         </div>
+      </div>
+
+      <header className={`p-6 md:p-8 ${isDarkMode ? 'bg-stealth-950/40' : 'bg-white/40'} backdrop-blur-3xl text-slate-900 dark:text-white flex justify-between items-center flex-shrink-0 border-b tech-border transition-colors relative z-10`}>
+        <div className="flex items-center space-x-4">
+          <button 
+            onClick={onClose} 
+            className="p-3 -ml-2 text-slate-400 dark:text-white/70 hover:text-registry-teal transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal rounded-2xl hover:bg-white/10" 
+            aria-label="Close Harvey AI Tutor"
+          >
             <X className="w-6 h-6" />
           </button>
-          <div className="flex items-center space-x-2">
-            <div className="scale-50 -mx-8">
+          <div className="flex items-center space-x-3">
+            <div className="scale-75 -mx-6">
               <CompanionAvatar 
                 state={isLoading ? 'thinking' : isNarrating ? 'speaking' : 'idle'} 
                 skin={profile?.companionSkin || 'sonographer'}
@@ -103,84 +131,105 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
               />
             </div>
             {isLoading && (
-              <div className="p-1.5 bg-registry-teal/10 rounded-lg border border-registry-teal/20">
-                <Activity className="w-3 h-3 text-registry-teal animate-pulse" />
-              </div>
+              <motion.div 
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="p-2 bg-registry-teal/10 rounded-xl border border-registry-teal/20 shadow-glow"
+              >
+                <Activity className="w-4 h-4 text-registry-teal animate-pulse" />
+              </motion.div>
             )}
           </div>
           <div>
-            <h4 className="text-sm md:text-lg font-black tracking-tight leading-none italic uppercase flex items-center space-x-2">
-              <span>HARVEY</span>
-              <span className="text-[10px] px-1.5 py-0.5 bg-registry-teal/10 text-registry-teal border border-registry-teal/20 rounded font-mono animate-pulse">LINK ACTIVE</span>
+            <h4 className="text-base md:text-xl font-black tracking-tighter leading-none italic uppercase flex items-center space-x-3">
+              <span className="shimmer-text">HARVEY</span>
+              <span className="text-[9px] px-2 py-1 bg-registry-teal/10 text-registry-teal border border-registry-teal/20 rounded-lg font-mono animate-pulse shadow-glow">LINK ACTIVE</span>
             </h4>
-            <p className="text-[8px] md:text-[9px] opacity-70 font-black uppercase tracking-widest mt-0.5">NEURAL INTERFACE: {profile?.name || 'GUEST'} | NODE: {currentContext.substring(0, 15)}...</p>
+            <p className="text-[9px] md:text-[10px] opacity-60 font-black uppercase tracking-[0.2em] mt-1.5">NEURAL INTERFACE: {profile?.name || 'GUEST'} | NODE: {currentContext.substring(0, 15)}...</p>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <div className="hidden sm:flex items-center space-x-1 mr-4">
+        <div className="flex items-center space-x-3">
+          <div className="hidden sm:flex items-center space-x-2 mr-6">
             {[1, 2, 3].map(i => (
-              <div key={i} className="w-1 h-1 bg-registry-teal rounded-full animate-ping" style={{ animationDelay: `${i * 0.2}s` }} />
+              <div key={i} className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-ping" style={{ animationDelay: `${i * 0.2}s` }} />
             ))}
           </div>
           {onPlayNarration && (
             <button 
               onClick={() => onPlayNarration(`Hello! I'm Harvey, your SPI Master Tutor. I see you're studying "${currentContext}". Ask me anything about ultrasound physics!`, 'tutor_intro')} 
               disabled={isTtsLoading}
-              className={`p-2 rounded-xl transition-all ${isNarrating ? 'bg-registry-rose animate-pulse glow-rose' : 'hover:bg-slate-100 dark:hover:bg-white/10'}`}
+              className={`p-3 rounded-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${isNarrating ? 'bg-registry-rose animate-pulse glow-rose text-white' : 'hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-white/70'}`}
+              aria-label={isNarrating ? "Stop narration" : "Listen to introduction"}
             >
-              {isTtsLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : isNarrating ? <Pause className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+              {isTtsLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : isNarrating ? <Pause className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
             </button>
           )}
           <button 
             onClick={shareClinicalTip}
-            className="p-2 hover:bg-registry-teal/10 rounded-xl transition-colors group relative"
+            className="p-3 hover:bg-registry-teal/10 rounded-2xl transition-all group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal text-registry-teal"
+            aria-label="Get Clinical Wisdom"
             title="Get Clinical Wisdom"
           >
-            <Stethoscope className="w-5 h-5 text-registry-teal group-hover:scale-110 transition-transform" />
-            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Clinical Wisdom</span>
+            <Stethoscope className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-premium">Clinical Wisdom</span>
           </button>
-          <FullscreenToggle className="bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-500 dark:text-white/70 border-none" iconClassName="w-5 h-5" />
+          <FullscreenToggle className="bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-500 dark:text-white/70 border-none p-3 rounded-2xl" iconClassName="w-6 h-6" />
         </div>
       </header>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8 bg-transparent scroll-smooth relative z-10">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-10 bg-transparent scroll-smooth relative z-10 scrollbar-hide">
         {messages.map((msg, idx) => (
-          <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}>
-            <div className={`max-w-[85%] md:max-w-[90%] flex items-start space-x-2 md:space-x-4 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-              <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl shrink-0 flex items-center justify-center shadow-lg border ${msg.role === 'user' ? 'bg-registry-teal/10 border-registry-teal/30 text-registry-teal glow-teal' : isDarkMode ? 'bg-stealth-800 border-white/10 text-slate-400' : 'bg-white border-slate-200 text-slate-400'}`}>
-                {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
+          <motion.div 
+            key={idx} 
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className={`max-w-[85%] md:max-w-[80%] flex items-start space-x-3 md:space-x-5 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-premium border ${msg.role === 'user' ? 'bg-registry-teal/10 border-registry-teal/30 text-registry-teal glow-teal' : isDarkMode ? 'bg-stealth-800 border-white/10 text-slate-400' : 'bg-white border-slate-200 text-slate-400'}`}>
+                {msg.role === 'user' ? <User className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
               </div>
               <div className="relative group">
-                <div className={`p-5 rounded-2xl text-xs md:text-sm font-medium leading-relaxed shadow-xl border ${
+                <div className={`p-6 rounded-3xl text-sm md:text-base font-medium leading-relaxed shadow-premium border relative overflow-hidden ${
                   msg.role === 'user' 
                     ? 'bg-registry-teal text-white border-registry-teal/50 rounded-tr-none' 
-                    : isDarkMode ? 'bg-stealth-800/90 backdrop-blur-md border-white/10 text-slate-300 rounded-tl-none' : 'bg-white/90 backdrop-blur-md border-slate-200 text-slate-700 rounded-tl-none'
+                    : isDarkMode ? 'bg-stealth-800/80 backdrop-blur-3xl border-white/10 text-slate-300 rounded-tl-none' : 'bg-white/80 backdrop-blur-3xl border-slate-200 text-slate-700 rounded-tl-none'
                 }`}>
+                  {/* Micro hardware screws in bubbles */}
+                  <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/10 rounded-full" />
+                  <div className="absolute top-2 right-2 w-0.5 h-0.5 bg-white/10 rounded-full" />
+                  
                   {msg.role === 'model' && (
-                    <div className="flex items-center space-x-2 mb-2 opacity-50">
-                      <div className="w-1 h-1 bg-registry-teal rounded-full" />
-                      <span className="text-[8px] font-black uppercase tracking-widest">Incoming Transmission</span>
+                    <div className="flex items-center justify-between mb-4">
+                       <div className="flex items-center space-x-2 opacity-50">
+                          <div className="w-1.5 h-1.5 bg-registry-teal rounded-full shadow-glow" />
+                          <span className="text-[8px] font-black uppercase tracking-[0.3em]">Neural_Sync.Active</span>
+                       </div>
+                       <span className="text-[7px] font-mono opacity-20 uppercase tracking-widest">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
                     </div>
                   )}
-                  <div className={msg.role === 'model' ? 'prose prose-sm dark:prose-invert max-w-none' : ''}>
+                  <div className={msg.role === 'model' ? 'prose prose-sm dark:prose-invert max-w-none font-medium' : 'font-bold'}>
                     {msg.text}
                   </div>
                 </div>
                 {msg.role === 'model' && idx > 0 && (
-                  <div className="absolute -bottom-8 left-0 flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-all">
+                  <div className="absolute -bottom-10 left-0 flex items-center space-x-3 opacity-0 group-hover:opacity-100 transition-all">
                     <button 
                       onClick={() => handleVaultLocal(msg.text)}
-                      className="flex items-center space-x-2 px-3 py-1 bg-registry-teal/10 border border-registry-teal/20 rounded-full text-[8px] font-black uppercase text-registry-teal hover:bg-registry-teal hover:text-white transition-colors"
+                      className="flex items-center space-x-2 px-4 py-1.5 bg-registry-teal/10 border border-registry-teal/20 rounded-full text-[9px] font-black uppercase text-registry-teal hover:bg-registry-teal hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal shadow-glow"
+                      aria-label="Archive message to vault"
                     >
-                      <Save className="w-3 h-3" />
+                      <Save className="w-3.5 h-3.5" />
                       <span>Archive</span>
                     </button>
                     {onPlayNarration && (
                       <button 
                         onClick={() => onPlayNarration(msg.text, `tutor_msg_${idx}`)}
-                        className="flex items-center space-x-2 px-3 py-1 bg-registry-rose/10 border border-registry-rose/20 rounded-full text-[8px] font-black uppercase text-registry-rose hover:bg-registry-rose hover:text-white transition-colors"
+                        className="flex items-center space-x-2 px-4 py-1.5 bg-registry-rose/10 border border-registry-rose/20 rounded-full text-[9px] font-black uppercase text-registry-rose hover:bg-registry-rose hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-rose shadow-glow"
+                        aria-label="Listen to message"
                       >
-                        <Volume2 className="w-3 h-3" />
+                        <Volume2 className="w-3.5 h-3.5" />
                         <span>Listen</span>
                       </button>
                     )}
@@ -188,45 +237,46 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
         {isLoading && (
-          <div className="flex justify-start items-center space-x-4 animate-pulse">
-             <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl ${isDarkMode ? 'bg-stealth-800 border-white/10' : 'bg-white border-slate-200'} border flex items-center justify-center shadow-lg`}><Sparkles className="w-4 h-4 text-registry-teal" /></div>
-             <div className={`p-5 ${isDarkMode ? 'bg-stealth-800/50 border-white/10' : 'bg-white/50 border-slate-200'} backdrop-blur-sm border rounded-2xl rounded-tl-none flex space-x-2`}>
-                <div className="w-2 h-2 bg-registry-teal/40 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-registry-teal/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-2 h-2 bg-registry-teal rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+          <div className="flex justify-start items-center space-x-5 animate-pulse">
+             <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl ${isDarkMode ? 'bg-stealth-800 border-white/10' : 'bg-white border-slate-200'} border flex items-center justify-center shadow-premium`}><Sparkles className="w-5 h-5 text-registry-teal" /></div>
+             <div className={`p-6 ${isDarkMode ? 'bg-stealth-800/40 border-white/10' : 'bg-white/40 border-slate-200'} backdrop-blur-3xl border rounded-3xl rounded-tl-none flex space-x-3 shadow-premium`}>
+                <div className="w-2.5 h-2.5 bg-registry-teal/40 rounded-full animate-bounce"></div>
+                <div className="w-2.5 h-2.5 bg-registry-teal/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2.5 h-2.5 bg-registry-teal rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
              </div>
           </div>
         )}
       </div>
 
-      <div className={`p-4 md:p-8 ${isDarkMode ? 'bg-stealth-950/80 border-white/10' : 'bg-white/80 border-slate-100'} backdrop-blur-xl border-t pb-24 lg:pb-8 relative z-10`}>
+      <div className={`p-6 md:p-10 ${isDarkMode ? 'bg-stealth-950/40 border-white/10' : 'bg-white/40 border-slate-100'} backdrop-blur-3xl border-t pb-24 lg:pb-10 relative z-10`}>
         <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-registry-teal to-registry-rose rounded-2xl blur opacity-20 group-focus-within:opacity-40 transition-opacity" />
+          <div className="absolute -inset-1.5 bg-gradient-to-r from-registry-teal to-registry-rose rounded-3xl blur-lg opacity-20 group-focus-within:opacity-50 transition-opacity" />
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Initialize neural query..."
-            className="relative w-full pl-6 pr-16 py-5 bg-slate-50 dark:bg-stealth-900 rounded-2xl text-xs md:text-sm font-bold border-2 border-transparent focus:border-registry-teal/50 text-slate-900 dark:text-slate-100 transition-all outline-none shadow-inner"
+            className="relative w-full pl-8 pr-20 py-6 bg-slate-50/50 dark:bg-stealth-900/50 rounded-3xl text-sm md:text-base font-bold border-2 border-transparent focus:border-registry-teal/50 text-slate-900 dark:text-slate-100 transition-all outline-none shadow-inner backdrop-blur-xl"
           />
           <button 
             onClick={handleSend} 
             disabled={isLoading} 
-            className="absolute right-2 top-2 bottom-2 px-5 bg-registry-teal text-white rounded-xl shadow-lg shadow-registry-teal/20 disabled:opacity-50 hover:bg-registry-teal/80 transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
+            className="absolute right-3 top-3 bottom-3 px-6 bg-registry-teal text-white rounded-2xl shadow-glow disabled:opacity-50 hover:bg-registry-teal/80 transition-all hover:scale-105 active:scale-95 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            aria-label="Send neural query"
           >
-            {isLoading ? <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" /> : <Send className="w-4 h-4 md:w-5 md:h-5" />}
+            {isLoading ? <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" /> : <Send className="w-5 h-5 md:w-6 md:h-6" />}
           </button>
         </div>
-        <div className="mt-4 flex items-center justify-between px-2">
-          <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Neural Link: {isLoading ? 'Processing Query...' : 'Encrypted'}</span>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-1">
-              <div className={`w-1 h-1 ${isLoading ? 'bg-registry-teal animate-pulse' : 'bg-registry-teal'} rounded-full`} />
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{isLoading ? 'Harvey is thinking' : 'Uptime 99.9%'}</span>
+        <div className="mt-5 flex items-center justify-between px-3">
+          <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em]">Neural Link: {isLoading ? 'Processing Query...' : 'Encrypted'}</span>
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-2">
+              <div className={`w-1.5 h-1.5 ${isLoading ? 'bg-registry-teal animate-pulse shadow-glow' : 'bg-registry-teal'} rounded-full`} />
+              <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em]">{isLoading ? 'Harvey is thinking' : 'Uptime 99.9%'}</span>
             </div>
           </div>
         </div>

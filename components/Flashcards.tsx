@@ -54,6 +54,8 @@ const DEFAULT_DECK: Flashcard[] = [
   { front: "Purpose of the Damping Layer?", back: "Shortens the pulse length (SPL) to improve axial resolution.", moduleId: "Transducers", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   { front: "Matching layer thickness is?", back: "1/4 wavelength thick.", moduleId: "Transducers", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   { front: "Near Zone Length (NZL) formula?", back: "NZL = (Diameter² × Frequency) / 6", moduleId: "Transducers", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify the array type: Produces a pie-shaped image with a blunted top.", back: "Curvilinear (Convex) Array", moduleId: "Transducers", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Ultrasound_of_the_liver_and_right_kidney.jpg/800px-Ultrasound_of_the_liver_and_right_kidney.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify the array type: Produces a rectangular image format.", back: "Linear Sequential Array", moduleId: "Transducers", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Carotid_ultrasound.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   
   // PULSED WAVE
   { front: "The 13 Microsecond Rule?", back: "For every 13µs of go-return time, the object is 1cm deep in soft tissue.", moduleId: "Pulsed Wave", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
@@ -61,15 +63,16 @@ const DEFAULT_DECK: Flashcard[] = [
   { front: "Duty Factor formula?", back: "DF = (Pulse Duration / PRP) × 100", moduleId: "Pulsed Wave", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   
   // ARTIFACTS
-  { front: "Identify this artifact: Black area behind a highly attenuating structure like a gallstone.", back: "Posterior Acoustic Shadowing", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?q=80&w=400&auto=format&fit=crop", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
-  { front: "Acoustic Enhancement occurs behind?", back: "A low-attenuating structure like a fluid-filled cyst.", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?q=80&w=400&auto=format&fit=crop", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
-  { front: "Identify this artifact: A second copy of a true reflector appearing deeper than the original, often seen near the diaphragm.", back: "Mirror Image Artifact", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://picsum.photos/seed/mirror/400/300", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
-  { front: "Identify this artifact: Equally spaced reflections appearing like a ladder or Venetian blinds.", back: "Reverberation Artifact", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://picsum.photos/seed/ladder/400/300", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify this artifact: Black area behind a highly attenuating structure like a gallstone.", back: "Posterior Acoustic Shadowing", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Acoustic Enhancement occurs behind?", back: "A low-attenuating structure like a fluid-filled cyst.", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify this artifact: A second copy of a true reflector appearing deeper than the original, often seen near the diaphragm.", back: "Mirror Image Artifact", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ultrasound_mirror_image_artifact.jpg/800px-Ultrasound_mirror_image_artifact.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify this artifact: A form of reverberation with closely spaced echoes, often seen with metal or cholesterol crystals.", back: "Comet Tail Artifact", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Comet_tail_artifact_on_ultrasound.jpg/800px-Comet_tail_artifact_on_ultrasound.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify this artifact: Equally spaced reflections appearing like a ladder or Venetian blinds.", back: "Reverberation Artifact", moduleId: "Imaging Artifacts", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Doppler_ultrasound_of_systolic_velocity_%28Vs%29%2C_diastolic_velocity_%28Vd%29%2C_acceleration_time_%28AoAT%29%2C_systolic_acceleration_%28Ao_Accel%29_and_resistive_index_%28RI%29_of_normal_kidney.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   
   // DOPPLER
   { front: "The Nyquist Limit formula?", back: "Nyquist Limit (Hz) = PRF / 2", moduleId: "Doppler Effect", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   { front: "Cos(0°) is equal to?", back: "1.0 (Highest shift detected).", moduleId: "Doppler Effect", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
-  { front: "Identify this phenomenon: The top of the Doppler spectrum appears at the bottom of the display.", back: "Aliasing", moduleId: "Doppler Effect", isPictureCard: true, frontImage: "https://picsum.photos/seed/aliasing/400/300", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
+  { front: "Identify this phenomenon: The top of the Doppler spectrum appears at the bottom of the display.", back: "Aliasing", moduleId: "Doppler Effect", isPictureCard: true, frontImage: "https://upload.wikimedia.org/wikipedia/commons/c/cc/ColourDopplerA.jpg", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
   
   // BIOEFFECTS
   { front: "ALARA stands for?", back: "As Low As Reasonably Achievable.", moduleId: "Bioeffects & Safety", repetition: 0, interval: 0, easeFactor: 2.5, nextReview: Date.now() },
@@ -158,6 +161,9 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
   const [newBack, setNewBack] = useState('');
   const [newImage, setNewImage] = useState('');
   const [newModule, setNewModule] = useState(modules[0].title);
+  
+  const [isBulkMode, setIsBulkMode] = useState(false);
+  const [bulkInput, setBulkInput] = useState('');
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
@@ -253,22 +259,53 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
   };
 
   const handleAdd = () => {
-    if (!newFront || !newBack) return;
-    const newCard: Flashcard = {
-      front: newFront,
-      back: newBack,
-      moduleId: newModule,
-      frontImage: newImage || undefined,
-      isPictureCard: !!newImage,
-      repetition: 0,
-      interval: 0,
-      easeFactor: 2.5,
-      nextReview: Date.now()
-    };
-    setFlashcards(prev => [...prev, newCard]);
-    setNewFront('');
-    setNewBack('');
-    setNewImage('');
+    if (isBulkMode) {
+      if (!bulkInput.trim()) return;
+      const lines = bulkInput.split('\n');
+      const newCards: Flashcard[] = lines.filter(line => line.trim().length > 0)
+        .map(line => {
+          const separatorMatch = line.match(/\t| - | – | — /);
+          if (separatorMatch) {
+            const parts = line.split(separatorMatch[0]);
+            return {
+              front: parts[0]?.trim() || '',
+              back: parts[1]?.trim() || '',
+              moduleId: newModule,
+              repetition: 0,
+              interval: 0,
+              easeFactor: 2.5,
+              nextReview: Date.now()
+            };
+          } else {
+             // Fallback if no specific splitter
+             return null;
+          }
+        }).filter(Boolean) as Flashcard[];
+
+      if (newCards.length > 0) {
+        setFlashcards(prev => [...prev, ...newCards]);
+        setBulkInput('');
+      } else {
+        alert("Could not parse cards. Use format: 'Question - Answer' per line.");
+      }
+    } else {
+      if (!newFront || !newBack) return;
+      const newCard: Flashcard = {
+        front: newFront,
+        back: newBack,
+        moduleId: newModule,
+        frontImage: newImage || undefined,
+        isPictureCard: !!newImage,
+        repetition: 0,
+        interval: 0,
+        easeFactor: 2.5,
+        nextReview: Date.now()
+      };
+      setFlashcards(prev => [...prev, newCard]);
+      setNewFront('');
+      setNewBack('');
+      setNewImage('');
+    }
   };
 
   const handleDelete = (front: string, mid: string) => {
@@ -283,7 +320,11 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
 
       <header className={`p-4 md:p-6 ${isDarkMode ? 'bg-stealth-950 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'} flex justify-between items-center shrink-0 border-b transition-colors duration-300 relative z-10`}>
         <div className="flex items-center space-x-2 md:space-x-3">
-          <button onClick={onClose} className={`p-2 -ml-2 transition-colors ${isDarkMode ? 'text-white/50 hover:text-registry-teal' : 'text-slate-400 hover:text-registry-teal'}`} title="Close Library">
+          <button 
+            onClick={onClose} 
+            className={`p-2 -ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal rounded-xl ${isDarkMode ? 'text-white/50 hover:text-registry-teal' : 'text-slate-400 hover:text-registry-teal'}`} 
+            aria-label="Close Knowledge Matrix"
+          >
             <X className="w-6 h-6" />
           </button>
           <div className="w-9 h-9 md:w-10 md:h-10 bg-registry-teal rounded-xl flex items-center justify-center shadow-lg shadow-registry-teal/20">
@@ -299,7 +340,8 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
             <button 
               onClick={onPlayNarration} 
               disabled={isTtsLoading}
-              className={`p-2 rounded-xl transition-all ${isNarrating ? 'bg-registry-rose animate-pulse' : isDarkMode ? 'hover:bg-white/10 text-white/70' : 'hover:bg-slate-100 text-slate-600'}`}
+              className={`p-2 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${isNarrating ? 'bg-registry-rose animate-pulse' : isDarkMode ? 'hover:bg-white/10 text-white/70' : 'hover:bg-slate-100 text-slate-600'}`}
+              aria-label={isNarrating ? "Stop narration" : "Listen to flashcard content"}
             >
               {isTtsLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : isNarrating ? <Pause className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </button>
@@ -307,17 +349,27 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
           <div className="flex space-x-1.5 md:space-x-2 shrink-0">
           <button 
             onClick={() => setFilterPicturesOnly(!filterPicturesOnly)}
-            className={`p-2 rounded-xl transition-all ${filterPicturesOnly ? 'bg-registry-teal text-stealth-950 shadow-lg shadow-registry-teal/20' : isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white/70' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}
+            className={`p-2 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${filterPicturesOnly ? 'bg-registry-teal text-stealth-950 shadow-lg shadow-registry-teal/20' : isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white/70' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}
+            aria-label={filterPicturesOnly ? "Show all cards" : "Filter to picture cards only"}
+            aria-pressed={filterPicturesOnly}
           >
             <ImageIcon className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </button>
           <FullscreenToggle className={`${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white/70' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'} border-none`} iconClassName="w-4.5 h-4.5 md:w-5 md:h-5" />
           {view !== 'selector' && (
-             <button onClick={() => setView('selector')} className={`p-2 rounded-xl transition-all ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white/70' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
+             <button 
+              onClick={() => setView('selector')} 
+              className={`p-2 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white/70' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}
+              aria-label="Return to module selector"
+            >
                 <LayoutGrid className="w-4.5 h-4.5 md:w-5 md:h-5" />
              </button>
           )}
-          <button onClick={() => setView('manage')} className="p-2 bg-registry-teal hover:bg-teal-400 rounded-xl transition-all text-stealth-950 shadow-lg shadow-registry-teal/20">
+          <button 
+            onClick={() => setView('manage')} 
+            className="p-2 bg-registry-teal hover:bg-teal-400 rounded-xl transition-all text-stealth-950 shadow-lg shadow-registry-teal/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            aria-label="Add new flashcard"
+          >
              <Plus className="w-4.5 h-4.5 md:w-5 md:h-5" />
           </button>
         </div>
@@ -398,8 +450,13 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                 </div>
                 
                 <div 
-                  className="relative w-full h-[320px] md:h-[450px] cursor-pointer perspective-2000 group active:scale-95 transition-transform" 
+                  className="relative w-full h-[320px] md:h-[450px] cursor-pointer perspective-2000 group active:scale-95 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal rounded-[3rem]" 
                   onClick={() => setIsFlipped(!isFlipped)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Flashcard: ${currentCard.front}. Press to flip and see answer.`}
+                  aria-expanded={isFlipped}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsFlipped(!isFlipped); } }}
                 >
                   <div className={`relative w-full h-full transition-all duration-700 transform-style-3d shadow-2xl rounded-2xl md:rounded-[3rem] ${isFlipped ? 'rotate-y-180' : ''}`}>
                     <div className={`absolute inset-0 backface-hidden rounded-2xl md:rounded-[3rem] p-6 md:p-10 flex flex-col items-center justify-center text-center border overflow-hidden ${isDarkMode ? 'bg-stealth-900 border-white/10' : 'bg-white border-slate-200'}`}>
@@ -417,7 +474,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                         )}
                       </div>
                       
-                      {currentCard.frontImage && (
+                      {currentCard.frontImage ? (
                         <div className={`mb-4 md:mb-6 w-full h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden border relative z-10 ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
                           <img 
                             src={currentCard.frontImage} 
@@ -426,7 +483,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                             referrerPolicy="no-referrer"
                           />
                         </div>
-                      )}
+                      ) : null}
 
                       {currentCard.frontVisual && (
                         <div className={`mb-4 md:mb-6 w-full h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden border flex items-center justify-center p-4 relative z-10 ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
@@ -464,7 +521,8 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                      <button 
                        key={b.quality} 
                        onClick={(e) => { e.stopPropagation(); handleReview(b.quality); }}
-                       className={`${b.color} text-stealth-950 py-4 md:py-6 rounded-xl md:rounded-2xl font-black uppercase text-[8px] md:text-[10px] tracking-widest shadow-lg active:scale-90 transition-all relative overflow-hidden`}
+                       className={`${b.color} text-stealth-950 py-4 md:py-6 rounded-xl md:rounded-2xl font-black uppercase text-[8px] md:text-[10px] tracking-widest shadow-lg active:scale-90 transition-all relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white`}
+                       aria-label={`Mark as ${b.label}`}
                      >
                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
                        <span className="relative z-10">{b.label}</span>
@@ -497,11 +555,19 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
              <div className={`p-6 md:p-12 rounded-2xl md:rounded-[3.5rem] shadow-2xl border space-y-6 md:space-y-8 relative overflow-hidden ${isDarkMode ? 'bg-stealth-900 border-white/5' : 'bg-white border-slate-200'}`}>
                 <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
                 <div className="relative z-10">
-                  <div className="flex items-center space-x-4 mb-8">
-                     <div className="w-10 h-10 md:w-12 md:h-12 bg-registry-teal rounded-xl md:rounded-2xl flex items-center justify-center text-stealth-950 shadow-lg shadow-registry-teal/20">
-                        <Plus className="w-5 h-5 md:w-6 md:h-6" />
+                  <div className="flex items-center space-x-4 mb-8 justify-between">
+                     <div className="flex items-center space-x-4">
+                       <div className="w-10 h-10 md:w-12 md:h-12 bg-registry-teal rounded-xl md:rounded-2xl flex items-center justify-center text-stealth-950 shadow-lg shadow-registry-teal/20">
+                          <Plus className="w-5 h-5 md:w-6 md:h-6" />
+                       </div>
+                       <h4 className={`text-xl md:text-2xl font-black uppercase italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>New Knowledge Node</h4>
                      </div>
-                     <h4 className={`text-xl md:text-2xl font-black uppercase italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>New Knowledge Node</h4>
+                     <button
+                       onClick={() => setIsBulkMode(!isBulkMode)}
+                       className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest ${isBulkMode ? 'bg-registry-teal text-stealth-950' : isDarkMode ? 'bg-stealth-950 text-slate-400' : 'bg-slate-100 text-slate-500'}`}
+                     >
+                       {isBulkMode ? 'Single Mode' : 'Bulk Import'}
+                     </button>
                   </div>
                   
                   <div className="grid gap-5 md:gap-6">
@@ -512,26 +578,42 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                           {modules.map(m => <option key={m.title} value={m.title}>{m.title}</option>)}
                         </select>
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Visual Reference (Optional)</label>
-                        <input type="text" value={newImage} onChange={e => setNewImage(e.target.value)} placeholder="URL of diagram" className={`w-full p-3.5 md:p-4 rounded-xl md:rounded-2xl font-bold text-[10px] md:text-xs outline-none border transition-all ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} />
-                      </div>
+                      {!isBulkMode && (
+                        <div className="space-y-1.5">
+                          <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Visual Reference (Optional)</label>
+                          <input type="text" value={newImage} onChange={e => setNewImage(e.target.value)} placeholder="URL of diagram" className={`w-full p-3.5 md:p-4 rounded-xl md:rounded-2xl font-bold text-[10px] md:text-xs outline-none border transition-all ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} />
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-4">
-                      <div className="space-y-1.5">
-                        <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Physics Query</label>
-                        <textarea value={newFront} onChange={e => setNewFront(e.target.value)} className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-24 md:h-28 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} placeholder="e.g. Formula for Mechanical Index?" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Physical Principle Response</label>
-                        <textarea value={newBack} onChange={e => setNewBack(e.target.value)} className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-24 md:h-28 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} placeholder="e.g. MI = Peak Rarefaction Pressure / sqrt(Frequency)" />
-                      </div>
+                      {isBulkMode ? (
+                        <div className="space-y-1.5">
+                          <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Paste Bulk Data</label>
+                          <textarea 
+                            value={bulkInput} 
+                            onChange={e => setBulkInput(e.target.value)} 
+                            className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-48 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} 
+                            placeholder="Question 1 - Answer 1&#10;Question 2 - Answer 2" 
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="space-y-1.5">
+                            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Physics Query</label>
+                            <textarea value={newFront} onChange={e => setNewFront(e.target.value)} className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-24 md:h-28 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} placeholder="e.g. Formula for Mechanical Index?" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Physical Principle Response</label>
+                            <textarea value={newBack} onChange={e => setNewBack(e.target.value)} className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-24 md:h-28 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} placeholder="e.g. MI = Peak Rarefaction Pressure / sqrt(Frequency)" />
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     <button onClick={handleAdd} className="w-full py-4.5 md:py-6 bg-registry-teal hover:bg-teal-400 text-stealth-950 rounded-xl md:rounded-[2rem] font-black uppercase tracking-widest text-[10px] md:text-sm shadow-lg shadow-registry-teal/20 active:scale-95 transition-all flex items-center justify-center space-x-2.5">
                        <CheckCircle2 className="w-4.5 h-4.5 md:w-5 md:h-5" />
-                       <span>Inject node into Matrix</span>
+                       <span>{isBulkMode ? 'Inject Multiple Nodes' : 'Inject node into Matrix'}</span>
                     </button>
                   </div>
                 </div>
@@ -546,7 +628,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                     <div key={i} className={`p-4 md:p-6 rounded-2xl border flex justify-between items-center group shadow-sm transition-all hover:border-registry-teal/30 relative overflow-hidden ${isDarkMode ? 'bg-stealth-900 border-white/5' : 'bg-white border-slate-200'}`}>
                       <div className="absolute inset-0 scanline opacity-0 group-hover:opacity-5 transition-opacity pointer-events-none" />
                       <div className="flex items-center space-x-3 md:space-x-4 max-w-[85%] relative z-10">
-                        {c.frontImage && (
+                        {c.frontImage ? (
                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden shrink-0 border ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-slate-100 border-slate-200'}`}>
                             <img 
                             src={c.frontImage} 
@@ -555,7 +637,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                             referrerPolicy="no-referrer"
                           />
                           </div>
-                        )}
+                        ) : null}
                         <div className="space-y-0.5 md:space-y-1 overflow-hidden">
                           <div className="flex items-center space-x-2">
                              <span className={`px-2 py-0.5 border rounded-md text-[7px] md:text-[8px] font-black uppercase text-slate-500 block w-fit ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-slate-50 border-slate-200'}`}>{c.moduleId}</span>
