@@ -29,8 +29,8 @@ export const ReceiverPipelineVisual: React.FC = () => {
             transition={{ duration: 2, repeat: Infinity }}
             d="M 250 100 Q 275 40 300 100 Q 325 160 350 100" fill="none" stroke="#3b82f6" strokeWidth="3" 
           />
-          <text x="100" y="150" textAnchor="middle" fill="#3b82f6" className="text-[8px] font-black uppercase tracking-widest">Weak Input</text>
-          <text x="300" y="180" textAnchor="middle" fill="#3b82f6" className="text-[10px] font-black uppercase tracking-widest">Amplified Output</text>
+          <text x="100" y="150" textAnchor="middle" fill="#3b82f6" className="text-[11px] font-black uppercase tracking-widest">Weak Input</text>
+          <text x="300" y="180" textAnchor="middle" fill="#3b82f6" className="text-[11px] font-black uppercase tracking-widest">Amplified Output</text>
           <path d="M 170 100 L 230 100" stroke="#3b82f6" strokeWidth="2" markerEnd="url(#arrow)" />
         </g>
       )
@@ -52,8 +52,8 @@ export const ReceiverPipelineVisual: React.FC = () => {
             transition={{ duration: 2, repeat: Infinity }}
             d="M 250 100 Q 275 60 300 100 Q 325 140 350 100" fill="none" stroke="#22d3ee" strokeWidth="2" 
           />
-          <text x="100" y="150" textAnchor="middle" fill="#22d3ee" className="text-[8px] font-black uppercase tracking-widest">Deep Echo (Weak)</text>
-          <text x="300" y="180" textAnchor="middle" fill="#22d3ee" className="text-[10px] font-black uppercase tracking-widest">Compensated (Uniform)</text>
+          <text x="100" y="150" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">Deep Echo (Weak)</text>
+          <text x="300" y="180" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">Compensated (Uniform)</text>
           <path d="M 170 100 L 230 100" stroke="#22d3ee" strokeWidth="2" markerEnd="url(#arrow)" />
         </g>
       )
@@ -75,8 +75,8 @@ export const ReceiverPipelineVisual: React.FC = () => {
             transition={{ duration: 3, repeat: Infinity }}
             x="250" y="70" width="100" height="60" fill="#06b6d440" stroke="#06b6d4" strokeWidth="2" 
           />
-          <text x="100" y="180" textAnchor="middle" fill="#06b6d4" className="text-[8px] font-black uppercase tracking-widest">Wide Range</text>
-          <text x="300" y="150" textAnchor="middle" fill="#06b6d4" className="text-[10px] font-black uppercase tracking-widest">Compressed</text>
+          <text x="100" y="180" textAnchor="middle" fill="#06b6d4" className="text-[11px] font-black uppercase tracking-widest">Wide Range</text>
+          <text x="300" y="150" textAnchor="middle" fill="#06b6d4" className="text-[11px] font-black uppercase tracking-widest">Compressed</text>
           <path d="M 170 100 L 230 100" stroke="#06b6d4" strokeWidth="2" markerEnd="url(#arrow)" />
         </g>
       )
@@ -98,8 +98,8 @@ export const ReceiverPipelineVisual: React.FC = () => {
             transition={{ duration: 2, repeat: Infinity }}
             d="M 250 100 Q 275 60 300 70 Q 325 80 350 100" fill="none" stroke="#22d3ee" strokeWidth="3" 
           />
-          <text x="75" y="150" textAnchor="middle" fill="#22d3ee" className="text-[8px] font-black uppercase tracking-widest">RF Signal</text>
-          <text x="300" y="130" textAnchor="middle" fill="#22d3ee" className="text-[10px] font-black uppercase tracking-widest">Video Signal</text>
+          <text x="75" y="150" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">RF Signal</text>
+          <text x="300" y="130" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">Video Signal</text>
           <path d="M 170 100 L 230 100" stroke="#22d3ee" strokeWidth="2" markerEnd="url(#arrow)" />
         </g>
       )
@@ -121,8 +121,8 @@ export const ReceiverPipelineVisual: React.FC = () => {
             transition={{ duration: 1.5, repeat: Infinity }}
             x1="250" y1="100" x2="350" y2="100" stroke="#f43f5e" strokeWidth="3" 
           />
-          <text x="75" y="130" textAnchor="middle" fill="#f43f5e" className="text-[8px] font-black uppercase tracking-widest">Low Noise</text>
-          <text x="300" y="130" textAnchor="middle" fill="#f43f5e" className="text-[10px] font-black uppercase tracking-widest">Rejected</text>
+          <text x="75" y="130" textAnchor="middle" fill="#f43f5e" className="text-[11px] font-black uppercase tracking-widest">Low Noise</text>
+          <text x="300" y="130" textAnchor="middle" fill="#f43f5e" className="text-[11px] font-black uppercase tracking-widest">Rejected</text>
           <path d="M 170 100 L 230 100" stroke="#f43f5e" strokeWidth="2" markerEnd="url(#arrow)" />
         </g>
       )
@@ -137,7 +137,7 @@ export const ReceiverPipelineVisual: React.FC = () => {
       <div className="flex items-center justify-between mb-4 relative z-10">
         <div className="flex items-center space-x-2">
           <Activity className="w-4 h-4 text-registry-teal" />
-          <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Receiver Pipeline</span>
+          <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Receiver Pipeline</span>
         </div>
         <div className="flex space-x-1">
           {steps.map((_, i) => (
@@ -154,7 +154,7 @@ export const ReceiverPipelineVisual: React.FC = () => {
             className={`flex-1 min-w-[80px] py-3 rounded-xl flex flex-col items-center space-y-1 transition-all ${activeStep === i ? 'bg-white dark:bg-slate-800 shadow-lg scale-105' : 'opacity-50 hover:opacity-80'}`}
           >
             <step.icon className={`w-4 h-4 ${step.color}`} />
-            <span className="text-[9px] font-black uppercase tracking-tighter">{step.name}</span>
+            <span className="text-[11px] font-black uppercase tracking-tighter">{step.name}</span>
           </button>
         ))}
       </div>
@@ -209,19 +209,19 @@ export const PrePostProcessingVisual: React.FC = () => {
           </div>
           <div>
             <h4 className="text-lg font-black uppercase italic text-white leading-none">Signal Processing</h4>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest mt-1">Pre vs Post Matrix</p>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest mt-1">Pre vs Post Matrix</p>
           </div>
         </div>
         <div className="flex bg-slate-950 p-1 rounded-xl border border-white/5">
           <button 
             onClick={() => setIsPost(false)}
-            className={`px-4 py-1.5 rounded-lg text-[8px] font-black uppercase transition-all ${!isPost ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`px-4 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all ${!isPost ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             Pre
           </button>
           <button 
             onClick={() => setIsPost(true)}
-            className={`px-4 py-1.5 rounded-lg text-[8px] font-black uppercase transition-all ${isPost ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`px-4 py-1.5 rounded-lg text-[11px] font-black uppercase transition-all ${isPost ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             Post
           </button>
@@ -242,10 +242,10 @@ export const PrePostProcessingVisual: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex flex-col items-center space-y-2">
-                  <div className="w-12 h-12 rounded-2xl bg-registry-teal/20 flex items-center justify-center border border-registry-teal/30">
+                   <div className="w-12 h-12 rounded-2xl bg-registry-teal/20 flex items-center justify-center border border-registry-teal/30">
                     <Waves className="w-6 h-6 text-registry-teal" />
                   </div>
-                  <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Analog Signal</span>
+                  <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Analog Signal</span>
                 </div>
                 <motion.div 
                   animate={{ x: [0, 100], opacity: [0, 1, 0] }}
@@ -256,11 +256,11 @@ export const PrePostProcessingVisual: React.FC = () => {
                   <div className="w-12 h-12 rounded-2xl bg-registry-teal/20 flex items-center justify-center border border-registry-teal/30">
                     <Database className="w-6 h-6 text-registry-teal" />
                   </div>
-                  <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Scan Converter</span>
+                  <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Scan Converter</span>
                 </div>
               </div>
               <div className="p-4 bg-registry-teal/5 border border-registry-teal/10 rounded-2xl text-center">
-                <p className="text-[10px] font-black text-registry-teal uppercase tracking-widest">Live Data Stream</p>
+                <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Live Data Stream</p>
               </div>
             </motion.div>
           ) : (
@@ -272,11 +272,11 @@ export const PrePostProcessingVisual: React.FC = () => {
               className="w-full space-y-6"
             >
               <div className="flex items-center justify-between">
-                <div className="flex flex-col items-center space-y-2">
+                 <div className="flex flex-col items-center space-y-2">
                   <div className="w-12 h-12 rounded-2xl bg-registry-rose/20 flex items-center justify-center border border-registry-rose/30">
                     <Database className="w-6 h-6 text-registry-rose" />
                   </div>
-                  <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Stored Data</span>
+                  <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Stored Data</span>
                 </div>
                 <motion.div 
                   animate={{ x: [-100, 0], opacity: [0, 1, 0] }}
@@ -287,11 +287,11 @@ export const PrePostProcessingVisual: React.FC = () => {
                   <div className="w-12 h-12 rounded-2xl bg-registry-rose/20 flex items-center justify-center border border-registry-rose/30">
                     <Monitor className="w-6 h-6 text-registry-rose" />
                   </div>
-                  <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Display Output</span>
+                  <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Display Output</span>
                 </div>
               </div>
               <div className="p-4 bg-registry-rose/5 border border-registry-rose/10 rounded-2xl text-center">
-                <p className="text-[10px] font-black text-registry-rose uppercase tracking-widest">Frozen Data</p>
+                <p className="text-[11px] font-black text-registry-rose uppercase tracking-widest">Frozen Data</p>
               </div>
             </motion.div>
           )}
@@ -300,15 +300,15 @@ export const PrePostProcessingVisual: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-4 relative z-10">
         <div className={`p-4 rounded-2xl border transition-all ${!isPost ? 'bg-registry-teal/10 border-registry-teal/30' : 'bg-slate-900 border-white/5 opacity-40'}`}>
-          <h5 className="text-[8px] font-black uppercase text-registry-teal mb-2">Pre-Processing</h5>
-          <ul className="text-[9px] font-bold text-slate-400 space-y-1">
+          <h5 className="text-[11px] font-black uppercase text-registry-teal mb-2">Pre-Processing</h5>
+          <ul className="text-[11px] font-bold text-slate-400 space-y-1">
             <li>• TGC / Gain</li>
             <li>• Write Zoom</li>
           </ul>
         </div>
         <div className={`p-4 rounded-2xl border transition-all ${isPost ? 'bg-registry-rose/10 border-registry-rose/30' : 'bg-slate-900 border-white/5 opacity-40'}`}>
-          <h5 className="text-[8px] font-black uppercase text-registry-rose mb-2">Post-Processing</h5>
-          <ul className="text-[9px] font-bold text-slate-400 space-y-1">
+          <h5 className="text-[11px] font-black uppercase text-registry-rose mb-2">Post-Processing</h5>
+          <ul className="text-[11px] font-bold text-slate-400 space-y-1">
             <li>• Read Zoom</li>
             <li>• B-Color Maps</li>
           </ul>
@@ -327,85 +327,129 @@ export const PrePostProcessingVisual: React.FC = () => {
 
 export const ArrayTypesVisual: React.FC = () => {
   const [type, setType] = useState<'linear' | 'curved' | 'phased'>('linear');
-  const [time, setTime] = useState(0);
-  useEffect(() => { const interval = setInterval(() => setTime(t => (t + 1) % 100), 50); return () => clearInterval(interval); }, []);
+  const [scanIndex, setScanIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScanIndex(prev => (prev + 1) % 24);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
   
   return (
-    <div className="bg-white dark:bg-stealth-950 p-6 md:p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-2xl space-y-6 transition-all duration-500 relative overflow-hidden group">
+    <div className="bg-white dark:bg-stealth-950 p-6 md:p-10 rounded-[3rem] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden group">
       <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
       
-      <div className="flex gap-1.5 p-1 bg-slate-100 dark:bg-slate-900 rounded-2xl relative z-10">
+      <div className="flex flex-col sm:flex-row gap-2 p-1.5 bg-slate-100 dark:bg-slate-900 rounded-[1.5rem] relative z-10 mb-8 border border-white/5 shadow-inner">
         {(['linear', 'curved', 'phased'] as const).map(t => (
           <button 
             key={t} 
             onClick={() => setType(t)} 
-            className={`flex-1 py-3 text-[10px] font-black uppercase rounded-xl transition-all ${type === t ? 'bg-registry-teal text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-3 px-6 text-[11px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-500 ${type === t ? 'bg-registry-teal text-stealth-950 shadow-glow-teal' : 'text-slate-500 hover:text-slate-300'}`}
           >
-            {t}
+            {t} Array
           </button>
         ))}
       </div>
 
-      <div className="h-48 md:h-64 bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 flex items-start justify-center p-6 relative shadow-inner">
-        <div className="absolute inset-0 scanline opacity-10" />
-        <svg className="w-full h-full relative z-10" viewBox="0 0 400 200">
+      <div className="h-64 md:h-80 bg-black rounded-[2.5rem] overflow-hidden border border-slate-800 flex items-start justify-center p-8 relative shadow-2xl">
+        <div className="absolute inset-0 scanline opacity-20" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+           <Layers className="w-64 h-64 text-registry-teal blur-3xl" />
+        </div>
+
+        <svg className="w-full h-full relative z-10 overflow-visible" viewBox="0 0 400 200">
+          <defs>
+            <linearGradient id="beamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.8" />
+              <stop offset="60%" stopColor="#22d3ee" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
           {type === 'linear' && (
             <g>
-              {Array.from({length: 12}).map((_, i) => (
-                <motion.line 
+              {Array.from({length: 24}).map((_, i) => (
+                <motion.path 
                   key={i} 
-                  x1={100 + i*18} y1="20" x2={100 + i*18} y2="180" 
-                  stroke="#22d3ee" 
+                  d={`M ${80 + i*10} 20 L ${80 + i*10} 180`}
+                  stroke="url(#beamGrad)"
                   strokeWidth="3" 
-                  animate={{ opacity: (time % 12 === i) ? 0.8 : 0.1 }}
+                  initial={false}
+                  animate={{ 
+                    opacity: (scanIndex === i || scanIndex === i-1 || scanIndex === i+1) ? 1 : 0.05,
+                    strokeWidth: (scanIndex === i) ? 5 : 2
+                  }}
+                  className="transition-all duration-300"
                 />
               ))}
-              <rect x="90" y="10" width="220" height="10" fill="#1e293b" rx="2" />
+              <rect x="75" y="10" width="250" height="12" fill="#1e293b" rx="4" className="stroke-white/20" />
             </g>
           )}
+
           {type === 'curved' && (
             <g>
-              {Array.from({length: 12}).map((_, i) => {
-                const ang = (i - 5.5) * 0.15;
+              {Array.from({length: 24}).map((_, i) => {
+                const ang = (i - 11.5) * 0.06;
+                const r1 = 30;
+                const r2 = 200;
                 return (
-                  <motion.line 
+                  <motion.path 
                     key={i} 
-                    x1={200 + Math.sin(ang)*40} y1={20 + Math.cos(ang)*10} 
-                    x2={200 + Math.sin(ang)*180} y2={20 + Math.cos(ang)*180} 
-                    stroke="#22d3ee" 
+                    d={`M ${200 + Math.sin(ang)*r1} ${20 + Math.cos(ang)*r1 - 20} L ${200 + Math.sin(ang)*r2} ${20 + Math.cos(ang)*r2 - 20}`}
+                    stroke="url(#beamGrad)"
                     strokeWidth="3" 
-                    animate={{ opacity: (time % 12 === i) ? 0.8 : 0.1 }}
+                    animate={{ 
+                      opacity: (scanIndex === i || scanIndex === i-1 || scanIndex === i+1) ? 1 : 0.05 
+                    }}
                   />
                 );
               })}
-              <path d="M 140 35 Q 200 15 260 35" fill="none" stroke="#1e293b" strokeWidth="10" strokeLinecap="round" />
+              <path d="M 120 40 Q 200 10 280 40" fill="none" stroke="#1e293b" strokeWidth="14" strokeLinecap="round" className="opacity-80" />
             </g>
           )}
+
           {type === 'phased' && (
             <g>
-              {Array.from({length: 20}).map((_, i) => {
-                const scanAng = Math.sin(time * 0.1) * 0.6;
-                const beamAng = scanAng + (i - 9.5) * 0.02;
+              {Array.from({length: 24}).map((_, i) => {
+                const centerAng = Math.sin(scanIndex * 0.2) * 0.6;
+                const beamAng = centerAng + (i - 11.5) * 0.01;
                 return (
                   <motion.line 
                     key={i} 
                     x1="200" y1="20" 
                     x2={200 + Math.sin(beamAng)*180} y2={20 + Math.cos(beamAng)*180} 
-                    stroke="#22d3ee" 
+                    stroke="url(#beamGrad)"
                     strokeWidth="2" 
-                    animate={{ opacity: 0.1 + (Math.abs(Math.sin(time*0.5)) * 0.6) }}
+                    animate={{ opacity: 0.2 + (Math.abs(Math.sin(scanIndex*0.1)) * 0.8) }}
                   />
                 );
               })}
-              <rect x="180" y="10" width="40" height="10" fill="#1e293b" rx="2" />
+              <rect x="180" y="10" width="40" height="12" fill="#1e293b" rx="2" className="stroke-white/20" />
             </g>
           )}
         </svg>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 relative z-10">
+        <div className="premium-glass p-5 rounded-3xl border border-white/5">
+          <p className="text-[11px] font-black uppercase text-registry-teal mb-2">Image Shape</p>
+          <p className="text-xs font-bold text-white italic">
+            {type === 'linear' ? "Rectangular" : type === 'curved' ? "Blunted Sector" : "True Sector"}
+          </p>
+        </div>
+        <div className="premium-glass p-5 rounded-3xl border border-white/5">
+          <p className="text-[11px] font-black uppercase text-registry-teal mb-2">Primary Use-Case</p>
+          <p className="text-xs font-bold text-white italic">
+            {type === 'linear' ? "Vascular & Small Parts" : type === 'curved' ? "Abdominal & OB/GYN" : "Cardiac & Intercostal"}
+          </p>
+        </div>
+      </div>
+
       <VisualInsight 
-        title={`${type.charAt(0).toUpperCase() + type.slice(1)} Array`} 
-        description={type === 'linear' ? "Rectangular image format. Used for superficial structures." : type === 'curved' ? "Blunted sector image. Wider near-field than phased arrays." : "Sector image format. Small footprint for cardiac windows."} 
+        title={`${type.charAt(0).toUpperCase() + type.slice(1)} Array Configuration`} 
+        description={type === 'linear' ? "Crystals are arranged in a straight line and fired in small groups (sequencing) to create a parallel-beam rectangular image. Excellent for high-resolution near-field imaging." : type === 'curved' ? "Also known as Convex arrays. The naturally curved footprint creates a wide field of view in the far-field without much manipulation." : "The small footprint allows imaging between ribs. All crystals are fired nearly simultaneously with variable time delays (phasing) to steer and focus the beam."} 
       />
     </div>
   );
@@ -426,7 +470,7 @@ export const SideLobeVisual: React.FC = () => {
           </div>
           <div>
             <h4 className="text-lg font-black uppercase italic text-slate-900 dark:text-white leading-none">Beam Profile</h4>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest mt-1">Energy Divergence</p>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest mt-1">Energy Divergence</p>
           </div>
         </div>
         <button 
@@ -516,7 +560,7 @@ export const DeadZoneVisual: React.FC = () => {
           </div>
           <div>
             <h4 className="text-lg font-black uppercase italic text-slate-900 dark:text-white leading-none">Dead Zone</h4>
-            <p className="text-[8px] font-black text-registry-rose uppercase tracking-widest mt-1">PZT Ring-Down</p>
+            <p className="text-[11px] font-black text-registry-rose uppercase tracking-widest mt-1">PZT Ring-Down</p>
           </div>
         </div>
       </div>
@@ -557,98 +601,214 @@ export const DeadZoneVisual: React.FC = () => {
 };
 
 export const TransducerCrossSection: React.FC = () => {
-  return (
-    <motion.div 
-      whileHover={{ y: -4 }}
-      className="bg-stealth-900 p-6 md:p-8 rounded-[2.5rem] border border-white/5 shadow-2xl space-y-6"
-    >
-      <div className="flex items-center space-x-3">
-        <Layers className="w-5 h-5 text-registry-teal" />
-        <h4 className="text-lg font-black uppercase italic text-white">Transducer Stack</h4>
-      </div>
-      <div className="h-64 bg-slate-950 rounded-3xl relative overflow-hidden flex flex-col items-center justify-center border border-slate-800 space-y-1">
-        <div className="w-48 h-8 bg-slate-700/50 border border-white/10 rounded-t-xl flex items-center justify-center">
-          <span className="text-[7px] font-black uppercase text-slate-500">Backing Material (Damping)</span>
-        </div>
-        <motion.div 
-          animate={{ scaleY: [1, 1.05, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="w-48 h-12 bg-registry-rose border-x-4 border-registry-rose/50 flex items-center justify-center shadow-[0_0_20px_rgba(244,63,94,0.3)]"
-        >
-          <span className="text-[10px] font-black uppercase text-white tracking-widest">PZT Crystal</span>
-        </motion.div>
-        <div className="w-48 h-4 bg-registry-teal/40 border border-registry-teal/30 flex items-center justify-center">
-          <span className="text-[7px] font-black uppercase text-registry-teal">Matching Layer (1/4 λ)</span>
-        </div>
-        <div className="w-48 h-2 bg-blue-400/20 border border-blue-400/30 rounded-b-xl flex items-center justify-center">
-          <span className="text-[7px] font-black uppercase text-blue-400">Acoustic Gel</span>
-        </div>
-      </div>
-      <VisualInsight 
-        title="Transducer Construction" 
-        description="PZT converts electricity to sound (Piezoelectric effect). The matching layer reduces impedance mismatch, while backing material damps vibrations to create short pulses (enhancing axial resolution)." 
-      />
-    </motion.div>
-  );
-};
+  const [isActive, setIsActive] = useState(false);
 
-export const PulseEchoPrincipleVisual: React.FC = () => {
-  const [isTransmitting, setIsTransmitting] = useState(true);
-  
   useEffect(() => {
-    const interval = setInterval(() => setIsTransmitting(prev => !prev), 2000);
+    const interval = setInterval(() => {
+      setIsActive(true);
+      setTimeout(() => setIsActive(false), 300);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <motion.div 
       whileHover={{ y: -4 }}
-      className="bg-stealth-900 p-6 md:p-8 rounded-[2.5rem] border border-white/5 shadow-2xl space-y-6 overflow-hidden"
+      className="bg-stealth-900 p-6 md:p-10 rounded-[3rem] border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group"
     >
-      <div className="flex justify-between items-center mb-2">
-        <div className="flex items-center space-x-3">
-          <Target className="w-5 h-5 text-registry-teal" />
-          <h4 className="text-lg font-black uppercase italic text-white">Pulse-Echo Principle</h4>
+      <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+      
+      <div className="flex items-center space-x-4 relative z-10">
+        <div className="p-3 bg-registry-teal/10 rounded-2xl border border-registry-teal/30 shadow-glow">
+          <Layers className="w-6 h-6 text-registry-teal" />
         </div>
-        <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase transition-all ${isTransmitting ? 'bg-registry-teal text-white' : 'bg-registry-rose text-white'}`}>
-          {isTransmitting ? 'Transmit (1%)' : 'Listen (99%)'}
+        <div>
+          <h4 className="text-xl font-black uppercase italic text-white leading-none">Transducer Anatomy</h4>
+          <p className="text-[11px] font-black text-registry-teal uppercase tracking-[0.3em] mt-2">Internal Component Stack</p>
         </div>
       </div>
-      <div className="h-40 bg-slate-950 rounded-3xl relative overflow-hidden flex items-center border border-slate-800">
-        <div className="absolute left-4 w-12 h-20 bg-slate-800 rounded-lg border border-white/10 z-20" />
-        <div className="absolute right-8 w-8 h-24 bg-slate-700 rounded-full border border-white/10 opacity-40 z-10" />
-        
+
+      <div className="h-72 md:h-80 bg-slate-950 rounded-[2.5rem] relative overflow-hidden flex flex-col items-center justify-center border border-slate-800 shadow-inner space-y-1.5 p-10">
+        <div className="absolute inset-0 scanline opacity-10" />
+
+        {/* Backing Material */}
+        <motion.div 
+          animate={isActive ? { y: [-2, 0] } : {}}
+          className="w-56 h-12 bg-slate-700/40 border border-white/10 rounded-t-3xl flex items-center justify-center relative group/backing"
+        >
+          <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">Backing Material</span>
+          <div className="absolute top-0 right-0 p-2 opacity-20"><MinusSquare className="w-4 h-4" /></div>
+        </motion.div>
+
+        {/* PZT Crystal - The heart */}
+        <motion.div 
+          animate={isActive ? { 
+            scaleY: [1, 1.15, 0.9, 1], 
+            backgroundColor: ["#f43f5e", "#ff4d6d", "#f43f5e"] 
+          } : {}}
+          transition={{ duration: 0.3 }}
+          className="w-56 h-16 bg-registry-rose border-x-8 border-registry-rose/50 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(244,63,94,0.3)] relative z-20"
+        >
+          <span className="text-xs font-black uppercase text-white tracking-[0.3em]">PZT CRYSTAL</span>
+          <p className="text-[11px] font-black text-white/60 uppercase animate-pulse">Piezoelectric Core</p>
+        </motion.div>
+
+        {/* Matching Layer */}
+        <div className="w-56 h-6 bg-registry-teal/40 border border-registry-teal/30 flex items-center justify-center relative">
+          <span className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Matching Layer (1/4 λ)</span>
+          <div className="absolute -left-12 top-1/2 -translate-y-1/2 h-px w-10 bg-registry-teal/30" />
+        </div>
+
+        {/* Acoustic Gel */}
+        <div className="w-56 h-3 bg-blue-400/20 border-b border-x border-blue-400/30 rounded-b-3xl flex items-center justify-center opacity-60">
+          <span className="text-[11px] font-black uppercase text-blue-400 tracking-tighter">Acoustic Coupling Gel</span>
+        </div>
+
+        {/* Emitted Pulse Wave */}
         <AnimatePresence>
-          {isTransmitting ? (
+          {isActive && (
             <motion.div 
-              key="pulse"
-              initial={{ x: 60, opacity: 0 }}
-              animate={{ x: 300, opacity: [0, 1, 1, 0] }}
-              transition={{ duration: 1, ease: "linear" }}
-              className="absolute w-8 h-12 flex items-center justify-around"
+              initial={{ y: -20, opacity: 0, scaleX: 0.8 }}
+              animate={{ y: 150, opacity: [0, 1, 0], scaleX: 1.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="absolute bottom-10 w-48 h-8 flex flex-col justify-between"
             >
-              {[1, 2, 3].map(i => (
-                <div key={i} className="w-1.5 h-12 bg-registry-teal rounded-full shadow-[0_0_10px_#22d3ee]" />
-              ))}
-            </motion.div>
-          ) : (
-            <motion.div 
-              key="echo"
-              initial={{ x: 300, opacity: 0 }}
-              animate={{ x: 60, opacity: [0, 0.4, 0.4, 0] }}
-              transition={{ duration: 1.5, ease: "linear" }}
-              className="absolute w-8 h-8 flex items-center justify-around"
-            >
-              {[1, 2].map(i => (
-                <div key={i} className="w-1 h-8 bg-registry-rose rounded-full opacity-60" />
-              ))}
+               {Array.from({ length: 3 }).map((_, i) => (
+                 <div key={i} className="w-full h-1 bg-registry-teal/50 rounded-full shadow-glow" />
+               ))}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+
+      <div className="premium-glass p-6 rounded-3xl border tech-border relative z-10">
+        <h5 className="text-[11px] font-black uppercase text-white mb-3">Impedance Matching</h5>
+        <p className="text-[11px] text-slate-400 font-medium leading-relaxed">
+          The <span className="text-registry-teal">Matching Layer</span> has an impedance between the PZT and the tissue. This prevents 99% of the sound from reflecting back at the skin surface. The <span className="text-registry-rose">Backing Material</span> limits "ring down", creating short pulses which are critical for high Axial Resolution.
+        </p>
+      </div>
+
       <VisualInsight 
-        title="Range Equation" 
-        description="Distance = (Propagation Speed × Round-trip Time) / 2. System measures the time delay of echoes to determine reflector depth." 
+        title="Piezoelectric Translation" 
+        description="The Lead Zirconate Titanate (PZT) crystal converts electricity into sound (transmit) and sound back into electricity (receive). By applying an electrical pulse, the crystal physically deforms, creating a mechanical pressure wave that travel through the body." 
+      />
+    </motion.div>
+  );
+};
+
+export const PulseEchoPrincipleVisual: React.FC = () => {
+  const [pulsePos, setPulsePos] = useState(0);
+  const [isTransmitting, setIsTransmitting] = useState(true);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPulsePos(prev => (prev + 2) % 100);
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Cycle states: 0-10 Transmit, 10-100 Listen
+  const cycleProgress = pulsePos;
+  const isTransmitPhase = cycleProgress < 10;
+
+  return (
+    <motion.div 
+      whileHover={{ y: -4 }}
+      className="bg-stealth-900 p-6 md:p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group"
+    >
+      <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+      
+      <div className="flex flex-col lg:flex-row gap-8 relative z-10">
+        <div className="flex-1 space-y-6">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-registry-teal/10 rounded-xl border border-registry-teal/20 shadow-glow">
+                <Target className="w-5 h-5 text-registry-teal" />
+              </div>
+              <h4 className="text-xl font-black uppercase italic text-white">Pulse-Echo Principle</h4>
+            </div>
+            <div className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase transition-all duration-300 ${isTransmitPhase ? 'bg-registry-rose text-white shadow-glow-rose' : 'bg-registry-teal text-stealth-950 shadow-glow'}`}>
+              {isTransmitPhase ? 'TALKING' : 'LISTENING'}
+            </div>
+          </div>
+
+          <div className="h-48 bg-slate-950 rounded-3xl relative overflow-hidden flex items-center border border-slate-800 shadow-inner">
+            <div className="absolute inset-0 scanline opacity-10" />
+            
+            {/* Transducer Face */}
+            <div className="absolute left-0 w-16 h-28 bg-slate-800 rounded-r-3xl border-y border-r border-white/10 z-20 flex items-center justify-center">
+               <div className={`w-2 h-16 rounded-full transition-colors duration-200 ${isTransmitPhase ? 'bg-registry-rose shadow-glow-rose' : 'bg-slate-700'}`} />
+            </div>
+
+            {/* Target Reflector */}
+            <div className="absolute right-12 w-4 h-32 bg-slate-700/30 rounded-full border border-white/5 blur-sm" />
+            <div className="absolute right-12 w-2 h-24 bg-slate-700 rounded-full border border-white/10 z-10" />
+
+            {/* Wave Animation */}
+            <AnimatePresence>
+              {isTransmitPhase && (
+                <motion.div 
+                  initial={{ x: 60, opacity: 0 }}
+                  animate={{ x: [60, 320], opacity: [0, 1, 1, 0] }}
+                  transition={{ duration: 0.5, ease: "linear" }}
+                  className="absolute w-12 h-16 flex items-center justify-around"
+                >
+                  <div className="w-1.5 h-16 bg-registry-rose rounded-full shadow-glow-rose" />
+                  <div className="w-1.5 h-12 bg-registry-rose/60 rounded-full" />
+                </motion.div>
+              )}
+              {!isTransmitPhase && pulsePos > 25 && pulsePos < 65 && (
+                <motion.div 
+                  initial={{ x: 300, opacity: 0 }}
+                  animate={{ x: [300, 60], opacity: [0, 0.4, 0.4, 0] }}
+                  transition={{ duration: 0.8, ease: "linear" }}
+                  className="absolute w-8 h-12 flex items-center justify-around"
+                >
+                  <div className="w-1 h-12 bg-registry-teal/40 rounded-full shadow-glow" />
+                  <div className="w-1 h-10 bg-registry-teal/20 rounded-full" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[11px] font-black uppercase tracking-[0.4em] text-slate-500 italic">
+              Acoustic Flight Path
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full lg:w-48 flex flex-col justify-between space-y-4">
+           <div className="bg-slate-950 p-4 rounded-3xl border border-white/5 flex-1 flex flex-col items-center justify-center relative overflow-hidden">
+             <div className="absolute inset-0 radial-gradient opacity-20" />
+             <p className="text-[11px] font-black text-slate-500 uppercase mb-4 tracking-widest">Duty Cycle</p>
+             <svg className="w-24 h-24 rotate-[-90deg]">
+               <circle cx="48" cy="48" r="40" fill="none" stroke="#1e293b" strokeWidth="8" />
+               <motion.circle 
+                 cx="48" cy="48" r="40" fill="none" stroke="#f43f5e" strokeWidth="8"
+                 strokeDasharray={`${(10 / 100) * 251.2} 251.2`}
+                 className="drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]"
+               />
+               <motion.circle 
+                 cx="48" cy="48" r="46" fill="none" stroke="#22d3ee" strokeWidth="2"
+                 animate={{ strokeDasharray: [`0 289`, `${(cycleProgress / 100) * 289} 289`] }}
+               />
+             </svg>
+             <div className="absolute inset-0 flex items-center justify-center pointer-events-none mt-8">
+                <span className="text-xl font-black italic text-white">{cycleProgress}%</span>
+             </div>
+           </div>
+
+           <div className="premium-glass p-4 rounded-3xl border border-white/5 space-y-1">
+              <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest">PROP. SPEED</p>
+              <p className="text-xs font-bold text-white italic">1,540 m/s</p>
+           </div>
+        </div>
+      </div>
+
+      <VisualInsight 
+        title="Range Equation Dynamics" 
+        description="The system uses the '13 microsecond rule': it takes 13µs to travel 1cm to a reflector and back in soft tissue. By timing this delay precisely, the scanner places the pixel at the exact anatomical depth. Rememeber: Transmit time is minuscule (<1%), while Receiving takes up 99% of the ultrasound's life!" 
       />
     </motion.div>
   );
@@ -677,7 +837,7 @@ export const DutyFactorVisual: React.FC = () => {
              </div>
           ))}
         </div>
-        <div className="absolute inset-x-0 bottom-2 text-center text-[7px] font-black uppercase text-slate-500">Pulse Duration / PRP</div>
+        <div className="absolute inset-x-0 bottom-2 text-center text-[11px] font-black uppercase text-slate-500">Pulse Duration / PRP</div>
       </div>
       <VisualInsight 
         title="Duty Factor" 
@@ -708,7 +868,7 @@ export const BandwidthVisual: React.FC = () => {
             transition={{ duration: 2, repeat: Infinity }}
           />
           <line x1="140" y1="100" x2="260" y2="100" stroke="#f43f5e" strokeWidth="1" strokeDasharray="4 2" />
-          <text x="200" y="95" textAnchor="middle" fill="#f43f5e" className="text-[8px] font-black uppercase">Bandwidth</text>
+          <text x="200" y="95" textAnchor="middle" fill="#f43f5e" className="text-[11px] font-black uppercase">Bandwidth</text>
         </svg>
       </div>
       <VisualInsight 
@@ -749,7 +909,7 @@ export const BeamFocusingVisual: React.FC = () => {
         </svg>
       </div>
       <div className="space-y-2">
-        <label className="text-[8px] font-black uppercase text-slate-500">Focal Depth</label>
+        <label className="text-[11px] font-black uppercase text-slate-500">Focal Depth</label>
         <input type="range" min="40" max="180" value={focalDepth} onChange={e => setFocalDepth(Number(e.target.value))} className="w-full h-1 accent-registry-teal bg-slate-800 rounded-lg appearance-none cursor-pointer" />
       </div>
       <VisualInsight 
@@ -777,7 +937,7 @@ export const TGCVisual: React.FC = () => {
       <div className="flex space-x-8 justify-center h-40">
         {tgc.map((val, i) => (
           <div key={i} className="flex flex-col items-center h-full space-y-2">
-            <span className="text-[7px] font-black text-slate-500 uppercase">Depth {i+1}</span>
+            <span className="text-[11px] font-black text-slate-500 uppercase">Depth {i+1}</span>
             <div className="h-full w-1.5 bg-slate-800 rounded-full relative">
               <motion.div 
                 style={{ bottom: `${val}%` }}
@@ -822,7 +982,7 @@ export const DynamicRangeVisual: React.FC = () => {
         </div>
       </div>
       <div className="space-y-2">
-        <label className="text-[8px] font-black uppercase text-slate-500">Compression Level</label>
+        <label className="text-[11px] font-black uppercase text-slate-500">Compression Level</label>
         <input type="range" min="0" max="100" value={compression} onChange={e => setCompression(Number(e.target.value))} className="w-full h-1 accent-registry-teal bg-slate-800 rounded-lg appearance-none cursor-pointer" />
       </div>
       <VisualInsight 
@@ -858,7 +1018,7 @@ export const BeamSteeringVisual: React.FC = () => {
         </svg>
       </div>
       <div className="space-y-2">
-        <label className="text-[8px] font-black uppercase text-slate-500">Steering Angle: {steeringAngle}°</label>
+        <label className="text-[11px] font-black uppercase text-slate-500">Steering Angle: {steeringAngle}°</label>
         <input type="range" min="-30" max="30" value={steeringAngle} onChange={e => setSteeringAngle(Number(e.target.value))} className="w-full h-1 accent-registry-teal bg-slate-800 rounded-lg appearance-none cursor-pointer" />
       </div>
       <VisualInsight 
@@ -927,7 +1087,7 @@ export const PulseInversionVisual: React.FC = () => {
             animate={{ opacity: [1, 0.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-          <text x="250" y="80" textAnchor="middle" fill="#22d3ee" className="text-[10px] font-black uppercase tracking-widest">Harmonic Signal Enhances</text>
+          <text x="250" y="80" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">Harmonic Signal Enhances</text>
         </svg>
       </div>
       <VisualInsight 
@@ -967,9 +1127,9 @@ export const DemodulationVisual: React.FC = () => {
              transition={{ duration: 1.5, repeat: Infinity }}
              d="M 250 75 Q 300 40 350 75" stroke="#22d3ee" strokeWidth="3" fill="none" 
            />
-           <text x="75" y="130" textAnchor="middle" fill="#22d3ee" className="text-[8px] font-black uppercase tracking-widest">RF Signal</text>
-           <text x="175" y="130" textAnchor="middle" fill="#22d3ee" className="text-[8px] font-black uppercase tracking-widest">Rectified</text>
-           <text x="300" y="130" textAnchor="middle" fill="#22d3ee" className="text-[8px] font-black uppercase tracking-widest">Enveloped (Video)</text>
+           <text x="75" y="130" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">RF Signal</text>
+           <text x="175" y="130" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">Rectified</text>
+           <text x="300" y="130" textAnchor="middle" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest">Enveloped (Video)</text>
         </svg>
       </div>
       <VisualInsight 
@@ -1002,7 +1162,7 @@ export const TemporalResolutionVisual: React.FC = () => {
         </div>
       </div>
       <div className="space-y-4">
-        <label className="text-[8px] font-black uppercase text-slate-500">Frame Rate (FPS)</label>
+        <label className="text-[11px] font-black uppercase text-slate-500">Frame Rate (FPS)</label>
         <input type="range" min="1" max="60" value={frameRate} onChange={e => setFrameRate(Number(e.target.value))} className="w-full h-1 accent-registry-teal bg-slate-800 rounded-lg appearance-none cursor-pointer" />
       </div>
       <VisualInsight 
@@ -1022,18 +1182,18 @@ export const DampingResolutionExplainer: React.FC = () => {
       </h4>
       <div className="grid grid-cols-2 gap-4 h-40">
         <div className="bg-slate-950 rounded-2xl p-4 flex flex-col items-center justify-center border border-white/5">
-           <span className="text-[10px] font-black uppercase text-registry-rose mb-4">No Damping</span>
+           <span className="text-[11px] font-black uppercase text-registry-rose mb-4">No Damping</span>
            <svg className="w-full h-full" viewBox="0 0 100 50">
               <path d="M 0 25 Q 10 5 20 25 Q 30 45 40 25 Q 50 5 60 25 Q 70 45 80 25 Q 90 5 100 25" stroke="#f43f5e" strokeWidth="2" fill="none" />
            </svg>
-           <span className="text-[7px] font-black uppercase text-slate-500 mt-2">Long Pulse (Poor Res)</span>
+           <span className="text-[11px] font-black uppercase text-slate-500 mt-2">Long Pulse (Poor Res)</span>
         </div>
         <div className="bg-slate-950 rounded-2xl p-4 flex flex-col items-center justify-center border border-white/5">
-           <span className="text-[10px] font-black uppercase text-registry-teal mb-4">With Damping</span>
+           <span className="text-[11px] font-black uppercase text-registry-teal mb-4">With Damping</span>
            <svg className="w-full h-full" viewBox="0 0 100 50">
               <path d="M 0 25 Q 10 5 20 25 Q 30 45 40 25" stroke="#22d3ee" strokeWidth="2" fill="none" />
            </svg>
-           <span className="text-[7px] font-black uppercase text-registry-teal mt-2">Short Pulse (Good Res)</span>
+           <span className="text-[11px] font-black uppercase text-registry-teal mt-2">Short Pulse (Good Res)</span>
         </div>
       </div>
       <VisualInsight 
@@ -1055,11 +1215,11 @@ export const QAPhantomVisual: React.FC = () => {
         <div className="absolute inset-0 scanline opacity-10" />
         <div className="grid grid-cols-4 gap-4 h-full">
            <div className="border border-white/10 rounded-xl flex flex-col p-2 space-y-2">
-              <span className="text-[6px] font-black text-slate-500 uppercase">Dead Zone</span>
+              <span className="text-[11px] font-black text-slate-500 uppercase">Dead Zone</span>
               <div className="flex-1 bg-white/5 rounded-lg border-t-4 border-registry-rose" />
            </div>
            <div className="border border-white/10 rounded-xl flex flex-col p-2 space-y-2">
-              <span className="text-[6px] font-black text-slate-500 uppercase">Pins</span>
+              <span className="text-[11px] font-black text-slate-500 uppercase">Pins</span>
               <div className="flex-1 flex flex-col items-center justify-around">
                  <div className="w-1 h-1 bg-white rounded-full shadow-white shadow-sm" />
                  <div className="w-1 h-1 bg-white rounded-full shadow-white shadow-sm" />
@@ -1067,14 +1227,14 @@ export const QAPhantomVisual: React.FC = () => {
               </div>
            </div>
            <div className="border border-white/10 rounded-xl flex flex-col p-2 space-y-2">
-              <span className="text-[6px] font-black text-slate-500 uppercase">Cysts</span>
+              <span className="text-[11px] font-black text-slate-500 uppercase">Cysts</span>
               <div className="flex-1 flex flex-col items-center justify-around">
                  <div className="w-4 h-4 rounded-full border border-registry-teal/30" />
                  <div className="w-4 h-4 rounded-full border border-registry-teal/30 bg-registry-teal/5" />
               </div>
            </div>
            <div className="border border-white/10 rounded-xl flex flex-col p-2 space-y-2">
-              <span className="text-[6px] font-black text-slate-500 uppercase">Sensitivity</span>
+              <span className="text-[11px] font-black text-slate-500 uppercase">Sensitivity</span>
               <div className="flex-1 bg-gradient-to-b from-white/20 to-transparent" />
            </div>
         </div>

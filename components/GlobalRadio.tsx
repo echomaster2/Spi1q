@@ -138,7 +138,7 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
           </div>
           <div>
             <h2 className="text-xl font-black italic uppercase tracking-tighter">Neural Radio</h2>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-[0.2em]">Live Frequency Stream</p>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-[0.2em]">Live Frequency Stream</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -185,7 +185,7 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
                 className="mt-4 p-3 bg-registry-rose/10 border border-registry-rose/20 rounded-xl flex items-center space-x-2 justify-center"
               >
                 <AlertCircle className="w-4 h-4 text-registry-rose" />
-                <span className="text-[10px] font-black uppercase text-registry-rose tracking-widest">{error}</span>
+                <span className="text-[11px] font-black uppercase text-registry-rose tracking-widest">{error}</span>
               </motion.div>
             )}
           </div>
@@ -242,10 +242,10 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
                   <X className="w-3 h-3 text-white" />
                 </button>
               )}
-              <p className="text-[10px] font-black uppercase tracking-tight truncate">{station.name}</p>
+              <p className="text-[11px] font-black uppercase tracking-tight truncate">{station.name}</p>
               <div className="flex items-center space-x-1">
                 <Activity className="w-3 h-3 text-registry-teal" />
-                <span className="text-[8px] font-bold text-slate-500 uppercase">{station.genre.split('/')[0]}</span>
+                <span className="text-[11px] font-bold text-slate-500 uppercase">{station.genre.split('/')[0]}</span>
               </div>
             </button>
           ))}
@@ -267,12 +267,12 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
                   <Globe className="w-8 h-8 text-registry-teal" />
                 </div>
                 <h3 className={`text-2xl font-black italic uppercase tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add Frequency</h3>
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-2">Inject custom audio stream</p>
+                <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest mt-2">Inject custom audio stream</p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Station Name</label>
+                  <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Station Name</label>
                   <div className="relative">
                     <Tag className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input 
@@ -286,7 +286,7 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Genre / Mood</label>
+                  <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Genre / Mood</label>
                   <div className="relative">
                     <Waves className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input 
@@ -300,7 +300,7 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Stream URL (MP3/AAC/Suno)</label>
+                  <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Stream URL (MP3/AAC/Suno)</label>
                   <div className="relative">
                     <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input 
@@ -317,14 +317,14 @@ export const GlobalRadio: React.FC<GlobalRadioProps> = ({ onClose, isDarkMode })
               <div className="flex space-x-4 pt-4">
                 <button 
                   onClick={() => setShowAddForm(false)}
-                  className={`flex-1 py-4 ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-900'} rounded-2xl font-black uppercase tracking-widest text-[10px] transition-colors`}
+                  className={`flex-1 py-4 ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-900'} rounded-2xl font-black uppercase tracking-widest text-[11px] transition-colors`}
                 >
                   Cancel
                 </button>
                 <button 
                   onClick={handleAddStationSubmit}
                   disabled={!newStation.name || !newStation.url}
-                  className="flex-1 py-4 bg-registry-teal text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-registry-teal/20 disabled:opacity-50 transition-all active:scale-95"
+                  className="flex-1 py-4 bg-registry-teal text-white rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-lg shadow-registry-teal/20 disabled:opacity-50 transition-all active:scale-95"
                 >
                   Add Station
                 </button>

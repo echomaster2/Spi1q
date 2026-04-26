@@ -42,7 +42,7 @@ export const QuestSystem: React.FC<{
           </div>
           <div>
             <h2 className="text-3xl font-black italic uppercase tracking-tighter">Quest Protocol</h2>
-            <p className="text-[10px] font-black text-registry-amber uppercase tracking-[0.4em] mt-1">Operational Objectives Alpha</p>
+            <p className="text-[11px] font-black text-registry-amber uppercase tracking-[0.4em] mt-1">Operational Objectives Alpha</p>
           </div>
         </div>
         <button 
@@ -58,13 +58,13 @@ export const QuestSystem: React.FC<{
         <div className="flex p-1 bg-stealth-900/50 rounded-2xl border border-white/5 max-w-md">
           <button 
             onClick={() => setActiveTab('daily')}
-            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'daily' ? 'bg-registry-amber text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'daily' ? 'bg-registry-amber text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             Daily Operations
           </button>
           <button 
             onClick={() => setActiveTab('milestone')}
-            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'milestone' ? 'bg-registry-amber text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'milestone' ? 'bg-registry-amber text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             Milestone Protocol
           </button>
@@ -99,8 +99,8 @@ export const QuestSystem: React.FC<{
                     
                     <div className="space-y-3 pt-2">
                        <div className="flex justify-between items-end">
-                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Efficiency Parameters</span>
-                          <span className="text-[10px] font-mono text-white">{quest.progress} / {quest.total}</span>
+                          <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Efficiency Parameters</span>
+                          <span className="text-[11px] font-mono text-white">{quest.progress} / {quest.total}</span>
                        </div>
                        <div className={`h-2 w-full rounded-full overflow-hidden ${quest.completed ? 'bg-registry-teal/20' : 'bg-white/5 shadow-inner'}`}>
                           <motion.div 
@@ -113,7 +113,7 @@ export const QuestSystem: React.FC<{
                   </div>
 
                   <div className="flex flex-col items-center space-y-2 ml-8 pt-2">
-                     <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest italic">Sync Reward</p>
+                     <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest italic">Sync Reward</p>
                      <div className={`px-5 py-3 rounded-2xl border flex items-center space-x-3 ${quest.completed ? 'bg-registry-teal/10 border-registry-teal/20 text-registry-teal shadow-glow' : 'bg-white/5 border-white/10 text-white shadow-xl'}`}>
                         <Sparkles className="w-4 h-4" />
                         <span className="text-sm font-black italic tracking-tighter">{quest.reward} RU</span>
@@ -140,12 +140,12 @@ export const QuestSystem: React.FC<{
                </div>
              ))}
            </div>
-           <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Neural Ranking Sync: <span className="text-white italic">Awaiting Synchronous Master</span></p>
+           <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Neural Ranking Sync: <span className="text-white italic">Awaiting Synchronous Master</span></p>
         </div>
         <div className="flex items-center space-x-4">
            <div className="flex flex-col items-end">
-             <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Operational Uptime</span>
-             <span className="text-[10px] font-mono font-bold text-registry-amber italic">99.998% SYNC</span>
+             <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Operational Uptime</span>
+             <span className="text-[11px] font-mono font-bold text-registry-amber italic">99.998% SYNC</span>
            </div>
            <div className="w-10 h-10 rounded-xl bg-registry-amber/10 border border-registry-amber/20 flex items-center justify-center animate-pulse">
               <Shield className="w-5 h-5 text-registry-amber" />

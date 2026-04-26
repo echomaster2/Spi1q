@@ -105,8 +105,8 @@ export const InteractiveWave: React.FC<InteractiveWaveProps> = ({ isDarkMode, co
             <div className="w-16 h-16 rounded-full bg-registry-teal/5 animate-pulse" />
             <div className="absolute inset-0 rounded-full border border-registry-teal/10 animate-ping" style={{ animationDuration: '3s' }} />
           </motion.div>
-          <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Acoustic Pulse Core</p>
-          <p className="text-[8px] font-bold text-registry-teal/50 uppercase tracking-widest">Click to emit wave • Hover to focus</p>
+          <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em]">Acoustic Pulse Core</p>
+          <p className="text-[11px] font-bold text-registry-teal/50 uppercase tracking-widest">Click to emit wave • Hover to focus</p>
         </div>
       </div>
 

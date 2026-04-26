@@ -61,7 +61,7 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
   const readinessScore = calculateReadiness();
 
   return (
-    <div className={`${isDarkMode ? 'atmosphere-bg border-white/5 shadow-2xl' : 'bg-white border-slate-200 shadow-sm'} rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 border space-y-6 md:space-y-8 relative overflow-hidden group relative z-10`}>
+    <div className={`${isDarkMode ? 'atmosphere-bg border-white/5 shadow-2xl' : 'bg-white border-slate-200 shadow-sm'} rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-8 border space-y-4 md:space-y-8 relative overflow-hidden group relative z-10`}>
       {/* Background Elements */}
       <div className="absolute inset-0 neural-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none" />
@@ -73,7 +73,7 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
           </div>
           <div>
             <h3 className={`text-xl font-black uppercase italic tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Neural Analytics</h3>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Data Stream: ACTIVE</p>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Data Stream: ACTIVE</p>
           </div>
         </div>
         <div className="flex items-center space-x-4">
@@ -81,7 +81,7 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
               <div className={`text-2xl font-black italic tabular-nums leading-none ${readinessScore > 75 ? 'text-green-500' : 'text-amber-500'}`}>
                 {readinessScore}%
               </div>
-              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mt-1">SPI Readiness</p>
+              <p className="text-[11px] font-black text-slate-800 dark:text-slate-500 uppercase tracking-widest mt-1">SPI Readiness</p>
            </div>
            <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center p-1 ${readinessScore > 75 ? 'border-green-500/30' : 'border-amber-500/30'}`}>
               <div className={`w-full h-full rounded-full flex items-center justify-center ${readinessScore > 75 ? 'bg-green-500' : 'bg-amber-500'} shadow-[0_0_15px_rgba(34,197,94,0.4)]`}>
@@ -95,17 +95,17 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
         {/* Radar Chart for Module Performance */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Performance Matrix</span>
-            <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest">Multi-Node Sync</span>
+            <span className="text-[11px] font-black text-slate-800 dark:text-slate-500 uppercase tracking-widest">Performance Matrix</span>
+            <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Multi-Node Sync</span>
           </div>
           <div className="h-64 w-full glass-morphism rounded-3xl p-4">
             {radarData.length >= 3 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                  <PolarGrid stroke={isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"} />
+                  <PolarGrid stroke={isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.2)"} />
                   <PolarAngleAxis 
                     dataKey="subject" 
-                    tick={{ fill: isDarkMode ? "#94a3b8" : "#64748b", fontSize: 8, fontWeight: 900 }}
+                    tick={{ fill: isDarkMode ? "#94a3b8" : "#334155", fontSize: 8, fontWeight: 900 }}
                   />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                   <Radar
@@ -130,7 +130,7 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
               </ResponsiveContainer>
             ) : (
               <div className="h-full flex items-center justify-center border border-dashed border-slate-200 dark:border-white/5 rounded-3xl opacity-40">
-                <p className="text-[10px] font-black uppercase tracking-widest">Need 3+ Modules for Matrix</p>
+                <p className="text-[11px] font-black uppercase tracking-widest">Need 3+ Modules for Matrix</p>
               </div>
             )}
           </div>
@@ -139,10 +139,10 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
         {/* Bar Chart for Activity History */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Neural Activity</span>
+            <span className="text-[11px] font-black text-slate-800 dark:text-slate-500 uppercase tracking-widest">Neural Activity</span>
             <div className="flex items-center space-x-1">
               <Calendar className="w-3 h-3 text-registry-teal" />
-              <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest">Last 7 Cycles</span>
+              <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Last 7 Cycles</span>
             </div>
           </div>
           <div className="h-32 w-full">
@@ -153,7 +153,7 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: isDarkMode ? "#64748b" : "#94a3b8", fontSize: 8, fontWeight: 900 }}
+                    tick={{ fill: isDarkMode ? "#64748b" : "#475569", fontSize: 8, fontWeight: 900 }}
                   />
                   <YAxis hide />
                   <Tooltip 
@@ -176,23 +176,23 @@ export const StudyAnalytics: React.FC<StudyAnalyticsProps & { profile?: any }> =
               </ResponsiveContainer>
             ) : (
               <div className="h-full flex items-center justify-center border border-dashed border-slate-200 dark:border-white/5 rounded-3xl opacity-40">
-                <p className="text-[10px] font-black uppercase tracking-widest">No Recent Activity Logged</p>
+                <p className="text-[11px] font-black uppercase tracking-widest">No Recent Activity Logged</p>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      <div className={`pt-6 border-t grid grid-cols-2 gap-4 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-        <div className={`p-4 rounded-2xl border space-y-1 group/stat hover:border-registry-rose/30 transition-colors ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-          <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-rose transition-colors">Diagnostic Accuracy</p>
+       <div className={`pt-6 border-t grid grid-cols-2 gap-4 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-300'}`}>
+        <div className={`p-4 rounded-2xl border space-y-1 group/stat hover:border-registry-rose/30 transition-colors ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-300'}`}>
+          <p className="text-[11px] font-black uppercase text-slate-800 dark:text-slate-500 tracking-widest group-hover/stat:text-registry-rose transition-colors">Diagnostic Accuracy</p>
           <div className="flex items-center space-x-2">
             <Target className="w-4 h-4 text-registry-rose" />
             <span className={`text-lg font-mono font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{accuracy}%</span>
           </div>
         </div>
-        <div className={`p-4 rounded-2xl border space-y-1 group/stat hover:border-registry-teal/30 transition-colors ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-          <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-teal transition-colors">Neural Focus Time</p>
+        <div className={`p-4 rounded-2xl border space-y-1 group/stat hover:border-registry-teal/30 transition-colors ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-300'}`}>
+          <p className="text-[11px] font-black uppercase text-slate-800 dark:text-slate-500 tracking-widest group-hover/stat:text-registry-teal transition-colors">Neural Focus Time</p>
           <div className="flex items-center space-x-2">
             <Activity className="w-4 h-4 text-registry-teal" />
             <span className={`text-lg font-mono font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studyHours}h</span>

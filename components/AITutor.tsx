@@ -107,22 +107,22 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
       {/* Sidebar Rail (Recipe 11: SaaS Landing) */}
       <div className="absolute left-4 top-40 bottom-40 w-px bg-gradient-to-b from-transparent via-registry-teal/20 to-transparent hidden lg:block z-0">
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center space-y-24 opacity-20">
-            <span className="writing-mode-vertical text-[7px] font-black uppercase tracking-[0.5em] text-registry-teal">NEURAL_SYNC_CHANNEL_04</span>
-            <span className="writing-mode-vertical text-[7px] font-black uppercase tracking-[0.5em] text-registry-rose">X_PROT_VAULT_ACTIVE</span>
+            <span className="writing-mode-vertical text-[11px] font-black uppercase tracking-[0.5em] text-registry-teal">NEURAL_SYNC_CHANNEL_04</span>
+            <span className="writing-mode-vertical text-[11px] font-black uppercase tracking-[0.5em] text-registry-rose">X_PROT_VAULT_ACTIVE</span>
          </div>
       </div>
 
-      <header className={`p-6 md:p-8 ${isDarkMode ? 'bg-stealth-950/40' : 'bg-white/40'} backdrop-blur-3xl text-slate-900 dark:text-white flex justify-between items-center flex-shrink-0 border-b tech-border transition-colors relative z-10`}>
-        <div className="flex items-center space-x-4">
+      <header className={`p-4 md:p-8 ${isDarkMode ? 'bg-stealth-950/40' : 'bg-white/40'} backdrop-blur-3xl text-slate-900 dark:text-white flex justify-between items-center flex-shrink-0 border-b tech-border transition-colors relative z-10`}>
+        <div className="flex items-center space-x-3 md:space-x-4">
           <button 
             onClick={onClose} 
-            className="p-3 -ml-2 text-slate-400 dark:text-white/70 hover:text-registry-teal transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal rounded-2xl hover:bg-white/10" 
+            className="p-2 md:p-3 -ml-2 text-slate-400 dark:text-white/70 hover:text-registry-teal transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal rounded-2xl hover:bg-white/10" 
             aria-label="Close Harvey AI Tutor"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 md:w-6 md:h-6" />
           </button>
-          <div className="flex items-center space-x-3">
-            <div className="scale-75 -mx-6">
+          <div className="flex items-center space-x-2 md:space-x-3">
+            <div className="scale-75 -mx-8 md:-mx-6">
               <CompanionAvatar 
                 state={isLoading ? 'thinking' : isNarrating ? 'speaking' : 'idle'} 
                 skin={profile?.companionSkin || 'sonographer'}
@@ -143,12 +143,12 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
           <div>
             <h4 className="text-base md:text-xl font-black tracking-tighter leading-none italic uppercase flex items-center space-x-3">
               <span className="shimmer-text">HARVEY</span>
-              <span className="text-[9px] px-2 py-1 bg-registry-teal/10 text-registry-teal border border-registry-teal/20 rounded-lg font-mono animate-pulse shadow-glow">LINK ACTIVE</span>
+              <span className="text-[11px] px-2 py-1 bg-registry-teal/10 text-registry-teal border border-registry-teal/20 rounded-lg font-mono animate-pulse shadow-glow">LINK ACTIVE</span>
             </h4>
-            <p className="text-[9px] md:text-[10px] opacity-60 font-black uppercase tracking-[0.2em] mt-1.5">NEURAL INTERFACE: {profile?.name || 'GUEST'} | NODE: {currentContext.substring(0, 15)}...</p>
+            <p className={`text-[11px] ${isDarkMode ? 'opacity-60' : 'opacity-90 text-slate-800'} font-black uppercase tracking-[0.2em] mt-1.5`}>NEURAL INTERFACE: {profile?.name || 'GUEST'} | NODE: {currentContext.substring(0, 15)}...</p>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-1 md:space-x-3">
           <div className="hidden sm:flex items-center space-x-2 mr-6">
             {[1, 2, 3].map(i => (
               <div key={i} className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-ping" style={{ animationDelay: `${i * 0.2}s` }} />
@@ -158,22 +158,22 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
             <button 
               onClick={() => onPlayNarration(`Hello! I'm Harvey, your SPI Master Tutor. I see you're studying "${currentContext}". Ask me anything about ultrasound physics!`, 'tutor_intro')} 
               disabled={isTtsLoading}
-              className={`p-3 rounded-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${isNarrating ? 'bg-registry-rose animate-pulse glow-rose text-white' : 'hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-white/70'}`}
+              className={`p-2.5 md:p-3 rounded-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${isNarrating ? 'bg-registry-rose animate-pulse glow-rose text-white' : 'hover:bg-slate-200 dark:hover:bg-white/10 text-slate-800 dark:text-white/70 bg-slate-100 dark:bg-transparent'}`}
               aria-label={isNarrating ? "Stop narration" : "Listen to introduction"}
             >
-              {isTtsLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : isNarrating ? <Pause className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+              {isTtsLoading ? <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" /> : isNarrating ? <Pause className="w-5 h-5 md:w-6 md:h-6" /> : <Volume2 className="w-5 h-5 md:w-6 md:h-6" />}
             </button>
           )}
           <button 
             onClick={shareClinicalTip}
-            className="p-3 hover:bg-registry-teal/10 rounded-2xl transition-all group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal text-registry-teal"
+            className="p-2.5 md:p-3 hover:bg-registry-teal/10 rounded-2xl transition-all group relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal text-registry-teal"
             aria-label="Get Clinical Wisdom"
             title="Get Clinical Wisdom"
           >
-            <Stethoscope className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-premium">Clinical Wisdom</span>
+            <Stethoscope className="w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform" />
+            <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[11px] px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-premium">Clinical Wisdom</span>
           </button>
-          <FullscreenToggle className="bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-500 dark:text-white/70 border-none p-3 rounded-2xl" iconClassName="w-6 h-6" />
+          <FullscreenToggle className="bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/20 text-slate-800 dark:text-white/70 border-none p-2.5 md:p-3 rounded-2xl" iconClassName="w-5 h-5 md:w-6 md:h-6" />
         </div>
       </header>
 
@@ -187,14 +187,14 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div className={`max-w-[85%] md:max-w-[80%] flex items-start space-x-3 md:space-x-5 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-premium border ${msg.role === 'user' ? 'bg-registry-teal/10 border-registry-teal/30 text-registry-teal glow-teal' : isDarkMode ? 'bg-stealth-800 border-white/10 text-slate-400' : 'bg-white border-slate-200 text-slate-400'}`}>
+              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-premium border ${msg.role === 'user' ? 'bg-registry-teal/10 border-registry-teal/30 text-registry-teal glow-teal' : isDarkMode ? 'bg-stealth-800 border-white/10 text-slate-400' : 'bg-white border-slate-300 text-slate-800'}`}>
                 {msg.role === 'user' ? <User className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
               </div>
               <div className="relative group">
                 <div className={`p-6 rounded-3xl text-sm md:text-base font-medium leading-relaxed shadow-premium border relative overflow-hidden ${
                   msg.role === 'user' 
                     ? 'bg-registry-teal text-white border-registry-teal/50 rounded-tr-none' 
-                    : isDarkMode ? 'bg-stealth-800/80 backdrop-blur-3xl border-white/10 text-slate-300 rounded-tl-none' : 'bg-white/80 backdrop-blur-3xl border-slate-200 text-slate-700 rounded-tl-none'
+                    : isDarkMode ? 'bg-stealth-800/80 backdrop-blur-3xl border-white/10 text-slate-300 rounded-tl-none' : 'bg-white/90 backdrop-blur-3xl border-slate-300 text-slate-900 rounded-tl-none'
                 }`}>
                   {/* Micro hardware screws in bubbles */}
                   <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/10 rounded-full" />
@@ -204,9 +204,9 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
                     <div className="flex items-center justify-between mb-4">
                        <div className="flex items-center space-x-2 opacity-50">
                           <div className="w-1.5 h-1.5 bg-registry-teal rounded-full shadow-glow" />
-                          <span className="text-[8px] font-black uppercase tracking-[0.3em]">Neural_Sync.Active</span>
+                          <span className="text-[11px] font-black uppercase tracking-[0.3em]">Neural_Sync.Active</span>
                        </div>
-                       <span className="text-[7px] font-mono opacity-20 uppercase tracking-widest">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                       <span className="text-[11px] font-mono opacity-20 uppercase tracking-widest">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
                     </div>
                   )}
                   <div className={msg.role === 'model' ? 'prose prose-sm dark:prose-invert max-w-none font-medium' : 'font-bold'}>
@@ -217,7 +217,7 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
                   <div className="absolute -bottom-10 left-0 flex items-center space-x-3 opacity-0 group-hover:opacity-100 transition-all">
                     <button 
                       onClick={() => handleVaultLocal(msg.text)}
-                      className="flex items-center space-x-2 px-4 py-1.5 bg-registry-teal/10 border border-registry-teal/20 rounded-full text-[9px] font-black uppercase text-registry-teal hover:bg-registry-teal hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal shadow-glow"
+                      className="flex items-center space-x-2 px-4 py-1.5 bg-registry-teal/10 border border-registry-teal/30 rounded-full text-[11px] font-black uppercase text-teal-600 dark:text-registry-teal hover:bg-registry-teal hover:text-stealth-950 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal shadow-glow"
                       aria-label="Archive message to vault"
                     >
                       <Save className="w-3.5 h-3.5" />
@@ -226,7 +226,7 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
                     {onPlayNarration && (
                       <button 
                         onClick={() => onPlayNarration(msg.text, `tutor_msg_${idx}`)}
-                        className="flex items-center space-x-2 px-4 py-1.5 bg-registry-rose/10 border border-registry-rose/20 rounded-full text-[9px] font-black uppercase text-registry-rose hover:bg-registry-rose hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-rose shadow-glow"
+                        className="flex items-center space-x-2 px-4 py-1.5 bg-registry-rose/10 border border-registry-rose/30 rounded-full text-[11px] font-black uppercase text-rose-600 dark:text-registry-rose hover:bg-registry-rose hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-rose shadow-glow"
                         aria-label="Listen to message"
                       >
                         <Volume2 className="w-3.5 h-3.5" />
@@ -251,7 +251,7 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
         )}
       </div>
 
-      <div className={`p-6 md:p-10 ${isDarkMode ? 'bg-stealth-950/40 border-white/10' : 'bg-white/40 border-slate-100'} backdrop-blur-3xl border-t pb-24 lg:pb-10 relative z-10`}>
+      <div className={`p-4 md:p-10 ${isDarkMode ? 'bg-stealth-950/40 border-white/10' : 'bg-white/40 border-slate-100'} backdrop-blur-3xl border-t pb-24 lg:pb-10 relative z-10`}>
         <div className="relative group">
           <div className="absolute -inset-1.5 bg-gradient-to-r from-registry-teal to-registry-rose rounded-3xl blur-lg opacity-20 group-focus-within:opacity-50 transition-opacity" />
           <input
@@ -260,23 +260,23 @@ export const AITutor: React.FC<AITutorProps> = ({ currentContext, onClose, onVau
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Initialize neural query..."
-            className="relative w-full pl-8 pr-20 py-6 bg-slate-50/50 dark:bg-stealth-900/50 rounded-3xl text-sm md:text-base font-bold border-2 border-transparent focus:border-registry-teal/50 text-slate-900 dark:text-slate-100 transition-all outline-none shadow-inner backdrop-blur-xl"
+            className="relative w-full pl-6 pr-16 md:pl-8 md:pr-20 py-4 md:py-6 bg-slate-100 dark:bg-stealth-900/50 rounded-3xl text-sm md:text-base font-bold border-2 border-transparent focus:border-registry-teal/50 text-slate-900 dark:text-slate-100 transition-all outline-none shadow-inner backdrop-blur-xl"
           />
           <button 
             onClick={handleSend} 
             disabled={isLoading} 
-            className="absolute right-3 top-3 bottom-3 px-6 bg-registry-teal text-white rounded-2xl shadow-glow disabled:opacity-50 hover:bg-registry-teal/80 transition-all hover:scale-105 active:scale-95 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="absolute right-2 top-2 bottom-2 md:right-3 md:top-3 md:bottom-3 px-4 md:px-6 bg-registry-teal text-white rounded-2xl shadow-glow disabled:opacity-50 hover:bg-registry-teal/80 transition-all hover:scale-105 active:scale-95 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Send neural query"
           >
-            {isLoading ? <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" /> : <Send className="w-5 h-5 md:w-6 md:h-6" />}
+            {isLoading ? <Loader2 className="w-4 h-4 md:w-6 md:h-6 animate-spin" /> : <Send className="w-4 h-4 md:w-6 md:h-6" />}
           </button>
         </div>
         <div className="mt-5 flex items-center justify-between px-3">
-          <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em]">Neural Link: {isLoading ? 'Processing Query...' : 'Encrypted'}</span>
+          <span className="text-[11px] font-black text-slate-800 dark:text-slate-500 uppercase tracking-[0.4em]">Neural Link: {isLoading ? 'Processing Query...' : 'Encrypted'}</span>
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <div className={`w-1.5 h-1.5 ${isLoading ? 'bg-registry-teal animate-pulse shadow-glow' : 'bg-registry-teal'} rounded-full`} />
-              <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em]">{isLoading ? 'Harvey is thinking' : 'Uptime 99.9%'}</span>
+              <span className="text-[11px] font-black text-slate-800 dark:text-slate-500 uppercase tracking-[0.4em]">{isLoading ? 'Harvey is thinking' : 'Uptime 99.9%'}</span>
             </div>
           </div>
         </div>

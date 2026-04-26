@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
+import { signInWithGoogle, logout } from '../firebase';
 import { generateText, generateSpeech } from '../src/services/aiService';
 import { UserProfile as UserProfileType, Module, LessonContentMap } from '../types';
 import { AudioCache } from '../src/lib/audioCache';
@@ -169,7 +170,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
           </div>
           <div>
             <h4 className="text-xl font-black tracking-tighter italic uppercase leading-none">User Profile</h4>
-            <p className={`text-[10px] ${isDarkMode ? 'opacity-50' : 'text-slate-400'} font-black uppercase tracking-[0.3em] mt-1.5`}>System Identity & Settings</p>
+            <p className={`text-[11px] ${isDarkMode ? 'opacity-50' : 'text-slate-400'} font-black uppercase tracking-[0.3em] mt-1.5`}>System Identity & Settings</p>
           </div>
         </div>
         <div className="flex items-center space-x-3">
@@ -255,7 +256,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                     className={`w-full p-5 ${isDarkMode ? 'bg-slate-950/50' : 'bg-white/50'} rounded-3xl font-black text-base outline-none border-2 border-transparent focus:border-registry-teal transition-all backdrop-blur-xl`}
                   />
                   <div className="space-y-1.5">
-                    <label className="text-[9px] font-black uppercase text-slate-500 tracking-widest block px-2">Target Registry Date</label>
+                    <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest block px-2">Target Registry Date</label>
                     <input 
                       type="date" 
                       value={registryDate} 
@@ -287,6 +288,29 @@ export const UserProfile: React.FC<UserProfileProps> = ({
           <User className="absolute -bottom-16 -right-16 w-64 h-64 text-registry-teal/5 rotate-12" />
         </section>
 
+        {!userId && (
+          <section className="bg-gradient-to-br from-registry-teal/20 to-registry-cobalt/20 rounded-4xl p-8 border border-registry-teal/30 relative overflow-hidden">
+            <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-5 h-5 text-registry-teal" />
+                  <h5 className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Unprotected Session</h5>
+                </div>
+                <h6 className="text-xl font-black italic uppercase text-white leading-tight">Sync Data to Registry</h6>
+                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest max-w-sm">Create a persistent identity to save progress, unlock achievements, and study across all devices.</p>
+              </div>
+              <button 
+                onClick={signInWithGoogle}
+                className="px-8 py-4 bg-white text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-glow hover:scale-105 active:scale-95 transition-all flex items-center space-x-3"
+              >
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/layout/google.svg" className="w-4 h-4" alt="Google" />
+                <span>Connect with Google</span>
+              </button>
+            </div>
+          </section>
+        )}
+
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
@@ -304,7 +328,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                 <stat.icon className={`w-7 h-7 ${stat.color}`} />
               </div>
               <span className={`text-2xl font-black italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
-              <span className="text-[9px] font-black uppercase text-slate-400 tracking-[0.2em]">{stat.label}</span>
+              <span className="text-[11px] font-black uppercase text-slate-400 tracking-[0.2em]">{stat.label}</span>
             </motion.div>
           ))}
         </div>
@@ -320,13 +344,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                     <Award className="w-5 h-5 text-registry-teal" />
                     <span>Mock Registry History</span>
                   </h4>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Performance visualization over time</p>
+                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mt-1">Performance visualization over time</p>
                 </div>
                 <div className="text-right">
                   <div className="text-xl md:text-2xl font-black italic">
                     {Math.round(profile.examHistory[profile.examHistory.length - 1].score)}%
                   </div>
-                  <div className="text-[8px] font-black text-registry-teal uppercase tracking-widest">Latest Score</div>
+                  <div className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Latest Score</div>
                 </div>
               </div>
 
@@ -379,11 +403,11 @@ export const UserProfile: React.FC<UserProfileProps> = ({
 
         {/* Learning Profile Section */}
         <section className="space-y-6">
-          <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">Learning Profile</h5>
+          <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">Learning Profile</h5>
           <div className={`${isDarkMode ? 'bg-slate-900/50 border-white/5' : 'bg-slate-50 border-slate-200'} rounded-[2.5rem] p-8 border space-y-8`}>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block px-1">Profile Avatar</label>
+                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest block px-1">Profile Avatar</label>
                 <div className="grid grid-cols-5 gap-2">
                   {[
                     { id: 'default', icon: User },
@@ -408,7 +432,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block px-1">Companion Identity (Harvey)</label>
+                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest block px-1">Companion Identity (Harvey)</label>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {(['sonographer', 'student', 'default', 'neon', 'stealth', 'golden'] as const).map((skin) => (
                     <button
@@ -423,14 +447,14 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                       <div className="scale-[0.4] -m-8">
                         <CompanionAvatar state="idle" skin={skin} />
                       </div>
-                      <span className="text-[7px] font-black uppercase tracking-widest">{skin}</span>
+                      <span className="text-[11px] font-black uppercase tracking-widest">{skin}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block px-1">Study Goals</label>
+                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest block px-1">Study Goals</label>
                 <textarea 
                   value={studyGoals}
                   onChange={(e) => setStudyGoals(e.target.value)}
@@ -440,13 +464,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block px-1">Preferred Learning Style</label>
+                <label className="text-[11px] font-black uppercase text-slate-400 tracking-widest block px-1">Preferred Learning Style</label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {(['visual', 'auditory', 'reading', 'kinesthetic'] as const).map((style) => (
                     <button
                       key={style}
                       onClick={() => setLearningStyle(style)}
-                      className={`py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${
+                      className={`py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all border-2 ${
                         learningStyle === style 
                           ? 'bg-registry-teal border-registry-teal text-white shadow-lg' 
                           : `${isDarkMode ? 'bg-slate-950 text-slate-400' : 'bg-white text-slate-400'} border-transparent hover:border-registry-teal/30`
@@ -472,14 +496,14 @@ export const UserProfile: React.FC<UserProfileProps> = ({
         {/* AI Study Plan Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between px-2">
-            <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em]">AI Personalized Study Plan</h5>
+            <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em]">AI Personalized Study Plan</h5>
             <button 
               onClick={generateAIPlan}
               disabled={isGenerating || !studyGoals}
               className="flex items-center space-x-2 px-4 py-2 bg-registry-teal/10 text-registry-teal rounded-xl hover:bg-registry-teal/20 transition-all disabled:opacity-30"
             >
               {isGenerating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-              <span className="text-[8px] font-black uppercase tracking-widest">Generate New Plan</span>
+              <span className="text-[11px] font-black uppercase tracking-widest">Generate New Plan</span>
             </button>
           </div>
 
@@ -487,7 +511,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             <div className="absolute inset-0 neural-grid opacity-5 pointer-events-none" />
             
             {error && (
-              <div className="mb-6 p-4 bg-registry-rose/10 border border-registry-rose/20 rounded-2xl flex items-center space-x-3 text-registry-rose text-[10px] font-black uppercase tracking-widest relative z-10">
+              <div className="mb-6 p-4 bg-registry-rose/10 border border-registry-rose/20 rounded-2xl flex items-center space-x-3 text-registry-rose text-[11px] font-black uppercase tracking-widest relative z-10">
                 <AlertCircle className="w-4 h-4" />
                 <span>{error}</span>
               </div>
@@ -504,7 +528,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs font-black uppercase text-slate-400 tracking-widest">No Plan Generated</p>
-                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest max-w-[200px]">Define your goals and click generate to receive your AI-powered study roadmap.</p>
+                  <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest max-w-[200px]">Define your goals and click generate to receive your AI-powered study roadmap.</p>
                 </div>
               </div>
             )}
@@ -514,9 +538,9 @@ export const UserProfile: React.FC<UserProfileProps> = ({
         {/* Offline Access Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between px-2">
-            <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em]">Offline Access</h5>
+            <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em]">Offline Access</h5>
             {isBulkCaching && (
-              <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest animate-pulse">
+              <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest animate-pulse">
                 Caching {cacheProgress.current}/{cacheProgress.total}
               </span>
             )}
@@ -528,7 +552,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
               </div>
               <div className="flex-1">
                 <p className={`text-xs font-black uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Lecture Cache</p>
-                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Download all lecture narrations for instant, offline playback.</p>
+                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Download all lecture narrations for instant, offline playback.</p>
               </div>
             </div>
             
@@ -539,7 +563,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                   initial={{ width: 0 }}
                   animate={{ width: `${(cacheProgress.current / cacheProgress.total) * 100}%` }}
                 />
-                <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black uppercase text-white mix-blend-difference">
+                <div className="absolute inset-0 flex items-center justify-center text-[11px] font-black uppercase text-white mix-blend-difference">
                   Processing {Math.round((cacheProgress.current / cacheProgress.total) * 100)}%
                 </div>
               </div>
@@ -554,7 +578,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                 </button>
                 <button 
                   onClick={() => setShowCacheClearConfirm(true)}
-                  className="w-full py-2 text-registry-rose text-[10px] font-black uppercase tracking-widest hover:underline"
+                  className="w-full py-2 text-registry-rose text-[11px] font-black uppercase tracking-widest hover:underline"
                 >
                   Clear Local Audio Cache
                 </button>
@@ -565,7 +589,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
 
         {/* Settings List */}
         <div className="space-y-4">
-          <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">System Preferences</h5>
+          <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">System Preferences</h5>
           <div className="grid gap-3">
             {[
               { label: 'Security & Privacy', icon: Shield, desc: 'Manage encryption and data access', action: () => {
@@ -590,7 +614,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                   </div>
                   <div className="text-left">
                     <p className={`text-xs font-black uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.label}</p>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{item.desc}</p>
+                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{item.desc}</p>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-500 transition-all" />
@@ -603,7 +627,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
         <div className={`pt-8 border-t ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
           <button 
             onClick={() => setShowLogoutConfirm(true)}
-            className="w-full py-5 bg-registry-rose/10 hover:bg-registry-rose text-registry-rose hover:text-white rounded-[2rem] font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center space-x-3 group"
+            className="w-full py-5 bg-registry-rose/10 hover:bg-registry-rose text-registry-rose hover:text-white rounded-[2rem] font-black uppercase tracking-widest text-[11px] transition-all flex items-center justify-center space-x-3 group"
           >
             <LogOut className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span>Deauthorize Session</span>
@@ -654,8 +678,8 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                     <button 
                       onClick={async () => {
                         if (showLogoutConfirm) {
-                          localStorage.removeItem('spi_profile');
-                          window.location.reload();
+                          await logout();
+                          onClose();
                         } else {
                           await AudioCache.clear();
                           setShowCacheClearConfirm(false);
@@ -691,7 +715,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] bg-registry-teal text-stealth-950 px-8 py-4 rounded-2xl shadow-2xl flex items-center space-x-3"
           >
             <CheckCircle2 className="w-5 h-5" />
-            <span className="font-black uppercase tracking-widest text-[10px]">Identity Updated Successfully</span>
+            <span className="font-black uppercase tracking-widest text-[11px]">Identity Updated Successfully</span>
           </motion.div>
         )}
       </AnimatePresence>

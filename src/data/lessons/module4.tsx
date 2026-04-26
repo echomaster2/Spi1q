@@ -39,7 +39,7 @@ export const module4Lessons: Record<string, LessonData> = {
             <div className="p-8 bg-slate-100 dark:bg-stealth-900 rounded-[2.5rem] border border-slate-200 dark:border-stealth-800">
                <h4 className="text-xl font-black uppercase italic mb-6">The Mnemonic</h4>
                <p className="text-sm font-bold uppercase tracking-tight text-registry-teal">"Two Crazy Foxes Velocity Cosine"</p>
-               <p className="text-[10px] text-slate-500 mt-2">(2 x Frequency x Velocity x Cosine)</p>
+               <p className="text-[11px] text-slate-500 mt-2">(2 x Frequency x Velocity x Cosine)</p>
             </div>
           </div>
           <div className="space-y-6">

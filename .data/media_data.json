@@ -607,6 +607,111 @@
           "explanation": "Comet tail is a form of reverberation where the reflective interfaces are very close together."
         }
       ]
+    },
+    {
+      "id": "weaver-echo-1",
+      "title": "Case Study: Severe LV Dysfunction (Simpson's Method)",
+      "description": "Apical 4 Chamber view showing manual trace of the Left Ventrical at end-systole. Calculated EF of 13.8% indicates severe global hypokinesis.",
+      "imageUrl": "/image_vault/weaver_simpsons.txt",
+      "category": "Advanced Case Studies",
+      "assessment": [
+        {
+          "id": "q-weaver-1",
+          "question": "Based on the Simpson's Biplane measurement of 13.8%, what is the clinical classification of this patient's LV function?",
+          "options": [
+            "Normal",
+            "Mildly Reduced",
+            "Moderately Reduced",
+            "Severely Reduced"
+          ],
+          "correctAnswer": 3,
+          "explanation": "An EF below 30% is generally classified as severely reduced systolic function."
+        }
+      ]
+    },
+    {
+      "id": "weaver-echo-2",
+      "title": "Mitral Regurgitation: CW Doppler Profile",
+      "description": "Continuous Wave Doppler of the mitral valve showing a high-velocity, holosystolic regurgitant jet (Vmax 459 cm/s).",
+      "imageUrl": "/image_vault/weaver_mr_doppler.txt",
+      "category": "Advanced Case Studies",
+      "assessment": [
+        {
+          "id": "q-weaver-2",
+          "question": "A MR jet velocity of 4.6 m/s corresponds to a peak pressure gradient of approximately?",
+          "options": [
+            "16 mmHg",
+            "36 mmHg",
+            "64 mmHg",
+            "85 mmHg"
+          ],
+          "correctAnswer": 3,
+          "explanation": "Using the simplified Bernoulli equation (4v^2): 4 * (4.6^2) ≈ 84.6 mmHg."
+        }
+      ]
+    },
+    {
+      "id": "weaver-echo-3",
+      "title": "LA Volume Indexing",
+      "description": "Left Atrial volume measurement in A4C view (129 ml). Indexed LA volume is a critical marker for chronic diastolic pressure elevation.",
+      "imageUrl": "/image_vault/weaver_la_vol.txt",
+      "category": "Advanced Case Studies",
+      "assessment": [
+        {
+          "id": "q-weaver-3",
+          "question": "What is the threshold for a 'severely dilated' Left Atrium in indexed volume (ml/m2)?",
+          "options": [
+            "> 28",
+            "> 34",
+            "> 42",
+            "> 48"
+          ],
+          "correctAnswer": 3,
+          "explanation": "Current guidelines define severely dilated LA as an indexed volume > 48 ml/m2."
+        }
+      ]
+    },
+    {
+      "id": "weaver-echo-4",
+      "title": "RV Function: TAPSE Measurement",
+      "description": "M-mode tracking of the lateral tricuspid annulus. TAPSE is a simple and reproducible measure of RV longitudinal function.",
+      "imageUrl": "/image_vault/weaver_tapse.txt",
+      "category": "Advanced Case Studies",
+      "assessment": [
+        {
+          "id": "q-weaver-4",
+          "question": "The measured TAPSE of 1.75 cm in this patient is considered?",
+          "options": [
+            "Normal",
+            "Mildly Reduced",
+            "Severely Reduced",
+            "Inconclusive"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A TAPSE ≥ 1.7 cm is typically considered within the normal range for RV systolic function."
+        }
+      ]
+    },
+    {
+      "id": "weaver-echo-5",
+      "title": "LV contractility: dP/dt",
+      "description": "Calculated dP/dt of 1102 mmHg/s derived from the MR spectral envelope. This measures the rate of pressure rise in the LV during isovolumetric contraction.",
+      "imageUrl": "/image_vault/weaver_dpdt.txt",
+      "category": "Advanced Case Studies",
+      "assessment": [
+        {
+          "id": "q-weaver-5",
+          "question": "A dP/dt value of 1102 mmHg/s is generally indicative of?",
+          "options": [
+            "Normal systolic function",
+            "Impaired systolic function",
+            "Hyperdynamic function",
+            "Diastolic dysfunction only"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Normal dP/dt is > 1200 mmHg/s. A value of 1102 suggests impaired LV global contractility."
+        }
+      ]
     }
   ]
 }

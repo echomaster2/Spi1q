@@ -89,17 +89,17 @@ export const Pricing: React.FC<PricingProps> = ({ onClose, isDarkMode }) => {
           </button>
           <div className="flex flex-col">
             <h2 className={`text-2xl font-black italic uppercase tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Mastery Access</h2>
-            <span className="text-[8px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Subscription Protocol v4.2</span>
+            <span className="text-[11px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Subscription Protocol v4.2</span>
           </div>
         </div>
         <div className="flex items-center space-x-3">
           <div className="hidden md:flex flex-col items-end mr-4">
-            <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Encryption Status</span>
-            <span className="text-[10px] font-black text-registry-teal uppercase tracking-widest">AES-256 ACTIVE</span>
+            <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Encryption Status</span>
+            <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">AES-256 ACTIVE</span>
           </div>
           <div className="px-4 py-1.5 bg-registry-teal/10 border border-registry-teal/20 rounded-full flex items-center space-x-2">
             <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse" />
-            <span className="text-[10px] font-black text-registry-teal uppercase tracking-widest">Secure Link</span>
+            <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Secure Link</span>
           </div>
         </div>
       </header>
@@ -109,7 +109,7 @@ export const Pricing: React.FC<PricingProps> = ({ onClose, isDarkMode }) => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1 bg-registry-rose/10 border border-registry-rose/20 rounded-full text-registry-rose text-[10px] font-black uppercase tracking-[0.3em] mb-4"
+            className="inline-block px-4 py-1 bg-registry-rose/10 border border-registry-rose/20 rounded-full text-registry-rose text-[11px] font-black uppercase tracking-[0.3em] mb-4"
           >
             Critical System Upgrade
           </motion.div>
@@ -138,7 +138,7 @@ export const Pricing: React.FC<PricingProps> = ({ onClose, isDarkMode }) => {
               <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
               
               {tier.highlight && (
-                <div className="mb-4 inline-block px-4 py-1 bg-registry-teal/20 border border-registry-teal/30 text-registry-teal text-[8px] font-black uppercase tracking-widest rounded-full">
+                <div className="mb-4 inline-block px-4 py-1 bg-registry-teal/20 border border-registry-teal/30 text-registry-teal text-[11px] font-black uppercase tracking-widest rounded-full">
                   Optimal Protocol
                 </div>
               )}
@@ -161,12 +161,12 @@ export const Pricing: React.FC<PricingProps> = ({ onClose, isDarkMode }) => {
                     {tier.price}
                   </span>
                   {tier.period && (
-                    <span className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                    <span className="text-slate-500 text-[11px] font-black uppercase tracking-widest">
                       {tier.period}
                     </span>
                   )}
                 </div>
-                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest border-l-2 border-registry-teal/30 pl-3 py-1">
+                <p className="text-slate-500 text-[11px] font-black uppercase tracking-widest border-l-2 border-registry-teal/30 pl-3 py-1">
                   {tier.description}
                 </p>
               </div>
@@ -213,11 +213,11 @@ export const Pricing: React.FC<PricingProps> = ({ onClose, isDarkMode }) => {
                "Due to the digital nature of our neural assets, we do not issue standard refunds. However, we are committed to your success. If you do not pass your registry after using our Mastery tools, we will extend your membership for 6 months or until you pass—whichever comes first."
              </p>
              <div className="flex flex-wrap items-center justify-center gap-12 pt-8">
-                <div className="flex items-center space-x-3 text-[10px] font-black uppercase text-slate-500 tracking-[0.2em]">
+                <div className="flex items-center space-x-3 text-[11px] font-black uppercase text-slate-500 tracking-[0.2em]">
                    <HeartPulse className="w-5 h-5 text-registry-rose animate-pulse" />
                    <span>5,000+ Certified Operators</span>
                 </div>
-                <div className="flex items-center space-x-3 text-[10px] font-black uppercase text-slate-500 tracking-[0.2em]">
+                <div className="flex items-center space-x-3 text-[11px] font-black uppercase text-slate-500 tracking-[0.2em]">
                    <ShieldCheck className="w-5 h-5 text-registry-teal" />
                    <span>256-Bit Neural Encryption</span>
                 </div>
@@ -227,7 +227,7 @@ export const Pricing: React.FC<PricingProps> = ({ onClose, isDarkMode }) => {
       </main>
 
       <footer className={`p-12 text-center border-t ${isDarkMode ? 'border-white/5 bg-stealth-950' : 'border-slate-100 bg-white'} text-slate-600 relative z-10`}>
-        <p className="text-[10px] font-black uppercase tracking-[0.5em]">
+        <p className="text-[11px] font-black uppercase tracking-[0.5em]">
           SPI MASTER // NEURAL LINK ESTABLISHED // PROFESSIONAL REGISTRY PREPARATION
         </p>
       </footer>

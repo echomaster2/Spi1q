@@ -12,8 +12,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DATA_FILE = path.resolve(__dirname, "user_data.json");
-const MEDIA_FILE = path.resolve(__dirname, "media_data.json");
+const DATA_FILE = path.resolve(__dirname, ".data/user_data.json");
+const MEDIA_FILE = path.resolve(__dirname, ".data/media_data.json");
+const DATA_DIR = path.resolve(__dirname, ".data");
+
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 const AUDIO_DIR = path.resolve(__dirname, "audio_vault");
 const IMAGE_DIR = path.resolve(__dirname, "image_vault");
 const VIDEO_DIR = path.resolve(__dirname, "video_vault");
@@ -31,7 +36,7 @@ if (!fs.existsSync(VIDEO_DIR)) {
 }
 
 // Configure multer for video uploads
-const storage = multer.diskStorage({
+const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, VIDEO_DIR);
   },
@@ -40,9 +45,24 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ 
-  storage,
+// Configure multer for image uploads
+const imageStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, IMAGE_DIR);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const uploadVideo = multer({ 
+  storage: videoStorage,
   limits: { fileSize: 200 * 1024 * 1024 } // 200MB limit
+});
+
+const uploadImages = multer({
+  storage: imageStorage,
+  limits: { fileSize: 20 * 1024 * 1024 } // 20MB limit
 });
 
 // Helper to read/write data
@@ -58,7 +78,11 @@ const readData = () => {
 };
 
 const writeData = (data: any) => {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data));
+  } catch (e) {
+    console.error("Error writing user data:", e);
+  }
 };
 
 const readMedia = () => {
@@ -66,18 +90,23 @@ const readMedia = () => {
     try {
       return JSON.parse(fs.readFileSync(MEDIA_FILE, "utf-8"));
     } catch (e) {
-      return { visuals: [], videos: [] };
+      return { visuals: [], videos: [], defaultBackground: null };
     }
   }
-  return { visuals: [], videos: [] };
+  return { visuals: [], videos: [], defaultBackground: null };
 };
 
 const writeMedia = (data: any) => {
-  fs.writeFileSync(MEDIA_FILE, JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(MEDIA_FILE, JSON.stringify(data));
+  } catch (e) {
+    console.error("Error writing media data:", e);
+  }
 };
 
 async function startServer() {
   const app = express();
+  
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
     cors: {
@@ -112,49 +141,43 @@ async function startServer() {
     });
   });
 
-  const PORT = 3000;
+  const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
   // 1. Health check endpoint - MUST be defined before everything
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
 
+  app.get("/api/podcast/rss", async (req, res) => {
+    try {
+      const response = await fetch("https://anchor.fm/s/49a6baf0/podcast/rss");
+      if (!response.ok) {
+         throw new Error(`Failed to fetch rss: ${response.statusText}`);
+      }
+      const text = await response.text();
+      res.set('Content-Type', 'text/xml');
+      res.send(text);
+    } catch(err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.use(express.json({ limit: "200mb" }));
   app.use(express.urlencoded({ limit: "200mb", extended: true }));
 
-  // Socket.io Logic
-  io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id);
-    
-    socket.on("join-live", (userName) => {
-      socket.broadcast.emit("user-joined", { id: socket.id, name: userName });
-      console.log(`${userName} joined the live session`);
-    });
-
-    socket.on("send-message", (messageData) => {
-      io.emit("new-message", {
-        ...messageData,
-        id: Date.now().toString(),
-        timestamp: new Date().toISOString()
-      });
-    });
-
-    socket.on("send-reaction", (reaction) => {
-      socket.broadcast.emit("new-reaction", reaction);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-    });
+  app.post("/api/remote-log", (req, res) => {
+    const logBatch = `--- CLIENT REMOTE LOG ---\n${JSON.stringify(req.body, null, 2)}\n--------------------------\n`;
+    fs.appendFileSync(path.resolve(__dirname, 'remote_client_logs.txt'), logBatch);
+    res.json({ success: true });
   });
 
   // API Routes
-  app.get("/api/user/:id", (req, res) => {
+  app.get("/api/sync/:id", (req, res) => {
     const data = readData();
     res.json(data[req.params.id] || {});
   });
 
-  app.post("/api/user/:id", (req, res) => {
+  app.post("/api/sync/:id", (req, res) => {
     const data = readData();
     data[req.params.id] = {
       ...data[req.params.id],
@@ -263,9 +286,46 @@ async function startServer() {
   });
 
   // Video Upload & Serving
-  app.post("/api/upload-video", upload.single("video"), (req, res) => {
+  app.post("/api/upload-video", uploadVideo.single("video"), (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
     res.json({ success: true, url: `/api/video/${req.file.filename}` });
+  });
+
+  // Bulk Video Upload
+  app.post("/api/bulk-upload-videos", uploadVideo.array("videos", 10), (req, res) => {
+    if (!req.files || !(req.files as Express.Multer.File[]).length) {
+      return res.status(400).json({ error: "No files uploaded" });
+    }
+    const files = req.files as Express.Multer.File[];
+    const results = files.map(file => ({
+      success: true,
+      url: `/api/video/${file.filename}`,
+      originalName: file.originalname
+    }));
+    res.json({ success: true, files: results });
+  });
+
+  // Bulk Image Upload (for visuals)
+  app.post("/api/bulk-upload-images", uploadImages.array("images", 50), (req, res) => {
+    if (!req.files || !(req.files as Express.Multer.File[]).length) {
+      return res.status(400).json({ error: "No files uploaded" });
+    }
+    const files = req.files as Express.Multer.File[];
+    const results = files.map(file => ({
+      success: true,
+      url: `/api/img/${file.filename}`,
+      originalName: file.originalname
+    }));
+    res.json({ success: true, files: results });
+  });
+
+  app.get("/api/img/:name", (req, res) => {
+    const filePath = path.join(IMAGE_DIR, req.params.name);
+    if (fs.existsSync(filePath)) {
+      res.sendFile(filePath);
+    } else {
+      res.status(404).send("Not found");
+    }
   });
 
   app.get("/api/video/:name", (req, res) => {
@@ -284,6 +344,7 @@ async function startServer() {
     const defaultVoiceId = process.env.ELEVENLABS_VOICE_ID || "pNInz6obpg8nS77y5p4v"; // Default: Adam
 
     if (!apiKey) {
+      console.error("ElevenLabs API Key is missing");
       return res.status(500).json({ error: "ElevenLabs API key not configured in environment." });
     }
 
@@ -292,34 +353,45 @@ async function startServer() {
     }
 
     try {
+      console.log(`ElevenLabs TTS Request: text length ${text.length}, voice ${voiceId || defaultVoiceId}`);
       const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId || defaultVoiceId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "xi-api-key": apiKey,
+          "Accept": "audio/mpeg"
         },
         body: JSON.stringify({
           text,
           model_id: "eleven_monolingual_v1",
           voice_settings: {
             stability: 0.5,
-            similarity_boost: 0.5,
+            similarity_boost: 0.75,
+            style: 0.06,
+            use_speaker_boost: true
           },
         }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail?.message || "ElevenLabs API error");
+        console.error("ElevenLabs API Error:", errorData);
+        throw new Error(errorData.detail?.message || `ElevenLabs API error: ${response.status}`);
       }
 
-      // Stream the audio back to the client
       const arrayBuffer = await response.arrayBuffer();
-      res.set("Content-Type", "audio/mpeg");
+      console.log(`ElevenLabs TTS Success: Received ${arrayBuffer.byteLength} bytes`);
+      
+      res.set({
+        "Content-Type": "audio/mpeg",
+        "Content-Length": arrayBuffer.byteLength,
+        "Accept-Ranges": "bytes"
+      });
+      
       res.send(Buffer.from(arrayBuffer));
     } catch (error: any) {
-      console.error("TTS Error:", error);
-      res.status(500).json({ error: error.message });
+      console.error("Critical TTS Proxy Error:", error);
+      res.status(500).json({ error: error.message || "Internal server error during TTS generation" });
     }
   });
 
@@ -355,6 +427,7 @@ async function startServer() {
     });
   });
 
+  console.log("NODE_ENV:", process.env.NODE_ENV);
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const { createServer: createViteServer } = await import("vite");
@@ -366,8 +439,8 @@ async function startServer() {
   } else {
     const distPath = path.resolve(__dirname, "dist");
     app.use(express.static(distPath));
-    app.get("*all", (req, res) => {
-      res.sendFile(path.resolve(distPath, "index.html"));
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(distPath, 'index.html'));
     });
   }
 
@@ -377,4 +450,6 @@ async function startServer() {
   });
 }
 
-startServer();
+startServer().catch(err => {
+  console.error("🔥 FATAL SERVER START ERROR:", err);
+});

@@ -35,15 +35,15 @@ export const StudyStreak: React.FC<StudyStreakProps> = ({ streak, completedToday
             </div>
             <div>
               <h3 className={`text-xl font-black uppercase italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'} leading-none`}>Synaptic Streak</h3>
-              <p className="text-[8px] font-black text-registry-rose uppercase tracking-[0.3em] mt-1">Neural Link: ACTIVE</p>
+              <p className="text-[11px] font-black text-registry-rose uppercase tracking-[0.3em] mt-1">Neural Link: ACTIVE</p>
             </div>
           </div>
           <div className="flex flex-col items-end">
             <div className="flex items-center space-x-2">
               <span className="text-3xl font-black italic text-registry-rose glow-rose">{streak}</span>
-              <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Cycles</span>
+              <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">Cycles</span>
             </div>
-            <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest">Uptime Duration</span>
+            <span className="text-[11px] font-black text-slate-600 uppercase tracking-widest">Uptime Duration</span>
           </div>
         </div>
 
@@ -54,7 +54,7 @@ export const StudyStreak: React.FC<StudyStreakProps> = ({ streak, completedToday
             
             return (
               <div key={idx} className="flex flex-col items-center space-y-3">
-                <span className={`text-[9px] font-black tracking-widest ${isToday ? 'text-registry-teal' : 'text-slate-600'}`}>{day}</span>
+                <span className={`text-[11px] font-black tracking-widest ${isToday ? 'text-registry-teal' : 'text-slate-600'}`}>{day}</span>
                 <div className={`relative w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-500 ${
                   isToday 
                     ? completedToday 
@@ -82,14 +82,14 @@ export const StudyStreak: React.FC<StudyStreakProps> = ({ streak, completedToday
 
         <div className={`pt-6 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'} grid grid-cols-2 gap-4`}>
           <div className={`p-4 ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100 shadow-inner'} rounded-2xl border space-y-1 group/stat hover:border-registry-teal/30 transition-colors`}>
-            <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-teal transition-colors">Total Synapses</p>
+            <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-teal transition-colors">Total Synapses</p>
             <div className="flex items-center space-x-2">
               <Trophy className="w-4 h-4 text-registry-teal" />
               <span className={`text-lg font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalCompleted}</span>
             </div>
           </div>
           <div className={`p-4 ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100 shadow-inner'} rounded-2xl border space-y-1 group/stat hover:border-registry-cobalt/30 transition-colors`}>
-            <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-cobalt transition-colors">Next Milestone</p>
+            <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest group-hover/stat:text-registry-cobalt transition-colors">Next Milestone</p>
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4 text-registry-cobalt" />
               <span className={`text-lg font-black italic ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{Math.ceil((totalCompleted + 1) / 10) * 10}</span>

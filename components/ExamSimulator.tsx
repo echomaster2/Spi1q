@@ -136,7 +136,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
           </div>
           <div>
             <h4 className="text-base md:text-lg font-black tracking-tight italic uppercase leading-none">SPI MOCK EXAM</h4>
-            <p className="text-[8px] md:text-[10px] opacity-70 font-black uppercase tracking-widest mt-0.5">Simulation Environment v2.0 {isRegistryMode && '| REGISTRY MODE ACTIVE'}</p>
+            <p className="text-[11px] opacity-70 font-black uppercase tracking-widest mt-0.5">Simulation Environment v2.0 {isRegistryMode && '| REGISTRY MODE ACTIVE'}</p>
           </div>
         </div>
 
@@ -187,7 +187,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
               <div className={`p-6 rounded-[2rem] border shadow-sm flex items-center justify-between ${isDarkMode ? 'bg-stealth-900 border-white/5' : 'bg-white border-slate-200'}`}>
                 <div>
                   <h4 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Registry Simulation Mode</h4>
-                  <p className={`text-[10px] uppercase tracking-widest mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>No pausing, no back-tracking, strict timing.</p>
+                  <p className={`text-[11px] uppercase tracking-widest mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>No pausing, no back-tracking, strict timing.</p>
                 </div>
                 <button 
                   onClick={() => setIsRegistryMode(!isRegistryMode)}
@@ -204,7 +204,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
               <div className={`p-8 rounded-[2.5rem] border text-center space-y-6 shadow-2xl ${isDarkMode ? 'bg-stealth-900 border-white/10' : 'bg-white border-slate-200'}`}>
                  <div className="space-y-2">
                     <h3 className="text-2xl md:text-4xl font-black italic uppercase tracking-tighter leading-none bg-gradient-to-r from-registry-rose via-registry-teal to-registry-rose bg-clip-text text-transparent">Stay. Breathe.</h3>
-                    <p className="text-registry-teal text-[10px] font-black uppercase tracking-[0.3em]">You're allowed to make mistakes</p>
+                    <p className="text-registry-teal text-[11px] font-black uppercase tracking-[0.3em]">You're allowed to make mistakes</p>
                  </div>
                  <p className={`text-xs md:text-sm font-bold italic leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                     "Our job is to prepare you. Your job is to remember how we fail you so that when it is your turn, you do better."
@@ -224,7 +224,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                     </div>
                     <div>
                       <h4 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.label}</h4>
-                      <p className={`text-[10px] uppercase tracking-widest mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{item.desc}</p>
+                      <p className={`text-[11px] uppercase tracking-widest mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -254,7 +254,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                   </div>
                   <div>
                     <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 dark:text-white">Exam Pro-Tip</h4>
-                    <p className={`text-[10px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} italic mt-1`}>
+                    <p className={`text-[11px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} italic mt-1`}>
                       {CLINICAL_TIPS.find(t => t.category === 'Physics')?.content || CLINICAL_TIPS[0].content}
                     </p>
                   </div>
@@ -284,8 +284,8 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                 <div className="flex-1 space-y-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <span className="px-3 py-1 bg-registry-rose text-white text-[10px] font-black uppercase rounded-full tracking-widest">Question {currentIndex + 1} of {MOCK_EXAM_QUESTIONS.length}</span>
-                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{currentQuestion.moduleTitle}</span>
+                      <span className="px-3 py-1 bg-registry-rose text-white text-[11px] font-black uppercase rounded-full tracking-widest">Question {currentIndex + 1} of {MOCK_EXAM_QUESTIONS.length}</span>
+                      <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest">{currentQuestion.moduleTitle}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       {!isRegistryMode && (
@@ -295,7 +295,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                           className="flex items-center space-x-2 px-4 py-2 bg-registry-teal/10 text-registry-teal rounded-xl hover:bg-registry-teal/20 transition-all disabled:opacity-30"
                         >
                           <Sparkles className="w-4 h-4" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Harvey's Hint ({3 - hintsUsed})</span>
+                          <span className="text-[11px] font-black uppercase tracking-widest">Harvey's Hint ({3 - hintsUsed})</span>
                         </button>
                       )}
                       <button 
@@ -303,7 +303,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                         className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all ${flagged[currentIndex] ? 'bg-registry-amber text-white' : isDarkMode ? 'bg-stealth-800 text-slate-400' : 'bg-slate-100 text-slate-500'}`}
                       >
                         <Flag className={`w-4 h-4 ${flagged[currentIndex] ? 'fill-current' : ''}`} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">{flagged[currentIndex] ? 'Flagged' : 'Flag for Review'}</span>
+                        <span className="text-[11px] font-black uppercase tracking-widest">{flagged[currentIndex] ? 'Flagged' : 'Flag for Review'}</span>
                       </button>
                     </div>
                   </div>
@@ -323,7 +323,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                           <div>
                             <div className="flex items-center space-x-2 mb-1">
                               <Bot className="w-4 h-4" />
-                              <span className="uppercase text-[8px] font-black tracking-widest">Harvey's Neural Link</span>
+                              <span className="uppercase text-[11px] font-black tracking-widest">Harvey's Neural Link</span>
                             </div>
                             {currentQuestion.explanation.split('.')[0]}.
                           </div>
@@ -394,7 +394,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                 {!isRegistryMode && (
                   <div className="w-full md:w-64 space-y-6">
                     <div className={`p-6 rounded-[2rem] border shadow-sm ${isDarkMode ? 'bg-stealth-900 border-white/5' : 'bg-white border-slate-200'}`}>
-                      <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-4 flex items-center space-x-2">
+                      <h4 className="text-[11px] font-black uppercase text-slate-400 tracking-widest mb-4 flex items-center space-x-2">
                         <BarChart3 className="w-3 h-3" />
                         <span>Progress Map</span>
                       </h4>
@@ -403,7 +403,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                           <button
                             key={idx}
                             onClick={() => setCurrentIndex(idx)}
-                            className={`aspect-square rounded-lg flex items-center justify-center text-[10px] font-black transition-all relative ${
+                            className={`aspect-square rounded-lg flex items-center justify-center text-[11px] font-black transition-all relative ${
                               currentIndex === idx 
                                 ? 'bg-registry-rose text-white ring-4 ring-registry-rose/20' 
                                 : answers[idx] !== null 
@@ -423,13 +423,13 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                     <div className={`border p-6 rounded-[2rem] space-y-3 ${isDarkMode ? 'bg-registry-amber/5 border-registry-amber/20' : 'bg-registry-amber/5 border-registry-amber/10'}`}>
                       <div className="flex items-center space-x-2 text-registry-amber">
                         <Flag className="w-4 h-4" />
-                        <h4 className="font-black uppercase text-[10px] tracking-widest">Review Summary</h4>
+                        <h4 className="font-black uppercase text-[11px] tracking-widest">Review Summary</h4>
                       </div>
-                      <div className="flex justify-between items-center text-[10px] font-black uppercase">
+                      <div className="flex justify-between items-center text-[11px] font-black uppercase">
                         <span className="text-slate-400">Answered</span>
                         <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{answers.filter(a => a !== null).length} / {MOCK_EXAM_QUESTIONS.length}</span>
                       </div>
-                      <div className="flex justify-between items-center text-[10px] font-black uppercase">
+                      <div className="flex justify-between items-center text-[11px] font-black uppercase">
                         <span className="text-slate-400">Flagged</span>
                         <span className="text-registry-amber">{flagged.filter(f => f).length}</span>
                       </div>
@@ -468,12 +468,12 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                 <div className="flex justify-center items-center space-x-12 py-8">
                   <div className="text-center">
                     <div className={`text-5xl font-black tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{results.score}%</div>
-                    <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest mt-1">Final Score</div>
+                    <div className="text-[11px] font-black uppercase text-slate-400 tracking-widest mt-1">Final Score</div>
                   </div>
                   <div className={`w-px h-16 ${isDarkMode ? 'bg-white/10' : 'bg-slate-200'}`} />
                   <div className="text-center">
                     <div className={`text-5xl font-black tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{formatTime(results.timeTaken)}</div>
-                    <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest mt-1">Time Elapsed</div>
+                    <div className="text-[11px] font-black uppercase text-slate-400 tracking-widest mt-1">Time Elapsed</div>
                   </div>
                 </div>
 
@@ -483,8 +483,8 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                     return (
                       <div key={title} className={`p-4 rounded-2xl border ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest truncate max-w-[150px]">{title}</span>
-                          <span className={`text-[10px] font-black ${d.correct / d.total >= 0.75 ? 'text-registry-teal' : 'text-registry-rose'}`}>
+                          <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest truncate max-w-[150px]">{title}</span>
+                          <span className={`text-[11px] font-black ${d.correct / d.total >= 0.75 ? 'text-registry-teal' : 'text-registry-rose'}`}>
                             {Math.round((d.correct / d.total) * 100)}%
                           </span>
                         </div>
@@ -511,9 +511,9 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
                     <div>
                       <div className="flex items-center space-x-2 mb-1">
                         <h4 className={`text-sm font-black uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Neural Reinforcement</h4>
-                        <span className="text-[8px] font-black uppercase text-registry-teal tracking-widest bg-registry-teal/10 px-2 py-0.5 rounded-full">Clinical Wisdom</span>
+                        <span className="text-[11px] font-black uppercase text-registry-teal tracking-widest bg-registry-teal/10 px-2 py-0.5 rounded-full">Clinical Wisdom</span>
                       </div>
-                      <p className={`text-[10px] md:text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} italic font-medium`}>
+                      <p className={`text-[11px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} italic font-medium`}>
                         {CLINICAL_TIPS[Math.floor(Math.random() * CLINICAL_TIPS.length)].content}
                       </p>
                     </div>
@@ -545,14 +545,14 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({
       {step === 'exam' && !isRegistryMode && (
         <footer className={`p-4 md:p-6 border-t flex justify-between items-center text-white ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-white border-slate-100'}`}>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-[10px] font-black uppercase text-slate-400">
+            <div className="flex items-center space-x-2 text-[11px] font-black uppercase text-slate-400">
               <div className="w-2 h-2 bg-registry-rose rounded-full" />
               <span>Live Simulation</span>
             </div>
           </div>
           <button 
             onClick={() => setIsPaused(!isPaused)}
-            className={`px-6 py-2 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all flex items-center space-x-2 ${isDarkMode ? 'bg-stealth-800 text-slate-400 hover:bg-white/10' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-6 py-2 rounded-xl font-black uppercase text-[11px] tracking-widest transition-all flex items-center space-x-2 ${isDarkMode ? 'bg-stealth-800 text-slate-400 hover:bg-white/10' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
           >
             {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
             <span>{isPaused ? 'Resume' : 'Pause'}</span>

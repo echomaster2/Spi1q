@@ -27,6 +27,12 @@ export interface VisualItem {
   assessment?: Question[];
 }
 
+export interface MediaLibrary {
+  videos: VideoItem[];
+  visuals: VisualItem[];
+  defaultBackground?: string | null;
+}
+
 export const VISUALS: VisualItem[] = [
   {
     id: 'v1',

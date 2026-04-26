@@ -104,19 +104,19 @@ export const VictoryOverlay: React.FC<VictoryOverlayProps> = ({ isVisible, onClo
                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mb-2">
                     <Zap className="w-6 h-6 text-registry-teal" />
                  </div>
-                 <span className="text-[10px] font-black text-white uppercase">+{xpGained} XP</span>
+                 <span className="text-[11px] font-black text-white uppercase">+{xpGained} XP</span>
               </div>
               <div className="flex flex-col items-center">
                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mb-2">
                     <Brain className="w-6 h-6 text-registry-amber" />
                  </div>
-                 <span className="text-[10px] font-black text-white uppercase">+2 Neural Link</span>
+                 <span className="text-[11px] font-black text-white uppercase">+2 Neural Link</span>
               </div>
               <div className="flex flex-col items-center">
                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mb-2">
                     <Star className="w-6 h-6 text-registry-rose" />
                  </div>
-                 <span className="text-[10px] font-black text-white uppercase">Rank Up</span>
+                 <span className="text-[11px] font-black text-white uppercase">Rank Up</span>
               </div>
             </motion.div>
 

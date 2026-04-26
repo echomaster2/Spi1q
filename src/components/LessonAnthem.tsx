@@ -22,7 +22,7 @@ export const LessonAnthem: React.FC<{ stationName: string }> = ({ stationName })
           <Music className="w-5 h-5 text-registry-teal" />
         </div>
         <div>
-          <h5 className="text-[10px] font-black uppercase text-registry-teal tracking-widest">Lesson Anthem</h5>
+          <h5 className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Lesson Anthem</h5>
           <p className="text-xs font-bold italic text-slate-900 dark:text-white">{stationName}</p>
         </div>
       </div>

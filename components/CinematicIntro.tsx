@@ -64,14 +64,14 @@ export const CinematicIntro: React.FC<{ onComplete: () => void }> = ({ onComplet
       
       <div className="absolute top-12 right-12 text-right pointer-events-none hidden md:flex flex-col">
         <span className="micro-label opacity-100">Coordinate Meta</span>
-        <span className="micro-label opacity-80 text-[7px]">Lat: 34.0522° N // Lon: 118.2437° W</span>
+        <span className="micro-label opacity-80 text-[11px]">Lat: 34.0522° N // Lon: 118.2437° W</span>
       </div>
 
       <div className="absolute top-0 left-0 w-full h-[2px] bg-registry-teal/50 animate-scan pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,210,255,0.05),transparent_60%)] pointer-events-none" />
 
       {/* Data Stream Background */}
-      <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none flex flex-wrap gap-4 p-8 text-[8px] font-mono text-registry-teal/50 leading-none">
+      <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none flex flex-wrap gap-4 p-8 text-[11px] font-mono text-registry-teal/50 leading-none">
         {Array.from({ length: 100 }).map((_, i) => (
           <RandomHex key={i} />
         ))}
@@ -154,7 +154,7 @@ export const CinematicIntro: React.FC<{ onComplete: () => void }> = ({ onComplet
         whileHover={{ scale: 1.1, color: '#fff' }}
         whileTap={{ scale: 0.9 }}
         onClick={onComplete}
-        className="absolute bottom-12 text-[10px] font-black uppercase tracking-[0.5em] text-slate-500 transition-colors z-20 px-6 py-3 border border-transparent hover:border-white/20 rounded-full"
+        className="absolute bottom-12 text-[11px] font-black uppercase tracking-[0.5em] text-slate-500 transition-colors z-20 px-6 py-3 border border-transparent hover:border-white/20 rounded-full"
       >
         [ Skip Sequence ]
       </motion.button>

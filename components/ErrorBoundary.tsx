@@ -41,7 +41,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </p>
               
               <div className={`p-4 rounded-2xl border text-left overflow-auto max-h-40 ${this.props.isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200'}`}>
-                <code className="text-[10px] font-mono text-registry-rose break-all">
+                <code className="text-[11px] font-mono text-registry-rose break-all">
                   {this.state.error?.toString()}
                 </code>
               </div>

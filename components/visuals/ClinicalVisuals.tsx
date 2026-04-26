@@ -76,13 +76,13 @@ export const ArtifactHunter: React.FC = () => {
           </div>
           <div>
             <h4 className="text-2xl font-black uppercase italic text-white leading-none">Artifact Hunter</h4>
-            <p className="text-[10px] font-black text-amber-500 uppercase tracking-[0.3em] mt-2 flex items-center">
+            <p className="text-[11px] font-black text-amber-500 uppercase tracking-[0.3em] mt-2 flex items-center">
                <Zap className="w-3 h-3 mr-2 animate-pulse" /> Diagnostic Correction Protocol
             </p>
           </div>
         </div>
         <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
-           <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{fixed.size} / {artifacts.length} Resolved</span>
+           <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">{fixed.size} / {artifacts.length} Resolved</span>
         </div>
       </div>
 
@@ -141,26 +141,26 @@ export const ArtifactHunter: React.FC = () => {
 
               <div className="absolute top-4 right-6 px-3 py-1 bg-black/60 rounded-full border border-white/10 flex items-center space-x-2">
                  <div className={`w-2 h-2 rounded-full ${isResolved ? 'bg-green-500 shadow-glow-green' : 'bg-registry-rose animate-pulse'}`} />
-                 <span className="text-[8px] font-black uppercase text-white tracking-[0.2em]">{isResolved ? 'Signal Corrected' : 'Active Artifact Detected'}</span>
+                 <span className="text-[11px] font-black uppercase text-white tracking-[0.2em]">{isResolved ? 'Signal Corrected' : 'Active Artifact Detected'}</span>
               </div>
            </div>
 
            <div className="premium-glass p-6 rounded-3xl border border-white/5 space-y-2">
               <h5 className="text-xs font-black uppercase text-amber-500 italic">Technical Briefing</h5>
-              <p className="text-[10px] text-slate-400 leading-relaxed font-medium">{current.clue}</p>
+              <p className="text-[11px] text-slate-400 leading-relaxed font-medium">{current.clue}</p>
            </div>
         </div>
 
         <div className="space-y-6 flex flex-col justify-center">
            <div className="space-y-3">
-              <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Select Counter-Measure</span>
+              <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">Select Counter-Measure</span>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  {current.options.map(opt => (
                     <button
                       key={opt}
                       disabled={isResolved}
                       onClick={() => handleOption(opt)}
-                      className={`p-4 rounded-2xl border text-[10px] font-black uppercase text-left transition-all ${
+                      className={`p-4 rounded-2xl border text-[11px] font-black uppercase text-left transition-all ${
                         isResolved && opt === current.correct 
                           ? 'bg-green-500 text-white border-green-500 shadow-glow-green' 
                           : 'bg-white/5 border-white/10 hover:bg-white/10 text-slate-300'
@@ -186,10 +186,10 @@ export const ArtifactHunter: React.FC = () => {
                          <p className={`text-md font-black uppercase italic ${feedback.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>{feedback.text}</p>
                          {feedback.type === 'success' && (
                            <div className="space-y-2">
-                              <p className="text-[9px] font-medium text-slate-400 leading-relaxed">{current.pearl}</p>
+                              <p className="text-[11px] font-medium text-slate-400 leading-relaxed">{current.pearl}</p>
                               <button 
                                 onClick={next}
-                                className="px-6 py-2 bg-green-500 text-white rounded-full text-[9px] font-black uppercase mt-2 shadow-lg"
+                                className="px-6 py-2 bg-green-500 text-white rounded-full text-[11px] font-black uppercase mt-2 shadow-lg"
                               >
                                 Scan Next Region
                               </button>
@@ -208,36 +208,41 @@ export const ArtifactHunter: React.FC = () => {
 
 export const DopplerModalitiesVisual: React.FC = () => {
   const [active, setActive] = useState<'color' | 'power' | 'spectral'>('color');
+  const [velocity, setVelocity] = useState(50); // cm/s
   const [time, setTime] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(t => t + 0.05), 30);
     return () => clearInterval(interval);
-  }, []);
+  }, [velocity]);
 
   return (
     <motion.div 
       whileHover={{ y: -4 }}
-      className="bg-stealth-900 rounded-[2rem] md:rounded-[2.5rem] border border-white/5 space-y-4 md:space-y-8 shadow-2xl transition-all duration-500 hover:shadow-registry-teal/10 p-6" 
+      className="bg-stealth-900 rounded-[2.5rem] border border-white/5 space-y-8 shadow-2xl transition-all duration-500 hover:shadow-registry-teal/10 p-10 relative overflow-hidden group" 
       role="region" 
       aria-label="Doppler Modalities Simulator"
     >
-      <div className="flex justify-between items-center relative z-10">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-registry-teal/10 rounded-xl border border-registry-teal/20">
-            <Activity className="w-5 h-5 text-registry-teal" />
+      <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+      
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative z-10">
+        <div className="flex items-center space-x-4">
+          <div className="p-3 bg-registry-teal/10 rounded-2xl border border-registry-teal/30 shadow-glow">
+            <Activity className="w-6 h-6 text-registry-teal" />
           </div>
           <div>
-            <h4 className="text-lg font-black uppercase italic text-slate-900 dark:text-white leading-none">Doppler Lab</h4>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest mt-1">Flow Dynamics</p>
+            <h4 className="text-xl font-black uppercase italic text-white leading-none">Doppler Performance Lab</h4>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-[0.3em] mt-2">Hemodynamic Modalities</p>
           </div>
         </div>
-        <div className="flex gap-1 p-1 bg-slate-100 dark:bg-white/5 rounded-xl overflow-x-auto scrollbar-hide">
-          {['color', 'power', 'spectral'].map(m => (
+
+        <div className="flex flex-wrap gap-2 p-1.5 bg-white/5 rounded-2xl border border-white/10 shadow-inner">
+          {(['color', 'power', 'spectral'] as const).map(m => (
             <button 
               key={m} 
-              onClick={() => setActive(m as any)} 
-              className={`px-4 py-2 md:py-3 text-[8px] md:text-[10px] font-black uppercase rounded-lg transition-all ${active === m ? 'bg-registry-teal text-stealth-950 shadow-md' : 'text-slate-500 hover:text-slate-300'}`}
+              onClick={() => setActive(m)} 
+              className={`px-6 py-3 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all duration-500 ${active === m ? 'bg-registry-teal text-stealth-950 shadow-glow-teal' : 'text-slate-500 hover:text-slate-300'}`}
             >
               {m}
             </button>
@@ -245,37 +250,39 @@ export const DopplerModalitiesVisual: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-48 md:h-64 bg-slate-950 rounded-3xl relative overflow-hidden flex items-center justify-center border border-slate-800 shadow-inner">
-        <div className="absolute inset-0 scanline opacity-10" />
+      <div className="h-64 md:h-80 bg-black rounded-[2.5rem] relative overflow-hidden flex items-center justify-center border border-slate-800 shadow-2xl">
+        <div className="absolute inset-0 scanline opacity-20" />
         
         <AnimatePresence mode="wait">
           {active === 'color' && (
             <motion.div 
               key="color"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <div className="absolute inset-1/4 bg-blue-600/20 rounded-full blur-[40px] animate-pulse" />
-              <div className="absolute inset-1/3 bg-red-600/20 rounded-full blur-[40px] animate-pulse delay-700" />
-              <svg className="w-full h-full relative z-10" viewBox="0 0 400 200">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <motion.circle 
-                    key={i}
-                    cx={100 + i * 20}
-                    cy={100 + Math.sin(time + i) * 10}
-                    r={2 + Math.random() * 3}
-                    fill={i % 2 === 0 ? "#f43f5e" : "#3b82f6"}
-                    animate={{ 
-                      x: [0, 10, 0],
-                      opacity: [0.4, 0.8, 0.4]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
-                  />
-                ))}
-                <text x="200" y="180" textAnchor="middle" fill="#3b82f6" className="text-[8px] font-black uppercase tracking-widest" opacity="0.6">Directional Flow</text>
-              </svg>
+               {/* Color Flow Box */}
+               <div className="w-[300px] h-[150px] border border-white/10 relative rounded-xl overflow-hidden bg-white/5">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {Array.from({ length: 40 }).map((_, i) => (
+                      <motion.div 
+                        key={i}
+                        animate={{ 
+                          x: [Math.random() * 300, 300],
+                          opacity: [0, 0.8, 0]
+                        }}
+                        transition={{ 
+                          duration: 1.5 - (velocity / 100), 
+                          repeat: Infinity,
+                          delay: Math.random() * 2
+                        }}
+                        className={`absolute w-3 h-3 rounded-full blur-[4px] ${velocity > 80 ? 'bg-amber-400' : 'bg-red-500 shadow-glow-rose'}`}
+                      />
+                    ))}
+                  </div>
+                  <div className="absolute top-2 left-4 text-[11px] font-black uppercase text-red-500 tracking-[0.3em]">Flow Toward</div>
+               </div>
             </motion.div>
           )}
 
@@ -287,23 +294,23 @@ export const DopplerModalitiesVisual: React.FC = () => {
               exit={{ opacity: 0 }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <div className="absolute inset-8 bg-orange-600/30 rounded-full blur-[60px] animate-pulse" />
+              <div className="absolute w-[200px] h-[100px] bg-amber-500/10 rounded-full blur-[80px] animate-pulse" />
               <svg className="w-full h-full relative z-10" viewBox="0 0 400 200">
-                {Array.from({ length: 20 }).map((_, i) => (
+                {Array.from({ length: 50 }).map((_, i) => (
                   <motion.circle 
                     key={i}
                     cx={50 + Math.random() * 300}
                     cy={50 + Math.random() * 100}
-                    r={1 + Math.random() * 4}
-                    fill="#f97316"
+                    r={Math.random() * 6}
+                    fill="#f59e0b"
                     animate={{ 
-                      scale: [1, 1.5, 1],
-                      opacity: [0.2, 0.6, 0.2]
+                      scale: [1, 1.4, 1],
+                      opacity: [0.1, 0.4, 0.1]
                     }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: Math.random() }}
+                    transition={{ duration: 2, repeat: Infinity, delay: Math.random() * 2 }}
                   />
                 ))}
-                <text x="200" y="180" textAnchor="middle" fill="#f97316" className="text-[8px] font-black uppercase tracking-widest" opacity="0.6">Amplitude Sensitivity</text>
+                <text x="200" y="180" textAnchor="middle" fill="#f59e0b" className="text-[11px] font-black uppercase tracking-[0.5em] opacity-40">Amplitude Distribution</text>
               </svg>
             </motion.div>
           )}
@@ -311,40 +318,54 @@ export const DopplerModalitiesVisual: React.FC = () => {
           {active === 'spectral' && (
             <motion.div 
               key="spectral"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 flex flex-col items-center justify-center p-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute inset-0 flex flex-col items-center justify-center p-12"
             >
-              <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+              <svg className="w-full h-full overflow-visible" viewBox="0 0 400 150" preserveAspectRatio="none">
                 <defs>
-                  <linearGradient id="spectralGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                  <linearGradient id="traceGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.8" />
                   </linearGradient>
                 </defs>
                 <motion.path 
-                  d={`M 0 120 ${Array.from({ length: 41 }).map((_, i) => {
-                    const x = i * 10;
-                    const val = Math.sin(time + i * 0.5) * 40 + Math.sin(time * 2 + i) * 10;
-                    return `L ${x} ${100 - Math.max(0, val)}`;
-                  }).join(' ')} L 400 120 Z`}
-                  fill="url(#spectralGrad)"
+                  d={`M 0 140 ${Array.from({ length: 61 }).map((_, i) => {
+                    const x = (i / 60) * 400;
+                    const peak = Math.sin(time * 3 + i * 0.1) * 30 + 50;
+                    const noise = Math.random() * 5;
+                    return `L ${x} ${130 - (peak + noise)}`;
+                  }).join(' ')} L 400 140 Z`}
+                  fill="url(#traceGrad)"
                   stroke="#22d3ee"
-                  strokeWidth="2"
+                  strokeWidth="3"
+                  className="drop-shadow-glow"
                 />
-                <line x1="0" y1="120" x2="400" y2="120" stroke="white" strokeWidth="1" opacity="0.2" />
-                <text x="10" y="20" fill="#22d3ee" className="text-[8px] font-black uppercase" opacity="0.6">Velocity (cm/s)</text>
-                <text x="350" y="140" fill="#22d3ee" className="text-[8px] font-black uppercase" opacity="0.6">Time</text>
+                <line x1="0" y1="130" x2="400" y2="130" stroke="white" strokeWidth="1" opacity="0.2" />
+                <text x="5" y="15" fill="#22d3ee" className="text-[11px] font-black uppercase tracking-widest italic">PSV: 120 cm/s</text>
               </svg>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
+      <div className="space-y-4 relative z-10">
+        <div className="flex justify-between items-end">
+           <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">Velocity Scale / PRF</span>
+           <span className="text-xl font-black italic text-registry-teal">{velocity} <span className="text-[11px]">cm/s</span></span>
+        </div>
+        <input 
+          type="range" min="10" max="200" step="5" 
+          value={velocity} 
+          onChange={(e) => setVelocity(parseFloat(e.target.value))}
+          className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-registry-teal"
+        />
+      </div>
+
       <VisualInsight 
-        title="Doppler Modalities" 
-        description={active === 'color' ? "Color Doppler uses the Doppler shift to visualize blood flow direction (BART: Blue Away, Red Toward) and relative velocity." : active === 'power' ? "Power Doppler ignores direction and focuses on the amplitude of the shift, making it highly sensitive to slow flow in small vessels." : "Spectral Doppler provides a quantitative display of blood flow velocities over time, allowing for precise measurements of peak systolic and end-diastolic velocities."} 
+        title={`${active.charAt(0).toUpperCase() + active.slice(1)} Doppler Physics`} 
+        description={active === 'color' ? "Color Flow uses pulsed Doppler to estimate mean velocities across a region, overlaying colors (BART) to show direction. Red highlights flow toward the probe, Blue away." : active === 'power' ? "Energy Doppler (Power) ignores direction and velocity, mapping only the intensity (amplitude) of the shift. This makes it impervious to aliasing and highly sensitive to low-volume flow." : "Spectral Doppler provides the full velocity profile over time. Notice the 'Envelope'—it represents the peak velocities within the sample volume across the cardiac cycle."} 
       />
     </motion.div>
   );
@@ -359,7 +380,7 @@ export const DisplayModesVisual: React.FC = () => {
           <button 
             key={m} 
             onClick={() => setMode(m)} 
-            className={`flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all ${mode === m ? 'bg-registry-teal text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-2 rounded-lg text-[11px] font-black uppercase transition-all ${mode === m ? 'bg-registry-teal text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             {m}-Mode
           </button>
@@ -407,7 +428,7 @@ export const SafetyIndicesVisual: React.FC = () => {
       <div className="p-6 md:p-10 bg-slate-50 dark:bg-stealth-950 rounded-3xl text-slate-900 dark:text-white text-center w-full shadow-inner border border-slate-200 dark:border-white/5 relative overflow-hidden group">
          <div className="absolute inset-0 neural-grid opacity-5 pointer-events-none" />
          <h4 className="text-4xl md:text-6xl font-black italic tracking-tighter tabular-nums leading-none mb-2">{index.toFixed(1)}</h4>
-         <p className={`text-[8px] md:text-[10px] font-black uppercase tracking-widest mt-2 ${index > 1.5 ? 'text-registry-rose' : index > 0.7 ? 'text-registry-amber' : 'text-registry-teal'}`}>
+         <p className={`text-[11px] font-black uppercase tracking-widest mt-2 ${index > 1.5 ? 'text-registry-rose' : index > 0.7 ? 'text-registry-amber' : 'text-registry-teal'}`}>
            {index > 1.5 ? 'Critical Warning' : index > 0.7 ? 'Safe Limit' : 'Optimal'}
          </p>
       </div>
@@ -469,7 +490,7 @@ export const ArtifactsVisual: React.FC = () => {
           </div>
           <div>
             <h4 className="text-lg font-black uppercase italic text-slate-900 dark:text-white leading-none">Artifact Lab</h4>
-            <p className="text-[8px] font-black text-amber-500 uppercase tracking-widest mt-1">Acoustic Artifacts</p>
+            <p className="text-[11px] font-black text-amber-500 uppercase tracking-widest mt-1">Acoustic Artifacts</p>
           </div>
         </div>
       </div>
@@ -482,7 +503,7 @@ export const ArtifactsVisual: React.FC = () => {
             className={`flex-1 min-w-[100px] py-3 px-2 flex flex-col items-center space-y-1 rounded-xl transition-all ${type === t ? 'bg-amber-600 text-white shadow-lg scale-105' : 'text-slate-500 hover:text-slate-300'}`}
           >
             {artifactInfo[t].icon}
-            <span className="text-[7px] font-black uppercase tracking-widest">{t}</span>
+            <span className="text-[11px] font-black uppercase tracking-widest">{t}</span>
           </button>
         ))}
       </div>
@@ -589,12 +610,12 @@ export const HemodynamicsPrinciplesVisual: React.FC = () => {
        </div>
        <div className="flex justify-around items-center bg-slate-50 dark:bg-stealth-950 p-4 rounded-2xl border border-slate-200 dark:border-white/5 relative z-10 shadow-sm">
           <div className="text-center">
-            <p className="text-[7px] font-black uppercase mb-1 text-slate-500">Radius (r)</p>
+            <p className="text-[11px] font-black uppercase mb-1 text-slate-500">Radius (r)</p>
             <p className="text-xl font-black text-slate-900 dark:text-white">{radius}x</p>
           </div>
           <div className="w-px h-8 bg-slate-200 dark:bg-white/10" />
           <div className="text-center">
-            <p className="text-[7px] text-registry-rose font-black uppercase mb-1">Flow (r⁴)</p>
+            <p className="text-[11px] text-registry-rose font-black uppercase mb-1">Flow (r⁴)</p>
             <p className="text-2xl font-black text-registry-rose tracking-tighter">{flow.toFixed(0)}x</p>
           </div>
        </div>
@@ -619,67 +640,151 @@ export const BioeffectsVisual: React.FC = () => {
   const [mi, setMi] = useState(0.5); // Mechanical Index
   
   return (
-    <div className="bg-white dark:bg-stealth-950 p-6 md:p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-2xl space-y-6 transition-all duration-500 relative overflow-hidden group">
+    <div className="bg-stealth-900 p-6 md:p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
       <div className="absolute inset-0 neural-grid opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
       
-      <div className="flex justify-between items-center relative z-10">
-        <div className="flex items-center space-x-2">
-          <Thermometer className="w-4 h-4 text-registry-rose" />
-          <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Bioeffects Monitor</span>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative z-10 mb-8">
+        <div className="flex items-center space-x-4">
+          <div className="p-3 bg-registry-rose/10 rounded-2xl border border-registry-rose/30 shadow-glow-rose">
+            <Thermometer className="w-6 h-6 text-registry-rose" />
+          </div>
+          <div>
+            <h4 className="text-xl font-black uppercase italic text-white leading-none">Safety Index Matrix</h4>
+            <p className="text-[11px] font-black text-registry-rose uppercase tracking-[0.3em] mt-2">Bioeffects Monitoring</p>
+          </div>
         </div>
-        <div className="flex items-center space-x-2 px-3 py-1 bg-registry-rose/10 border border-registry-rose/20 rounded-full">
-          <AlertTriangle className={`w-3 h-3 ${ti > 1.5 || mi > 1.0 ? 'text-registry-rose animate-pulse' : 'text-slate-400'}`} />
-          <span className="text-[8px] font-black uppercase text-registry-rose tracking-widest">ALARA Protocol</span>
+        <div className={`flex items-center space-x-3 px-6 py-2 bg-registry-rose/10 border border-registry-rose/30 rounded-full transition-all duration-500 ${ti > 1.5 || mi > 1.0 ? 'shadow-glow-rose scale-110' : 'opacity-50'}`}>
+          <AlertTriangle className={`w-4 h-4 ${ti > 1.5 || mi > 1.0 ? 'text-registry-rose animate-pulse' : 'text-slate-400'}`} />
+          <span className="text-[11px] font-black uppercase text-registry-rose tracking-[0.2em]">ALARA COMPLIANCE</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 relative z-10">
-        <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+        {/* Thermal Index Area */}
+        <div className="space-y-6">
           <div className="flex justify-between items-end">
-            <span className="text-[10px] font-black uppercase text-slate-500">Thermal Index (TI)</span>
-            <span className={`text-xl font-black italic ${ti > 1.5 ? 'text-registry-rose glow-rose' : 'text-slate-900 dark:text-white'}`}>{ti.toFixed(1)}</span>
+            <div>
+              <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest mb-1">Thermal Index</p>
+              <h5 className="text-sm font-black text-white italic">Tissue Heating Potential</h5>
+            </div>
+            <span className={`text-4xl font-black italic tracking-tighter ${ti > 1.5 ? 'text-registry-rose glow-rose' : 'text-white'}`}>{ti.toFixed(1)}</span>
           </div>
-          <div className="h-32 bg-slate-950 rounded-2xl relative overflow-hidden flex items-end p-4 border border-slate-800">
+          
+          <div className="h-48 bg-black rounded-[2rem] relative overflow-hidden border border-slate-800 shadow-inner flex flex-col justify-end p-2 group/ti">
+             <div className="absolute inset-0 scanline opacity-20" />
+             {/* Heat Ripples */}
+             <div className="absolute inset-x-0 bottom-0 top-0 overflow-hidden">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <motion.div 
+                    key={i}
+                    animate={{ 
+                      y: [0, -100],
+                      opacity: [0, 0.4 * ti, 0],
+                      scale: [1, 1.2]
+                    }}
+                    transition={{ 
+                      duration: 3 / ti, 
+                      repeat: Infinity, 
+                      delay: i * 0.5,
+                      ease: "linear"
+                    }}
+                    className="absolute bottom-0 left-0 right-0 h-2 bg-registry-rose/30 blur-md"
+                    style={{ bottom: `${i * 20}%` }}
+                  />
+                ))}
+             </div>
              <motion.div 
-               animate={{ height: `${ti * 40}%` }}
-               className={`w-full rounded-t-lg ${ti > 1.5 ? 'bg-registry-rose shadow-[0_0_20px_rgba(217,70,239,0.5)]' : 'bg-orange-500'}`}
-             />
+               animate={{ height: `${(ti / 2.5) * 100}%` }}
+               className={`w-full rounded-t-2xl relative z-10 transition-all duration-700 ${ti > 1.5 ? 'bg-registry-rose shadow-glow-rose' : 'bg-orange-500'}`}
+             >
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 flex items-center space-x-2">
+                   <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                   <span className="text-[11px] font-black text-white uppercase tracking-widest opacity-60">Heat Zone</span>
+                </div>
+             </motion.div>
           </div>
+
           <input 
             type="range" min="0.1" max="2.5" step="0.1" 
             value={ti} 
             onChange={(e) => setTi(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-registry-rose"
+            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-registry-rose"
           />
         </div>
 
-        <div className="space-y-4">
+        {/* Mechanical Index Area */}
+        <div className="space-y-6">
           <div className="flex justify-between items-end">
-            <span className="text-[10px] font-black uppercase text-slate-500">Mechanical Index (MI)</span>
-            <span className={`text-xl font-black italic ${mi > 1.0 ? 'text-registry-rose glow-rose' : 'text-slate-900 dark:text-white'}`}>{mi.toFixed(1)}</span>
+            <div>
+              <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest mb-1">Mechanical Index</p>
+              <h5 className="text-sm font-black text-white italic">Cavitation Potential</h5>
+            </div>
+            <span className={`text-4xl font-black italic tracking-tighter ${mi > 1.0 ? 'text-registry-rose glow-rose' : 'text-white'}`}>{mi.toFixed(1)}</span>
           </div>
-          <div className="h-32 bg-slate-950 rounded-2xl relative overflow-hidden flex items-center justify-center p-4 border border-slate-800">
+
+          <div className="h-48 bg-black rounded-[2rem] relative overflow-hidden border border-slate-800 shadow-inner flex items-center justify-center p-8 group/mi">
+             <div className="absolute inset-0 scanline opacity-20" />
+             
+             {/* Cavitation Bubbles */}
+             <div className="absolute inset-0 z-0">
+                {Array.from({ length: Math.floor(mi * 10) }).map((_, i) => (
+                   <motion.div 
+                     key={i}
+                     initial={{ scale: 0, opacity: 0 }}
+                     animate={{ 
+                       scale: [0, 2, 0.5, 0],
+                       opacity: [0, 0.6, 0.8, 0],
+                       x: Math.random() * 200 - 100,
+                       y: Math.random() * 200 - 100
+                     }}
+                     transition={{ 
+                       duration: 0.8 / mi, 
+                       repeat: Infinity,
+                       delay: Math.random() * 2
+                     }}
+                     className={`w-4 h-4 rounded-full border-2 border-white/20 absolute ${mi > 1.2 ? 'bg-red-500/20' : 'bg-registry-teal/20'}`}
+                   />
+                ))}
+             </div>
+
              <motion.div 
                animate={{ 
-                 scale: [1, 1 + mi * 0.3, 1],
-                 opacity: [0.5, 0.8, 0.5]
+                 scale: [1, 1 + mi * 0.4, 1],
+                 opacity: [0.6, 1, 0.6],
+                 rotate: [0, 5, -5, 0]
                }}
-               transition={{ duration: 0.5, repeat: Infinity }}
-               className={`w-16 h-16 rounded-full blur-xl ${mi > 1.0 ? 'bg-registry-rose' : 'bg-registry-teal'}`}
-             />
+               transition={{ duration: 0.2 / mi, repeat: Infinity }}
+               className={`w-20 h-20 rounded-full border-4 ${mi > 1.0 ? 'border-registry-rose shadow-glow-rose' : 'border-registry-teal shadow-glow'} flex items-center justify-center relative z-10`}
+             >
+                <div className={`w-12 h-12 rounded-full blur-xl ${mi > 1.0 ? 'bg-registry-rose' : 'bg-registry-teal'}`} />
+             </motion.div>
+
+             <div className="absolute top-4 left-4 flex flex-col">
+                <span className="text-[11px] font-black uppercase text-slate-500">Transient</span>
+                <span className="text-[11px] font-black uppercase text-slate-500">Cavitation</span>
+             </div>
           </div>
+
           <input 
             type="range" min="0.1" max="1.9" step="0.1" 
             value={mi} 
             onChange={(e) => setMi(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-registry-rose"
+            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-registry-rose"
           />
         </div>
       </div>
 
+      <div className="premium-glass p-6 rounded-3xl border border-white/5 relative z-10">
+        <h5 className="text-[11px] font-black uppercase text-white mb-3">BIOLOGICAL SAFETY STANDARDS</h5>
+        <p className="text-[11px] leading-relaxed text-slate-400 font-medium">
+          The <span className="text-registry-rose">MI</span> is particularly critical during contrast studies, as high indices can cause microbubble bursting. The <span className="text-orange-500">TI</span> is critical when imaging sensitive tissues like fetal bone or neonatal brain. Always optimize your machine settings to keep these indices below 1.0 whenever possible.
+        </p>
+      </div>
+
       <VisualInsight 
-        title="Bioeffects & Safety" 
-        description="TI represents potential for tissue heating. MI represents potential for cavitation (mechanical damage). Always adhere to ALARA principles." 
+        title="Predictive Bioeffects Theory" 
+        description="TI models the maximum temperature rise in the target tissue based on acoustic output. MI models the peak rarefaction pressure, which determines the likelihood of bubble formation (cavitation). Both indices provide a real-time risk assessment for the sonographer." 
       />
     </div>
   );
@@ -695,10 +800,10 @@ export const SpeckleVisual: React.FC = () => {
       <div className="flex justify-between items-center relative z-10">
         <div className="flex items-center space-x-2">
           <Sparkles className="w-4 h-4 text-slate-400" />
-          <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Acoustic Speckle Lab</span>
+          <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Acoustic Speckle Lab</span>
         </div>
         <div className="flex items-center space-x-4 bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-2xl border border-slate-100 dark:border-white/5">
-          <span className="text-[10px] font-black uppercase text-slate-500">Reduction: {reduction}%</span>
+          <span className="text-[11px] font-black uppercase text-slate-500">Reduction: {reduction}%</span>
           <input 
             type="range" min="0" max="100" step="10" 
             value={reduction} 
@@ -726,7 +831,7 @@ export const SpeckleVisual: React.FC = () => {
 
         <div className="relative z-10 w-24 h-24 rounded-full border-4 border-white/20 flex items-center justify-center">
            <div className={`w-12 h-12 rounded-full bg-white/10 ${reduction > 50 ? 'opacity-100' : 'opacity-40'} transition-opacity duration-500`} />
-           <p className="absolute -bottom-6 text-[8px] font-black uppercase text-white/50 whitespace-nowrap">Target Cyst</p>
+           <p className="absolute -bottom-6 text-[11px] font-black uppercase text-white/50 whitespace-nowrap">Target Cyst</p>
         </div>
       </div>
 
@@ -749,10 +854,10 @@ export const ContrastResolutionVisual: React.FC = () => {
       <div className="flex justify-between items-center relative z-10">
         <div className="flex items-center space-x-2">
           <Moon className="w-4 h-4 text-amber-500" />
-          <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Contrast Resolution Lab</span>
+          <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Contrast Resolution Lab</span>
         </div>
         <div className="flex items-center space-x-4 bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-2xl border border-slate-100 dark:border-white/5">
-          <span className="text-[10px] font-black uppercase text-slate-500">{bitDepth} Bits ({grayShades} Shades)</span>
+          <span className="text-[11px] font-black uppercase text-slate-500">{bitDepth} Bits ({grayShades} Shades)</span>
           <input 
             type="range" min="1" max="8" step="1" 
             value={bitDepth} 
@@ -796,12 +901,12 @@ export const HarmonicImagingVisual: React.FC = () => {
           </div>
           <div>
             <h4 className="text-lg font-black uppercase italic text-slate-900 dark:text-white leading-none">Tissue Harmonics</h4>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest mt-1">Non-Linear Imaging</p>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest mt-1">Non-Linear Imaging</p>
           </div>
         </div>
         <button 
           onClick={() => setShowHarmonic(!showHarmonic)}
-          className={`px-6 py-2 rounded-full text-[10px] font-black uppercase transition-all ${showHarmonic ? 'bg-registry-teal text-white shadow-lg' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}`}
+          className={`px-6 py-2 rounded-full text-[11px] font-black uppercase transition-all ${showHarmonic ? 'bg-registry-teal text-white shadow-lg' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}`}
         >
           {showHarmonic ? 'Harmonic Mode ON' : 'Fundamental Mode'}
         </button>
@@ -843,11 +948,11 @@ export const ElastographyVisual: React.FC = () => {
       <div className="flex justify-between items-center relative z-10">
         <div className="flex items-center space-x-2">
           <Droplets className="w-4 h-4 text-registry-rose" />
-          <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Strain Elastography</span>
+          <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Strain Elastography</span>
         </div>
         <button 
           onClick={() => setIsStiff(!isStiff)}
-          className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase transition-all duration-300 ${isStiff ? 'bg-registry-rose text-white' : 'bg-registry-teal text-white'}`}
+          className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase transition-all duration-300 ${isStiff ? 'bg-registry-rose text-white' : 'bg-registry-teal text-white'}`}
         >
           {isStiff ? 'Target: Stiff (Malignant?)' : 'Target: Soft (Benign?)'}
         </button>
@@ -891,7 +996,7 @@ export const FlowPatternsVisual: React.FC = () => {
       </h4>
       <div className="grid grid-cols-2 gap-4 h-40">
         <div className="bg-slate-950 rounded-2xl p-4 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden">
-           <span className="text-[10px] font-black uppercase text-registry-teal mb-4 relative z-10">Laminar</span>
+           <span className="text-[11px] font-black uppercase text-registry-teal mb-4 relative z-10">Laminar</span>
            <div className="absolute inset-x-0 h-full flex flex-col justify-around py-4">
               {[1, 2, 3, 2, 1].map((speed, i) => (
                 <motion.div 
@@ -905,7 +1010,7 @@ export const FlowPatternsVisual: React.FC = () => {
            </div>
         </div>
         <div className="bg-slate-950 rounded-2xl p-4 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden">
-           <span className="text-[10px] font-black uppercase text-registry-rose mb-4 relative z-10">Turbulent</span>
+           <span className="text-[11px] font-black uppercase text-registry-rose mb-4 relative z-10">Turbulent</span>
            <div className="absolute inset-0 flex items-center justify-center">
               {Array.from({length: 8}).map((_, i) => (
                 <motion.div 
@@ -948,9 +1053,9 @@ export const StenosisHemodynamicsExplainer: React.FC = () => {
            />
            <rect x="180" y="45" width="40" height="20" fill="#f43f5e" opacity="0.4" rx="4" />
            <rect x="180" y="85" width="40" height="20" fill="#f43f5e" opacity="0.4" rx="4" />
-           <text x="50" y="60" fill="white" className="text-[8px] font-black uppercase opacity-60">Low Vel</text>
-           <text x="200" y="70" fill="#f43f5e" className="text-[8px] font-black uppercase">Max Vel</text>
-           <text x="350" y="130" fill="#f43f5e" className="text-[8px] font-black uppercase opacity-60">Turbulence</text>
+           <text x="50" y="60" fill="white" className="text-[11px] font-black uppercase opacity-60">Low Vel</text>
+           <text x="200" y="70" fill="#f43f5e" className="text-[11px] font-black uppercase">Max Vel</text>
+           <text x="350" y="130" fill="#f43f5e" className="text-[11px] font-black uppercase opacity-60">Turbulence</text>
         </svg>
       </div>
       <VisualInsight 
@@ -970,8 +1075,8 @@ export const ColorVarianceVisual: React.FC = () => {
       </h4>
       <div className="h-40 bg-slate-950 rounded-3xl relative overflow-hidden border border-slate-800 p-4">
         <div className="grid grid-cols-2 gap-4 h-full">
-           <div className="bg-gradient-to-b from-blue-500 via-black to-red-500 rounded-lg flex items-center justify-center text-[8px] font-black uppercase">Velocity Map</div>
-           <div className="bg-gradient-to-br from-blue-500 via-green-500 to-red-600 rounded-lg flex items-center justify-center text-[8px] font-black uppercase">Variance Map</div>
+           <div className="bg-gradient-to-b from-blue-500 via-black to-red-500 rounded-lg flex items-center justify-center text-[11px] font-black uppercase">Velocity Map</div>
+           <div className="bg-gradient-to-br from-blue-500 via-green-500 to-red-600 rounded-lg flex items-center justify-center text-[11px] font-black uppercase">Variance Map</div>
         </div>
       </div>
       <VisualInsight 

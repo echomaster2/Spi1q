@@ -27,14 +27,14 @@ export const DailyChallenge: React.FC<DailyChallengeProps> = ({ onStart, isDarkM
             </div>
             <div>
               <h3 className={`text-xl font-black uppercase italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'} leading-none`}>Daily Mission</h3>
-              <p className="text-[8px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Status: PENDING</p>
+              <p className="text-[11px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Status: PENDING</p>
             </div>
           </div>
           <div className="flex flex-col items-end">
-            <div className="px-3 py-1 bg-registry-teal text-stealth-950 text-[8px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-registry-teal/20">
+            <div className="px-3 py-1 bg-registry-teal text-stealth-950 text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-registry-teal/20">
               +50 XP
             </div>
-            <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest mt-1">Reward Protocol</span>
+            <span className="text-[11px] font-black text-slate-600 uppercase tracking-widest mt-1">Reward Protocol</span>
           </div>
         </div>
 

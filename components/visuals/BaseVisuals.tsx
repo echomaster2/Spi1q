@@ -47,31 +47,76 @@ export const VisualInsight: React.FC<{ title: string; description: string }> = (
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        staggerChildren: 0.015,
+        delayChildren: 0.1
+      } 
+    }
+  };
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 5 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="mt-4 p-3 bg-registry-teal/5 border-l-2 border-registry-teal rounded-r-xl animate-in slide-in-from-left duration-500 group relative">
-      <div className="flex justify-between items-start">
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={containerVariants}
+      className="mt-6 p-6 bg-registry-teal/5 dark:bg-registry-teal/[0.03] border border-registry-teal/20 rounded-3xl relative group overflow-hidden"
+    >
+      <div className="absolute inset-0 scanline opacity-[0.03] pointer-events-none" />
+      <div className="flex justify-between items-start relative z-10">
         <div className="flex-1">
-          <p className="text-[10px] font-black uppercase text-registry-teal mb-1 flex items-center gap-1">
-            <Info className="w-3 h-3" /> Insight: {title}
-          </p>
-          <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-            {description}
-          </p>
+          <motion.div 
+            variants={wordVariants}
+            className="text-[11px] font-black uppercase text-registry-teal mb-3 flex items-center gap-2 tracking-[0.2em]"
+          >
+            <div className="p-1.5 bg-registry-teal/10 rounded-lg">
+              <Info className="w-3.5 h-3.5" />
+            </div>
+            Neural Explainer: {title}
+          </motion.div>
+          <div className="flex flex-wrap gap-x-1">
+            {description.split(' ').map((word, idx) => (
+              <motion.span 
+                key={idx} 
+                variants={wordVariants}
+                className="text-[12px] md:text-sm text-slate-700 dark:text-slate-300 font-semibold leading-relaxed tracking-tight"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </div>
         </div>
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={handlePlayAudio}
           disabled={isLoading}
-          className="ml-2 p-1.5 rounded-lg bg-registry-teal/10 text-registry-teal hover:bg-registry-teal hover:text-stealth-950 transition-all disabled:opacity-50"
+          className="ml-4 px-4 py-3 rounded-2xl bg-registry-teal text-white shadow-lg shadow-registry-teal/30 hover:bg-registry-teal/90 transition-all disabled:opacity-50 flex items-center gap-2 shrink-0"
           title="Listen to narration"
         >
           {isLoading ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
-            <Volume2 className={`w-3.5 h-3.5 ${isPlaying ? 'animate-pulse' : ''}`} />
+            <Volume2 className={`w-5 h-5 ${isPlaying ? 'animate-pulse' : ''}`} />
           )}
-        </button>
+          <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">
+             {isPlaying ? 'Playing' : 'Listen'}
+          </span>
+        </motion.button>
       </div>
-    </div>
+      
+      <div className="absolute bottom-0 left-0 h-1 bg-registry-teal/20 w-0 group-hover:w-full transition-all duration-1000" />
+    </motion.div>
   );
 };
 
@@ -118,7 +163,7 @@ export const VideoTutorialLink: React.FC<{ videoId: string; title: string }> = (
       rel="noopener noreferrer"
       whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.95 }}
-      className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-[10px] font-black uppercase tracking-widest transition-colors shadow-lg shadow-red-600/20 mb-6"
+      className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-[11px] font-black uppercase tracking-widest transition-colors shadow-lg shadow-red-600/20 mb-6"
     >
       <Monitor className="w-3 h-3" />
       <span>Video Tutorial: {title}</span>

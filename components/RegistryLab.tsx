@@ -22,9 +22,13 @@ const TOOL_CATEGORIES = [
     icon: Waves, 
     tools: [
       { id: 'oscilloscope', name: 'Master Oscilloscope', component: 'MasterOscilloscope', description: 'Advanced acoustic waveform analyzer with audible pitch representation.' },
-      { id: 'beam', name: 'Beam Characteristics', component: 'BeamLab', description: 'Study beam width, focal point, and divergence.' },
+      { id: 'pulse_echo', name: 'Pulse-Echo Principle', component: 'PulseEchoPrincipleVisual', description: 'Understand the 13 microsecond rule and echo-ranging.' },
       { id: 'wave', name: 'Wave Parameters', component: 'WaveParametersVisual', description: 'Experiment with frequency, period, and amplitude.' },
-      { id: 'atten', name: 'Attenuation Sim', component: 'AttenuationSimulator', description: 'Analyze energy loss in different media.' }
+      { id: 'atten', name: 'Attenuation Sim', component: 'AttenuationSimulator', description: 'Analyze energy loss in different media.' },
+      { id: 'refraction', name: 'Refraction Lab', component: 'RefractionLab', description: "Snell's Law and sound wave bending across interfaces." },
+      { id: 'reflection', name: 'Reflection Lab', component: 'ReflectionLab', description: 'Specular vs diffuse reflectors and angle of incidence.' },
+      { id: 'beam', name: 'Beam Characteristics', component: 'BeamLab', description: 'Study beam width, focal point, and divergence.' },
+      { id: 'huygens', name: 'Huygens Principle', component: 'HuygensPrincipleVisual', description: 'Wavelet interference and beam formation.' }
     ]
   },
   { 
@@ -33,7 +37,9 @@ const TOOL_CATEGORIES = [
     icon: Activity, 
     tools: [
       { id: 'doppler', name: 'Doppler Modalities', component: 'DopplerModalitiesVisual', description: 'Color, Power, and Spectral Doppler comparison.' },
+      { id: 'doppler_shift', name: 'Doppler Shift', component: 'DopplerShiftVisual', description: 'Frequency change based on reflector motion.' },
       { id: 'alias', name: 'Aliasing & Nyquist', component: 'AliasingVisual', description: 'Study sampling limits and PRF impacts.' },
+      { id: 'doppler_angle', name: 'Doppler Angle', component: 'DopplerAngleVisual', description: 'Cosine of the angle and its effect on velocity estimation.' },
       { id: 'sten', name: 'Stenosis Physics', component: 'StenosisHemodynamicsExplainer', description: 'Pressure vs Velocity dynamics.' },
       { id: 'flow', name: 'Flow Patterns', component: 'FlowPatternsVisual', description: 'Laminar, Turbulent, and Phasic flow.' }
     ]
@@ -45,8 +51,10 @@ const TOOL_CATEGORIES = [
     tools: [
       { id: 'optimization', name: 'Image Optimization', component: 'ImageOptimizationChallenge', description: 'Interactive game to master gain, focus, and dynamic range settings.' },
       { id: 'transduc', name: 'Transducer Anatomy', component: 'TransducerCrossSection', description: 'Internal components of a piezoelectric probe.' },
+      { id: 'arrays', name: 'Transducer Arrays', component: 'ArrayTypesVisual', description: 'Linear, Phased, and Convex array firing patterns.' },
       { id: 'display', name: 'Display Modes', component: 'DisplayModesVisual', description: 'A-Mode, B-Mode, and M-Mode differences.' },
-      { id: 'contrast', name: 'Contrast Resolution', component: 'DynamicRangeVisual', description: 'Bit depth and gray scale mapping.' }
+      { id: 'contrast', name: 'Contrast Resolution', component: 'DynamicRangeVisual', description: 'Bit depth and gray scale mapping.' },
+      { id: 'tgc', name: 'Time Gain Comp', component: 'TGCVisual', description: 'Depth dependent amplification of echoes.' }
     ]
   },
   { 
@@ -56,6 +64,7 @@ const TOOL_CATEGORIES = [
     tools: [
       { id: 'hunter', name: 'Artifact Hunter', component: 'ArtifactHunter', description: 'Identify and resolve real-time ultrasound artifacts in a diagnostic simulator.' },
       { id: 'bio', name: 'Bioeffects Monitor', component: 'BioeffectMechanismsVisual', description: 'Thermal and Mechanical index tracking.' },
+      { id: 'cavitation', name: 'Cavitation', component: 'CavitationVisual', description: 'Stable vs Transient microbubble oscillations.' },
       { id: 'micro', name: 'Microbubble Dynamics', component: 'ContrastBubbleVisual', description: 'Harmonics and contrast agent physics.' },
       { id: 'qa', name: 'Phantom Testing', component: 'QAPhantomVisual', description: 'Quality assurance and system calibration.' },
       { id: 'art', name: 'Artifact Lab', component: 'ArtifactsVisual', description: 'Shadowing, Enhancement, and Reverberation.' }
@@ -106,7 +115,7 @@ export const RegistryLab: React.FC<RegistryLabProps> = ({ onClose, isDarkMode })
            </div>
            <div>
               <h2 className="text-lg md:text-2xl font-black italic uppercase tracking-tighter tabular-nums leading-none">Diagnostic Registry Lab</h2>
-              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-registry-teal/60 mt-1 md:mt-1.5 flex items-center">
+              <p className="text-[11px] font-black uppercase tracking-[0.4em] text-registry-teal/60 mt-1 md:mt-1.5 flex items-center">
                  <Activity className="w-2.5 h-2.5 md:w-3 md:h-3 mr-2" /> Live Simulator Node Active
               </p>
            </div>
@@ -132,7 +141,7 @@ export const RegistryLab: React.FC<RegistryLabProps> = ({ onClose, isDarkMode })
               <div key={category.id} className="space-y-4 shrink-0 md:shrink w-full md:w-auto">
                 <button 
                   onClick={() => setActiveCategory(category.id)}
-                  className={`flex items-center space-x-3 text-[10px] font-black uppercase tracking-widest transition-all px-4 py-2 rounded-full md:p-0 md:rounded-none ${
+                  className={`flex items-center space-x-3 text-[11px] font-black uppercase tracking-widest transition-all px-4 py-2 rounded-full md:p-0 md:rounded-none ${
                     activeCategory === category.id 
                       ? 'bg-registry-teal/20 text-registry-teal md:bg-transparent' 
                       : 'text-slate-500 hover:text-slate-400'
@@ -157,7 +166,7 @@ export const RegistryLab: React.FC<RegistryLabProps> = ({ onClose, isDarkMode })
                         <p className={`text-[11px] md:text-[12px] font-black uppercase tracking-tight ${activeTool === tool.id ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>
                           {tool.name}
                         </p>
-                        <p className="text-[8px] md:text-[9px] font-bold text-slate-600 uppercase mt-1 leading-tight">{tool.description}</p>
+                        <p className="text-[11px] font-bold text-slate-600 uppercase mt-1 leading-tight">{tool.description}</p>
                       </div>
                       {activeTool === tool.id && (
                         <motion.div layoutId="active-indicator" className="absolute left-0 top-0 bottom-0 w-1 bg-registry-teal" />
@@ -186,10 +195,10 @@ export const RegistryLab: React.FC<RegistryLabProps> = ({ onClose, isDarkMode })
                      <div className="space-y-2 md:space-y-4 text-center">
                         <div className="flex items-center justify-center space-x-3 text-registry-teal">
                            <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
-                           <span className="text-[9px] md:text-xs font-black uppercase tracking-[0.3em] md:tracking-[0.5em]">{selectedTool?.id.toUpperCase()} DIAGNOSTIC MODULE</span>
+                           <span className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] md:tracking-[0.5em]">{selectedTool?.id.toUpperCase()} DIAGNOSTIC MODULE</span>
                         </div>
                         <h3 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">{selectedTool?.name}</h3>
-                        <p className="text-[10px] md:text-sm font-medium text-slate-400 max-w-lg md:max-w-2xl mx-auto">{selectedTool?.description}</p>
+                        <p className="text-[11px] md:text-sm font-medium text-slate-400 max-w-lg md:max-w-2xl mx-auto">{selectedTool?.description}</p>
                      </div>
 
                      <div className="premium-glass bg-opacity-20 border tech-border rounded-3xl md:rounded-[4rem] p-4 md:p-12 shadow-premium relative overflow-hidden">
@@ -202,7 +211,7 @@ export const RegistryLab: React.FC<RegistryLabProps> = ({ onClose, isDarkMode })
                      <div className="flex justify-center space-x-4">
                         <button 
                           onClick={() => setActiveTool(null)}
-                          className="flex items-center space-x-3 px-6 md:px-8 py-3 md:py-4 bg-white/5 border border-white/10 rounded-xl md:rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all shadow-lg backdrop-blur-sm"
+                          className="flex items-center space-x-3 px-6 md:px-8 py-3 md:py-4 bg-white/5 border border-white/10 rounded-xl md:rounded-2xl text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all shadow-lg backdrop-blur-sm"
                         >
                            <RefreshCcw className="w-3 h-3 md:w-4 md:h-4" />
                            <span>Change Simulation</span>
@@ -233,7 +242,7 @@ export const RegistryLab: React.FC<RegistryLabProps> = ({ onClose, isDarkMode })
                         { label: 'Mode', val: 'Registry' }
                       ].map((stat, i) => (
                         <div key={i} className="bg-black/20 border border-white/5 rounded-xl md:rounded-2xl p-3 md:p-4 flex flex-col items-center">
-                           <span className="text-[7px] md:text-[8px] font-black uppercase text-slate-600 mb-0.5 md:mb-1">{stat.label}</span>
+                           <span className="text-[11px] font-black uppercase text-slate-600 mb-0.5 md:mb-1">{stat.label}</span>
                            <span className="text-xs md:text-sm font-black text-white italic">{stat.val}</span>
                         </div>
                       ))}

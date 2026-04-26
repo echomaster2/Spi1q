@@ -29,11 +29,11 @@ export const module14Lessons: Record<string, LessonData> = {
              </div>
              <div className="space-y-4">
                 <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                   <p className="text-[10px] font-black uppercase text-slate-500 mb-1">Pixel (Picture Element)</p>
+                   <p className="text-[11px] font-black uppercase text-slate-500 mb-1">Pixel (Picture Element)</p>
                    <p className="text-xs">The smallest building block of a digital image. More pixels = Better spatial resolution.</p>
                 </div>
                 <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                   <p className="text-[10px] font-black uppercase text-slate-500 mb-1">Bit (Binary Digit)</p>
+                   <p className="text-[11px] font-black uppercase text-slate-500 mb-1">Bit (Binary Digit)</p>
                    <p className="text-xs">The smallest unit of computer memory. More bits = More shades of gray = Better contrast resolution.</p>
                 </div>
              </div>
@@ -77,7 +77,7 @@ export const module14Lessons: Record<string, LessonData> = {
               <Database className="w-16 h-16 text-registry-teal mb-6 animate-pulse" />
               <div className="space-y-2">
                  <p className="text-xl font-black text-white italic">DICOM Standard</p>
-                 <p className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Digital Imaging and Computers in Medicine</p>
+                 <p className="text-[11px] uppercase font-bold text-slate-500 tracking-widest">Digital Imaging and Computers in Medicine</p>
               </div>
               <p className="text-xs mt-6 opacity-60">The universal language of medical imaging. It ensures that images, patient data, and metadata can be shared between different vendors and systems.</p>
            </div>
@@ -107,7 +107,7 @@ export const module14Lessons: Record<string, LessonData> = {
         <div className="flex items-center space-x-4">
            <Cloud className="w-10 h-10 text-registry-cobalt" />
            <div className="h-px flex-1 bg-white/5" />
-           <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Next Gen Archiving</span>
+           <span className="text-[11px] font-black uppercase tracking-widest opacity-40">Next Gen Archiving</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -139,7 +139,7 @@ export const module14Lessons: Record<string, LessonData> = {
                  <div className="p-4 bg-stealth-950 rounded-2xl border border-white/5">
                     <div className="flex items-center space-x-2 mb-2">
                        <Cpu className="w-4 h-4 text-registry-rose" />
-                       <span className="text-[9px] font-black uppercase tracking-widest">Processing Node: ACTIVE</span>
+                       <span className="text-[11px] font-black uppercase tracking-widest">Processing Node: ACTIVE</span>
                     </div>
                     <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                        <motion.div 

@@ -145,7 +145,7 @@ Keep the script engaging, conversational, and suitable for a single speaker. Do 
             </div>
             <div>
               <h2 className="text-xl md:text-2xl font-black uppercase italic tracking-tighter">Deep Dive Lectures</h2>
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">AI-Generated Masterclass</p>
+              <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em]">AI-Generated Masterclass</p>
             </div>
           </div>
           <button 
@@ -212,7 +212,7 @@ Keep the script engaging, conversational, and suitable for a single speaker. Do 
                     </div>
                     <div className="text-center">
                       <p className="text-xs font-black uppercase tracking-tighter">AI Instructor</p>
-                      <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest">Masterclass</p>
+                      <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Masterclass</p>
                     </div>
                   </div>
                   
@@ -270,7 +270,7 @@ Keep the script engaging, conversational, and suitable for a single speaker. Do 
                     setAudioUrl(null);
                     setScript('');
                   }}
-                  className="text-[10px] font-black text-slate-500 hover:text-white uppercase tracking-widest underline underline-offset-4"
+                  className="text-[11px] font-black text-slate-500 hover:text-white uppercase tracking-widest underline underline-offset-4"
                 >
                   Generate New Lecture
                 </button>

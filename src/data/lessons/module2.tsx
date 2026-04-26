@@ -205,11 +205,11 @@ Remember: You can only adjust electronic focus. Internal and external focus are 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
                  <h5 className="text-registry-teal font-black uppercase text-xs">Near Zone (Fresnel)</h5>
-                 <p className="text-[10px] text-slate-400">The region from the transducer to the focus. Beam is narrowing.</p>
+                 <p className="text-[11px] text-slate-400">The region from the transducer to the focus. Beam is narrowing.</p>
               </div>
               <div className="space-y-2">
                  <h5 className="text-registry-rose font-black uppercase text-xs">Far Zone (Fraunhofer)</h5>
-                 <p className="text-[10px] text-slate-400">The region starting from the focus. Beam is diverging.</p>
+                 <p className="text-[11px] text-slate-400">The region starting from the focus. Beam is diverging.</p>
               </div>
            </div>
         </section>
@@ -219,15 +219,15 @@ Remember: You can only adjust electronic focus. Internal and external focus are 
            <div className="space-y-4">
               <div className="p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center">
                  <span className="font-bold text-sm uppercase">Lens (External)</span>
-                 <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">Fixed</span>
+                 <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">Fixed</span>
               </div>
               <div className="p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center">
                  <span className="font-bold text-sm uppercase">Curved Crystal (Internal)</span>
-                 <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">Fixed</span>
+                 <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">Fixed</span>
               </div>
               <div className="p-6 bg-registry-teal/10 rounded-2xl border border-registry-teal/20 flex justify-between items-center">
                  <span className="font-bold text-sm uppercase text-registry-teal">Phased Array (Electronic)</span>
-                 <span className="text-[8px] font-black uppercase tracking-widest text-registry-teal">Adjustable</span>
+                 <span className="text-[11px] font-black uppercase tracking-widest text-registry-teal">Adjustable</span>
               </div>
            </div>
         </section>

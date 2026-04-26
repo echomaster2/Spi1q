@@ -133,7 +133,7 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
           <div className="mt-8 p-4 rounded-2xl bg-registry-teal/5 border border-registry-teal/10 flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-registry-teal rounded-full animate-pulse" />
-              <span className="text-[10px] font-black uppercase text-registry-teal tracking-widest">Neural Narration</span>
+              <span className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Neural Narration</span>
             </div>
             <button 
               onClick={() => onPlayNarration(step.narration, `onboarding_${currentStep}`)}
@@ -149,7 +149,7 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
           <button 
             onClick={handlePrev}
             disabled={currentStep === 0}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${currentStep === 0 ? 'opacity-0 pointer-events-none' : 'hover:bg-white/10 text-slate-500'}`}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${currentStep === 0 ? 'opacity-0 pointer-events-none' : 'hover:bg-white/10 text-slate-500'}`}
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Back</span>
@@ -158,7 +158,7 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
           <div className="flex items-center space-x-3">
             <button 
               onClick={onClose}
-              className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-registry-rose transition-all`}
+              className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-registry-rose transition-all`}
             >
               Skip Tour
             </button>

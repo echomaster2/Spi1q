@@ -127,7 +127,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
         <div className="flex items-center space-x-3">
           <button 
             onClick={() => setNeuralDepthEnabled(!neuralDepthEnabled)}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-xl border transition-all text-[10px] font-black uppercase tracking-[0.2em] italic ${neuralDepthEnabled ? 'bg-indigo-500/10 border-indigo-500/40 text-indigo-400 shadow-glow' : 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-400'}`}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-xl border transition-all text-[11px] font-black uppercase tracking-[0.2em] italic ${neuralDepthEnabled ? 'bg-indigo-500/10 border-indigo-500/40 text-indigo-400 shadow-glow' : 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-400'}`}
           >
             <Zap className={`w-3 h-3 ${neuralDepthEnabled ? 'fill-current' : ''}`} />
             <span className="hidden md:inline">Neural Depth</span>
@@ -135,7 +135,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
           <button 
             onClick={handleGeneratePlan}
             disabled={isGenerating}
-            className={`flex items-center space-x-2 px-5 py-2.5 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase tracking-[0.1em] text-[10px] shadow-lg shadow-registry-teal/20 transition-all active:scale-95 disabled:opacity-50 group`}
+            className={`flex items-center space-x-2 px-5 py-2.5 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase tracking-[0.1em] text-[11px] shadow-lg shadow-registry-teal/20 transition-all active:scale-95 disabled:opacity-50 group`}
           >
             {isGenerating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Brain className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />}
             <span className="italic font-bold">Synchronize</span>
@@ -170,7 +170,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-8">
                 <div>
-                  <span className="px-5 py-2 bg-registry-teal/10 text-registry-teal text-[10px] font-black uppercase italic rounded-full border border-registry-teal/20">
+                  <span className="px-5 py-2 bg-registry-teal/10 text-registry-teal text-[11px] font-black uppercase italic rounded-full border border-registry-teal/20">
                     Phase: {roadmap.phase}
                   </span>
                   <h4 className={`text-3xl md:text-5xl font-black italic mt-4 tracking-tighter uppercase leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -185,7 +185,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
               
               <div className="space-y-3">
                 <div className="flex justify-between items-end">
-                  <span className="technical-label !tracking-[0.2em] !text-[9px]">Overall Neural Mastery</span>
+                  <span className="technical-label !tracking-[0.2em] !text-[11px]">Overall Neural Mastery</span>
                   <span className="text-lg font-black text-registry-teal italic tabular-nums">{Math.round((completed.size / 46) * 100)}%</span>
                 </div>
                 <div className="h-2 bg-black/20 dark:bg-white/5 rounded-full overflow-hidden border border-white/5">
@@ -286,7 +286,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
                   <p className={`text-2xl font-black italic ${window.type === 'favorable' ? (isDarkMode ? 'text-teal-400' : 'text-teal-700') : (isDarkMode ? 'text-registry-rose' : 'text-registry-rose')}`}>
                     {window.start} - {window.end}
                   </p>
-                  <p className={`text-[10px] font-bold uppercase ${window.type === 'favorable' ? (isDarkMode ? 'text-teal-400/70' : 'text-teal-600/70') : (isDarkMode ? 'text-registry-rose/70' : 'text-registry-rose/70')} mt-1`}>
+                  <p className={`text-[11px] font-bold uppercase ${window.type === 'favorable' ? (isDarkMode ? 'text-teal-400/70' : 'text-teal-600/70') : (isDarkMode ? 'text-registry-rose/70' : 'text-registry-rose/70')} mt-1`}>
                     {window.label}
                   </p>
                 </div>
@@ -329,7 +329,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
                   <h4 className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white mt-1 italic">{item.label || `Day ${item.day}`}</h4>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.topics.map(t => (
-                      <span key={t} className="px-3 py-1 bg-registry-teal/5 text-registry-teal text-[9px] font-black uppercase rounded-lg border border-registry-teal/10">
+                      <span key={t} className="px-3 py-1 bg-registry-teal/5 text-registry-teal text-[11px] font-black uppercase rounded-lg border border-registry-teal/10">
                         {t}
                       </span>
                     ))}
@@ -370,7 +370,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
                   ].map((w, i) => (
                     <div key={i} className="space-y-2">
                       <div className="flex justify-between items-end">
-                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{w.label}</span>
+                        <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{w.label}</span>
                         <span className="text-sm font-black text-indigo-400 tabular-nums">{w.weight}%</span>
                       </div>
                       <div className="h-1.5 bg-black/10 dark:bg-white/5 rounded-full overflow-hidden">
@@ -457,11 +457,11 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
                            </div>
                            <div className="grid grid-cols-2 gap-6">
                               <div className="p-6 bg-white/5 rounded-2xl border border-white/5">
-                                 <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-1">Impact Layer</p>
+                                 <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest mb-1">Impact Layer</p>
                                  <p className="text-sm font-black text-teal-400 italic">High-Yield SPI</p>
                               </div>
                               <div className="p-6 bg-white/5 rounded-2xl border border-white/5">
-                                 <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-1">Neural Tag</p>
+                                 <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest mb-1">Neural Tag</p>
                                  <p className="text-sm font-black text-amber-400 italic">Clinical Protocol</p>
                               </div>
                            </div>
@@ -477,9 +477,9 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
                   <Stethoscope className="w-12 h-12 text-registry-teal" />
                 </div>
                 <div className="relative z-10">
-                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-registry-teal mb-2 block">{tip.category}</span>
+                  <span className="text-[11px] font-black uppercase tracking-[0.3em] text-registry-teal mb-2 block">{tip.category}</span>
                   <h4 className="text-sm font-black uppercase tracking-tight text-slate-900 dark:text-white mb-2">{tip.title}</h4>
-                  <p className={`text-[10px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} italic`}>
+                  <p className={`text-[11px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} italic`}>
                     {tip.content}
                   </p>
                 </div>
@@ -489,7 +489,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
         </section>
       </div>
       <footer className="p-8 border-t border-slate-100 dark:border-white/10 text-center opacity-50 shrink-0">
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Source: Neural Network Version 4.2.1-SPI</p>
+        <p className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500">Source: Neural Network Version 4.2.1-SPI</p>
       </footer>
 
       <AnimatePresence>
@@ -576,7 +576,7 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-6">
-                    <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4">Priority Modules</h4>
+                    <h4 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4">Priority Modules</h4>
                     <div className="space-y-3">
                       {selectedDayDetail.topics.map((t, i) => (
                         <div key={i} className="flex items-center space-x-3 p-4 bg-white/5 rounded-2xl border border-white/5">
@@ -588,14 +588,14 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
                   </div>
 
                   <div className="space-y-6">
-                    <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4">Neural Strategy</h4>
+                    <h4 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.2em] mb-4">Neural Strategy</h4>
                     <div className="p-6 bg-indigo-500/10 border border-indigo-500/20 rounded-3xl">
                       <p className="text-sm text-indigo-300 leading-relaxed font-medium italic">
                         "For these topics, focus on the inverse relationship matrix. Use visual sketching to map the acoustic impedance variables."
                       </p>
                     </div>
                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-2xl">
-                      <span className="text-[10px] font-black uppercase text-slate-500">Est. Load</span>
+                      <span className="text-[11px] font-black uppercase text-slate-500">Est. Load</span>
                       <span className="text-sm font-black text-teal-500 italic">Moderate (2.4h)</span>
                     </div>
                   </div>

@@ -332,7 +332,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
           </div>
           <div className="min-w-0">
             <h4 className="text-base md:text-lg font-black tracking-tight italic uppercase leading-none truncate">Knowledge Matrix</h4>
-            <p className="text-[8px] md:text-[10px] text-registry-teal font-black uppercase tracking-widest mt-0.5 truncate">Neural Link: ACTIVE</p>
+            <p className="text-[11px] text-registry-teal font-black uppercase tracking-widest mt-0.5 truncate">Neural Link: ACTIVE</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -393,7 +393,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                      <button 
                        disabled={flashcards.filter(c => c.nextReview <= Date.now()).length === 0}
                        onClick={() => { setView('study'); setSelectedModule(null); setCurrentIndex(0); }}
-                       className="px-6 py-3.5 md:px-8 md:py-4 bg-registry-cobalt hover:bg-blue-400 text-white disabled:opacity-30 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-[10px] flex items-center space-x-2 transition-all shadow-lg active:scale-95"
+                       className="px-6 py-3.5 md:px-8 md:py-4 bg-registry-cobalt hover:bg-blue-400 text-white disabled:opacity-30 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[11px] flex items-center space-x-2 transition-all shadow-lg active:scale-95"
                      >
                        <RefreshCcw className="w-3.5 h-3.5" />
                        <span>Review Due ({flashcards.filter(c => c.nextReview <= Date.now()).length})</span>
@@ -420,12 +420,12 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                     <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-white mb-3 md:mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                       <m.icon className="w-4.5 h-4.5 md:w-5 md:h-5" />
                     </div>
-                    <h5 className={`font-black uppercase text-[9px] md:text-[10px] tracking-tight mb-1 truncate pr-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{m.title}</h5>
+                    <h5 className={`font-black uppercase text-[11px] tracking-tight mb-1 truncate pr-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{m.title}</h5>
                     <div className="flex justify-between items-center">
-                       <p className="text-[8px] md:text-[9px] font-bold text-slate-500 uppercase tracking-widest">{count} Nodes</p>
+                       <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{count} Nodes</p>
                        {dueCount > 0 && (
                          <div className="flex items-center space-x-1">
-                            <span className="text-[7px] font-black text-registry-rose uppercase tracking-widest">{dueCount} DUE</span>
+                            <span className="text-[11px] font-black text-registry-rose uppercase tracking-widest">{dueCount} DUE</span>
                             <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-registry-rose rounded-full animate-pulse shadow-[0_0_5px_#d946ef]" />
                          </div>
                        )}
@@ -444,9 +444,9 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                 <div className="flex justify-between items-center px-2">
                    <div className="flex items-center space-x-2">
                       <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-registry-teal rounded-full animate-pulse shadow-[0_0_5px_#00e5ff]" />
-                      <span className="text-[8px] md:text-[9px] font-black uppercase text-slate-500 tracking-[0.3em] truncate max-w-[120px] sm:max-w-none">{selectedModule || 'Hybrid Matrix'}</span>
+                      <span className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] truncate max-w-[120px] sm:max-w-none">{selectedModule || 'Hybrid Matrix'}</span>
                    </div>
-                   <span className="text-[9px] md:text-[10px] font-black uppercase text-registry-teal bg-registry-teal/10 border border-registry-teal/20 px-3 py-1 rounded-full">{currentIndex + 1} / {filteredCards.length}</span>
+                   <span className="text-[11px] font-black uppercase text-registry-teal bg-registry-teal/10 border border-registry-teal/20 px-3 py-1 rounded-full">{currentIndex + 1} / {filteredCards.length}</span>
                 </div>
                 
                 <div 
@@ -497,7 +497,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                       
                       <div className="absolute bottom-6 md:bottom-8 flex items-center space-x-2 text-slate-500 opacity-60 group-hover:opacity-100 group-hover:text-registry-teal transition-all z-10">
                         <RotateCw className="w-3.5 h-3.5 animate-spin-slow" />
-                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em]">Tap to flip node</span>
+                        <span className="text-[11px] font-black uppercase tracking-[0.3em]">Tap to flip node</span>
                       </div>
                     </div>
 
@@ -521,7 +521,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                      <button 
                        key={b.quality} 
                        onClick={(e) => { e.stopPropagation(); handleReview(b.quality); }}
-                       className={`${b.color} text-stealth-950 py-4 md:py-6 rounded-xl md:rounded-2xl font-black uppercase text-[8px] md:text-[10px] tracking-widest shadow-lg active:scale-90 transition-all relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white`}
+                       className={`${b.color} text-stealth-950 py-4 md:py-6 rounded-xl md:rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg active:scale-90 transition-all relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white`}
                        aria-label={`Mark as ${b.label}`}
                      >
                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
@@ -542,9 +542,9 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                  </div>
                  <div className="space-y-1.5 md:space-y-2">
                     <h3 className={`text-3xl md:text-4xl font-black uppercase italic tracking-tighter leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Registry Node Synced</h3>
-                    <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[8px] md:text-[10px]">Your knowledge retention is at peak state</p>
+                    <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[11px]">Your knowledge retention is at peak state</p>
                  </div>
-                 <button onClick={() => setView('selector')} className="px-12 py-5 md:px-16 md:py-6 bg-registry-teal text-stealth-950 rounded-2xl md:rounded-[2rem] font-black uppercase tracking-widest text-[10px] md:text-xs shadow-2xl hover:scale-105 transition-transform active:scale-95">Return to Console</button>
+                 <button onClick={() => setView('selector')} className="px-12 py-5 md:px-16 md:py-6 bg-registry-teal text-stealth-950 rounded-2xl md:rounded-[2rem] font-black uppercase tracking-widest text-[11px] shadow-2xl hover:scale-105 transition-transform active:scale-95">Return to Console</button>
               </div>
             )}
           </div>
@@ -564,7 +564,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                      </div>
                      <button
                        onClick={() => setIsBulkMode(!isBulkMode)}
-                       className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest ${isBulkMode ? 'bg-registry-teal text-stealth-950' : isDarkMode ? 'bg-stealth-950 text-slate-400' : 'bg-slate-100 text-slate-500'}`}
+                       className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest ${isBulkMode ? 'bg-registry-teal text-stealth-950' : isDarkMode ? 'bg-stealth-950 text-slate-400' : 'bg-slate-100 text-slate-500'}`}
                      >
                        {isBulkMode ? 'Single Mode' : 'Bulk Import'}
                      </button>
@@ -573,15 +573,15 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                   <div className="grid gap-5 md:gap-6">
                     <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
                       <div className="space-y-1.5">
-                        <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Target Module</label>
-                        <select value={newModule} onChange={e => setNewModule(e.target.value)} className={`w-full p-3.5 md:p-4 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs outline-none border transition-all cursor-pointer ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`}>
+                        <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest block px-1">Target Module</label>
+                        <select value={newModule} onChange={e => setNewModule(e.target.value)} className={`w-full p-3.5 md:p-4 rounded-xl md:rounded-2xl font-black text-[11px] outline-none border transition-all cursor-pointer ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`}>
                           {modules.map(m => <option key={m.title} value={m.title}>{m.title}</option>)}
                         </select>
                       </div>
                       {!isBulkMode && (
                         <div className="space-y-1.5">
-                          <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Visual Reference (Optional)</label>
-                          <input type="text" value={newImage} onChange={e => setNewImage(e.target.value)} placeholder="URL of diagram" className={`w-full p-3.5 md:p-4 rounded-xl md:rounded-2xl font-bold text-[10px] md:text-xs outline-none border transition-all ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} />
+                          <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest block px-1">Visual Reference (Optional)</label>
+                          <input type="text" value={newImage} onChange={e => setNewImage(e.target.value)} placeholder="URL of diagram" className={`w-full p-3.5 md:p-4 rounded-xl md:rounded-2xl font-bold text-[11px] outline-none border transition-all ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} />
                         </div>
                       )}
                     </div>
@@ -589,7 +589,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                     <div className="space-y-4">
                       {isBulkMode ? (
                         <div className="space-y-1.5">
-                          <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Paste Bulk Data</label>
+                          <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest block px-1">Paste Bulk Data</label>
                           <textarea 
                             value={bulkInput} 
                             onChange={e => setBulkInput(e.target.value)} 
@@ -600,18 +600,18 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                       ) : (
                         <>
                           <div className="space-y-1.5">
-                            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Physics Query</label>
+                            <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest block px-1">Physics Query</label>
                             <textarea value={newFront} onChange={e => setNewFront(e.target.value)} className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-24 md:h-28 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} placeholder="e.g. Formula for Mechanical Index?" />
                           </div>
                           <div className="space-y-1.5">
-                            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-500 tracking-widest block px-1">Physical Principle Response</label>
+                            <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest block px-1">Physical Principle Response</label>
                             <textarea value={newBack} onChange={e => setNewBack(e.target.value)} className={`w-full p-4 md:p-6 rounded-xl md:rounded-[2rem] border outline-none text-[11px] md:text-sm font-bold h-24 md:h-28 transition-all resize-none ${isDarkMode ? 'bg-stealth-950 text-white border-white/10 focus:border-registry-teal' : 'bg-slate-50 text-slate-900 border-slate-200 focus:border-registry-teal'}`} placeholder="e.g. MI = Peak Rarefaction Pressure / sqrt(Frequency)" />
                           </div>
                         </>
                       )}
                     </div>
 
-                    <button onClick={handleAdd} className="w-full py-4.5 md:py-6 bg-registry-teal hover:bg-teal-400 text-stealth-950 rounded-xl md:rounded-[2rem] font-black uppercase tracking-widest text-[10px] md:text-sm shadow-lg shadow-registry-teal/20 active:scale-95 transition-all flex items-center justify-center space-x-2.5">
+                    <button onClick={handleAdd} className="w-full py-4.5 md:py-6 bg-registry-teal hover:bg-teal-400 text-stealth-950 rounded-xl md:rounded-[2rem] font-black uppercase tracking-widest text-[11px] shadow-lg shadow-registry-teal/20 active:scale-95 transition-all flex items-center justify-center space-x-2.5">
                        <CheckCircle2 className="w-4.5 h-4.5 md:w-5 md:h-5" />
                        <span>{isBulkMode ? 'Inject Multiple Nodes' : 'Inject node into Matrix'}</span>
                     </button>
@@ -621,7 +621,7 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
 
              <div className="space-y-4">
                 <div className="flex justify-between items-center px-4">
-                  <h4 className="text-[9px] font-black uppercase text-slate-500 tracking-[0.3em]">Knowledge Library ({flashcards?.length || 0})</h4>
+                  <h4 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em]">Knowledge Library ({flashcards?.length || 0})</h4>
                 </div>
                 <div className="grid gap-3">
                   {flashcards.map((c, i) => (
@@ -640,8 +640,8 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
                         ) : null}
                         <div className="space-y-0.5 md:space-y-1 overflow-hidden">
                           <div className="flex items-center space-x-2">
-                             <span className={`px-2 py-0.5 border rounded-md text-[7px] md:text-[8px] font-black uppercase text-slate-500 block w-fit ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-slate-50 border-slate-200'}`}>{c.moduleId}</span>
-                             <span className="text-[7px] font-black text-registry-teal uppercase tracking-widest">
+                             <span className={`px-2 py-0.5 border rounded-md text-[11px] font-black uppercase text-slate-500 block w-fit ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-slate-50 border-slate-200'}`}>{c.moduleId}</span>
+                             <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">
                                 Next: {new Date(c.nextReview).toLocaleDateString()} ({c.interval}d)
                              </span>
                           </div>
@@ -670,8 +670,8 @@ export const Flashcards: React.FC<FlashcardsProps> = ({
             <h3 className="text-xl font-black uppercase italic text-center mb-2">Reset Node Matrix?</h3>
             <p className="text-xs text-center opacity-60 mb-8 leading-relaxed">This will restore the default physics nodes and clear all custom entries. This action is irreversible.</p>
             <div className="flex space-x-3">
-              <button onClick={() => setShowResetConfirm(false)} className={`flex-1 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>Cancel</button>
-              <button onClick={handleSeed} className="flex-1 py-4 bg-registry-rose text-white rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg shadow-registry-rose/20 active:scale-95 transition-all">Reset All</button>
+              <button onClick={() => setShowResetConfirm(false)} className={`flex-1 py-4 rounded-xl font-black uppercase text-[11px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>Cancel</button>
+              <button onClick={handleSeed} className="flex-1 py-4 bg-registry-rose text-white rounded-xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-registry-rose/20 active:scale-95 transition-all">Reset All</button>
             </div>
           </div>
         </div>

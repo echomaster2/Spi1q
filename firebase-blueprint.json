@@ -1,46 +1,124 @@
 {
   "entities": {
-    "UserProfile": {
+    "User": {
       "title": "User Profile",
-      "description": "Stores user preferences and study data.",
+      "description": "Core user profile data containing preferences and basic stats.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string", "description": "Unique user ID from Firebase Auth" },
-        "name": { "type": "string", "description": "User's display name" },
-        "email": { "type": "string", "description": "User's email address" },
-        "studyGoals": { "type": "string", "description": "User's study objectives" },
-        "learningStyle": { "type": "string", "description": "User's preferred learning method" },
-        "birthDate": { "type": "string", "description": "User's birth date for spiritual timing" },
-        "birthTime": { "type": "string", "description": "User's birth time for spiritual timing" },
-        "streak": { "type": "integer", "description": "Current study streak in days" },
-        "lastStudyDate": { "type": "string", "description": "Last date the user studied" }
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "registryDate": { "type": "string", "format": "date" },
+        "birthDate": { "type": "string", "format": "date" },
+        "dailyInsight": { "type": "string" },
+        "lastInsightTimestamp": { "type": "number" },
+        "streak": { "type": "number" },
+        "studyTimeTotal": { "type": "number" },
+        "diagnosticAccuracy": { "type": "number" },
+        "hasCompletedOnboarding": { "type": "boolean" },
+        "isPrivateMode": { "type": "boolean" },
+        "profileAvatar": { "type": "string", "enum": ["default", "sonographer", "student", "doctor", "nurse"] },
+        "companionSkin": { "type": "string", "enum": ["default", "neon", "stealth", "golden", "sonographer", "student"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "email"]
     },
-    "ExamResult": {
-      "title": "Exam Result",
-      "description": "Stores the results of a mock exam.",
+    "Progress": {
+      "title": "Module/Lesson Progress",
+      "description": "Tracks completion and performance for specific lessons.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string", "description": "User ID of the student" },
-        "score": { "type": "number", "description": "Final score percentage" },
-        "total": { "type": "integer", "description": "Total number of questions" },
-        "timeTaken": { "type": "integer", "description": "Time taken in seconds" },
-        "passed": { "type": "boolean", "description": "Whether the user passed" },
-        "timestamp": { "type": "string", "format": "date-time", "description": "When the exam was completed" },
-        "moduleBreakdown": { "type": "object", "description": "Score breakdown per topic" }
+        "lessonId": { "type": "string" },
+        "moduleId": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "score": { "type": "number" },
+        "lastAccessed": { "type": "string", "format": "date-time" },
+        "attempts": { "type": "number" }
       },
-      "required": ["uid", "score", "total", "timestamp"]
+      "required": ["lessonId", "completed"]
+    },
+    "Flashcard": {
+      "title": "Spaced Repetition Flashcard",
+      "description": "User's personalized SRS data for a concept.",
+      "type": "object",
+      "properties": {
+        "front": { "type": "string" },
+        "back": { "type": "string" },
+        "moduleId": { "type": "string" },
+        "repetition": { "type": "number" },
+        "interval": { "type": "number" },
+        "easeFactor": { "type": "number" },
+        "nextReview": { "type": "number" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["front", "back"]
+    },
+    "ExamResult": {
+      "title": "Exam History Entry",
+      "description": "Record of a completed full-length or module exam.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date-time" },
+        "score": { "type": "number" },
+        "total": { "type": "number" },
+        "timeTaken": { "type": "number" },
+        "moduleBreakdown": { "type": "object" },
+        "passed": { "type": "boolean" }
+      },
+      "required": ["date", "score", "total"]
+    },
+    "Achievement": {
+      "title": "User Achievement",
+      "description": "Unlocked badge or milestone.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "unlockedAt": { "type": "string", "format": "date-time" },
+        "claimed": { "type": "boolean" }
+      },
+      "required": ["id", "unlockedAt"]
+    },
+    "Quest": {
+      "title": "User Quest Progress",
+      "description": "Status of an active or completed quest.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "currentValue": { "type": "number" },
+        "targetValue": { "type": "number" },
+        "completed": { "type": "boolean" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "currentValue", "targetValue"]
     }
   },
   "firestore": {
-    "/users/{uid}": {
-      "schema": "UserProfile",
-      "description": "User profile data indexed by UID"
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Individual user profiles."
     },
-    "/examResults": {
+    "/users/{userId}/progress/{lessonId}": {
+      "schema": "Progress",
+      "description": "Lesson-level progress tracking."
+    },
+    "/users/{userId}/flashcards/{cardId}": {
+      "schema": "Flashcard",
+      "description": "Personalized flashcards."
+    },
+    "/users/{userId}/exams/{examId}": {
       "schema": "ExamResult",
-      "description": "Collection of all exam results"
+      "description": "Exam history records."
+    },
+    "/users/{userId}/achievements/{achievementId}": {
+      "schema": "Achievement",
+      "description": "User achievements."
+    },
+    "/users/{userId}/quests/{questId}": {
+      "schema": "Quest",
+      "description": "User quest status."
     }
   }
 }

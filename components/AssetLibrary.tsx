@@ -78,10 +78,78 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
   };
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (!files || files.length === 0) return;
 
     setUploading(true);
+    
+    // If only one file and it's an image, keep old logic for backward compatibility with base64 storage if preferred,
+    // but for bulk we definitely want the new server-side file storage.
+    
+    if (files.length > 1) {
+      // Bulk logic
+      const formData = new FormData();
+      files.forEach(file => {
+        if (file.type.startsWith('video/')) {
+          formData.append('videos', file);
+        } else {
+          formData.append('images', file);
+        }
+      });
+
+      try {
+        // We separate them or use a combined endpoint. 
+        // Let's just handle them sequentially or update server to handle mixed.
+        // Actually, let's just use the image endpoint if they are mostly images.
+        
+        const imageFiles = files.filter(f => f.type.startsWith('image/'));
+        const videoFiles = files.filter(f => f.type.startsWith('video/'));
+
+        if (imageFiles.length > 0) {
+          const imgFormData = new FormData();
+          imageFiles.forEach(f => imgFormData.append('images', f));
+          const res = await fetch('/api/bulk-upload-images', { method: 'POST', body: imgFormData });
+          if (res.ok) {
+            const result = await res.json();
+            for (const file of result.files) {
+              const imageId = `user-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+              await fetch(`/api/images/${userId}/${imageId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: file.url }), // Save URL instead of base64
+              });
+            }
+          }
+        }
+
+        if (videoFiles.length > 0) {
+          const vidFormData = new FormData();
+          videoFiles.forEach(f => vidFormData.append('videos', f));
+          const res = await fetch('/api/bulk-upload-videos', { method: 'POST', body: vidFormData });
+          if (res.ok) {
+            const result = await res.json();
+            for (const file of result.files) {
+                const imageId = `video-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+                await fetch(`/api/images/${userId}/${imageId}`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ data: `data:video/mp4;base64,${file.url}` }),
+                });
+            }
+          }
+        }
+        
+        fetchUserAssets();
+      } catch (error) {
+        console.error('Bulk upload failed:', error);
+      } finally {
+        setUploading(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+      return;
+    }
+
+    const file = files[0];
     
     // Check if it's a video
     if (file.type.startsWith('video/')) {
@@ -151,7 +219,6 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
     };
     reader.readAsDataURL(file);
   };
-
   const handleDelete = async (imageId: string) => {
     setShowDeleteConfirm(null);
     try {
@@ -227,7 +294,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
           </div>
           <div>
             <h2 className="text-xl font-black uppercase italic tracking-tighter">Asset Library</h2>
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Visual Core Repository</p>
+            <p className={`text-[11px] font-black uppercase tracking-[0.3em] ${isDarkMode ? 'text-slate-500' : 'text-slate-800'}`}>Visual Core Repository</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -243,7 +310,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               <button 
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center space-x-2 px-4 py-2 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+                className="flex items-center space-x-2 px-4 py-2 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
               >
                 {uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
                 <span>{uploading ? 'Uploading...' : 'Upload Asset'}</span>
@@ -258,8 +325,8 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center space-x-2 p-1 bg-white/5 rounded-2xl border border-white/10 w-fit">
-            <div className="flex items-center space-x-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-registry-teal text-stealth-950 shadow-lg shadow-registry-teal/20">
+          <div className={`flex items-center space-x-2 p-1 rounded-2xl border w-fit ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-300'}`}>
+            <div className="flex items-center space-x-2 px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest bg-registry-teal text-stealth-950 shadow-lg shadow-registry-teal/20">
               <Folder className="w-3 h-3" />
               <span>My Library</span>
             </div>
@@ -267,7 +334,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               href="https://iame.com/sonoworld-archive" 
               target="_blank" 
               rel="noopener noreferrer"
-              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'}`}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-white/10' : 'text-slate-700 hover:text-slate-950 hover:bg-white'}`}
             >
               <Film className="w-3 h-3" />
               <span>Sonoworld Archive</span>
@@ -281,10 +348,10 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                   activeCategory === cat 
                     ? 'bg-registry-teal text-stealth-950' 
-                    : isDarkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10' : 'bg-white text-slate-600 hover:bg-slate-100 shadow-sm'
+                    : isDarkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10' : 'bg-slate-200 text-slate-900 hover:bg-slate-300 shadow-sm'
                 }`}
               >
                 {cat}
@@ -296,7 +363,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
         {loading && activeTab === 'user' ? (
           <div className="flex flex-col items-center justify-center h-64 space-y-4">
             <Loader2 className="w-10 h-10 text-registry-teal animate-spin" />
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Accessing Repository...</p>
+            <p className={`text-[11px] font-black uppercase tracking-widest ${isDarkMode ? 'text-slate-500' : 'text-slate-800'}`}>Accessing Repository...</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -318,7 +385,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                       className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'bg-white/5' : 'bg-slate-100'}`}
                     >
                       <X className="w-8 h-8 text-slate-400" />
-                      <p className="text-[8px] font-black uppercase tracking-widest mt-2">No Background</p>
+                      <p className="text-[11px] font-black uppercase tracking-widest mt-2">No Background</p>
                     </div>
                   ) : (
                     <div className="relative w-full h-full">
@@ -328,7 +395,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                           className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'bg-stealth-900' : 'bg-slate-200'}`}
                         >
                           <FileVideo className="w-10 h-10 text-registry-teal mb-2" />
-                          <p className="text-[10px] font-black uppercase tracking-tighter text-white truncate max-w-[80%] px-2">{asset.id}</p>
+                          <p className="text-[11px] font-black uppercase tracking-tighter text-white truncate max-w-[80%] px-2">{asset.id}</p>
                           <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <Play className="w-8 h-8 text-white fill-white" />
                           </div>
@@ -365,8 +432,8 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
 
                       <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="text-left">
-                          <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest">{asset.category}</p>
-                          <p className="text-[10px] font-black text-white uppercase tracking-tighter truncate max-w-[100px]">{asset.author || asset.id}</p>
+                          <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest">{asset.category}</p>
+                          <p className="text-[11px] font-black text-white uppercase tracking-tighter truncate max-w-[100px]">{asset.author || asset.id}</p>
                         </div>
                         <div className="flex space-x-2">
                           <button 
@@ -415,7 +482,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
         {filteredAssets.length === 0 && !loading && (
           <div className="flex flex-col items-center justify-center h-64 space-y-4 opacity-50">
             <Folder className="w-12 h-12 text-slate-500" />
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+            <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">
               No Assets Found
             </p>
           </div>
@@ -445,7 +512,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               >
                 <ZoomOut className="w-5 h-5" />
               </button>
-              <span className="text-[10px] font-black text-white uppercase tracking-widest w-12 text-center">
+              <span className="text-[11px] font-black text-white uppercase tracking-widest w-12 text-center">
                 {Math.round(zoom * 100)}%
               </span>
               <button 
@@ -514,7 +581,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                   <Camera className="w-5 h-5 text-registry-teal" />
                 </div>
                 <div>
-                  <p className="text-[8px] font-black text-registry-teal uppercase tracking-widest">Photographer</p>
+                  <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Photographer</p>
                   <a 
                     href={selectedAssetForView.authorUrl} 
                     target="_blank" 
@@ -551,19 +618,19 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                   </div>
                   <div>
                     <h2 className="text-2xl font-black uppercase italic tracking-tighter">Attach Asset</h2>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Map Asset to Neural Node</p>
+                    <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em]">Map Asset to Neural Node</p>
                   </div>
                 </div>
                 <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
                   <button 
                     onClick={() => setAttachTarget('lesson')}
-                    className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${attachTarget === 'lesson' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                    className={`px-4 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${attachTarget === 'lesson' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
                   >
                     Curriculum
                   </button>
                   <button 
                     onClick={() => setAttachTarget('lexicon')}
-                    className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${attachTarget === 'lexicon' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                    className={`px-4 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${attachTarget === 'lexicon' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
                   >
                     Lexicon
                   </button>
@@ -589,7 +656,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                     )
                   )}
                   <div>
-                    <p className="text-[10px] font-black text-registry-teal uppercase tracking-widest">Selected Asset</p>
+                    <p className="text-[11px] font-black text-registry-teal uppercase tracking-widest">Selected Asset</p>
                     <p className="text-sm font-black uppercase tracking-tighter truncate max-w-[200px]">{showAttachModal.id}</p>
                   </div>
                 </div>
@@ -598,7 +665,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                   {attachTarget === 'lesson' ? (
                     modules?.map((m, mIdx) => (
                       <div key={mIdx} className="space-y-2">
-                        <h4 className="text-[10px] font-black uppercase text-slate-500 tracking-widest px-2">{m.title}</h4>
+                        <h4 className="text-[11px] font-black uppercase text-slate-500 tracking-widest px-2">{m.title}</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {m.lessons.map((l: any) => (
                             <button
@@ -611,7 +678,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                                 isDarkMode ? 'bg-white/5 border-white/5 hover:border-registry-teal/30 hover:bg-registry-teal/5' : 'bg-slate-50 border-slate-200 hover:border-registry-teal/30 hover:bg-slate-100'
                               }`}
                             >
-                              <span className="text-[10px] font-bold uppercase tracking-tight truncate mr-2">{l.title}</span>
+                              <span className="text-[11px] font-bold uppercase tracking-tight truncate mr-2">{l.title}</span>
                               <Plus className="w-3 h-3 text-registry-teal opacity-0 group-hover:opacity-100 transition-opacity" />
                             </button>
                           ))}
@@ -631,7 +698,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                             isDarkMode ? 'bg-white/5 border-white/5 hover:border-registry-teal/30 hover:bg-registry-teal/5' : 'bg-slate-50 border-slate-200 hover:border-registry-teal/30 hover:bg-slate-100'
                           }`}
                         >
-                          <span className="text-[10px] font-bold uppercase tracking-tight truncate mr-2">{term.term}</span>
+                          <span className="text-[11px] font-bold uppercase tracking-tight truncate mr-2">{term.term}</span>
                           <Plus className="w-3 h-3 text-registry-teal opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
                       ))}
@@ -643,7 +710,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               <div className="p-6 border-t border-white/5 flex justify-end">
                 <button 
                   onClick={() => setShowAttachModal(null)}
-                  className={`px-8 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}
+                  className={`px-8 py-3 rounded-xl font-black uppercase text-[11px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}
                 >
                   Cancel
                 </button>
@@ -686,8 +753,8 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               </div>
 
               <div className="flex space-x-3">
-                <button onClick={() => setShowRenameModal(null)} className={`flex-1 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>Cancel</button>
-                <button onClick={handleRename} className="flex-1 py-4 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg shadow-registry-teal/20 active:scale-95 transition-all">Rename</button>
+                <button onClick={() => setShowRenameModal(null)} className={`flex-1 py-4 rounded-xl font-black uppercase text-[11px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>Cancel</button>
+                <button onClick={handleRename} className="flex-1 py-4 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-registry-teal/20 active:scale-95 transition-all">Rename</button>
               </div>
             </motion.div>
           </motion.div>
@@ -715,8 +782,8 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               <h3 className="text-xl font-black uppercase italic text-center mb-2">Delete Asset?</h3>
               <p className="text-xs text-center opacity-60 mb-8 leading-relaxed">This will permanently remove this image from your library. This action cannot be undone.</p>
               <div className="flex space-x-3">
-                <button onClick={() => setShowDeleteConfirm(null)} className={`flex-1 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>Cancel</button>
-                <button onClick={() => handleDelete(showDeleteConfirm)} className="flex-1 py-4 bg-registry-rose text-white rounded-xl font-black uppercase text-[10px] tracking-widest shadow-lg shadow-registry-rose/20 active:scale-95 transition-all">Delete</button>
+                <button onClick={() => setShowDeleteConfirm(null)} className={`flex-1 py-4 rounded-xl font-black uppercase text-[11px] tracking-widest transition-all ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>Cancel</button>
+                <button onClick={() => handleDelete(showDeleteConfirm)} className="flex-1 py-4 bg-registry-rose text-white rounded-xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-registry-rose/20 active:scale-95 transition-all">Delete</button>
               </div>
             </motion.div>
           </motion.div>

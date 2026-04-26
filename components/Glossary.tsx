@@ -14,6 +14,7 @@ interface GlossaryProps {
   isTtsLoading?: boolean;
   profile?: UserProfileType;
   onUpdateProfile?: (updates: Partial<UserProfileType>) => void;
+  onNavigateToLesson?: (lessonId: string) => void;
 }
 
 export const SPI_GLOSSARY: GlossaryTerm[] = [
@@ -23,6 +24,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     definition: "As Low As Reasonably Achievable. The core principle of ultrasound safety emphasizing minimized exposure time and output power.", 
     category: "Bioeffects",
     clinicalPearl: "Always start with the lowest power setting and adjust gain first to optimize your image before increasing output power.",
+    relatedLessonIds: ["6.1"],
     visual: (
       <div className="flex items-center space-x-1">
         <Shield className="w-4 h-4 text-registry-teal animate-pulse" />
@@ -38,6 +40,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     definition: "The interaction of sound waves with microscopic gas bubbles in tissues, divided into stable and transient (normal) types.", 
     category: "Bioeffects",
     clinicalPearl: "Transient cavitation is more likely to occur with high-intensity, short-pulse ultrasound, which is why we monitor MI closely during contrast studies.",
+    relatedLessonIds: ["6.1"],
     visual: (
       <div className="relative w-10 h-10 flex items-center justify-center">
         <motion.div 
@@ -58,6 +61,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     definition: "An index that estimates the likelihood of non-thermal (mechanical) bioeffects, specifically cavitation.", 
     category: "Bioeffects",
     clinicalPearl: "Keep MI < 1.9 for general scanning and < 0.4 for contrast-enhanced ultrasound to avoid microbubble destruction.",
+    relatedLessonIds: ["6.2"],
     visual: (
       <div className="relative w-10 h-10 flex items-center justify-center">
         <motion.div 
@@ -159,6 +163,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     definition: "The number of cycles per second, measured in Hertz (Hz). For diagnostic ultrasound, typically 2-15 MHz.", 
     category: "Waves",
     clinicalPearl: "Higher frequency provides better axial resolution but less penetration. Use the highest frequency that still allows you to see the target structure.",
+    relatedLessonIds: ["1.2"],
     visual: (
       <div className="w-12 h-8 flex items-center justify-center">
         <svg width="40" height="20" viewBox="0 0 40 20" className="text-registry-teal">
@@ -509,7 +514,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
         <div className="w-4 h-4 bg-rose-500/20 rounded-full flex items-center justify-center">
           <div className="w-2 h-2 bg-rose-500 rounded-full animate-ping" />
         </div>
-        <div className="text-[6px] font-black text-rose-500 mt-1">360°C</div>
+        <div className="text-[11px] font-black text-rose-500 mt-1">360°C</div>
       </div>
     )
   },
@@ -1247,6 +1252,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     term: "Snell's Law",
     definition: "The formula used to calculate the angle of refraction: sin(θt)/sin(θi) = c2/c1.",
     category: "Media Interaction",
+    relatedLessonIds: ["1.3"],
     visual: <MoveRight className="w-4 h-4 text-registry-teal rotate-45" />
   },
   {
@@ -1277,6 +1283,7 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     term: "DICOM",
     definition: "Digital Imaging and Communications in Medicine. The standard protocol for medical imaging data exchange.",
     category: "Instrumentation",
+    relatedLessonIds: ["14.2"],
     visual: <Binary className="w-4 h-4 text-registry-teal" />
   },
   {
@@ -1323,12 +1330,14 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     term: "A-Mode",
     definition: "Amplitude mode; displays the strength of reflections as vertical spikes on a graph. Used for precise distance measurements.",
     category: "Instrumentation",
+    relatedLessonIds: ["11.3"],
     visual: <Activity className="w-4 h-4 text-registry-teal" />
   },
   {
     term: "M-Mode",
     definition: "Motion mode; displays the movement of reflectors over time. Used for cardiac and fetal heart rate assessment.",
     category: "Instrumentation",
+    relatedLessonIds: ["11.3"],
     visual: <Timer className="w-4 h-4 text-registry-teal" />
   },
   {
@@ -1382,7 +1391,8 @@ export const Glossary: React.FC<GlossaryProps> = ({
   isTtsLoading,
   isDarkMode,
   profile,
-  onUpdateProfile
+  onUpdateProfile,
+  onNavigateToLesson
 }) => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -1481,7 +1491,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
             <h4 className={`text-base md:text-xl font-black italic uppercase tracking-tighter leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Physics Lexicon Vault</h4>
             <div className="flex items-center space-x-2">
               <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse" />
-              <span className={`text-[8px] md:text-[10px] font-black ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} uppercase tracking-[0.2em]`}>Registry Node: ACTIVE</span>
+              <span className={`text-[11px] font-black ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} uppercase tracking-[0.2em]`}>Registry Node: ACTIVE</span>
             </div>
           </div>
         </div>
@@ -1522,7 +1532,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
         <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
           <button 
             onClick={() => setActiveCategory(null)}
-            className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${!activeCategory ? 'bg-registry-teal text-white shadow-[0_0_15px_rgba(45,212,191,0.3)]' : isDarkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900 border border-slate-200'}`}
+            className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[11px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${!activeCategory ? 'bg-registry-teal text-white shadow-[0_0_15px_rgba(45,212,191,0.3)]' : isDarkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900 border border-slate-200'}`}
           >
             All Protocols
           </button>
@@ -1530,7 +1540,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
             <button 
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-registry-teal text-white shadow-[0_0_15px_rgba(45,212,191,0.3)]' : isDarkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900 border border-slate-200'}`}
+              className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[11px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-registry-teal text-white shadow-[0_0_15px_rgba(45,212,191,0.3)]' : isDarkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900 border border-slate-200'}`}
             >
               {cat}
             </button>
@@ -1582,7 +1592,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
                     </div>
                     <div>
                       <h5 className={`text-base md:text-xl font-black italic uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'} group-hover:text-registry-teal transition-colors leading-tight`}>{term.term}</h5>
-                      <span className={`text-[8px] font-black ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} uppercase tracking-widest`}>{term.category}</span>
+                      <span className={`text-[11px] font-black ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} uppercase tracking-widest`}>{term.category}</span>
                     </div>
                   </div>
                   {profile?.lexiconOverrides?.[term.term] ? (
@@ -1627,9 +1637,9 @@ export const Glossary: React.FC<GlossaryProps> = ({
                     <div className="relative z-10">
                       <div className="flex items-center space-x-2 mb-2">
                         <div className="w-1 h-1 bg-registry-teal rounded-full animate-ping" />
-                        <span className="text-[8px] font-black uppercase text-registry-teal tracking-widest">Neural AI Insight</span>
+                        <span className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Neural AI Insight</span>
                       </div>
-                      <div className={`text-[10px] md:text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} whitespace-pre-wrap`}>
+                      <div className={`text-[11px] md:text-[11px] font-medium leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} whitespace-pre-wrap`}>
                         {profile.lexiconAIExplainers[term.term]}
                       </div>
                     </div>
@@ -1642,11 +1652,33 @@ export const Glossary: React.FC<GlossaryProps> = ({
                     </div>
                     <div className="relative z-10 flex items-start space-x-3">
                       <Zap className="w-3 h-3 text-registry-teal mt-0.5 shrink-0" />
-                      <p className={`text-[10px] md:text-xs font-bold italic leading-relaxed ${isDarkMode ? 'text-teal-400/80' : 'text-teal-600/80'}`}>
+                      <p className={`text-[11px] font-bold italic leading-relaxed ${isDarkMode ? 'text-teal-400/80' : 'text-teal-600/80'}`}>
                         <span className="uppercase font-black mr-1 tracking-widest">Clinical Pearl:</span>
                         {renderDefinitionWithLinks(term.clinicalPearl)}
                       </p>
                     </div>
+                  </div>
+                )}
+                {term.relatedLessonIds && term.relatedLessonIds.length > 0 && onNavigateToLesson && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {term.relatedLessonIds.map(lessonId => (
+                      <button
+                        key={lessonId}
+                        onClick={() => {
+                          onNavigateToLesson(lessonId);
+                          onClose();
+                        }}
+                        className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${
+                          isDarkMode 
+                            ? 'bg-registry-teal/10 text-registry-teal border border-registry-teal/20 hover:bg-registry-teal hover:text-stealth-950 shadow-glow shadow-registry-teal/10' 
+                            : 'bg-registry-teal/10 text-registry-teal border border-registry-teal/20 hover:bg-registry-teal hover:text-white'
+                        }`}
+                      >
+                        <FileVideo className="w-3 h-3" />
+                        <span>Explore Lesson: {lessonId}</span>
+                        <MoveRight className="w-3 h-3" />
+                      </button>
+                    ))}
                   </div>
                 )}
               </motion.div>
@@ -1662,7 +1694,7 @@ export const Glossary: React.FC<GlossaryProps> = ({
       </div>
 
       <footer className={`p-4 md:p-6 border-t ${isDarkMode ? 'border-white/10 bg-stealth-950 text-slate-400' : 'border-slate-200 bg-white text-slate-500'} text-center pb-24 md:pb-6 transition-colors`}>
-        <p className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em]">Source: ARDMS SPI Content Outline</p>
+        <p className="text-[11px] font-black uppercase tracking-[0.2em]">Source: ARDMS SPI Content Outline</p>
       </footer>
 
       <AnimatePresence>
@@ -1762,6 +1794,30 @@ export const Glossary: React.FC<GlossaryProps> = ({
                   </motion.div>
                 )}
               </div>
+
+              {fullscreenTerm.relatedLessonIds && fullscreenTerm.relatedLessonIds.length > 0 && onNavigateToLesson && (
+                <div className="flex flex-wrap gap-4 justify-center">
+                  {fullscreenTerm.relatedLessonIds.map(lessonId => (
+                    <motion.button
+                      key={lessonId}
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => {
+                        onNavigateToLesson(lessonId);
+                        setFullscreenTerm(null);
+                        onClose();
+                      }}
+                      className="px-10 py-5 bg-registry-teal text-stealth-950 rounded-[2rem] font-black italic uppercase text-xs tracking-[0.3em] shadow-glow shadow-registry-teal/40 flex items-center space-x-4 border border-white/20"
+                    >
+                      <FileVideo className="w-5 h-5 flex-shrink-0" />
+                      <span>Jump to Lesson {lessonId}</span>
+                      <MoveRight className="w-5 h-5 flex-shrink-0" />
+                    </motion.button>
+                  ))}
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}

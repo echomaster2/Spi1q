@@ -43,7 +43,7 @@ export const Magnify: React.FC<{ children: React.ReactNode }> = ({ children }) =
             >
               {children}
             </div>
-            <div className="absolute top-4 right-4 bg-registry-teal text-stealth-950 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest flex items-center space-x-1 shadow-lg">
+            <div className="absolute top-4 right-4 bg-registry-teal text-stealth-950 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest flex items-center space-x-1 shadow-lg">
               <Search className="w-3 h-3" />
               <span>Enhanced View</span>
             </div>

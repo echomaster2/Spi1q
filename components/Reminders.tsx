@@ -97,7 +97,7 @@ export const Reminders: React.FC<RemindersProps> = ({ onClose, onPlayNarration, 
           </div>
           <div>
             <h4 className="text-sm md:text-lg font-black tracking-tight italic uppercase leading-none">Study Alerts</h4>
-            <p className="text-[8px] md:text-[9px] opacity-70 font-black uppercase tracking-widest mt-0.5">Locally Saved</p>
+            <p className="text-[11px] opacity-70 font-black uppercase tracking-widest mt-0.5">Locally Saved</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -120,22 +120,22 @@ export const Reminders: React.FC<RemindersProps> = ({ onClose, onPlayNarration, 
             <ShieldAlert className="w-6 h-6 text-amber-500 shrink-0" />
             <div className="space-y-3">
               <p className={`text-xs font-bold leading-tight ${isDarkMode ? 'text-amber-300' : 'text-amber-900'}`}>Browser notifications disabled.</p>
-              <button onClick={requestPermission} className="px-4 py-2 bg-amber-500 text-white text-[9px] font-black uppercase rounded-lg">Enable</button>
+              <button onClick={requestPermission} className="px-4 py-2 bg-amber-500 text-white text-[11px] font-black uppercase rounded-lg">Enable</button>
             </div>
           </div>
         ) : (
           <button onClick={sendTestNotification} className={`w-full p-4 border rounded-2xl flex items-center justify-center space-x-3 ${isDarkMode ? 'bg-slate-800 border-white/5 text-slate-400' : 'bg-white border-slate-200 text-slate-600'}`}>
-            <Send className="w-4 h-4 text-registry-teal" /><span className="text-[10px] font-black uppercase tracking-widest">Send Test Alert</span>
+            <Send className="w-4 h-4 text-registry-teal" /><span className="text-[11px] font-black uppercase tracking-widest">Send Test Alert</span>
           </button>
         )}
 
         <div className={`p-8 rounded-3xl border shadow-sm space-y-6 ${isDarkMode ? 'bg-slate-800 border-white/5' : 'bg-white border-slate-200'}`}>
           <div className="space-y-4">
-             <h5 className="text-[9px] font-black uppercase text-slate-400 tracking-widest">Add Study Pulse</h5>
+             <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Add Study Pulse</h5>
              <input type="time" value={newTime} onChange={(e) => setNewTime(e.target.value)} className={`w-full p-4 border rounded-2xl font-bold text-sm outline-none focus:border-registry-teal transition-colors ${isDarkMode ? 'bg-slate-900 border-white/5 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} />
           </div>
           <div className="space-y-3">
-            <h5 className="text-[8px] font-black uppercase text-slate-400 tracking-widest">Frequency</h5>
+            <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Frequency</h5>
             <div className="flex justify-between gap-1">
               {DAYS_SHORT.map((day, idx) => (
                 <button key={idx} onClick={() => toggleDay(idx)} className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black transition-all border-2 ${selectedDays.includes(idx) ? 'bg-teal-600 border-teal-400 text-white' : isDarkMode ? 'bg-slate-900 border-slate-700 text-slate-400' : 'bg-slate-50 border-slate-100 text-slate-400'}`}>
@@ -150,19 +150,19 @@ export const Reminders: React.FC<RemindersProps> = ({ onClose, onPlayNarration, 
         </div>
 
         <div className="space-y-4">
-          <h5 className="text-[9px] font-black uppercase text-slate-400 tracking-widest">Active Disciplines</h5>
+          <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Active Disciplines</h5>
           {reminders.length === 0 ? (
-            <div className={`p-10 text-center border-2 border-dashed rounded-[2.5rem] opacity-30 text-[9px] font-black uppercase ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>No active alerts</div>
+            <div className={`p-10 text-center border-2 border-dashed rounded-[2.5rem] opacity-30 text-[11px] font-black uppercase ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>No active alerts</div>
           ) : (
             reminders.map(r => (
               <div key={r.id} className={`p-5 rounded-3xl border transition-all ${r.enabled ? isDarkMode ? 'bg-slate-800 border-white/5 shadow-sm' : 'bg-white border-slate-100 shadow-sm' : isDarkMode ? 'bg-slate-900/50 border-transparent opacity-60' : 'bg-slate-50 border-transparent opacity-60'}`}>
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <p className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{r.time}</p>
-                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-1">Registry Pulse</p>
+                    <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mt-1">Registry Pulse</p>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <button onClick={() => toggleReminder(r.id)} className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all ${r.enabled ? 'bg-slate-100 text-slate-600' : 'bg-teal-600 text-white shadow-lg'}`}>
+                    <button onClick={() => toggleReminder(r.id)} className={`px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${r.enabled ? 'bg-slate-100 text-slate-600' : 'bg-teal-600 text-white shadow-lg'}`}>
                       {r.enabled ? 'Mute' : 'Enable'}
                     </button>
                     <button onClick={() => deleteReminder(r.id)} className="p-2 text-rose-400 ml-1"><Trash2 className="w-4.5 h-4.5" /></button>
@@ -170,7 +170,7 @@ export const Reminders: React.FC<RemindersProps> = ({ onClose, onPlayNarration, 
                 </div>
                 <div className="flex gap-1 justify-between px-1">
                   {DAYS_SHORT.map((day, dIdx) => (
-                    <div key={dIdx} className={`w-6 h-6 rounded-full flex items-center justify-center text-[7px] font-black ${r.days.includes(dIdx) ? (r.enabled ? 'bg-teal-100 text-teal-700' : 'bg-slate-200 text-slate-500') : isDarkMode ? 'text-slate-700' : 'text-slate-200'}`}>
+                    <div key={dIdx} className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black ${r.days.includes(dIdx) ? (r.enabled ? 'bg-teal-100 text-teal-700' : 'bg-slate-200 text-slate-500') : isDarkMode ? 'text-slate-700' : 'text-slate-200'}`}>
                       {day}
                     </div>
                   ))}
@@ -182,7 +182,7 @@ export const Reminders: React.FC<RemindersProps> = ({ onClose, onPlayNarration, 
       </div>
       
       <div className={`p-6 border-t text-center pb-24 lg:pb-8 ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-white border-slate-100'}`}>
-        <p className="text-[8px] text-slate-400 font-black uppercase tracking-[0.2em]">Locally Encrypted Persistence</p>
+        <p className="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em]">Locally Encrypted Persistence</p>
       </div>
     </div>
   );

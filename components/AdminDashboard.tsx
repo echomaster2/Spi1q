@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, Plus, Trash2, Edit2, Save, Video, Image as ImageIcon, 
   ChevronRight, Search, LayoutDashboard, Database, Shield,
-  CheckCircle2, AlertCircle, Loader2, Play, ExternalLink
+  CheckCircle2, AlertCircle, Loader2, Play, ExternalLink, Activity
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
 import { VideoItem, VisualItem, Question } from '../src/mediaData';
+import { DicomProcessor } from '../src/components/DicomProcessor';
 
 interface AdminDashboardProps {
   onClose: () => void;
@@ -14,14 +15,16 @@ interface AdminDashboardProps {
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkMode }) => {
-  const [activeTab, setActiveTab] = useState<'videos' | 'visuals'>('videos');
+  const [activeTab, setActiveTab] = useState<'videos' | 'visuals' | 'config' | 'dicom'>('videos');
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [visuals, setVisuals] = useState<VisualItem[]>([]);
+  const [defaultBackground, setDefaultBackground] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [bulkUploading, setBulkUploading] = useState(false);
 
   useEffect(() => {
     fetchMedia();
@@ -35,6 +38,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
         const data = await response.json();
         setVideos(data.videos || []);
         setVisuals(data.visuals || []);
+        setDefaultBackground(data.defaultBackground || null);
       }
     } catch (error) {
       console.error('Failed to fetch media:', error);
@@ -44,18 +48,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
     }
   };
 
-  const saveMedia = async (updatedVideos: VideoItem[], updatedVisuals: VisualItem[]) => {
+  const saveMedia = async (updatedVideos: VideoItem[], updatedVisuals: VisualItem[], updatedDefaultBg: string | null = defaultBackground) => {
     setSaving(true);
     try {
       const response = await fetch('/api/media', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ videos: updatedVideos, visuals: updatedVisuals }),
+        body: JSON.stringify({ 
+          videos: updatedVideos, 
+          visuals: updatedVisuals, 
+          defaultBackground: updatedDefaultBg 
+        }),
       });
       if (response.ok) {
         toast.success('Media library updated successfully');
         setVideos(updatedVideos);
         setVisuals(updatedVisuals);
+        setDefaultBackground(updatedDefaultBg);
       }
     } catch (error) {
       console.error('Failed to save media:', error);
@@ -63,6 +72,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleUpdateLogo = () => {
+    // Placeholder for future logo implementation
+    toast.info("Logo updates coming in next iteration");
   };
 
   const handleAddItem = () => {
@@ -86,6 +100,35 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
     };
     
     setEditingItem(newItem);
+  };
+
+  const handleDicomImport = (metadata: any, file: File, previewUrl: string | null) => {
+    // Convert DICOM metadata to Visual Item structure
+    const newItem: VisualItem = {
+      id: `vis-dicom-${Date.now()}`,
+      title: `${metadata.modality || 'US'} Study: ${metadata.patientName || 'Anonymous'}`,
+      description: `DICOM Import from External Disk. 
+Study Description: ${metadata.studyDescription || 'N/A'}
+Modality: ${metadata.modality || 'Ultrasound'}
+Acquisition Date: ${metadata.studyDate || 'N/A'}
+Institution: ${metadata.institutionName || 'N/A'}
+Frames: ${metadata.frames || 1} Loop Sequence.`,
+      imageUrl: previewUrl || 'https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&w=1920&q=80',
+      category: metadata.modality === 'US' ? 'Physics Basics' : 'Advanced Case Studies',
+      assessment: [
+        {
+          id: `q-dicom-${Date.now()}`,
+          question: `Based on this ${metadata.modality || 'US'} study acquired on ${metadata.studyDate || 'the machine'}, what is the primary acoustic artifact typically seen in standard imaging?`,
+          options: ['Reverberation', 'Shadowing', 'Enhancement', 'All of the above'],
+          correctAnswer: 3,
+          explanation: "Automated physics assessment based on DICOM modality."
+        }
+      ]
+    };
+
+    setEditingItem(newItem);
+    setActiveTab('visuals');
+    toast.success('DICOM Context Extracted and Ready for Registry Injection');
   };
 
   const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,6 +167,89 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
       toast.error('Error uploading video');
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleBulkUploadVisuals = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    setBulkUploading(true);
+    try {
+      const formData = new FormData();
+      files.forEach(file => formData.append('images', file));
+
+      const response = await fetch('/api/bulk-upload-images', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const newVisuals: VisualItem[] = result.files.map((file: any) => ({
+          id: `vis-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          title: file.originalName.split('.')[0].replace(/[-_]/g, ' '),
+          description: `Bulk imported asset: ${file.originalName}`,
+          imageUrl: file.url,
+          category: 'Physics Basics',
+          assessment: []
+        }));
+
+        const updatedVisuals = [...visuals, ...newVisuals];
+        await saveMedia(videos, updatedVisuals);
+        toast.success(`Successfully imported ${newVisuals.length} assets`);
+      } else {
+        toast.error('Failed to bulk upload visuals');
+      }
+    } catch (error) {
+      console.error('Bulk upload error:', error);
+      toast.error('Error during bulk upload');
+    } finally {
+      setBulkUploading(false);
+      // Reset input
+      e.target.value = '';
+    }
+  };
+
+  const handleBulkUploadVideos = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    setBulkUploading(true);
+    try {
+      const formData = new FormData();
+      files.forEach(file => formData.append('videos', file));
+
+      const response = await fetch('/api/bulk-upload-videos', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const newVideos: VideoItem[] = result.files.map((file: any) => ({
+          id: `vid-${Date.now()}-${Math.random().toString(34).substring(2, 9)}`,
+          title: file.originalName.split('.')[0].replace(/[-_]/g, ' '),
+          description: `Bulk imported lecture: ${file.originalName}`,
+          embedUrl: file.url,
+          thumbnail: 'https://images.unsplash.com/photo-1576091160399-11ba23d2e0a3?auto=format&fit=crop&w=1920&q=80',
+          duration: '0:00',
+          script: '',
+          assessment: []
+        }));
+
+        const updatedVideos = [...videos, ...newVideos];
+        await saveMedia(updatedVideos, visuals);
+        toast.success(`Successfully imported ${newVideos.length} lectures`);
+      } else {
+        toast.error('Failed to bulk upload videos');
+      }
+    } catch (error) {
+      console.error('Bulk upload error:', error);
+      toast.error('Error during bulk upload');
+    } finally {
+      setBulkUploading(false);
+      e.target.value = '';
     }
   };
 
@@ -179,13 +305,35 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
           </div>
           <div>
             <h2 className="text-xl font-black uppercase italic tracking-tighter">Admin Dashboard</h2>
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Media Content Management</p>
+            <p className={`text-[11px] font-black uppercase tracking-[0.3em] ${isDarkMode ? 'text-slate-500' : 'text-slate-800'}`}>Media Content Management</p>
           </div>
         </div>
         <div className="flex items-center space-x-4">
+          {(activeTab === 'videos' || activeTab === 'visuals') && (
+            <div className="relative">
+              <input
+                type="file"
+                multiple
+                accept={activeTab === 'videos' ? "video/*" : "image/*"}
+                onChange={activeTab === 'videos' ? handleBulkUploadVideos : handleBulkUploadVisuals}
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                disabled={bulkUploading}
+              />
+              <button 
+                className={`flex items-center space-x-2 px-4 py-2 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} border rounded-xl font-black uppercase tracking-widest text-[11px] transition-all hover:scale-105 active:scale-95 ${bulkUploading ? 'opacity-50' : ''}`}
+              >
+                {bulkUploading ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <Plus className="w-3 h-3" />
+                )}
+                <span>Bulk Import</span>
+              </button>
+            </div>
+          )}
           <button 
             onClick={handleAddItem}
-            className="flex items-center space-x-2 px-4 py-2 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-105 active:scale-95"
+            className="flex items-center space-x-2 px-4 py-2 bg-registry-teal text-stealth-950 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all hover:scale-105 active:scale-95"
           >
             <Plus className="w-3 h-3" />
             <span>Add {activeTab === 'videos' ? 'Video' : 'Visual'}</span>
@@ -198,32 +346,46 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
 
       <div className="flex-1 overflow-hidden flex flex-col">
         {/* Tabs & Search */}
-        <div className="p-6 border-b border-white/5 flex flex-col md:flex-row gap-4 justify-between items-center bg-white/5">
-          <div className="flex p-1 rounded-xl bg-white/5 border border-white/10">
+        <div className={`p-6 border-b flex flex-col md:flex-row gap-4 justify-between items-center ${isDarkMode ? 'border-white/5 bg-white/5' : 'border-slate-200 bg-slate-100'}`}>
+          <div className={`flex p-1 rounded-xl border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-slate-300'}`}>
             <button
               onClick={() => setActiveTab('videos')}
-              className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'videos' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+              className={`px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'videos' ? 'bg-registry-teal text-stealth-950 shadow-lg' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}
             >
               <Video className="w-3 h-3 inline-block mr-2" />
               Lectures
             </button>
             <button
               onClick={() => setActiveTab('visuals')}
-              className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'visuals' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+              className={`px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'visuals' ? 'bg-registry-teal text-stealth-950 shadow-lg' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}
             >
               <ImageIcon className="w-3 h-3 inline-block mr-2" />
               Visuals
             </button>
+            <button
+              onClick={() => setActiveTab('config')}
+              className={`px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'config' ? 'bg-registry-teal text-stealth-950 shadow-lg' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}
+            >
+              <Database className="w-3 h-3 inline-block mr-2" />
+              Global Config
+            </button>
+            <button
+              onClick={() => setActiveTab('dicom')}
+              className={`px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'dicom' ? 'bg-registry-teal text-stealth-950 shadow-lg' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}
+            >
+              <Activity className="w-3 h-3 inline-block mr-2" />
+              DICOM Import
+            </button>
           </div>
 
           <div className="relative w-full md:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-slate-500' : 'text-slate-800'}`} />
             <input 
               type="text"
               placeholder={`Search ${activeTab}...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-12 pr-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all outline-none border ${isDarkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+              className={`w-full pl-12 pr-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all outline-none border ${isDarkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
             />
           </div>
         </div>
@@ -232,8 +394,88 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
           {loading ? (
             <div className="flex flex-col items-center justify-center h-64 space-y-4">
               <Loader2 className="w-10 h-10 text-registry-teal animate-spin" />
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Accessing Media Vault...</p>
+              <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Accessing Media Vault...</p>
             </div>
+          ) : activeTab === 'config' ? (
+            <div className="max-w-4xl mx-auto space-y-8">
+              <div className={`p-8 rounded-[3rem] border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200'}`}>
+                <div className="flex items-center space-x-4 mb-8">
+                  <div className="p-3 bg-registry-teal/10 rounded-2xl">
+                    <ImageIcon className="w-6 h-6 text-registry-teal" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black uppercase italic">Global Experience</h3>
+                    <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">The default visual for all neural nodes</p>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-[11px] font-black text-slate-500 uppercase tracking-[0.3em] mb-3 px-2">System Background URL</label>
+                    <div className="flex gap-4">
+                      <input 
+                        type="text"
+                        value={defaultBackground || ''}
+                        onChange={(e) => setDefaultBackground(e.target.value)}
+                        placeholder="https://..."
+                        className={`flex-1 px-6 py-4 rounded-2xl text-[11px] font-black outline-none border transition-all ${isDarkMode ? 'bg-white/5 border-white/10 text-white focus:border-registry-teal/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-registry-teal/50'}`}
+                      />
+                      <button 
+                        onClick={() => saveMedia(videos, visuals, defaultBackground)}
+                        disabled={saving}
+                        className="px-8 py-4 bg-registry-teal text-stealth-950 rounded-2xl font-black uppercase text-[11px] tracking-widest hover:scale-105 active:scale-95 disabled:opacity-50 transition-all flex items-center space-x-2"
+                      >
+                        {saving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
+                        <span>Save Design</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {defaultBackground ? (
+                    <div className="aspect-video relative rounded-3xl overflow-hidden border border-white/10">
+                      <img src={defaultBackground} alt="Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[2px]">
+                        <p className="text-[11px] font-black uppercase tracking-[0.3em] text-white">Current Global Identity</p>
+                      </div>
+                      <button 
+                        onClick={() => saveMedia(videos, visuals, null)}
+                        className="absolute top-4 right-4 p-2 bg-registry-rose text-white rounded-xl hover:scale-110 transition-all"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className={`aspect-video rounded-3xl border-2 border-dashed flex flex-col items-center justify-center space-y-4 ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-100 bg-slate-50'}`}>
+                      <ImageIcon className="w-12 h-12 text-slate-500 opacity-20" />
+                      <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">No Global Background Set</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className={`p-8 rounded-[3rem] border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200 opacity-50 cursor-not-allowed'}`}>
+                 <div className="flex items-center space-x-4 mb-4">
+                  <div className="p-3 bg-registry-teal/10 rounded-2xl">
+                    <Database className="w-6 h-6 text-registry-teal" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black uppercase italic">Branding Protocol</h3>
+                    <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Neural logo and identity sync</p>
+                  </div>
+                </div>
+                <p className="text-[11px] font-bold text-slate-500 uppercase mb-4 tracking-widest leading-loose">
+                  Neural Logo customization is currently locked by the Central Registry. This feature will be available in the next Synaptic Update.
+                </p>
+                <button 
+                  disabled
+                  className="px-8 py-3 bg-slate-500 text-white rounded-xl font-black uppercase text-[11px] tracking-widest opacity-20"
+                >
+                  Configure Logo
+                </button>
+              </div>
+            </div>
+          ) : activeTab === 'dicom' ? (
+            <DicomProcessor isDarkMode={isDarkMode} onImport={handleDicomImport} />
           ) : (
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredItems.map((item) => (
@@ -259,12 +501,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                         <button 
                           onClick={() => setEditingItem(item)}
                           className="p-3 bg-registry-teal text-stealth-950 rounded-xl shadow-lg hover:scale-110 transition-all"
+                          title="Edit Item"
                         >
                           <Edit2 className="w-5 h-5" />
                         </button>
+                        {activeTab === 'visuals' && (
+                          <button 
+                            onClick={() => saveMedia(videos, visuals, (item as VisualItem).imageUrl)}
+                            className="p-3 bg-white text-stealth-950 rounded-xl shadow-lg hover:scale-110 transition-all"
+                            title="Set as Global Background"
+                          >
+                            <Shield className="w-5 h-5" />
+                          </button>
+                        )}
                         <button 
                           onClick={() => handleDeleteItem(item.id)}
                           className="p-3 bg-registry-rose text-white rounded-xl shadow-lg hover:scale-110 transition-all"
+                          title="Delete Item"
                         >
                           <Trash2 className="w-5 h-5" />
                         </button>
@@ -273,13 +526,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                   </div>
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest">
+                      <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">
                         {activeTab === 'videos' ? (item as VideoItem).duration : (item as VisualItem).category}
                       </span>
-                      <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">ID: {item.id}</span>
+                      <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">ID: {item.id}</span>
                     </div>
                     <h3 className="text-sm font-black uppercase tracking-tighter truncate mb-2">{item.title}</h3>
-                    <p className="text-[10px] text-slate-500 line-clamp-2 leading-relaxed">{item.description}</p>
+                    <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -305,7 +558,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                   </div>
                   <div>
                     <h2 className="text-2xl font-black uppercase italic tracking-tighter">Edit {activeTab === 'videos' ? 'Lecture' : 'Visual'}</h2>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Modify Core Media Data</p>
+                    <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em]">Modify Core Media Data</p>
                   </div>
                 </div>
                 <button onClick={() => setEditingItem(null)} className="p-2 hover:bg-white/10 rounded-xl transition-colors">
@@ -317,7 +570,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Title</label>
+                      <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Title</label>
                       <input 
                         type="text" 
                         value={editingItem.title}
@@ -327,7 +580,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Description</label>
+                      <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Description</label>
                       <textarea 
                         value={editingItem.description}
                         onChange={(e) => setEditingItem({...editingItem, description: e.target.value})}
@@ -338,7 +591,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                     {activeTab === 'videos' ? (
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Duration</label>
+                          <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Duration</label>
                           <input 
                             type="text" 
                             value={editingItem.duration}
@@ -347,17 +600,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                           />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Video Source</label>
+                          <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Video Source</label>
                           <div className="grid grid-cols-2 gap-2">
                             <button 
                               onClick={() => setEditingItem({...editingItem, isLocal: false})}
-                              className={`py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${!editingItem.isLocal ? 'bg-registry-teal/10 border-registry-teal text-registry-teal' : 'bg-white/5 border-white/5 text-slate-500'}`}
+                              className={`py-3 rounded-xl text-[11px] font-black uppercase tracking-widest border transition-all ${!editingItem.isLocal ? 'bg-registry-teal/10 border-registry-teal text-registry-teal' : 'bg-white/5 border-white/5 text-slate-500'}`}
                             >
                               YouTube
                             </button>
                             <button 
                               onClick={() => setEditingItem({...editingItem, isLocal: true})}
-                              className={`py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${editingItem.isLocal ? 'bg-registry-teal/10 border-registry-teal text-registry-teal' : 'bg-white/5 border-white/5 text-slate-500'}`}
+                              className={`py-3 rounded-xl text-[11px] font-black uppercase tracking-widest border transition-all ${editingItem.isLocal ? 'bg-registry-teal/10 border-registry-teal text-registry-teal' : 'bg-white/5 border-white/5 text-slate-500'}`}
                             >
                               Upload File
                             </button>
@@ -366,7 +619,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
 
                         {editingItem.isLocal ? (
                           <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Upload Video File</label>
+                            <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Upload Video File</label>
                             <div className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all ${uploading ? 'opacity-50' : 'hover:border-registry-teal/50'}`}>
                               <input 
                                 type="file" 
@@ -381,11 +634,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                                 ) : (
                                   <Plus className="w-8 h-8 text-slate-500 mb-2" />
                                 )}
-                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                <p className="text-[11px] font-black uppercase tracking-widest text-slate-500">
                                   {editingItem.embedUrl?.startsWith('/api/video/') ? 'Video Uploaded' : 'Click to Upload Video'}
                                 </p>
                                 {editingItem.embedUrl?.startsWith('/api/video/') && (
-                                  <p className="text-[8px] font-mono text-registry-teal mt-1 truncate max-w-full px-4">
+                                  <p className="text-[11px] font-mono text-registry-teal mt-1 truncate max-w-full px-4">
                                     {editingItem.embedUrl.split('/').pop()}
                                   </p>
                                 )}
@@ -395,7 +648,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                         ) : (
                           <>
                             <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">YouTube ID</label>
+                            <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">YouTube ID</label>
                             <input 
                               type="text" 
                               value={editingItem.embedUrl?.includes('youtube.com') ? editingItem.embedUrl.split('/').pop() : ''}
@@ -409,7 +662,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Citation (Optional)</label>
+                            <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Citation (Optional)</label>
                             <input 
                               type="text" 
                               value={editingItem.citation || ''}
@@ -423,7 +676,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                       </div>
                     ) : (
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Category</label>
+                        <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Category</label>
                         <select 
                           value={editingItem.category}
                           onChange={(e) => setEditingItem({...editingItem, category: e.target.value})}
@@ -444,7 +697,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
 
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">
+                      <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">
                         {activeTab === 'videos' ? 'Thumbnail Preview' : 'Image URL'}
                       </label>
                       {activeTab === 'visuals' && (
@@ -467,7 +720,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                         {!(activeTab === 'videos' ? editingItem.thumbnail : editingItem.imageUrl) && (
                           <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-600">
                             <ImageIcon className="w-12 h-12 mb-2" />
-                            <p className="text-[10px] font-black uppercase tracking-widest">No Preview Available</p>
+                            <p className="text-[11px] font-black uppercase tracking-widest">No Preview Available</p>
                           </div>
                         )}
                       </div>
@@ -475,7 +728,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
 
                     {activeTab === 'videos' && (
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Lecture Script</label>
+                        <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Lecture Script</label>
                         <textarea 
                           value={editingItem.script}
                           onChange={(e) => setEditingItem({...editingItem, script: e.target.value})}
@@ -504,7 +757,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                           assessment: [...(editingItem.assessment || []), newQuestion]
                         });
                       }}
-                      className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+                      className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all"
                     >
                       <Plus className="w-3 h-3 inline-block mr-2" />
                       Add Question
@@ -516,7 +769,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                       <div key={q.id} className={`p-6 rounded-3xl border ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-200'} space-y-4`}>
                         <div className="flex justify-between items-start">
                           <div className="flex-1 space-y-2">
-                            <label className="text-[8px] font-black uppercase text-slate-500 tracking-widest ml-2">Question {qIdx + 1}</label>
+                            <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Assessment Question {qIdx + 1}</label>
                             <input 
                               type="text" 
                               value={q.question}
@@ -560,14 +813,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
                                   updated[qIdx].options[oIdx] = e.target.value;
                                   setEditingItem({...editingItem, assessment: updated});
                                 }}
-                                className={`flex-1 ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-white border-slate-200'} border rounded-xl py-2 px-4 text-[10px] font-bold outline-none focus:border-registry-teal transition-colors`}
+                                className={`flex-1 ${isDarkMode ? 'bg-stealth-950 border-white/10' : 'bg-white border-slate-200'} border rounded-xl py-2 px-4 text-[11px] font-bold outline-none focus:border-registry-teal transition-colors`}
                               />
                             </div>
                           ))}
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-[8px] font-black uppercase text-slate-500 tracking-widest ml-2">Explanation</label>
+                          <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Explanation</label>
                           <textarea 
                             value={q.explanation}
                             onChange={(e) => {

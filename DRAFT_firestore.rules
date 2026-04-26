@@ -37,22 +37,19 @@ service cloud.firestore {
         && data.email.size() <= 256
         && (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 128))
         && (!('streak' in data) || (data.streak is int && data.streak >= 0))
-        && (!('studyTimeTotal' in data) || (data.studyTimeTotal is number && data.studyTimeTotal >= 0))
-        && (!('diagnosticAccuracy' in data) || (data.diagnosticAccuracy is number && data.diagnosticAccuracy >= 0 && data.diagnosticAccuracy <= 100));
+        && (!('studyTimeTotal' in data) || (data.studyTimeTotal is number && data.studyTimeTotal >= 0));
     }
 
     function isValidProgress(data) {
       return data.lessonId is string && data.lessonId.size() <= 64
         && data.completed is bool
-        && (!('score' in data) || (data.score is number && data.score >= 0 && data.score <= 100))
-        && (!('attempts' in data) || (data.attempts is int && data.attempts >= 0));
+        && (!('score' in data) || (data.score is number && data.score >= 0 && data.score <= 100));
     }
 
     function isValidFlashcard(data) {
       return data.front is string && data.front.size() <= 1000
         && data.back is string && data.back.size() <= 2000
-        && (!('easeFactor' in data) || (data.easeFactor is number && data.easeFactor >= 1.0))
-        && (!('repetition' in data) || (data.repetition is int && data.repetition >= 0));
+        && (!('easeFactor' in data) || (data.easeFactor is number && data.easeFactor >= 1.0));
     }
 
     // --- PHASE 5: Implementation ---

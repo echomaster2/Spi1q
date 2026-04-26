@@ -103,7 +103,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
                 {title}
               </h4>
               {!isExpanded && (
-                <p className="text-[8px] font-bold uppercase text-teal-600 dark:text-teal-400 tracking-widest">
+                <p className="text-[11px] font-bold uppercase text-teal-600 dark:text-teal-400 tracking-widest">
                   {isLoading ? 'Synthesizing Audio...' : 'Active Study Pulse'}
                 </p>
               )}
@@ -138,7 +138,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             </div>
             
             <div className="text-center space-y-2">
-              <p className="text-teal-400 font-black uppercase tracking-[0.3em] text-[10px]">Neural Audio Engine</p>
+              <p className="text-teal-400 font-black uppercase tracking-[0.3em] text-[11px]">Neural Audio Engine</p>
               <h3 className={`${isDarkMode ? 'text-white' : 'text-slate-900'} text-3xl font-black italic uppercase tracking-tighter`}>Frequency Spectrum</h3>
             </div>
           </div>

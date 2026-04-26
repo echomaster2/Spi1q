@@ -227,7 +227,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
 
   if (status === 'idle') {
     return (
-      <div className={`flex flex-col h-full ${isDarkMode ? 'bg-stealth-950 text-white' : 'bg-white text-slate-900'} p-8 md:p-16 items-center justify-center text-center space-y-12 relative overflow-hidden`}>
+      <div className={`flex flex-col h-full ${isDarkMode ? 'bg-stealth-950 text-white' : 'bg-white text-slate-900'} p-6 md:p-16 items-center justify-center text-center space-y-8 md:space-y-12 relative overflow-hidden`}>
         <div className="absolute inset-0 scanline opacity-10 pointer-events-none" />
         <div className="absolute inset-0 neural-grid opacity-[0.03] pointer-events-none" />
         
@@ -240,15 +240,15 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
             <div className="absolute inset-0 bg-gradient-to-br from-registry-teal/20 to-transparent animate-pulse-glow" />
             <Award className="w-12 h-12 md:w-16 md:h-16 text-registry-teal relative z-10 drop-shadow-glow" />
           </div>
-          <div className="absolute -top-4 -right-4 px-3 py-1 bg-registry-rose text-white text-[8px] font-black rounded-full shadow-glow animate-bounce">HIGH STAKES</div>
+          <div className="absolute -top-4 -right-4 px-3 py-1 bg-registry-rose text-white text-[11px] font-black rounded-full shadow-glow animate-bounce">HIGH STAKES</div>
         </motion.div>
 
-        <div className="space-y-6 max-w-2xl">
-          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-registry-teal italic">Neural Authentication Required</span>
-          <h2 className="text-4xl md:text-7xl font-black italic uppercase tracking-tighter leading-none select-none">
+        <div className="space-y-4 md:space-y-6 max-w-2xl">
+          <span className="text-[11px] font-black uppercase tracking-[0.5em] text-registry-teal italic">Neural Authentication Required</span>
+          <h2 className="text-3xl md:text-7xl font-black italic uppercase tracking-tighter leading-none select-none">
             SPI Mock <span className="text-registry-teal">Registry</span>
           </h2>
-          <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] md:text-xs leading-relaxed max-w-lg mx-auto italic opacity-80">
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-[11px] leading-relaxed max-w-lg mx-auto italic opacity-80">
             Simulate the high-pressure environment of the ARDMS SPI Exam. 110 synchronized registry nodes covering all core physical topologies.
           </p>
         </div>
@@ -263,7 +263,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
             <div key={i} className={`p-5 rounded-[1.5rem] border-2 tech-border ${isDarkMode ? 'bg-white/5' : 'bg-slate-50 border-slate-200'} flex flex-col items-center justify-center space-y-2 group hover:border-registry-teal/40 transition-all`}>
               <stat.icon className={`w-5 h-5 ${stat.color} group-hover:scale-110 transition-transform`} />
               <p className="text-[11px] font-black italic tracking-tighter">{stat.value}</p>
-              <p className="text-[7px] font-black uppercase text-slate-500 tracking-widest">{stat.label}</p>
+              <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -282,7 +282,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
           </button>
           <button 
             onClick={onClose}
-            className={`w-full py-4 ${isDarkMode ? 'bg-white/5 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'} rounded-[2rem] font-black uppercase tracking-[0.3em] text-[9px] transition-all`}
+            className={`w-full py-4 ${isDarkMode ? 'bg-white/5 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'} rounded-[2rem] font-black uppercase tracking-[0.3em] text-[11px] transition-all`}
             aria-label="Return to Study Dashboard"
           >
             Return to Study Command
@@ -301,7 +301,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
         </div>
         <div className="text-center space-y-2">
           <h3 className="text-xl font-black italic uppercase tracking-tighter">Generating Registry Nodes</h3>
-          <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest animate-pulse">Synthesizing unique physics scenarios... {Math.round(loadingProgress)}%</p>
+          <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest animate-pulse">Synthesizing unique physics scenarios... {Math.round(loadingProgress)}%</p>
           <div className="w-48 h-1 bg-slate-800 rounded-full mx-auto mt-4 overflow-hidden">
             <motion.div 
               className="h-full bg-teal-500"
@@ -342,13 +342,13 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6 md:p-12">
-          <div className="max-w-3xl mx-auto space-y-8">
-            <div className={`p-8 rounded-[2.5rem] ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-slate-50 border-slate-200'} border relative overflow-hidden`}>
+        <main className="flex-1 overflow-y-auto p-4 md:p-12">
+          <div className="max-w-3xl mx-auto space-y-6 md:space-y-8">
+            <div className={`p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-slate-50 border-slate-200'} border relative overflow-hidden`}>
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <Brain className="w-24 h-24" />
               </div>
-              <span className="inline-block px-3 py-1 bg-teal-600/10 text-teal-500 rounded-lg text-[8px] font-black uppercase tracking-widest mb-4">
+              <span className="inline-block px-3 py-1 bg-teal-600/10 text-teal-500 rounded-lg text-[11px] font-black uppercase tracking-widest mb-4">
                 {q.type} Question
               </span>
               <h3 className="text-xl md:text-2xl font-bold leading-relaxed">
@@ -390,7 +390,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
           <button 
             onClick={prevQuestion}
             disabled={currentIndex === 0}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+            className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
               currentIndex === 0 ? 'opacity-30' : 'hover:bg-white/5'
             }`}
             aria-label="Previous question"
@@ -414,7 +414,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
   if (status === 'finished' && results) {
     return (
       <div className={`flex flex-col h-full ${isDarkMode ? 'bg-slate-950 text-white' : 'bg-white text-slate-900'} overflow-y-auto`}>
-        <div className="p-8 md:p-12 max-w-4xl mx-auto w-full space-y-12">
+        <div className="p-4 md:p-12 max-w-4xl mx-auto w-full space-y-8 md:space-y-12">
           <div className="text-center space-y-4">
             <div className={`w-24 h-24 mx-auto rounded-[2.5rem] flex items-center justify-center ${results.passed ? 'bg-teal-500/20' : 'bg-registry-rose/20'}`}>
               {results.passed ? <Award className="w-12 h-12 text-teal-500" /> : <AlertCircle className="w-12 h-12 text-registry-rose" />}
@@ -422,29 +422,29 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
             <h2 className="text-4xl font-black italic uppercase tracking-tighter">
               {results.passed ? 'Registry Qualified' : 'Study Required'}
             </h2>
-            <p className="text-slate-500 font-black uppercase tracking-widest text-[10px]">Exam Results Analysis</p>
+            <p className="text-slate-500 font-black uppercase tracking-widest text-[11px]">Exam Results Analysis</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className={`p-8 rounded-[2.5rem] border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white border-slate-200'} text-center space-y-2`}>
               <BarChart3 className="w-6 h-6 text-teal-500 mx-auto mb-2" />
               <p className="text-4xl font-black italic tracking-tighter">{Math.round(results.score)}%</p>
-              <p className="text-[8px] font-black uppercase text-slate-400 tracking-widest">Final Score</p>
+              <p className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Final Score</p>
             </div>
             <div className={`p-8 rounded-[2.5rem] border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white border-slate-200'} text-center space-y-2`}>
               <Target className="w-6 h-6 text-blue-500 mx-auto mb-2" />
               <p className="text-4xl font-black italic tracking-tighter">{results.total - (results.total * (results.score/100))}/{results.total}</p>
-              <p className="text-[8px] font-black uppercase text-slate-400 tracking-widest">Incorrect</p>
+              <p className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Incorrect</p>
             </div>
             <div className={`p-8 rounded-[2.5rem] border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white border-slate-200'} text-center space-y-2`}>
               <Clock className="w-6 h-6 text-amber-500 mx-auto mb-2" />
               <p className="text-4xl font-black italic tracking-tighter">{Math.floor(results.timeTaken / 60)}m {results.timeTaken % 60}s</p>
-              <p className="text-[8px] font-black uppercase text-slate-400 tracking-widest">Time Taken</p>
+              <p className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Time Taken</p>
             </div>
           </div>
 
           <div className="space-y-6">
-            <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">Topic Breakdown</h5>
+            <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">Topic Breakdown</h5>
             <div className="grid gap-4">
               {Object.entries(results.moduleBreakdown).map(([topic, data], i) => (
                 <div key={i} className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white border-slate-200'} flex items-center justify-between`}>
@@ -454,7 +454,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
                     </div>
                     <div>
                       <p className="text-xs font-black uppercase tracking-tight">{topic}</p>
-                      <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{data.correct}/{data.total} Correct</p>
+                      <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{data.correct}/{data.total} Correct</p>
                     </div>
                   </div>
                   <div className="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -469,13 +469,13 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
           </div>
 
           <div className="space-y-6">
-            <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">Review Questions</h5>
+            <h5 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] px-2">Review Questions</h5>
             <div className="space-y-4">
               {questions.map((q, i) => (
                 <div key={i} className={`p-8 rounded-[2.5rem] border ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white border-slate-200'} space-y-6`}>
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
-                      <span className="text-[8px] font-black uppercase text-slate-500 tracking-widest">Question {i + 1}</span>
+                      <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">Question {i + 1}</span>
                       <h4 className="text-lg font-bold leading-relaxed">{q.question}</h4>
                     </div>
                     {answers[q.id] === q.correctAnswer ? (
@@ -510,7 +510,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
                   <div className={`p-6 rounded-2xl ${isDarkMode ? 'bg-teal-500/5' : 'bg-teal-50'} border border-teal-500/10 space-y-2`}>
                     <div className="flex items-center space-x-2 text-teal-500">
                       <Sparkles className="w-4 h-4" />
-                      <span className="text-[10px] font-black uppercase tracking-widest">AI Explanation</span>
+                      <span className="text-[11px] font-black uppercase tracking-widest">AI Explanation</span>
                     </div>
                     <p className="text-xs font-medium leading-relaxed opacity-80">{q.explanation}</p>
                   </div>
@@ -529,7 +529,7 @@ export const ExamEngine: React.FC<ExamEngineProps> = ({
             </button>
             <button 
               onClick={onClose}
-              className={`w-full py-4 ${isDarkMode ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-500'} rounded-[2rem] font-black uppercase tracking-widest text-[10px]`}
+              className={`w-full py-4 ${isDarkMode ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-500'} rounded-[2rem] font-black uppercase tracking-widest text-[11px]`}
             >
               Return to Dashboard
             </button>

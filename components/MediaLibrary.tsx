@@ -225,7 +225,7 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
                         <Play className="w-5 h-5 ml-1" />
                       </div>
                     </div>
-                    <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/80 text-white text-[10px] font-bold">
+                    <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/80 text-white text-[11px] font-bold">
                       {video.duration}
                     </div>
                   </div>
@@ -233,7 +233,7 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
                     <h3 className="font-bold mb-1 line-clamp-1">{video.title}</h3>
                     <p className={`text-xs line-clamp-2 mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{video.description}</p>
                     {video.citation && (
-                      <p className={`text-[10px] font-medium uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                      <p className={`text-[11px] font-medium uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
                         {video.citation}
                       </p>
                     )}
@@ -256,7 +256,7 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
                         <ImageIcon className="w-8 h-8 text-slate-600" />
                       </div>
                     )}
-                    <div className="absolute top-2 left-2 px-2 py-1 rounded bg-black/80 text-registry-teal text-[10px] font-bold uppercase tracking-widest border border-registry-teal/30">
+                    <div className="absolute top-2 left-2 px-2 py-1 rounded bg-black/80 text-registry-teal text-[11px] font-bold uppercase tracking-widest border border-registry-teal/30">
                       {visual.category}
                     </div>
                   </div>
@@ -392,7 +392,7 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
                   </div>
                   <div>
                     <h3 className="font-black uppercase tracking-widest text-sm">Knowledge Check</h3>
-                    <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                    <p className={`text-[11px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
                       {activeAssessment.showResults ? 'Assessment Complete' : `Question ${activeAssessment.currentQuestionIndex + 1} of ${activeAssessment.type === 'video' ? videos.find(v => v.id === activeAssessment.itemId)?.assessment?.length : visuals.find(v => v.id === activeAssessment.itemId)?.assessment?.length}`}
                     </p>
                   </div>

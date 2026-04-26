@@ -64,7 +64,7 @@ export const LegalDocs: React.FC<LegalDocsProps> = ({
           </div>
           <div>
             <h4 className={`text-lg font-black tracking-tight italic uppercase leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Legal Documentation</h4>
-            <p className={`text-[10px] ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} font-black uppercase tracking-widest mt-1`}>Compliance & Protocols</p>
+            <p className={`text-[11px] ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} font-black uppercase tracking-widest mt-1`}>Compliance & Protocols</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -94,7 +94,7 @@ export const LegalDocs: React.FC<LegalDocsProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`w-full flex items-center space-x-3 p-4 rounded-2xl font-black uppercase tracking-tight text-[10px] transition-all ${
+              className={`w-full flex items-center space-x-3 p-4 rounded-2xl font-black uppercase tracking-tight text-[11px] transition-all ${
                 activeTab === tab.id 
                   ? 'bg-registry-teal text-white shadow-lg shadow-registry-teal/20' 
                   : isDarkMode ? 'text-slate-400 hover:bg-white/5 hover:text-white' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-900'
@@ -111,7 +111,7 @@ export const LegalDocs: React.FC<LegalDocsProps> = ({
           <div className={`flex flex-col md:flex-row md:items-end justify-between gap-4 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'} pb-8`}>
             <div className="space-y-2">
               <h2 className={`text-3xl md:text-5xl font-black italic uppercase tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{content[activeTab].title}</h2>
-              <p className={`text-[10px] font-black uppercase ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} tracking-widest`}>Last Updated: {content[activeTab].updated}</p>
+              <p className={`text-[11px] font-black uppercase ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} tracking-widest`}>Last Updated: {content[activeTab].updated}</p>
             </div>
             <div className="flex space-x-2">
               <button className={`p-3 ${isDarkMode ? 'bg-white/5 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-900'} rounded-xl transition-all`}><Printer className="w-4 h-4" /></button>
@@ -123,7 +123,7 @@ export const LegalDocs: React.FC<LegalDocsProps> = ({
             {content[activeTab].sections.map((section, i) => (
               <div key={i} className="space-y-4">
                 <h5 className={`text-sm font-black uppercase tracking-widest ${isDarkMode ? 'text-registry-teal' : 'text-registry-teal'} flex items-center gap-3`}>
-                  <div className={`w-6 h-6 rounded-lg ${isDarkMode ? 'bg-registry-teal/20' : 'bg-registry-teal/10'} flex items-center justify-center text-[10px]`}>{i + 1}</div>
+                  <div className={`w-6 h-6 rounded-lg ${isDarkMode ? 'bg-registry-teal/20' : 'bg-registry-teal/10'} flex items-center justify-center text-[11px]`}>{i + 1}</div>
                   {section.title}
                 </h5>
                 <p className={`${isDarkMode ? 'text-slate-400' : 'text-slate-600'} font-medium leading-relaxed text-sm md:text-base`}>

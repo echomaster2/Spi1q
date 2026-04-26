@@ -12,6 +12,7 @@ export const googleProvider = new GoogleAuthProvider();
 // Auth Helpers
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 export const logout = () => signOut(auth);
+export { onAuthStateChanged };
 
 // Test Connection
 async function testConnection() {

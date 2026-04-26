@@ -1,0 +1,462 @@
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/de485ce0-36f5-4af7-8a13-8db6656524bc -> https://cdn1.suno.ai/de485ce0-36f5-4af7-8a13-8db6656524bc.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/1ab86882-d7e2-40ad-b317-3b7b4f23584d -> https://cdn1.suno.ai/1ab86882-d7e2-40ad-b317-3b7b4f23584d.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/6bb37caa-b672-4e3b-ae20-5b576667d170 -> https://cdn1.suno.ai/6bb37caa-b672-4e3b-ae20-5b576667d170.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/3e51adc2-fe78-4c4b-a3ed-00c378a9d128 -> https://cdn1.suno.ai/3e51adc2-fe78-4c4b-a3ed-00c378a9d128.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/890d81af-a9dd-4a7c-bd8b-8b8ad2130009 -> https://cdn1.suno.ai/890d81af-a9dd-4a7c-bd8b-8b8ad2130009.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/401ecfdf-7f29-4d89-bba2-53594883c648 -> https://cdn1.suno.ai/401ecfdf-7f29-4d89-bba2-53594883c648.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/4ba22220-6597-4caa-a4ee-d3a2d42b801d -> https://cdn1.suno.ai/4ba22220-6597-4caa-a4ee-d3a2d42b801d.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/df1e99e8-ac74-4daf-b187-4877fb77adab -> https://cdn1.suno.ai/df1e99e8-ac74-4daf-b187-4877fb77adab.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/25e910d9-87c0-419e-b7c5-b7e225ce3f70 -> https://cdn1.suno.ai/25e910d9-87c0-419e-b7c5-b7e225ce3f70.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/56974d1c-55c1-41c8-b555-6f5d606d0da4 -> https://cdn1.suno.ai/56974d1c-55c1-41c8-b555-6f5d606d0da4.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/ae8d8910-026c-461e-b243-5662c119cac3 -> https://cdn1.suno.ai/ae8d8910-026c-461e-b243-5662c119cac3.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/bd6b7fe1-9d68-4779-850e-0f19efdb6fe0 -> https://cdn1.suno.ai/bd6b7fe1-9d68-4779-850e-0f19efdb6fe0.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/4382167c-18b7-4b2d-9d40-dfa3a58cace2 -> https://cdn1.suno.ai/4382167c-18b7-4b2d-9d40-dfa3a58cace2.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/606b6246-8274-4a54-8f36-a10c9098338c -> https://cdn1.suno.ai/606b6246-8274-4a54-8f36-a10c9098338c.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/0da74940-43d8-492d-b3fe-750e6e72c820 -> https://cdn1.suno.ai/0da74940-43d8-492d-b3fe-750e6e72c820.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/f21cd5b1-e115-4b66-a7d0-6e2268a08929 -> https://cdn1.suno.ai/f21cd5b1-e115-4b66-a7d0-6e2268a08929.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/775bfa1f-84aa-40ef-86e1-e55b8cb22087 -> https://cdn1.suno.ai/775bfa1f-84aa-40ef-86e1-e55b8cb22087.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/b6cb91d0-5d1e-4972-99c2-33fa0dd8bf3f -> https://cdn1.suno.ai/b6cb91d0-5d1e-4972-99c2-33fa0dd8bf3f.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/d6348582-cdcf-4ac6-bd7f-099cd484d9de -> https://cdn1.suno.ai/d6348582-cdcf-4ac6-bd7f-099cd484d9de.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/014f90ea-500d-44f7-9bac-e17de2a186e0 -> https://cdn1.suno.ai/014f90ea-500d-44f7-9bac-e17de2a186e0.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: 🚀 System Boot Sequence Initiated",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.100Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/8a524fad-19c5-45f4-92b0-bcf7ecc4c641 -> https://cdn1.suno.ai/8a524fad-19c5-45f4-92b0-bcf7ecc4c641.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:27:47.083Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/1ab86882-d7e2-40ad-b317-3b7b4f23584d -> https://cdn1.suno.ai/1ab86882-d7e2-40ad-b317-3b7b4f23584d.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/de485ce0-36f5-4af7-8a13-8db6656524bc -> https://cdn1.suno.ai/de485ce0-36f5-4af7-8a13-8db6656524bc.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/6bb37caa-b672-4e3b-ae20-5b576667d170 -> https://cdn1.suno.ai/6bb37caa-b672-4e3b-ae20-5b576667d170.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/df1e99e8-ac74-4daf-b187-4877fb77adab -> https://cdn1.suno.ai/df1e99e8-ac74-4daf-b187-4877fb77adab.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/bd6b7fe1-9d68-4779-850e-0f19efdb6fe0 -> https://cdn1.suno.ai/bd6b7fe1-9d68-4779-850e-0f19efdb6fe0.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/3e51adc2-fe78-4c4b-a3ed-00c378a9d128 -> https://cdn1.suno.ai/3e51adc2-fe78-4c4b-a3ed-00c378a9d128.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/775bfa1f-84aa-40ef-86e1-e55b8cb22087 -> https://cdn1.suno.ai/775bfa1f-84aa-40ef-86e1-e55b8cb22087.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/401ecfdf-7f29-4d89-bba2-53594883c648 -> https://cdn1.suno.ai/401ecfdf-7f29-4d89-bba2-53594883c648.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/4ba22220-6597-4caa-a4ee-d3a2d42b801d -> https://cdn1.suno.ai/4ba22220-6597-4caa-a4ee-d3a2d42b801d.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: 🚀 System Boot Sequence Initiated",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.628Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/4382167c-18b7-4b2d-9d40-dfa3a58cace2 -> https://cdn1.suno.ai/4382167c-18b7-4b2d-9d40-dfa3a58cace2.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/0da74940-43d8-492d-b3fe-750e6e72c820 -> https://cdn1.suno.ai/0da74940-43d8-492d-b3fe-750e6e72c820.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/8a524fad-19c5-45f4-92b0-bcf7ecc4c641 -> https://cdn1.suno.ai/8a524fad-19c5-45f4-92b0-bcf7ecc4c641.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/890d81af-a9dd-4a7c-bd8b-8b8ad2130009 -> https://cdn1.suno.ai/890d81af-a9dd-4a7c-bd8b-8b8ad2130009.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.614Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/25e910d9-87c0-419e-b7c5-b7e225ce3f70 -> https://cdn1.suno.ai/25e910d9-87c0-419e-b7c5-b7e225ce3f70.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/b6cb91d0-5d1e-4972-99c2-33fa0dd8bf3f -> https://cdn1.suno.ai/b6cb91d0-5d1e-4972-99c2-33fa0dd8bf3f.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/56974d1c-55c1-41c8-b555-6f5d606d0da4 -> https://cdn1.suno.ai/56974d1c-55c1-41c8-b555-6f5d606d0da4.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/f21cd5b1-e115-4b66-a7d0-6e2268a08929 -> https://cdn1.suno.ai/f21cd5b1-e115-4b66-a7d0-6e2268a08929.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/ae8d8910-026c-461e-b243-5662c119cac3 -> https://cdn1.suno.ai/ae8d8910-026c-461e-b243-5662c119cac3.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/014f90ea-500d-44f7-9bac-e17de2a186e0 -> https://cdn1.suno.ai/014f90ea-500d-44f7-9bac-e17de2a186e0.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/606b6246-8274-4a54-8f36-a10c9098338c -> https://cdn1.suno.ai/606b6246-8274-4a54-8f36-a10c9098338c.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/d6348582-cdcf-4ac6-bd7f-099cd484d9de -> https://cdn1.suno.ai/d6348582-cdcf-4ac6-bd7f-099cd484d9de.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T01:59:08.615Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/de485ce0-36f5-4af7-8a13-8db6656524bc -> https://cdn1.suno.ai/de485ce0-36f5-4af7-8a13-8db6656524bc.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/6bb37caa-b672-4e3b-ae20-5b576667d170 -> https://cdn1.suno.ai/6bb37caa-b672-4e3b-ae20-5b576667d170.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/1ab86882-d7e2-40ad-b317-3b7b4f23584d -> https://cdn1.suno.ai/1ab86882-d7e2-40ad-b317-3b7b4f23584d.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/ae8d8910-026c-461e-b243-5662c119cac3 -> https://cdn1.suno.ai/ae8d8910-026c-461e-b243-5662c119cac3.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/df1e99e8-ac74-4daf-b187-4877fb77adab -> https://cdn1.suno.ai/df1e99e8-ac74-4daf-b187-4877fb77adab.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/890d81af-a9dd-4a7c-bd8b-8b8ad2130009 -> https://cdn1.suno.ai/890d81af-a9dd-4a7c-bd8b-8b8ad2130009.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/25e910d9-87c0-419e-b7c5-b7e225ce3f70 -> https://cdn1.suno.ai/25e910d9-87c0-419e-b7c5-b7e225ce3f70.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/8a524fad-19c5-45f4-92b0-bcf7ecc4c641 -> https://cdn1.suno.ai/8a524fad-19c5-45f4-92b0-bcf7ecc4c641.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/d6348582-cdcf-4ac6-bd7f-099cd484d9de -> https://cdn1.suno.ai/d6348582-cdcf-4ac6-bd7f-099cd484d9de.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/4382167c-18b7-4b2d-9d40-dfa3a58cace2 -> https://cdn1.suno.ai/4382167c-18b7-4b2d-9d40-dfa3a58cace2.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/f21cd5b1-e115-4b66-a7d0-6e2268a08929 -> https://cdn1.suno.ai/f21cd5b1-e115-4b66-a7d0-6e2268a08929.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/775bfa1f-84aa-40ef-86e1-e55b8cb22087 -> https://cdn1.suno.ai/775bfa1f-84aa-40ef-86e1-e55b8cb22087.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/014f90ea-500d-44f7-9bac-e17de2a186e0 -> https://cdn1.suno.ai/014f90ea-500d-44f7-9bac-e17de2a186e0.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/401ecfdf-7f29-4d89-bba2-53594883c648 -> https://cdn1.suno.ai/401ecfdf-7f29-4d89-bba2-53594883c648.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/4ba22220-6597-4caa-a4ee-d3a2d42b801d -> https://cdn1.suno.ai/4ba22220-6597-4caa-a4ee-d3a2d42b801d.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/bd6b7fe1-9d68-4779-850e-0f19efdb6fe0 -> https://cdn1.suno.ai/bd6b7fe1-9d68-4779-850e-0f19efdb6fe0.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/3e51adc2-fe78-4c4b-a3ed-00c378a9d128 -> https://cdn1.suno.ai/3e51adc2-fe78-4c4b-a3ed-00c378a9d128.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/0da74940-43d8-492d-b3fe-750e6e72c820 -> https://cdn1.suno.ai/0da74940-43d8-492d-b3fe-750e6e72c820.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: 🚀 System Boot Sequence Initiated",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.461Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/606b6246-8274-4a54-8f36-a10c9098338c -> https://cdn1.suno.ai/606b6246-8274-4a54-8f36-a10c9098338c.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/b6cb91d0-5d1e-4972-99c2-33fa0dd8bf3f -> https://cdn1.suno.ai/b6cb91d0-5d1e-4972-99c2-33fa0dd8bf3f.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------
+--- CLIENT REMOTE LOG ---
+{
+  "message": "Console Log: Transformed Suno URL: https://suno.com/song/56974d1c-55c1-41c8-b555-6f5d606d0da4 -> https://cdn1.suno.ai/56974d1c-55c1-41c8-b555-6f5d606d0da4.mp3",
+  "extra": {},
+  "timestamp": "2026-04-26T02:33:18.442Z"
+}
+--------------------------

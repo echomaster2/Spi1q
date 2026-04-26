@@ -57,7 +57,7 @@ export const DailyInsight: React.FC<DailyInsightProps> = ({ profile, onUpdatePro
             <div className="p-2 bg-registry-teal/10 rounded-xl">
               <Sparkles className="w-4 h-4 text-registry-teal" />
             </div>
-            <span className="text-[10px] font-black uppercase text-registry-teal tracking-[0.3em]">Synaptic Pulse</span>
+            <span className="text-[11px] font-black uppercase text-registry-teal tracking-[0.3em]">Synaptic Pulse</span>
           </div>
           <button 
             onClick={generateInsight}
@@ -98,7 +98,7 @@ export const DailyInsight: React.FC<DailyInsightProps> = ({ profile, onUpdatePro
                     </div>
                   ))}
                 </div>
-                <span className="text-[8px] font-black uppercase text-slate-500 tracking-widest">354 Students synchronized today</span>
+                <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">354 Students synchronized today</span>
               </div>
             </>
           )}

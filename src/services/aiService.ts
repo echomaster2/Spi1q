@@ -316,27 +316,45 @@ export const generateSpeech = async (text: string, voice: string = 'Kore') => {
 
   // 2. Try ElevenLabs Proxy first (Server-side)
   try {
+    // Map internal voice names to ElevenLabs voice IDs if possible
+    const voiceMap: Record<string, string> = {
+      'Kore': 'pNInz6obpg8nS77y5p4v', // Adam
+      'Adam': 'pNInz6obpg8nS77y5p4v',
+      'Antoni': 'ErXwVqcDNo3uQHaeXLRR',
+      'Bella': 'EXAVITQu4vr4xnSDxMaL',
+      'Rachel': '21m00Tcm4TlvDq8ikWAM'
+    };
+    const elevenLabsVoiceId = voiceMap[voice] || voiceMap['Kore'];
+
     const response = await fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanText })
+      body: JSON.stringify({ text: cleanText, voiceId: elevenLabsVoiceId })
     });
     
     if (response.ok) {
       const arrayBuffer = await response.arrayBuffer();
-      // Convert ArrayBuffer to Base64 (client-side)
-      const uint8Array = new Uint8Array(arrayBuffer);
-      let binary = "";
-      const len = uint8Array.length;
-      const chunkSize = 8192;
-      for (let i = 0; i < len; i += chunkSize) {
-        binary += String.fromCharCode(...uint8Array.subarray(i, i + chunkSize));
-      }
-      const base64 = btoa(binary);
+      
+      // Convert ArrayBuffer to Base64 using FileReader (more robust than manual string building)
+      const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const result = reader.result as string;
+          // Result is a data URL: data:audio/mpeg;base64,.....
+          const b64 = result.split(',')[1];
+          if (b64) resolve(b64);
+          else reject(new Error("Failed to extract base64 from FileReader result"));
+        };
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(blob);
+      });
+
       await AudioCache.set(cacheKey, base64);
       return base64;
     } else {
-      console.warn("ElevenLabs TTS server error:", response.status);
+      const errorData = await response.json().catch(() => ({ error: 'Unknown server error' }));
+      console.warn("ElevenLabs TTS server error:", response.status, errorData);
     }
   } catch (e: any) {
     console.error("ElevenLabs Proxy failed:", e);

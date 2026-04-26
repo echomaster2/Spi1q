@@ -5,6 +5,8 @@ import './index.css';
 import { RadioProvider } from './context/RadioContext';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
+console.log("🚀 SPI Master System Boot Sequence Initiated");
+
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error("Could not find root element to mount to");

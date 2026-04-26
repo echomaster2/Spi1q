@@ -84,7 +84,7 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
                     <div key={i} className={`w-1 h-3 rounded-full ${i <= 2 ? 'bg-registry-teal animate-pulse' : 'bg-white/10'}`} />
                  ))}
               </div>
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em] italic font-bold">Neural Sync: STABLE // X-704</span>
+              <span className="text-[11px] font-mono text-slate-500 uppercase tracking-[0.2em] italic font-bold">Neural Sync: STABLE // X-704</span>
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
             {question.question}
            </p>
            <div className="flex items-center space-x-4 mt-6">
-              <span className="text-[10px] font-mono text-registry-teal/60 font-black uppercase tracking-[0.3em]">Query_Payload_ID: {question.id}</span>
+              <span className="text-[11px] font-mono text-registry-teal/60 font-black uppercase tracking-[0.3em]">Query_Payload_ID: {question.id}</span>
               <div className="h-px flex-1 bg-white/5" />
            </div>
         </div>
@@ -116,7 +116,7 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
              <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
              <div className="absolute top-6 right-8 flex items-center space-x-3 opacity-40">
                 <Activity className="w-5 h-5 text-registry-teal animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] font-mono italic">Diagnostic Feed</span>
+                <span className="text-[11px] font-black uppercase tracking-[0.3em] font-mono italic">Diagnostic Feed</span>
              </div>
              
              <div className="relative min-w-[300px] flex justify-center">
@@ -175,7 +175,7 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
                    {opt}
                  </span>
                  {showFeedback && i === question.correctAnswer && (
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 italic block mt-2">Verified Protocol Path</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-emerald-500 italic block mt-2">Verified Protocol Path</span>
                  )}
               </div>
               {showFeedback && i === question.correctAnswer && (
@@ -232,10 +232,10 @@ export const AdvancedQuiz: React.FC<AdvancedQuizProps> = ({ question, onComplete
                   <div className="flex items-center justify-center space-x-6 pt-4 border-t border-white/10">
                     <div className="flex items-center space-x-2">
                        <Zap className={`w-4 h-4 ${isCorrect ? 'text-emerald-500' : 'text-registry-rose'}`} />
-                       <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Log ID: 0x{Math.random().toString(16).slice(2, 6).toUpperCase()}</span>
+                       <span className="text-[11px] font-black uppercase tracking-widest opacity-50">Log ID: 0x{Math.random().toString(16).slice(2, 6).toUpperCase()}</span>
                     </div>
                     <div className="w-2 h-2 rounded-full bg-slate-500 opacity-20" />
-                    <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Topology: Alpha-4</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest opacity-50">Topology: Alpha-4</span>
                   </div>
                 </div>
               </motion.div>

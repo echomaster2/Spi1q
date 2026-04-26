@@ -55,12 +55,12 @@ export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean; pr
           </div>
           <div>
             <h4 className={`text-lg md:text-2xl font-black uppercase italic tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'} leading-none`}>Neural Achievements</h4>
-            <p className="text-[8px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Registry Validation Protocol</p>
+            <p className="text-[11px] font-black text-registry-teal uppercase tracking-[0.3em] mt-1">Registry Validation Protocol</p>
           </div>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Sync Status</span>
-          <span className="text-[10px] font-black text-registry-teal bg-registry-teal/10 border border-registry-teal/20 px-3 py-1 rounded-full mt-1">
+          <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Sync Status</span>
+          <span className="text-[11px] font-black text-registry-teal bg-registry-teal/10 border border-registry-teal/20 px-3 py-1 rounded-full mt-1">
             {achievements.filter(a => a.unlocked).length} / {achievements.length} DEPLOYED
           </span>
         </div>
@@ -97,10 +97,10 @@ export const Achievements: React.FC<{ progress: number; isDarkMode?: boolean; pr
                   <h5 className={`font-black uppercase text-xs tracking-wider ${a.unlocked ? isDarkMode ? 'text-white' : 'text-slate-900' : 'text-slate-600'}`}>{a.title}</h5>
                   {a.unlocked && <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse shadow-glow" />}
                 </div>
-                <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest leading-tight mb-4">{a.desc}</p>
+                <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest leading-tight mb-4">{a.desc}</p>
                 
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-[8px] font-black uppercase text-slate-600 tracking-widest">
+                  <div className="flex justify-between text-[11px] font-black uppercase text-slate-600 tracking-widest">
                     <span>Validation Progress</span>
                     <span className={a.unlocked ? 'text-registry-teal' : ''}>{Math.round(a.progress)}%</span>
                   </div>

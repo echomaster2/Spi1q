@@ -23,7 +23,7 @@ export function decodeBase64(base64: string): Uint8Array {
   cleanBase64 = cleanBase64.replace(/[^A-Za-z0-9+/=]/g, '');
     
   try {
-    // For very large strings, we could use a different approach, but this is usually fine for short audio
+    // For very large strings, atob is fine but construction of the final array can be optimized
     const binaryString = atob(cleanBase64);
     const len = binaryString.length;
     const bytes = new Uint8Array(len);
@@ -32,10 +32,20 @@ export function decodeBase64(base64: string): Uint8Array {
     }
     return bytes;
   } catch (err) {
-    console.error("Critical Base64 Decoding Failure. Payload Length:", cleanBase64.length);
-    console.log("Start of payload:", cleanBase64.substring(0, 100));
-    // If it's a "The string to be decoded is not correctly encoded" error, 
-    // it usually means the length is not a multiple of 4 even after cleaning.
+    console.error("Critical Base64 Decoding Failure.");
+    console.error("Error Name:", err instanceof Error ? err.name : "Unknown");
+    console.error("Error Message:", err instanceof Error ? err.message : String(err));
+    console.error("Payload Length:", cleanBase64.length);
+    console.error("Length % 4:", cleanBase64.length % 4);
+    console.error("Start of payload:", cleanBase64.substring(0, 100));
+    console.error("End of payload:", cleanBase64.substring(cleanBase64.length - 100));
+    
+    // Check for invalid characters manually to provide better error
+    const invalidChars = cleanBase64.match(/[^A-Za-z0-9+/=]/g);
+    if (invalidChars) {
+      console.error("Invalid characters found in base64 string:", invalidChars.slice(0, 10).join(''));
+    }
+
     throw new Error(`Base64 decoding failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 }

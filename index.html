@@ -26,18 +26,41 @@
   <body>
     <div id="error-log" style="color: red; position: fixed; top: 0; left: 0; z-index: 9999; background: white; padding: 10px; display: none;"></div>
     <script>
+      function logError(msg, extra) {
+        fetch('/api/remote-log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg, extra: extra || {}, timestamp: new Date().toISOString() })
+        }).catch(console.warn);
+      }
       window.addEventListener('error', function(e) {
         var el = document.getElementById('error-log');
         el.style.display = 'block';
-        el.innerText += e.message + ' at ' + e.filename + ':' + e.lineno + '\n';
+        var errorMsg = e.message + ' at ' + e.filename + ':' + e.lineno;
+        el.innerText += errorMsg + '\n';
+        logError('Client Error: ' + errorMsg, { stack: e.error && e.error.stack });
       });
       window.addEventListener('unhandledrejection', function(e) {
+        var reasonMsg = (e.reason && e.reason.message) || String(e.reason);
+        if (reasonMsg && (reasonMsg.includes('WebSocket') || reasonMsg.includes('socket'))) {
+           return; // Suppress benign websocket errors from vite
+        }
         var el = document.getElementById('error-log');
         el.style.display = 'block';
-        el.innerText += 'Unhandled rejection: ' + (e.reason && e.reason.message || e.reason) + '\n';
+        var errorMsg = 'Unhandled rejection: ' + reasonMsg;
+        el.innerText += errorMsg + '\n';
+        logError('Unhandled Promise Rejection', { reason: String(e.reason) });
       });
     </script>
-    <div id="root"></div>
+    <div id="root">
+      <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0f1a; color: #00f5d4; font-family: sans-serif; flex-direction: column;">
+        <div style="width: 50px; height: 50px; border: 3px solid rgba(0, 245, 212, 0.1); border-top-color: #00f5d4; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <p style="margin-top: 20px; font-weight: bold; letter-spacing: 0.2em; text-transform: uppercase; font-size: 12px;">Initializing System Nodes...</p>
+      </div>
+      <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

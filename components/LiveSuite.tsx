@@ -118,8 +118,8 @@ export const LiveSuite: React.FC<LiveSuiteProps> = ({ onClose, userName, isDarkM
               </div>
               <div>
                 <div className="flex items-center space-x-3">
-                  <span className="text-[10px] font-black uppercase text-registry-teal tracking-[0.4em]">Live Transduction</span>
-                  <div className="px-2 py-0.5 bg-red-500/10 border border-red-500/20 rounded text-[8px] font-black text-red-500 uppercase tracking-widest">Live</div>
+                  <span className="text-[11px] font-black uppercase text-registry-teal tracking-[0.4em]">Live Transduction</span>
+                  <div className="px-2 py-0.5 bg-red-500/10 border border-red-500/20 rounded text-[11px] font-black text-red-500 uppercase tracking-widest">Live</div>
                 </div>
                 <h1 className="text-xl md:text-4xl font-black italic uppercase tracking-tighter">Physics Deep Dive: Doppler Shift</h1>
               </div>
@@ -271,10 +271,10 @@ export const LiveSuite: React.FC<LiveSuiteProps> = ({ onClose, userName, isDarkM
               {messages.map((m) => (
                 <div key={m.id} className="space-y-1 group">
                    <div className="flex items-baseline space-x-2">
-                     <span className={`text-[10px] font-black uppercase tracking-widest ${m.role === 'harvey' ? 'text-registry-rose' : m.role === 'admin' ? 'text-slate-400' : 'text-registry-teal'}`}>
+                     <span className={`text-[11px] font-black uppercase tracking-widest ${m.role === 'harvey' ? 'text-registry-rose' : m.role === 'admin' ? 'text-slate-400' : 'text-registry-teal'}`}>
                        {m.user}
                      </span>
-                     <span className="text-[8px] opacity-20 group-hover:opacity-40 transition-opacity">
+                     <span className="text-[11px] opacity-20 group-hover:opacity-40 transition-opacity">
                        {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                      </span>
                    </div>
@@ -297,7 +297,7 @@ export const LiveSuite: React.FC<LiveSuiteProps> = ({ onClose, userName, isDarkM
                     <div className="absolute top-0 left-0 w-1 h-full bg-registry-rose" />
                     <div className="flex items-center space-x-2 mb-2">
                        <Brain className="w-3 h-3 text-registry-rose" />
-                       <span className="text-[9px] font-black uppercase tracking-widest text-registry-rose">Harvey Intel</span>
+                       <span className="text-[11px] font-black uppercase tracking-widest text-registry-rose">Harvey Intel</span>
                     </div>
                     <p className="text-xs italic opacity-80 leading-snug">"The chat seems to be struggling with Phase Shift harmonics. Remember: change in frequency directly relates to the target velocity."</p>
                  </motion.div>
@@ -375,7 +375,7 @@ export const LiveSuite: React.FC<LiveSuiteProps> = ({ onClose, userName, isDarkM
               <div className="pt-4 border-t border-white/5">
                 <button 
                   onClick={() => setShowOptions(false)}
-                  className="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+                  className="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all"
                 >
                   Confirm Configuration
                 </button>
@@ -396,7 +396,7 @@ const OptionItem = ({ icon: Icon, label, desc, active, onToggle }: any) => (
       </div>
       <div>
         <p className={`text-xs font-black uppercase tracking-widest transition-opacity ${active ? 'opacity-100' : 'opacity-40'}`}>{label}</p>
-        <p className="text-[9px] opacity-40 italic">{desc}</p>
+        <p className="text-[11px] opacity-40 italic">{desc}</p>
       </div>
     </div>
     <div className={`w-10 h-6 rounded-full relative transition-all duration-300 ${active ? 'bg-registry-teal' : 'bg-white/10'}`}>

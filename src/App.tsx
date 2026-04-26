@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+console.log("📱 App Module Loading...");
 import { generateText, generateSpeech, AIServiceError } from './services/aiService';
 import { decodeBase64, decodeAudioData } from './lib/audioUtils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -13,6 +14,7 @@ import {
   AlertTriangle, ShieldCheck, Home, Calendar, Bot, Stethoscope,
   FileText, Target, Timer, Volume2, Quote, Play, Headphones, HeartPulse, FlaskConical, Target as TargetIcon,
   Sun, Moon, Cloud, Bell, Layers, Info, Terminal, Cpu, Database, Book, Pause, VolumeX, ChevronRight, ChevronLeft, Gauge, Save, ScrollText, User, Users,
+  Mic2,
   LayoutGrid, Settings as SettingsIcon, Lock, Shield, Power, Crown, Maximize, Minimize, Video, Image as ImageIcon, BarChart3,
   Sword,
   Coins, Flame, ArrowRight
@@ -20,6 +22,8 @@ import {
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
+import { auth, onAuthStateChanged, signInWithGoogle, logout } from '../firebase';
+import { firebaseService } from './services/firebaseService';
 import { 
   TransducerCrossSection,
   ReceiverPipelineVisual,
@@ -99,6 +103,7 @@ import { NeuralLoad } from '../components/NeuralLoad';
 import { FullscreenToggle } from '../components/FullscreenToggle';
 import { AssetLibrary } from '../components/AssetLibrary';
 import { PodcastDemo } from '../components/PodcastDemo';
+import { BrainXTalks } from '../components/BrainXTalks';
 import { VictoryOverlay } from '../components/VictoryOverlay';
 import { DailyInsight } from '../components/DailyInsight';
 import { MediaLibrary } from '../components/MediaLibrary';
@@ -190,7 +195,7 @@ const RegistryCountdown: React.FC<{ targetDate?: string, isDarkMode: boolean }> 
     >
       <div className="absolute inset-0 bg-gradient-to-br from-registry-rose/5 to-transparent pointer-events-none" />
       <Calendar className="w-6 h-6 md:w-8 md:h-8 text-registry-rose mb-2 opacity-80" />
-      <span className="text-[9px] md:text-[10px] font-black uppercase text-slate-400 tracking-widest">T-Minus to Registry</span>
+      <span className="text-[11px] font-black uppercase text-slate-400 tracking-widest">T-Minus to Registry</span>
       <h3 className="text-3xl md:text-5xl font-black italic tracking-tighter text-registry-rose">
         {days} <span className="text-lg md:text-xl">DAYS</span>
       </h3>
@@ -211,14 +216,14 @@ const LessonAnthem: React.FC<{ stationName: string }> = ({ stationName }) => {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 bg-slate-50 dark:bg-registry-teal/5 border border-slate-200 dark:border-registry-teal/20 rounded-2xl flex items-center justify-between group hover:bg-slate-100 dark:hover:bg-registry-teal/10 transition-all shadow-sm dark:shadow-none"
+      className="p-4 bg-slate-100 dark:bg-registry-teal/5 border border-slate-300 dark:border-registry-teal/20 rounded-2xl flex items-center justify-between group hover:bg-slate-200 dark:hover:bg-registry-teal/10 transition-all shadow-sm dark:shadow-none"
     >
       <div className="flex items-center space-x-4">
         <div className="p-3 bg-registry-teal/10 dark:bg-registry-teal/20 rounded-xl">
           <Music className="w-5 h-5 text-registry-teal" />
         </div>
         <div>
-          <h5 className="text-[10px] font-black uppercase text-registry-teal tracking-widest">Lesson Anthem</h5>
+          <h5 className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Lesson Anthem</h5>
           <p className="text-xs font-bold italic text-slate-900 dark:text-white">{stationName}</p>
         </div>
       </div>
@@ -270,7 +275,7 @@ const MissionCard: React.FC<{ isDarkMode: boolean; onContinue: () => void }> = (
        </div>
        <div>
          <span className="technical-label !text-registry-teal">Mission Objective</span>
-         <span className={`${isDarkMode ? 'text-white' : 'text-slate-900'} text-[10px] font-mono opacity-40 font-bold uppercase tracking-widest`}>#STRAT-PROT-99.v4</span>
+         <span className={`${isDarkMode ? 'text-white' : 'text-slate-900'} text-[11px] font-mono opacity-40 font-bold uppercase tracking-widest`}>#STRAT-PROT-99.v4</span>
        </div>
     </div>
     
@@ -317,7 +322,7 @@ const VisualizerTile: React.FC<{
           <Icon className={`w-5 h-5 ${color}`} />
           <h3 className="text-lg font-black uppercase italic tracking-tighter">{title}</h3>
         </div>
-        <span className={`text-[9px] font-mono ${color} opacity-50`}>{id}</span>
+        <span className={`text-[11px] font-mono ${color} opacity-50`}>{id}</span>
       </div>
       <div className="flex-1 rounded-2xl overflow-hidden relative border border-white/5 bg-black/20">
         {children}
@@ -342,7 +347,7 @@ const HudMetricsBar: React.FC<{ progressPercent: number; isDarkMode: boolean }> 
             <span className={`micro-label !text-slate-500`}>{stat.label}</span>
             <div className="flex flex-col">
               <span className="text-2xl font-black italic tracking-tighter text-slate-900 dark:text-white">{stat.value}</span>
-              <span className={`text-[7px] font-black uppercase tracking-[0.3em] ${stat.color} opacity-40 mt-1`}>{stat.sub}</span>
+              <span className={`text-[11px] font-black uppercase tracking-[0.3em] ${stat.color} opacity-40 mt-1`}>{stat.sub}</span>
             </div>
           </div>
        </div>
@@ -369,7 +374,7 @@ const BentoCard: React.FC<{
   >
     {/* Identification Serial */}
     <div className="absolute top-8 right-10 origin-right rotate-90 hidden md:block opacity-10 group-hover:opacity-30 transition-opacity">
-       <span className="text-[7px] font-mono font-black tracking-[0.5em] uppercase tabular-nums">SN_%{title.toUpperCase().substring(0,6)}%</span>
+       <span className="text-[11px] font-mono font-black tracking-[0.5em] uppercase tabular-nums">SN_%{title.toUpperCase().substring(0,6)}%</span>
     </div>
 
     {/* Micro Details */}
@@ -413,9 +418,9 @@ const BentoCard: React.FC<{
     
     {onClick && (
       <div className="mt-8 flex justify-end relative z-10">
-        <motion.div 
+          <motion.div 
           whileHover={{ x: 8, backgroundColor: 'rgba(0, 245, 255, 0.2)' }}
-          className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.4em] italic ${accentColor.replace('text-', 'bg-')}/10 ${accentColor} border border-current/10 group-hover:border-current/40 transition-all flex items-center space-x-3 group/btn`}
+          className={`px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.4em] italic ${accentColor.replace('text-', 'bg-')}/10 ${accentColor} border border-current/10 group-hover:border-current/40 transition-all flex items-center space-x-3 group/btn`}
         >
           <span>Initialize Node</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -454,7 +459,7 @@ const SystemBroadcastMonitor: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode 
                <span className="micro-label opacity-100 italic">Sync Latency</span>
                <div className="flex items-end space-x-1">
                  <span className="text-3xl font-black text-slate-900 dark:text-white leading-none">{latency}</span>
-                 <span className="text-[10px] font-black opacity-40 pb-0.5">MS</span>
+                 <span className="text-[11px] font-black opacity-40 pb-0.5">MS</span>
                </div>
              </div>
              <div className="w-20 h-10 flex items-end justify-between px-1 bg-black/5 dark:bg-white/5 rounded-lg p-1">
@@ -476,7 +481,7 @@ const SystemBroadcastMonitor: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode 
                <span className="micro-label opacity-100 italic">Data Bitrate</span>
                <div className="flex items-end space-x-1">
                  <span className="text-3xl font-black text-slate-900 dark:text-white leading-none">{bitrate}</span>
-                 <span className="text-[10px] font-black opacity-40 pb-0.5">MBPS</span>
+                 <span className="text-[11px] font-black opacity-40 pb-0.5">MBPS</span>
                </div>
              </div>
              <div className="flex flex-col items-end">
@@ -492,9 +497,9 @@ const SystemBroadcastMonitor: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode 
               <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-ping shadow-glow" />
               <span className="micro-label opacity-100 text-registry-teal italic">Neural Sync Active</span>
             </div>
-            <span className="text-[10px] font-mono font-black text-slate-500">ND-12B</span>
+            <span className="text-[11px] font-mono font-black text-slate-500">ND-12B</span>
           </div>
-          <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 italic line-clamp-2">
+          <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 italic line-clamp-2">
             Self-correcting metadata stream identified 4 structural optimizations in the current neural map.
           </p>
         </div>
@@ -520,7 +525,7 @@ const ClinicalPearlCard: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) =>
         </p>
         <div className="flex items-center space-x-2">
           <div className="h-px flex-1 bg-registry-cobalt/20" />
-          <span className="px-3 py-1 bg-registry-cobalt/10 rounded-full text-[8px] font-black uppercase tracking-widest text-registry-cobalt">
+          <span className="px-3 py-1 bg-registry-cobalt/10 rounded-full text-[11px] font-black uppercase tracking-widest text-registry-cobalt">
             {pearl.category}
           </span>
         </div>
@@ -561,7 +566,7 @@ const LiveStudioCard: React.FC<{ isDarkMode: boolean; onClick: () => void }> = (
       <div className="absolute top-0 right-0 z-20">
         <div className="flex items-center space-x-2 px-2 py-1 md:px-3 md:py-1 bg-red-500/10 border border-red-500/20 rounded-full backdrop-blur-md">
            <div className="w-1.5 h-1.5 bg-registry-rose rounded-full animate-pulse shadow-glow" />
-           <span className="text-[7px] md:text-[8px] font-black text-red-500 uppercase tracking-widest">Live Now</span>
+           <span className="text-[11px] md:text-[11px] font-black text-red-500 uppercase tracking-widest">Live Now</span>
         </div>
       </div>
       
@@ -571,10 +576,10 @@ const LiveStudioCard: React.FC<{ isDarkMode: boolean; onClick: () => void }> = (
 
       <div className="grid grid-cols-2 gap-3 md:gap-4 mt-auto">
         <div className="p-2 md:p-3 rounded-xl md:rounded-2xl bg-black/5 dark:bg-white/5 border border-white/5 flex flex-col">
-          <span className="micro-label opacity-60 text-[7px] mb-1 leading-none uppercase tracking-widest">Signal Bitrate</span>
+          <span className="micro-label opacity-60 text-[11px] mb-1 leading-none uppercase tracking-widest">Signal Bitrate</span>
           <div className="flex items-end space-x-1">
             <span className="text-sm md:text-lg font-mono font-bold leading-none">4.2</span>
-            <span className="text-[8px] font-mono opacity-40 pb-0.5 uppercase">Mbps</span>
+            <span className="text-[11px] font-mono opacity-40 pb-0.5 uppercase">Mbps</span>
           </div>
         </div>
         <div className="p-2 md:p-3 rounded-xl md:rounded-2xl bg-black/5 dark:bg-white/5 border border-white/5 flex flex-col relative overflow-hidden">
@@ -585,7 +590,7 @@ const LiveStudioCard: React.FC<{ isDarkMode: boolean; onClick: () => void }> = (
               ))}
             </div>
           </div>
-          <span className="micro-label opacity-60 text-[7px] mb-1 leading-none uppercase tracking-widest">Active Syncs</span>
+          <span className="micro-label opacity-60 text-[11px] mb-1 leading-none uppercase tracking-widest">Active Syncs</span>
           <span className="text-sm md:text-lg font-mono font-bold leading-none">1.2K</span>
         </div>
       </div>
@@ -597,13 +602,13 @@ const LiveStudioCard: React.FC<{ isDarkMode: boolean; onClick: () => void }> = (
                <img src={`https://i.pravatar.cc/100?img=${i + 12}`} alt="Active viewer" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
              </div>
            ))}
-           <div className="w-6 h-6 md:w-8 md:h-8 rounded-lg md:rounded-xl border-2 border-white dark:border-stealth-900 bg-registry-rose/20 text-registry-rose flex items-center justify-center text-[7px] md:text-[8px] font-black italic">
+           <div className="w-6 h-6 md:w-8 md:h-8 rounded-lg md:rounded-xl border-2 border-white dark:border-stealth-900 bg-registry-rose/20 text-registry-rose flex items-center justify-center text-[11px] md:text-[11px] font-black italic">
              +89
            </div>
         </div>
         <div className="flex items-center space-x-1">
           <div className="w-1.5 h-1.5 rounded-full bg-registry-teal shadow-glow" />
-          <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-emerald-500 italic">Connected</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-emerald-500 italic">Connected</span>
         </div>
       </div>
     </div>
@@ -636,12 +641,12 @@ const SystemStatusRadial: React.FC<{ progressPercent: number; isDarkMode: boolea
            </svg>
            <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-5xl md:text-7xl font-black italic tracking-tighter leading-none group-hover:text-registry-rose transition-colors">{Math.round(progressPercent)}%</span>
-              <span className="text-[8px] md:text-[10px] font-black uppercase text-slate-400 tracking-[0.3em] mt-2 md:mt-3">Retention</span>
+              <span className="text-[11px] font-black uppercase text-slate-400 tracking-[0.3em] mt-2 md:mt-3">Retention</span>
            </div>
         </div>
         <div className="text-center space-y-6 md:space-y-8 w-full">
            <div className="flex flex-col items-center space-y-1">
-             <p className="text-[8px] md:text-[9px] font-black text-slate-500 uppercase tracking-[0.4em]">Protocol Scan Ready</p>
+             <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.4em]">Protocol Scan Ready</p>
              <div className="w-10 md:w-12 h-0.5 bg-registry-rose/20 rounded-full" />
            </div>
            <div className="pt-2">
@@ -695,7 +700,7 @@ const PremiumTopBar: React.FC<{
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 <X className="w-4 h-4 relative z-10" />
-                <span className="text-[10px] relative z-10">{activeOverlay === 'settings' ? 'Commit & Exit' : 'Exit Protocol'}</span>
+                <span className="text-[11px] relative z-10">{activeOverlay === 'settings' ? 'Commit & Exit' : 'Exit Protocol'}</span>
               </motion.button>
             </motion.div>
           )}
@@ -715,15 +720,15 @@ const PremiumTopBar: React.FC<{
                  ))}
                </div>
                <div className="flex flex-col">
-                 <span className="text-[7px] font-black uppercase tracking-[0.2em] text-slate-500">Node_Sync</span>
-                 <span className="text-[8px] font-mono font-black text-registry-teal uppercase tracking-widest leading-none mt-0.5">ACTIVE.v4</span>
+                 <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">Node_Sync</span>
+                 <span className="text-[11px] font-mono font-black text-registry-teal uppercase tracking-widest leading-none mt-0.5">ACTIVE.v4</span>
                </div>
             </div>
             <div className="flex items-center space-x-4">
               {['DIAG', 'NEURAL', 'BIO'].map((label) => (
                 <div key={label} className="flex items-center space-x-1.5">
                    <div className="w-1 h-1 rounded-full bg-registry-teal shadow-glow" />
-                   <span className={`text-[7px] font-black ${isDarkMode ? 'text-white/40' : 'text-slate-500'} uppercase tracking-[0.2em] italic`}>
+                   <span className={`text-[11px] font-black ${isDarkMode ? 'text-white/40' : 'text-slate-500'} uppercase tracking-[0.2em] italic`}>
                     {label}
                   </span>
                 </div>
@@ -780,25 +785,25 @@ const DashboardHUD: React.FC<{ progress: number; isDarkMode: boolean }> = ({ pro
                  <stat.icon className={`w-5 h-5 ${stat.color} drop-shadow-glow`} />
               </div>
               <div className="flex flex-col items-end">
-                <span className={`text-[9px] font-black uppercase tracking-[0.4em] ${stat.color} italic leading-none`}>{stat.trend}</span>
-                <span className="text-[7px] font-mono text-white/20 tracking-widest mt-1.5 uppercase font-bold">Protocol.v4</span>
+                <span className={`text-[11px] font-black uppercase tracking-[0.4em] ${stat.color} italic leading-none`}>{stat.trend}</span>
+                <span className="text-[11px] font-mono text-white/20 tracking-widest mt-1.5 uppercase font-bold">Protocol.v4</span>
               </div>
            </div>
 
            <div className="space-y-1 mb-6 relative z-10">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 opacity-80 mb-2">{stat.label}</p>
+              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 opacity-80 mb-2">{stat.label}</p>
               <div className="flex items-baseline space-x-2">
                 <h3 className={`text-4xl md:text-5xl font-black italic uppercase tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'} transition-all group-hover:scale-105 origin-left`}>
                    {stat.value}
                 </h3>
-                <span className="text-[9px] font-mono font-black text-slate-500 italic tabular-nums tracking-widest">{stat.subValue}</span>
+                <span className="text-[11px] font-mono font-black text-slate-500 italic tabular-nums tracking-widest">{stat.subValue}</span>
               </div>
            </div>
 
            <div className="space-y-2 relative z-10">
               <div className="flex justify-between items-center px-1">
-                <span className="text-[8px] font-black uppercase tracking-widest opacity-40">Integration Depth</span>
-                <span className="text-[8px] font-mono font-black opacity-100 text-registry-teal">{stat.progressWidth}</span>
+                <span className="text-[11px] font-black uppercase tracking-widest opacity-40">Integration Depth</span>
+                <span className="text-[11px] font-mono font-black opacity-100 text-registry-teal">{stat.progressWidth}</span>
               </div>
               <div className="h-1.5 w-full bg-black/20 dark:bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
                  <motion.div 
@@ -837,7 +842,7 @@ const NeuralMap: React.FC<{ modules: Module[], completed: Set<string>, isDarkMod
           </div>
         </div>
         <div className="flex flex-col">
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Neural Network Topology</span>
+          <span className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Neural Network Topology</span>
           <h4 className="text-2xl font-black italic text-registry-teal tracking-tighter uppercase mt-1 leading-none shadow-glow">Active Synaptic Link Map</h4>
         </div>
       </div>
@@ -994,14 +999,14 @@ const NeuralMap: React.FC<{ modules: Module[], completed: Set<string>, isDarkMod
                   <text 
                     x={`${x}%`} y={`${y + (i % 2 === 0 ? -32 : 58)}%`} 
                     textAnchor="middle" 
-                    className="text-[8px] font-bold uppercase tracking-[0.3em] fill-slate-500 group-hover/node:fill-slate-400 italic"
+                    className="text-[11px] font-bold uppercase tracking-[0.3em] fill-slate-500 group-hover/node:fill-slate-400 italic"
                   >
                     {isCompleted ? 'Node Synchronized' : `Module Data Link: ${Math.round(progress * 100)}%`}
                   </text>
                   
                   {/* Hover Info Tip */}
                   <foreignObject x={`${x}%`} y={`${y + 20}%`} width="150" height="40" className="opacity-0 group-hover/node:opacity-100 transition-opacity">
-                     <div className="premium-glass p-2 rounded-xl border border-white/10 text-[8px] font-black uppercase text-center backdrop-blur-md">
+                     <div className="premium-glass p-2 rounded-xl border border-white/10 text-[11px] font-black uppercase text-center backdrop-blur-md">
                         {m.lessons.length} LESSONS // {Math.round(progress * 100)}% SYNC
                      </div>
                   </foreignObject>
@@ -1048,7 +1053,7 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const [showCinematicIntro, setShowCinematicIntro] = useState(() => !sessionStorage.getItem('cinematic_intro_played'));
+  const [showCinematicIntro, setShowCinematicIntro] = useState(false);
   const handleCinematicComplete = useCallback(() => {
     setShowCinematicIntro(false);
     setIsIntroFinished(true);
@@ -1065,7 +1070,8 @@ const App: React.FC = () => {
       visualOverrides: {},
       harveyInteractionCount: 0,
       studyTimeTotal: 0,
-      diagnosticAccuracy: 94.2
+      diagnosticAccuracy: 94.2,
+      textScale: 1
     };
     try {
       const saved = localStorage.getItem('spi_profile');
@@ -1083,6 +1089,53 @@ const App: React.FC = () => {
   };
 
   const [userId, setUserId] = useState<string | null>(null);
+
+  // --- FIREBASE AUTH SYNC ---
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserId(user.uid);
+        // Load Profile from Firestore
+        const fbProfile = await firebaseService.getUserProfile(user.uid);
+        if (fbProfile) {
+          setProfile((prev: any) => ({ ...prev, ...fbProfile }));
+        } else {
+          // New User: Create Profile
+          const initialProfile = {
+            displayName: user.displayName || 'Sonographer',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            streak: 3,
+            studyTimeTotal: 0,
+            diagnosticAccuracy: 94.2
+          };
+          await firebaseService.createUserProfile(user.uid, initialProfile);
+          setProfile((prev: any) => ({ ...prev, ...initialProfile }));
+        }
+
+        // Load Progress from Firestore
+        const fbProgress = await firebaseService.getAllProgress(user.uid);
+        if (fbProgress.length > 0) {
+          const lessonIds = fbProgress.map(p => p.lessonId);
+          setCompleted(new Set(lessonIds));
+        }
+      } else {
+        setUserId(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Sync profile changes to Firestore (Debounced or on specific updates)
+  useEffect(() => {
+    if (userId && profile) {
+      const timeout = setTimeout(() => {
+        firebaseService.updateUserProfile(userId, profile);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [profile, userId]);
+
   const [isIntroFinished, setIsIntroFinished] = useState(() => !!sessionStorage.getItem('cinematic_intro_played'));
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('spi_theme_mode') === 'dark');
   const [currentTheme, setCurrentTheme] = useState(() => localStorage.getItem('spi_theme_name') || 'registry');
@@ -1094,7 +1147,7 @@ const App: React.FC = () => {
   const [showVictory, setShowVictory] = useState(false);
   const [victoryTitle, setVictoryTitle] = useState('');
   const [tabIntroTitle, setTabIntroTitle] = useState<string>('');
-  const [activeOverlay, setActiveOverlay] = useState<'sidebar' | 'tutor' | 'reminders' | 'flashcards' | 'glossary' | 'plan' | 'profile' | 'legal' | 'exam' | 'pricing' | 'radio' | 'settings' | 'quest' | 'podcast' | 'media' | 'live' | 'scenarios' | 'lab' | null>(null);
+  const [activeOverlay, setActiveOverlay] = useState<'sidebar' | 'tutor' | 'reminders' | 'flashcards' | 'glossary' | 'plan' | 'profile' | 'legal' | 'exam' | 'pricing' | 'radio' | 'settings' | 'quest' | 'podcast' | 'brainx' | 'media' | 'live' | 'scenarios' | 'lab' | null>(null);
   const [sessionStartTime] = useState<number>(Date.now());
 
   const lastAccountedSeconds = useRef(0);
@@ -1118,6 +1171,10 @@ const App: React.FC = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [current, activeOverlay]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--neural-text-scale', (profile?.textScale || 1).toString());
+  }, [profile?.textScale]);
 
   const [flashcardModule, setFlashcardModule] = useState<string | null>(null);
   const [streak, setStreak] = useState(() => parseInt(localStorage.getItem('spi_streak') || '3'));
@@ -1198,7 +1255,7 @@ const App: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/user/${userId}`);
+        const response = await fetch(`/api/sync/${userId}`);
         if (response.ok) {
           const data = await response.json();
           if (data.completed) setCompleted(new Set(data.completed));
@@ -1217,9 +1274,10 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!userId) return;
     
-    const saveData = async () => {
+    const saveData = async (retryCount = 0) => {
+      if (!userId) return;
       try {
-        await fetch(`/api/user/${userId}`, {
+        const response = await fetch(`/api/sync/${userId}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1229,8 +1287,18 @@ const App: React.FC = () => {
             completedToday
           })
         });
-      } catch (error) {
-        console.error("Save error:", error);
+        if (!response.ok) {
+           throw new Error(`Status ${response.status}`);
+        }
+      } catch (error: any) {
+        if (retryCount < 2) {
+          // Retry twice with exponential backoff if it's potentially transient
+          const backoff = Math.pow(2, retryCount) * 1000;
+          setTimeout(() => saveData(retryCount + 1), backoff);
+        } else {
+          // Only log to console after retries fail to avoid spamming "Failed to fetch"
+          console.error("Background sync failed after retries:", error.message || error);
+        }
       }
     };
 
@@ -1250,6 +1318,16 @@ const App: React.FC = () => {
     if (completed.has(lessonId)) return;
 
     setCompleted(prev => new Set(prev).add(lessonId));
+
+    if (userId) {
+      const lesson = allLessons.find(l => l.id === lessonId);
+      firebaseService.syncProgress(userId, {
+        lessonId,
+        moduleId: lesson?.moduleId || 'unknown',
+        completed: true,
+        lastAccessed: null // Set automatically by serverTimestamp in service
+      });
+    }
 
     const lesson = allLessons.find(l => l.id === lessonId);
     if (lesson) {
@@ -1414,6 +1492,26 @@ const App: React.FC = () => {
       localStorage.removeItem('registry_bg_image');
     }
   }, [bgImage]);
+
+  // Fetch Global Configuration
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch('/api/media');
+        if (res.ok) {
+          const data = await res.json();
+          // Apply global background if user hasn't set a personal one
+          if (data.defaultBackground && !localStorage.getItem('registry_bg_image')) {
+            setBgImage(data.defaultBackground);
+          }
+        }
+      } catch (e) {
+        console.error("System Identity Fetch Failed:", e);
+      }
+    };
+    fetchConfig();
+  }, []);
+
   const [audioError, setAudioError] = useState<string | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
@@ -1486,15 +1584,6 @@ const App: React.FC = () => {
     if (!ctx) return;
 
     const cacheKey = getAudioCacheKey(script, lessonId);
-
-    // Check for API key if not using cached audio
-    const cachedAudio = await AudioCache.get(cacheKey);
-    if (!cachedAudio && window.aistudio) {
-      const hasKey = await window.aistudio.hasSelectedApiKey();
-      if (!hasKey) {
-        await window.aistudio.openSelectKey();
-      }
-    }
 
     if (audioContextRef.current.state === 'suspended') {
       await audioContextRef.current.resume();
@@ -1785,6 +1874,17 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
     }
   };
 
+  const handleNavigateToLesson = (lessonId: string) => {
+    for (let mIdx = 0; mIdx < modules.length; mIdx++) {
+      const lIdx = modules[mIdx].lessons.findIndex((l: any) => l.id === lessonId);
+      if (lIdx !== -1) {
+        handleLessonSelect(mIdx, lIdx);
+        return;
+      }
+    }
+    toast.error(`Lesson Node ${lessonId} not found in the current synaptic path.`);
+  };
+
   const handleCacheModule = async (mIdx: number) => {
     if (cachingModules.has(mIdx)) return;
     setCachingModules(prev => new Set([...prev, mIdx]));
@@ -1958,7 +2058,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                 ) : null
               )}
               <div className="absolute top-6 right-6 flex items-center space-x-3">
-                <div className="px-3 py-1.5 bg-registry-teal text-stealth-950 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center space-x-2 shadow-lg">
+                  <div className="px-3 py-1.5 bg-registry-teal text-stealth-950 rounded-full text-[11px] font-black uppercase tracking-widest flex items-center space-x-2 shadow-lg">
                   <Activity className="w-3.5 h-3.5" />
                   <span>Custom Case Study</span>
                 </div>
@@ -1981,7 +2081,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               </div>
             </div>
             <div className="pt-4 border-t border-white/5">
-               <h4 className="text-[10px] font-black uppercase text-registry-teal tracking-[0.3em] mb-6 flex items-center space-x-2">
+               <h4 className="text-[11px] font-black uppercase text-registry-teal tracking-[0.3em] mb-6 flex items-center space-x-2">
                  <Layers className="w-3.5 h-3.5" />
                  <span>Original Curriculum Content</span>
                </h4>
@@ -2056,7 +2156,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
           className="mb-8 flex items-center space-x-4"
         >
           <div className="h-[1px] w-8 bg-registry-teal/50" />
-          <span className="text-registry-teal text-[10px] font-black uppercase tracking-[0.8em]">Neural Interface v5.0</span>
+          <span className="text-registry-teal text-[11px] font-black uppercase tracking-[0.8em]">Neural Interface v5.0</span>
           <div className="h-[1px] w-8 bg-registry-teal/50" />
         </motion.div>
 
@@ -2066,7 +2166,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
             initial={{ y: '100%', skewY: 10 }}
             animate={{ y: 0, skewY: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className={`text-4xl sm:text-7xl md:text-[15vw] font-black ${isDarkMode ? 'text-white' : 'text-slate-950'} tracking-tighter italic uppercase text-center leading-[0.85] select-none`}
+            className={`text-4xl sm:text-7xl md:text-[15vw] font-black ${isDarkMode ? 'text-white' : 'text-slate-950'} tracking-tighter italic uppercase text-center leading-[0.85] select-none px-4`}
           >
             <span className="text-registry-rose">SPI</span> MASTER
           </motion.h1>
@@ -2078,18 +2178,17 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
           />
         </div>
 
-        {/* Subtitle / Description */}
-        <motion.p
+           <motion.p
           initial={{ opacity: 0, filter: 'blur(10px)' }}
           animate={{ opacity: 1, filter: 'blur(0px)' }}
           transition={{ delay: 1.2, duration: 1 }}
-          className={`${isDarkMode ? 'text-slate-400' : 'text-slate-600'} text-xs md:text-lg font-medium tracking-widest uppercase text-center max-w-2xl mb-16`}
+          className={`${isDarkMode ? 'text-slate-400' : 'text-slate-800'} text-xs md:text-lg font-medium tracking-widest uppercase text-center max-w-2xl mb-16`}
         >
           {profile?.name ? (
             <span className="text-registry-teal">Welcome back, {profile.name}. <br/></span>
           ) : null}
           Advanced Ultrasound Physics & Instrumentation <br/>
-          <span className="text-registry-teal/60 italic">Registry Preparation Protocol</span>
+          <span className="text-registry-teal italic">Registry Preparation Protocol</span>
         </motion.p>
         
         {/* Action Button */}
@@ -2097,11 +2196,11 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.8 }}
-          className="flex flex-col items-center space-y-6"
+          className="flex flex-col items-center space-y-6 w-full px-8"
         >
            <button 
              onClick={() => setIsIntroFinished(true)} 
-             className={`group relative px-20 py-8 overflow-hidden rounded-2xl transition-all active:scale-95 ${isDarkMode ? 'bg-white text-slate-950' : 'bg-stealth-900 text-white shadow-2xl shadow-stealth-900/20'}`}
+             className={`group relative w-full sm:w-auto px-12 sm:px-20 py-6 sm:py-8 overflow-hidden rounded-2xl transition-all active:scale-95 ${isDarkMode ? 'bg-white text-slate-950' : 'bg-stealth-900 text-white shadow-2xl shadow-stealth-900/20'}`}
            >
              <div className="absolute inset-0 bg-registry-teal translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
              <span className="relative font-black uppercase tracking-[0.4em] text-sm group-hover:text-white transition-colors duration-300">Initialize Core</span>
@@ -2110,7 +2209,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
            {localStorage.getItem('spi_intro_finished') === 'true' && (
              <button 
                onClick={() => setIsIntroFinished(true)}
-               className="text-[10px] font-black uppercase tracking-widest text-registry-teal hover:text-registry-rose transition-colors"
+               className="text-[11px] font-black uppercase tracking-widest text-registry-teal hover:text-registry-rose transition-colors"
              >
                Quick Resume
              </button>
@@ -2121,15 +2220,15 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
       {/* Bottom Meta Data */}
       <div className={`absolute bottom-12 left-0 right-0 flex justify-between px-12 items-end ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
         <div className="flex flex-col space-y-1">
-          <span className="text-[8px] font-black text-registry-teal/40 uppercase tracking-widest">System Status</span>
+          <span className="text-[11px] font-black text-registry-teal/40 uppercase tracking-widest">System Status</span>
           <div className="flex items-center space-x-2">
             <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse" />
-            <span className="text-[10px] font-mono uppercase tracking-widest">All Nodes Operational</span>
+            <span className="text-[11px] font-mono uppercase tracking-widest">All Nodes Operational</span>
           </div>
         </div>
         <div className="hidden md:flex flex-col items-end space-y-1">
-          <span className="text-[8px] font-black text-registry-teal/40 uppercase tracking-widest">Encryption Level</span>
-          <span className="text-[10px] font-mono uppercase tracking-widest">256-Bit Quantum Secure</span>
+          <span className="text-[11px] font-black text-registry-teal/40 uppercase tracking-widest">Encryption Level</span>
+          <span className="text-[11px] font-mono uppercase tracking-widest">256-Bit Quantum Secure</span>
         </div>
       </div>
     </div>
@@ -2193,9 +2292,9 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               transition={{ delay: 0.5 }}
               className="flex items-center justify-center space-x-4"
             >
-              <div className={`h-[1px] w-12 ${isDarkMode ? 'bg-white/20' : 'bg-slate-200'}`} />
-              <span className="text-registry-teal font-black tracking-[0.6em] uppercase text-[10px] md:text-xs">Module Access Granted</span>
-              <div className={`h-[1px] w-12 ${isDarkMode ? 'bg-white/20' : 'bg-slate-200'}`} />
+              <div className={`h-[1px] w-12 ${isDarkMode ? 'bg-white/20' : 'bg-slate-300'}`} />
+              <span className="text-registry-teal font-black tracking-[0.6em] uppercase text-[11px] md:text-xs">Module Access Granted</span>
+              <div className={`h-[1px] w-12 ${isDarkMode ? 'bg-white/20' : 'bg-slate-300'}`} />
             </motion.div>
 
             <div className="overflow-hidden">
@@ -2213,7 +2312,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
-              className="text-slate-400 text-sm md:text-xl font-medium tracking-widest uppercase italic"
+              className={`${isDarkMode ? 'text-slate-400' : 'text-slate-700'} text-sm md:text-xl font-medium tracking-widest uppercase italic`}
             >
               Weight: {modules[showModuleIntro].weight} of Registry
             </motion.p>
@@ -2278,7 +2377,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               <div className="flex flex-col items-center space-y-4">
                 <div className="flex items-center space-x-3">
                   <div className="h-[1px] w-6 bg-registry-teal/50" />
-                  <span className="text-registry-teal text-[10px] font-black uppercase tracking-[1em]">Briefing Protocol</span>
+                  <span className="text-registry-teal text-[11px] font-black uppercase tracking-[1em]">Briefing Protocol</span>
                   <div className="h-[1px] w-6 bg-registry-teal/50" />
                 </div>
                 <div className="h-0.5 w-16 bg-registry-teal/30 rounded-full" />
@@ -2303,7 +2402,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-1.5 h-1.5 rounded-full bg-registry-teal animate-ping" />
-                  <span className={`${isDarkMode ? 'text-slate-400' : 'text-slate-500'} text-[10px] font-black uppercase tracking-[0.4em]`}>Neural Sync in Progress...</span>
+                  <span className={`${isDarkMode ? 'text-slate-400' : 'text-slate-500'} text-[11px] font-black uppercase tracking-[0.4em]`}>Neural Sync in Progress...</span>
                 </div>
                 <div className={`w-48 h-[1px] ${isDarkMode ? 'bg-white/10' : 'bg-slate-200'} relative overflow-hidden`}>
                   <motion.div 
@@ -2339,7 +2438,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
             >
               <div className="mb-6 flex items-center justify-center space-x-6">
                 <div className="h-[1px] w-12 bg-registry-teal/30" />
-                <span className="text-registry-teal text-[10px] font-black uppercase tracking-[1.2em] animate-pulse">Node Access</span>
+                <span className="text-registry-teal text-[11px] font-black uppercase tracking-[1.2em] animate-pulse">Node Access</span>
                 <div className="h-[1px] w-12 bg-registry-teal/30" />
               </div>
               
@@ -2360,7 +2459,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
-                className="mt-4 text-registry-teal/60 text-[8px] font-mono uppercase tracking-widest"
+                className="mt-4 text-registry-teal/60 text-[11px] font-mono uppercase tracking-widest"
               >
                 Decryption Complete // Protocol Active
               </motion.div>
@@ -2395,7 +2494,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter leading-none italic uppercase">
                 Echo<span className="text-registry-teal">Master</span>
               </h1>
-              <span className="text-[7px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.5em] mt-2">Registry Elite Protocol</span>
+              <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.5em] mt-2">Registry Elite Protocol</span>
             </div>
           </button>
 
@@ -2406,7 +2505,8 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               { id: 'lab', label: 'Diagnostic Lab', icon: FlaskConical, overlay: 'lab', index: '03' },
               { id: 'cases', label: 'Clinical Cases', icon: Stethoscope, overlay: 'scenarios', index: '04' },
               { id: 'registry', label: 'Registry Path', icon: Globe, overlay: 'exam', index: '05' },
-              { id: 'docs', label: 'Neural Lexicon', icon: Database, overlay: 'glossary', index: '06' },
+              { id: 'brainx', label: 'BrainX Talks', icon: Mic2, overlay: 'brainx', index: '06' },
+              { id: 'docs', label: 'Neural Lexicon', icon: Database, overlay: 'glossary', index: '07' },
             ].map((item) => {
               const isActive = (item.id === 'dashboard' && current === null && activeOverlay === null) || activeOverlay === item.overlay;
               return (
@@ -2421,14 +2521,14 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                       ? 'bg-registry-teal shadow-glow shadow-registry-teal/40 border-registry-teal text-stealth-950' 
                       : isDarkMode 
                         ? 'text-slate-400 hover:text-white hover:bg-white/5 border-transparent hover:border-white/5'
-                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50 border-transparent hover:border-slate-100'
+                        : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100 border-transparent hover:border-slate-200'
                   }`}
                 >
-                  <div className={`mr-4 font-mono text-[8px] ${isActive ? 'text-stealth-950 opacity-60' : 'text-slate-400 opacity-20'} group-hover:opacity-60 transition-opacity`}>
+                  <div className={`mr-4 font-mono text-[11px] ${isActive ? 'text-stealth-950 opacity-60' : 'text-slate-400 opacity-20'} group-hover:opacity-60 transition-opacity`}>
                     {item.index}
                   </div>
                   <item.icon className={`w-4 h-4 mr-3 transition-transform duration-500 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] flex-1 text-left ${isActive ? 'italic' : ''}`}>{item.label}</span>
+                  <span className={`text-[11px] font-black uppercase tracking-[0.2em] flex-1 text-left ${isActive ? 'italic' : ''}`}>{item.label}</span>
                 </button>
               );
             })}
@@ -2444,7 +2544,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                <div className="relative z-10">
                  <div className="flex justify-between items-center mb-5">
                     <span className="micro-label !opacity-60">System Tier</span>
-                    <span className="text-[10px] font-black tracking-widest text-registry-teal italic">PREMIUM_V4</span>
+                    <span className="text-[11px] font-black tracking-widest text-registry-teal italic">PREMIUM_V4</span>
                  </div>
                  <div className="flex items-center space-x-3 mb-6">
                     <Crown className="w-4 h-4 text-registry-amber shadow-glow" />
@@ -2452,8 +2552,8 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                  </div>
                  <div className="space-y-2">
                     <div className="flex justify-between items-end">
-                      <span className="text-[7px] font-mono opacity-40 uppercase">Synaptic XP</span>
-                      <span className="text-[8px] font-mono font-black text-registry-teal leading-none">0 / 1000</span>
+                      <span className="text-[11px] font-mono opacity-40 uppercase">Synaptic XP</span>
+                      <span className="text-[11px] font-mono font-black text-registry-teal leading-none">0 / 1000</span>
                     </div>
                     <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                        <div className="h-full bg-registry-teal rounded-full w-[0%] shadow-glow" />
@@ -2468,14 +2568,14 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-xl transition-all ${isDarkMode ? 'bg-registry-teal text-stealth-950 shadow-glow' : 'text-slate-400 hover:text-slate-600'}`}
               >
                 {isDarkMode ? <Moon className="w-4 h-4 shadow-glow" /> : <Sun className="w-4 h-4" />}
-                <span className="text-[8px] font-black uppercase tracking-widest">{isDarkMode ? 'Dark' : 'Light'}</span>
+                <span className="text-[11px] font-black uppercase tracking-widest">{isDarkMode ? 'Dark' : 'Light'}</span>
               </button>
               <button 
                 onClick={() => setActiveOverlay('settings')}
                 className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-xl transition-all ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-900'}`}
               >
                 <SettingsIcon className="w-4 h-4" />
-                <span className="text-[8px] font-black uppercase tracking-widest">Settings</span>
+                <span className="text-[11px] font-black uppercase tracking-widest">Settings</span>
               </button>
             </div>
           </div>
@@ -2483,7 +2583,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
       </aside>
 
       {/* Main Content View */}
-      <div className="flex flex-col min-w-0 relative min-h-screen lg:ml-80">
+      <div className="flex flex-col min-w-0 relative min-h-[100dvh] lg:ml-80">
         <DashboardGridScroll />
         <PremiumTopBar 
           onOpenSidebar={() => setActiveOverlay('sidebar')}
@@ -2498,21 +2598,21 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
           current={current}
         />
 
-        <main className="flex-1 pt-32 md:pt-40 pb-28 lg:pb-12 relative">
+        <main className="flex-1 pt-24 md:pt-40 pb-32 lg:pb-12 relative">
           <ParallaxBackground isDarkMode={isDarkMode} bgImage={bgImage} />
-          <div className="max-w-[2000px] mx-auto w-full px-6 md:px-12 py-6 md:py-12 relative z-10 flex flex-col gap-8 md:gap-12 lg:gap-16">
+          <div className="max-w-[2000px] mx-auto w-full px-4 md:px-12 py-6 md:py-12 relative z-10 flex flex-col gap-6 md:gap-12 lg:gap-16">
             {current ? (
               <>
                 <div className="mb-12 md:mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 relative">
                   <DiagnosticScanline />
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 relative z-10 px-6 py-10 md:px-14 md:py-20 premium-glass rounded-[3rem] md:rounded-[5rem] tech-border">
+                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-8 md:mb-12 relative z-10 px-6 py-12 md:px-14 md:py-20 premium-glass rounded-[2rem] md:rounded-[5rem] tech-border overflow-hidden">
                     <div className="space-y-6 max-w-4xl">
                       <div className="flex flex-col space-y-4">
                       <div className="flex items-center space-x-3">
                         <div className="w-2.5 h-2.5 bg-registry-teal rounded-full animate-ping shadow-glow" />
                         <span className="micro-label text-registry-teal italic font-bold">Node {current[0] + 1}.{current[1] + 1} // Active Registry Protocol</span>
                       </div>
-                      <h2 className={`text-5xl md:text-[8rem] font-black ${isDarkMode ? 'text-white' : 'text-ink-900'} tracking-[-0.05em] leading-[0.8] uppercase italic select-none drop-shadow-2xl`}>
+                      <h2 className={`text-2xl sm:text-4xl md:text-6xl lg:text-[7rem] font-black ${isDarkMode ? 'text-white' : 'text-ink-900'} tracking-[-0.05em] leading-[0.9] md:leading-[0.8] uppercase italic select-none drop-shadow-2xl break-words`}>
                         {lessonData?.title}
                       </h2>
                       {lessonData?.narrationScript && (
@@ -2550,7 +2650,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden mt-6"
                           >
-                            <div className={`p-6 rounded-3xl border ${isDarkMode ? 'bg-white/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'} italic leading-relaxed text-sm md:text-base shadow-inner`}>
+                            <div className={`p-6 rounded-3xl border ${isDarkMode ? 'bg-white/5 border-white/10 text-slate-300' : 'bg-slate-100 border-slate-300 text-slate-800'} italic leading-relaxed text-sm md:text-base shadow-inner`}>
                               <Quote className="w-8 h-8 text-registry-teal/20 mb-2" />
                               {lessonData.narrationScript}
                             </div>
@@ -2572,8 +2672,8 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                           <div className="absolute inset-0 bg-gradient-to-r from-registry-teal/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           <ChevronLeft className="w-5 h-5 relative z-10 transition-transform group-hover:-translate-x-1" />
                           <div className="flex flex-col items-start relative z-10 text-left">
-                            <span className="text-[7px] font-black uppercase tracking-widest opacity-50">Retreat</span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Previous Unit</span>
+                        <span className="text-[11px] font-mono opacity-40 uppercase">Retreat</span>
+                            <span className="text-[11px] font-black uppercase tracking-[0.2em]">Previous Unit</span>
                           </div>
                         </motion.button>
 
@@ -2588,8 +2688,8 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                         >
                           <div className="absolute inset-0 bg-gradient-to-l from-registry-teal/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           <div className="flex flex-col items-end relative z-10 text-right">
-                            <span className="text-[7px] font-black uppercase tracking-widest opacity-50">Advance</span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Next Unit</span>
+                            <span className="text-[11px] font-black uppercase tracking-widest opacity-50">Advance</span>
+                            <span className="text-[11px] font-black uppercase tracking-[0.2em]">Next Unit</span>
                           </div>
                           <ChevronRight className="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" />
                         </motion.button>
@@ -2603,15 +2703,15 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                       <ChevronLeft className="w-4 h-4 text-slate-500 group-hover:text-registry-teal group-hover:-translate-x-0.5 transition-all" />
                     </div>
                     <div className="flex flex-col items-start translate-y-0.5">
-                      <span className="text-[7px] font-black uppercase tracking-[0.4em] text-slate-500 mb-0.5">Exit Node</span>
-                      <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${isDarkMode ? 'text-slate-300 group-hover:text-white' : 'text-slate-600 group-hover:text-slate-900'}`}>Tactical Dashboard</span>
+                      <span className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500 mb-0.5">Exit Node</span>
+                      <span className={`text-[11px] font-black uppercase tracking-widest transition-colors ${isDarkMode ? 'text-slate-300 group-hover:text-white' : 'text-slate-600 group-hover:text-slate-900'}`}>Tactical Dashboard</span>
                     </div>
                   </button>
                   
                   <div className="flex-1 max-w-xs">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className={`text-[8px] font-black uppercase tracking-widest ${isDarkMode ? 'text-slate-600' : 'text-slate-400'}`}>Module Progress</span>
-                      <span className="text-[10px] font-black text-registry-teal italic">{Math.round(moduleProgress[curModule!.title])}%</span>
+                      <span className={`text-[11px] font-black uppercase tracking-widest ${isDarkMode ? 'text-slate-600' : 'text-slate-400'}`}>Module Progress</span>
+                      <span className="text-[11px] font-black text-registry-teal italic">{Math.round(moduleProgress[curModule!.title])}%</span>
                     </div>
                     <div className={`h-1 w-full ${isDarkMode ? 'bg-white/5' : 'bg-slate-200'} rounded-full overflow-hidden`}>
                       <motion.div 
@@ -2636,11 +2736,11 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                             ? 'bg-registry-teal/10 border-registry-teal shadow-glow scale-105' 
                             : isCompleted 
                               ? 'bg-teal-500/5 border-teal-500/20 text-teal-500 hover:border-teal-500/40' 
-                              : isDarkMode ? 'bg-white/5 border-white/5 text-slate-500 hover:border-white/20' : 'bg-slate-50 border-slate-200 text-slate-400 hover:border-slate-300'
+                              : isDarkMode ? 'bg-white/5 border-white/5 text-slate-500 hover:border-white/20' : 'bg-slate-100 border-slate-300 text-slate-800 hover:border-slate-400'
                         }`}
                       >
                         <div className={`w-2 h-2 rounded-full mb-3 ${isActive ? 'bg-registry-teal animate-pulse' : isCompleted ? 'bg-teal-500' : 'bg-current opacity-30 shadow-inner'}`} />
-                        <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap">Interface {idx + 1}</span>
+                        <span className="text-[11px] font-black uppercase tracking-widest whitespace-nowrap">Interface {idx + 1}</span>
                         <div className={`w-full h-1 mt-2 rounded-full hidden md:block ${isActive ? 'bg-registry-teal' : isCompleted ? 'bg-teal-500/40' : 'bg-slate-300 dark:bg-white/10'}`} />
                       </button>
                     );
@@ -2662,7 +2762,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-6">
                         {lessonData.clinicalImages.map((img, idx) => (
-                          <div key={idx} className={`rounded-2xl overflow-hidden border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                          <div key={idx} className={`rounded-2xl overflow-hidden border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-300 bg-slate-100'}`}>
                             <div className="aspect-video relative bg-black">
                               {img.url.includes('.mp4') || img.url.includes('youtube.com') || img.url.includes('vimeo.com') ? (
                                 <iframe 
@@ -2714,7 +2814,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                         <h4 className="text-2xl font-black italic uppercase tracking-tighter">Node Progression</h4>
                         <div className="flex items-center space-x-2">
                           <div className="w-2 h-2 rounded-full bg-registry-teal animate-pulse" />
-                          <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">Master this synaptic link to synchronize cortical pathways</p>
+                          <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em]">Master this synaptic link to synchronize cortical pathways</p>
                         </div>
                       </div>
                     </div>
@@ -2739,7 +2839,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                       <div className="mb-16 text-center space-y-4">
                         <div className="flex items-center justify-center space-x-4">
                           <div className="h-[1px] w-12 bg-registry-teal/30" />
-                          <span className="text-[10px] font-black uppercase text-registry-teal tracking-[0.6em] italic">Knowledge Validation</span>
+                          <span className="text-[11px] font-black uppercase text-registry-teal tracking-[0.6em] italic">Knowledge Validation</span>
                           <div className="h-[1px] w-12 bg-registry-teal/30" />
                         </div>
                         <h4 className="text-3xl md:text-7xl font-black italic uppercase tracking-tighter leading-none">Module Assessment</h4>
@@ -2763,7 +2863,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                           >
                             <div className="px-3 py-1 bg-registry-teal/10 border border-registry-teal/20 rounded-full flex items-center space-x-2">
                               <div className="w-1 h-1 rounded-full bg-registry-teal animate-pulse" />
-                              <span className="text-registry-teal text-[8px] font-black uppercase tracking-[0.4em]">Biometric Auth Verified</span>
+                              <span className="text-registry-teal text-[11px] font-black uppercase tracking-[0.4em]">Biometric Auth Verified</span>
                             </div>
                           </motion.div>
                           <motion.div
@@ -2778,21 +2878,21 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                             <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-4">
                                <div className="flex flex-col">
                                   <span className="micro-label">Identity_Hash</span>
-                                  <p className={`font-mono text-[10px] md:text-sm uppercase tracking-[0.2em] ${isDarkMode ? 'text-white' : 'text-slate-900'} italic font-bold`}>
+                                  <p className={`font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] ${isDarkMode ? 'text-white' : 'text-slate-900'} italic font-bold`}>
                                     {userId?.substring(0, 12) || 'STR-999-UNIT-B'}
                                   </p>
                                </div>
                                <div className="h-8 w-[1px] bg-white/10 hidden md:block" />
                                <div className="flex flex-col">
                                   <span className="micro-label">Synaptic_Tier</span>
-                                  <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.2em] text-registry-amber italic font-black">
+                                  <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-registry-amber italic font-black">
                                     // ELITE_OPERATOR
                                   </p>
                                </div>
                                <div className="h-8 w-[1px] bg-white/10 hidden md:block" />
                                <div className="flex flex-col">
                                   <span className="micro-label">Neural_Sync</span>
-                                  <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.2em] text-registry-teal italic font-bold">
+                                  <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-registry-teal italic font-bold">
                                     ACTIVE_CHANNEL.04
                                   </p>
                                </div>
@@ -2818,9 +2918,9 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 relative">
                       {/* Vertical Rail Text (SaaS Landing Style) */}
                       <div className="hidden xl:flex absolute right-[-4rem] top-0 bottom-0 flex-col items-center justify-center space-y-24 py-12 opacity-20 pointer-events-none">
-                         <span className="writing-vertical-rl text-[8px] font-black uppercase tracking-[0.5em] text-slate-400">Mastery Protocol v7.4</span>
+                         <span className="writing-vertical-rl text-[11px] font-black uppercase tracking-[0.5em] text-slate-400">Mastery Protocol v7.4</span>
                          <div className="w-[1px] flex-1 bg-slate-400/20" />
-                         <span className="writing-vertical-rl text-[8px] font-black uppercase tracking-[0.5em] text-slate-400">Neural Sync Active</span>
+                         <span className="writing-vertical-rl text-[11px] font-black uppercase tracking-[0.5em] text-slate-400">Neural Sync Active</span>
                       </div>
 
                       {/* Left Side: Major Dashboard Area */}
@@ -2844,10 +2944,10 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                </div>
                                <div className="space-y-1 text-left">
                                   <h4 className="text-2xl font-black italic uppercase tracking-tighter">Diagnostic Lab</h4>
-                                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">Live acoustic simulators for parameter exploration.</p>
+                                  <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">Live acoustic simulators for parameter exploration.</p>
                                </div>
                                <div className="flex items-center space-x-2 pt-2">
-                                  <span className="text-[8px] font-black uppercase text-registry-teal tracking-widest">Mount Simulator</span>
+                                  <span className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Mount Simulator</span>
                                   <ChevronRight className="w-4 h-4 text-registry-teal group-hover:translate-x-1 transition-transform" />
                                </div>
                             </motion.button>
@@ -2862,10 +2962,10 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                 </div>
                                 <div className="space-y-1 text-left">
                                    <h4 className="text-2xl font-black italic uppercase tracking-tighter">Clinical Cases</h4>
-                                   <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">50+ Ultrasound scenarios with AI insights.</p>
+                                   <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">50+ Ultrasound scenarios with AI insights.</p>
                                 </div>
                                 <div className="flex items-center space-x-2 pt-2">
-                                   <span className="text-[8px] font-black uppercase text-registry-amber tracking-widest">Initialize Cases</span>
+                                   <span className="text-[11px] font-black uppercase text-registry-amber tracking-widest">Initialize Cases</span>
                                    <ChevronRight className="w-4 h-4 text-registry-amber group-hover:translate-x-1 transition-transform" />
                                 </div>
                             </motion.button>
@@ -2901,7 +3001,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                    </div>
                                    <div className="flex flex-col">
                                      <span className={`text-xl md:text-3xl font-black italic tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-800'} leading-none`}>12.4k</span>
-                                     <span className="text-[7px] text-slate-500 uppercase font-black tracking-widest mt-1">Reserve_Units</span>
+                                     <span className="text-[11px] text-slate-500 uppercase font-black tracking-widest mt-1">Reserve_Units</span>
                                    </div>
                                 </div>
                              </div>
@@ -2919,7 +3019,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                    </div>
                                    <div className="flex flex-col">
                                      <span className="text-xl md:text-3xl font-black italic text-white tracking-tighter leading-none">7 DAY</span>
-                                     <span className="text-[7px] text-white/40 uppercase font-black tracking-widest leading-none mt-1 italic">Synaptic_Loop</span>
+                                     <span className="text-[11px] text-white/40 uppercase font-black tracking-widest leading-none mt-1 italic">Synaptic_Loop</span>
                                    </div>
                                 </div>
                              </div>
@@ -2932,7 +3032,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                 <h4 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'} tracking-tight`}>Recent Badges</h4>
                              </div>
                              <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 opacity-50 px-6 relative z-10">
-                                <p className="text-[10px] font-black text-slate-500 italic uppercase tracking-widest">Awaiting First Synchronous Mastery</p>
+                                <p className="text-[11px] font-black text-slate-500 italic uppercase tracking-widest">Awaiting First Synchronous Mastery</p>
                              </div>
                           </div>
                       </div>
@@ -2954,7 +3054,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                </div>
                                <h4 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'} tracking-tight`}>Script Vault</h4>
                             </div>
-                            <span className="text-[10px] font-black text-registry-teal bg-registry-teal/10 px-5 py-2 rounded-full uppercase tracking-widest leading-none border border-registry-teal/20">{(profile?.scriptVault || []).length} Nodes</span>
+                            <span className="text-[11px] font-black text-registry-teal bg-registry-teal/10 px-5 py-2 rounded-full uppercase tracking-widest leading-none border border-registry-teal/20">{(profile?.scriptVault || []).length} Nodes</span>
                          </div>
                          <div className="flex-1 overflow-y-auto max-h-[300px] pr-2 space-y-4 scrollbar-hide relative z-10">
                             {(!profile || !profile.scriptVault || profile.scriptVault.length === 0) ? (
@@ -2962,12 +3062,12 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                  <div className="p-4 bg-slate-500/10 rounded-full mb-4">
                                    <Lock className="w-8 h-8 text-slate-500" />
                                  </div>
-                                 <p className="text-[10px] font-black uppercase tracking-widest">Vault is empty</p>
+                                 <p className="text-[11px] font-black uppercase tracking-widest">Vault is empty</p>
                               </div>
                             ) : (
                               profile.scriptVault.map((s: any) => (
-                                <div key={s.id} className={`${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100'} p-6 rounded-[2.5rem] border hover:border-registry-teal/30 transition-all group`}>
-                                   <h5 className={`font-black uppercase text-[10px] ${isDarkMode ? 'text-white' : 'text-slate-900'} mb-3 tracking-widest group-hover:text-registry-teal transition-colors`}>{s.title}</h5>
+                                <div key={s.id} className={`${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-300'} p-6 rounded-[2.5rem] border hover:border-registry-teal/30 transition-all group`}>
+                                   <h5 className={`font-black uppercase text-[11px] ${isDarkMode ? 'text-white' : 'text-slate-900'} mb-3 tracking-widest group-hover:text-registry-teal transition-colors`}>{s.title}</h5>
                                    <p className="text-sm font-medium opacity-60 leading-relaxed italic line-clamp-3">"{s.content}"</p>
                                 </div>
                               ))
@@ -3038,7 +3138,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                 <item.icon className={`w-5 h-5 md:w-6 md:h-6 ${item.active ? 'drop-shadow-glow' : ''}`} />
               </div>
 
-              <span className={`text-[7px] font-black uppercase tracking-[0.3em] mt-1.5 transition-all duration-300 relative z-10 ${item.active ? 'text-registry-teal scale-105' : 'text-current opacity-40'}`}>
+              <span className={`text-[11px] font-black uppercase tracking-[0.3em] mt-1.5 transition-all duration-300 relative z-10 ${item.active ? 'text-registry-teal scale-105' : 'text-current opacity-40'}`}>
                 {item.label}
               </span>
               
@@ -3099,7 +3199,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                        </div>
                        <div>
                          <h4 className={`font-black italic uppercase text-2xl tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Registry Nodes</h4>
-                         <p className="text-[10px] font-black uppercase tracking-[0.4em] text-registry-teal mt-2">SYSTEM SCAN ACTIVE</p>
+                         <p className="text-[11px] font-black uppercase tracking-[0.4em] text-registry-teal mt-2">SYSTEM SCAN ACTIVE</p>
                        </div>
                     </div>
                     <button 
@@ -3140,7 +3240,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                 }
                                 else setActiveOverlay(item.overlay as any);
                               }} 
-                              className={`flex flex-col items-center justify-center p-6 rounded-[2rem] text-[9px] font-black uppercase tracking-widest transition-all border ${isActive ? 'bg-registry-teal/10 text-registry-teal border-registry-teal/30 shadow-glow' : isDarkMode ? 'bg-stealth-950/40 text-slate-500 border-white/5 hover:border-white/20' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300'}`}
+                              className={`flex flex-col items-center justify-center p-6 rounded-[2rem] text-[11px] font-black uppercase tracking-widest transition-all border ${isActive ? 'bg-registry-teal/10 text-registry-teal border-registry-teal/30 shadow-glow' : isDarkMode ? 'bg-stealth-950/40 text-slate-500 border-white/5 hover:border-white/20' : 'bg-white text-slate-800 border-slate-300 hover:border-slate-400 shadow-sm'}`}
                             >
                               <item.icon className={`w-7 h-7 mb-4 transition-transform group-hover:scale-110 ${isActive ? 'text-registry-teal' : 'text-slate-400'}`} />
                               <span className="text-center leading-tight">{item.label}</span>
@@ -3170,7 +3270,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                                 const isDone = completed.has(l.id);
                                 return (
                                   <button key={lIdx} onClick={() => { setActiveOverlay(null); handleLessonSelect(mIdx, lIdx); }} 
-                                    className={`w-full text-left p-4 rounded-2xl text-[11px] font-black uppercase transition-all flex items-center justify-between group border ${isSelected ? 'bg-registry-teal/10 text-registry-teal border-registry-teal/30 shadow-glow' : isDarkMode ? 'text-slate-400 border-transparent hover:bg-white/5 hover:border-white/5' : 'text-slate-600 border-transparent hover:bg-slate-50 hover:border-slate-100'}`}>
+                                    className={`w-full text-left p-4 rounded-2xl text-[11px] font-black uppercase transition-all flex items-center justify-between group border ${isSelected ? 'bg-registry-teal/10 text-registry-teal border-registry-teal/30 shadow-glow' : isDarkMode ? 'text-slate-400 border-transparent hover:bg-white/5 hover:border-white/5' : 'text-slate-900 border-transparent hover:bg-slate-100 hover:border-slate-200'}`}>
                                     <span className="truncate tracking-tighter italic">{l.title}</span>
                                     {isDone ? (
                                       <CheckCircle className="w-5 h-5 text-registry-teal shadow-glow" />
@@ -3186,9 +3286,9 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                       </div>
                     </div>
                  </div>
-                 <footer className={`p-10 border-t tech-border bg-opacity-50 transition-colors ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                 <footer className={`p-10 border-t tech-border bg-opacity-50 transition-colors ${isDarkMode ? 'bg-stealth-950 border-white/5' : 'bg-slate-100 border-slate-300'}`}>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Topology Sync State</span>
+                      <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Topology Sync State</span>
                       <span className="text-sm font-mono font-black text-registry-teal">98.4%</span>
                     </div>
                     <div className={`h-2 w-full ${isDarkMode ? 'bg-white/5' : 'bg-slate-200'} rounded-full overflow-hidden`}>
@@ -3279,6 +3379,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                   isDarkMode={isDarkMode}
                   profile={profile}
                   onUpdateProfile={handleProfileUpdate}
+                  onNavigateToLesson={handleNavigateToLesson}
                 />
               </div>
             </motion.div>
@@ -3392,10 +3493,10 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="fixed inset-0 z-[140] flex items-center justify-center p-0 md:p-12"
+              className="fixed inset-0 z-[140] flex items-center justify-center p-0"
             >
               <div className="absolute inset-0 bg-stealth-950/80 backdrop-blur-md" onClick={() => setActiveOverlay(null)} />
-              <div className="relative w-full max-w-5xl h-full max-h-[900px] rounded-[3rem] overflow-hidden shadow-2xl">
+              <div className="relative w-full h-full md:max-w-6xl md:h-[90dvh] md:rounded-[3rem] overflow-hidden shadow-2xl">
                 <ExamEngine 
                   profile={profile}
                   isDarkMode={isDarkMode}
@@ -3507,6 +3608,13 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                 isDarkMode={isDarkMode} 
               />
             </motion.div>
+          )}
+
+          {activeOverlay === 'brainx' && (
+            <BrainXTalks 
+              onClose={() => setActiveOverlay(null)} 
+              isDarkMode={isDarkMode} 
+            />
           )}
         </AnimatePresence>
 

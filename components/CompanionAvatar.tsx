@@ -192,7 +192,7 @@ export const CompanionAvatar: React.FC<CompanionAvatarProps> = ({ state, skin = 
 
       {/* Level Indicator Upgrade */}
       <div className={`absolute -bottom-2 right-2 ${isDarkMode ? 'bg-black/80 border-registry-teal text-white' : 'bg-white border-registry-teal text-registry-teal'} px-3 py-1 rounded-full z-20 border shadow-glow transition-all group-hover/avatar:scale-110`}>
-        <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap leading-none flex items-center gap-1.5">
+        <span className="text-[11px] font-black uppercase tracking-widest whitespace-nowrap leading-none flex items-center gap-1.5">
           <Zap className="w-2.5 h-2.5 fill-current" />
           LVL {level}
         </span>

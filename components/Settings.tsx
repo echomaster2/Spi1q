@@ -151,7 +151,7 @@ export const Settings: React.FC<SettingsProps> = ({
           </div>
           <div>
             <h4 className="text-base md:text-lg font-black tracking-tight italic uppercase leading-none">System Configuration</h4>
-            <p className="text-[8px] md:text-[10px] text-registry-teal font-black uppercase tracking-[0.3em] mt-0.5">Neural Interface v4.0.2</p>
+            <p className="text-[11px] text-registry-teal font-black uppercase tracking-[0.3em] mt-0.5">Neural Interface v4.0.2</p>
           </div>
         </div>
         <button onClick={onClose} className={`p-2 rounded-xl transition-all ${isDarkMode ? 'hover:bg-white/5 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-500 hover:text-slate-900'}`}>
@@ -164,7 +164,7 @@ export const Settings: React.FC<SettingsProps> = ({
           
           {/* Profile Section */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <User className="w-3 h-3 mr-2 text-registry-teal" />
               Operator Identity
             </h5>
@@ -183,8 +183,8 @@ export const Settings: React.FC<SettingsProps> = ({
                     className={`w-full bg-transparent text-xl font-black uppercase italic tracking-tighter outline-none ${isDarkMode ? 'text-white placeholder:text-slate-700' : 'text-slate-900 placeholder:text-slate-400'} focus:text-registry-teal transition-colors`}
                   />
                   <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Registry ID:</span>
-                    <span className="text-[10px] font-black text-registry-teal uppercase tracking-widest">{profile?.id || 'SPI-MASTER-001'}</span>
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Registry ID:</span>
+                    <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">{profile?.id || 'SPI-MASTER-001'}</span>
                   </div>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
           {/* Study Configuration Section */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Zap className="w-3 h-3 mr-2 text-registry-teal" />
               Study Configuration
             </h5>
@@ -202,7 +202,7 @@ export const Settings: React.FC<SettingsProps> = ({
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Birth Date</label>
+                  <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Birth Date</label>
                   <input 
                     type="date" 
                     value={profile?.birthDate || ''} 
@@ -211,7 +211,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Birth Time</label>
+                  <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Birth Time</label>
                   <input 
                     type="time" 
                     value={profile?.birthTime || ''} 
@@ -222,7 +222,7 @@ export const Settings: React.FC<SettingsProps> = ({
               </div>
 
               <div className="space-y-2 relative z-10">
-                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Study Goals</label>
+                <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Study Goals</label>
                 <textarea 
                   placeholder="e.g. Master Doppler Hemodynamics in 2 weeks"
                   value={profile?.studyGoals || ''} 
@@ -232,13 +232,13 @@ export const Settings: React.FC<SettingsProps> = ({
               </div>
 
               <div className="space-y-2 relative z-10">
-                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-2">Learning Style</label>
+                <label className="text-[11px] font-black uppercase text-slate-500 tracking-widest ml-2">Learning Style</label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {['visual', 'auditory', 'reading', 'kinesthetic'].map((style) => (
                     <button
                       key={style}
                       onClick={() => onUpdateProfile({ learningStyle: style })}
-                      className={`py-3 rounded-2xl border transition-all text-[10px] font-black uppercase tracking-tighter ${
+                      className={`py-3 rounded-2xl border transition-all text-[11px] font-black uppercase tracking-tighter ${
                         profile?.learningStyle === style 
                           ? 'border-registry-teal bg-registry-teal/10 text-registry-teal' 
                           : isDarkMode ? 'border-white/5 bg-white/5 text-slate-400' : 'border-slate-200 bg-white text-slate-600'
@@ -254,7 +254,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
           {/* Visual Experience Section */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Sparkles className="w-3 h-3 mr-2 text-registry-teal" />
               Visual Experience
             </h5>
@@ -268,7 +268,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Asset Library</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">
                       Custom Backgrounds & Visuals
                     </p>
                   </div>
@@ -276,7 +276,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 
                 <button 
                   onClick={onOpenAssetLibrary}
-                  className="px-4 py-2 bg-registry-teal text-stealth-950 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center space-x-2"
+                  className="px-4 py-2 bg-registry-teal text-stealth-950 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center space-x-2"
                 >
                   <Plus className="w-3 h-3" />
                   <span>Open Library</span>
@@ -287,7 +287,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
           {/* Interface Section */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Database className="w-3 h-3 mr-2 text-registry-teal" />
               Media Vault
             </h5>
@@ -301,7 +301,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cloud Media Sync</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">
                       {cachedCount} / {totalCount} Lessons Synced to Server
                     </p>
                   </div>
@@ -311,7 +311,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   <button 
                     onClick={onCacheAll}
                     disabled={isCachingAll || cachedCount === totalCount}
-                    className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center space-x-2 ${
+                    className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all flex items-center space-x-2 ${
                       isCachingAll 
                         ? 'bg-registry-teal/20 text-registry-teal animate-pulse' 
                         : cachedCount === totalCount
@@ -353,7 +353,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
               {isCachingAll && (
                 <div className="space-y-2 relative z-10">
-                  <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-registry-teal">
+                  <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-registry-teal">
                     <span>Syncing Neural Nodes...</span>
                     <span>{cachingProgress.current} / {cachingProgress.total}</span>
                   </div>
@@ -371,7 +371,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
           {/* AI System Integrity Section */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Brain className="w-3 h-3 mr-2 text-registry-teal" />
               AI System Integrity
             </h5>
@@ -393,12 +393,12 @@ export const Settings: React.FC<SettingsProps> = ({
                       </div>
                       <div>
                         <p className={`text-xs font-black uppercase tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{s.label}</p>
-                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none mt-0.5">{s.provider} • {isCheckingHealth ? 'SCANNING...' : s.data?.message || 'OFFLINE'}</p>
+                        <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest leading-none mt-0.5">{s.provider} • {isCheckingHealth ? 'SCANNING...' : s.data?.message || 'OFFLINE'}</p>
                       </div>
                     </div>
                     {s.data?.ok && (
                       <div className="px-3 py-1 bg-registry-teal/10 border border-registry-teal/20 rounded-full">
-                        <span className="text-[8px] font-black text-registry-teal uppercase tracking-widest">ACTIVE</span>
+                        <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">ACTIVE</span>
                       </div>
                     )}
                   </div>
@@ -407,7 +407,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 <button 
                   onClick={runHealthCheck}
                   disabled={isCheckingHealth}
-                  className={`w-full py-4 mt-2 flex items-center justify-center space-x-2 rounded-2xl border font-black uppercase tracking-[0.2em] text-[10px] transition-all ${
+                  className={`w-full py-4 mt-2 flex items-center justify-center space-x-2 rounded-2xl border font-black uppercase tracking-[0.2em] text-[11px] transition-all ${
                     isDarkMode ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
                   }`}
                 >
@@ -415,7 +415,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   <span>{isCheckingHealth ? 'Synthesizing...' : 'Rerun Diagnostic'}</span>
                 </button>
 
-                <p className="text-[8px] font-bold text-slate-500 text-center uppercase tracking-widest italic opacity-60">
+                <p className="text-[11px] font-bold text-slate-500 text-center uppercase tracking-widest italic opacity-60">
                   Fallback logic engages OpenAI automatically if Gemini capacity is exceeded.
                 </p>
               </div>
@@ -424,7 +424,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
           {/* Interface Section */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Monitor className="w-3 h-3 mr-2 text-registry-teal" />
               Interface Configuration
             </h5>
@@ -441,7 +441,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Dark Mode Protocol</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Toggle visual spectrum</p>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Toggle visual spectrum</p>
                   </div>
                 </div>
                 <div className={`w-12 h-6 rounded-full transition-all relative border ${isDarkMode ? 'bg-registry-teal border-registry-teal' : 'bg-slate-200 border-slate-300'}`}>
@@ -461,7 +461,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Fullscreen Mode</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{isFullscreen ? 'Exit immersive view' : 'Enter immersive view'}</p>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">{isFullscreen ? 'Exit immersive view' : 'Enter immersive view'}</p>
                   </div>
                 </div>
                 <div className={`w-12 h-6 rounded-full transition-all relative border ${isFullscreen ? 'bg-registry-teal border-registry-teal' : 'bg-slate-200 border-slate-300'}`}>
@@ -478,7 +478,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Neural Spectrum</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Select interface theme</p>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Select interface theme</p>
                   </div>
                 </div>
                 
@@ -502,7 +502,7 @@ export const Settings: React.FC<SettingsProps> = ({
                           <div className="w-2 h-2 bg-registry-teal rounded-full animate-pulse shadow-[0_0_8px_rgba(45,212,191,0.8)]" />
                         )}
                       </div>
-                      <p className={`text-[9px] font-black uppercase tracking-tighter ${
+                      <p className={`text-[11px] font-black uppercase tracking-tighter ${
                         currentTheme === key ? 'text-registry-teal' : 'text-slate-500'
                       }`}>
                         {theme.name}
@@ -522,10 +522,10 @@ export const Settings: React.FC<SettingsProps> = ({
                     </div>
                     <div className="text-left">
                       <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Audio Feedback</h6>
-                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Neural narration volume</p>
+                      <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Neural narration volume</p>
                     </div>
                   </div>
-                  <span className="text-[10px] font-black text-registry-teal uppercase tracking-widest">{Math.round((profile?.volume ?? 0.8) * 100)}%</span>
+                  <span className="text-[11px] font-black text-registry-teal uppercase tracking-widest">{Math.round((profile?.volume ?? 0.8) * 100)}%</span>
                 </div>
                 <input 
                   type="range" 
@@ -537,12 +537,38 @@ export const Settings: React.FC<SettingsProps> = ({
                   className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-registry-teal"
                 />
               </div>
+
+              <div className={`h-px ${isDarkMode ? 'bg-white/5' : 'bg-slate-100'} mx-6`} />
+
+              <div className="p-6 space-y-4 relative z-10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-registry-rose/10 rounded-2xl border border-registry-rose/20">
+                      <Maximize className="w-5 h-5 text-registry-rose" />
+                    </div>
+                    <div className="text-left">
+                      <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Text Scaling Protocol</h6>
+                      <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Adjust typography scale</p>
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-black text-registry-rose uppercase tracking-widest">{Math.round((profile?.textScale ?? 1) * 100)}%</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0.8" 
+                  max="1.5" 
+                  step="0.05" 
+                  value={profile?.textScale ?? 1}
+                  onChange={(e) => onUpdateProfile({ textScale: parseFloat(e.target.value) })}
+                  className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-registry-rose"
+                />
+              </div>
             </div>
           </section>
 
           {/* Security & Data */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Shield className="w-3 h-3 mr-2 text-registry-rose" />
               Admin Controls
             </h5>
@@ -556,7 +582,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Admin Interface</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">
                       Manage Media Library & Content
                     </p>
                   </div>
@@ -564,7 +590,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 
                 <button 
                   onClick={onOpenAdminDashboard}
-                  className="px-4 py-2 bg-registry-rose text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center space-x-2 shadow-lg shadow-registry-rose/20"
+                  className="px-4 py-2 bg-registry-rose text-white rounded-xl text-[11px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center space-x-2 shadow-lg shadow-registry-rose/20"
                 >
                   <Lock className="w-3 h-3" />
                   <span>Open Admin</span>
@@ -575,7 +601,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
           {/* Security & Data */}
           <section className="space-y-4">
-            <h5 className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
+            <h5 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] px-2 flex items-center">
               <Shield className="w-3 h-3 mr-2 text-registry-rose" />
               Security & Data
             </h5>
@@ -594,7 +620,7 @@ export const Settings: React.FC<SettingsProps> = ({
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Privacy Protocol</h6>
                     <div className="flex items-center space-x-2">
                       <div className={`w-1.5 h-1.5 ${profile?.isPrivateMode ? 'bg-registry-teal' : 'bg-slate-500'} rounded-full animate-pulse`} />
-                      <span className={`text-[10px] ${profile?.isPrivateMode ? 'text-registry-teal' : 'text-slate-500'} font-black uppercase tracking-widest`}>
+                      <span className={`text-[11px] ${profile?.isPrivateMode ? 'text-registry-teal' : 'text-slate-500'} font-black uppercase tracking-widest`}>
                         Encryption: {profile?.isPrivateMode ? 'ACTIVE' : 'STANDBY'}
                       </span>
                     </div>
@@ -618,12 +644,12 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Sync All Data</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Backup to cloud server</p>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Backup to cloud server</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-1.5 h-1.5 bg-registry-teal rounded-full animate-pulse" />
-                  <span className="text-[8px] text-registry-teal font-black uppercase tracking-widest">READY</span>
+                  <span className="text-[11px] text-registry-teal font-black uppercase tracking-widest">READY</span>
                 </div>
               </button>
 
@@ -639,7 +665,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className={`font-black uppercase text-xs tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Restart Tour</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Neural onboarding sequence</p>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Neural onboarding sequence</p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-registry-teal transition-colors" />
@@ -657,7 +683,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   </div>
                   <div className="text-left">
                     <h6 className="font-black uppercase text-xs tracking-wider text-registry-rose">Wipe All Data</h6>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Reset synaptic progress</p>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest">Reset synaptic progress</p>
                   </div>
                 </div>
               </button>
@@ -668,9 +694,9 @@ export const Settings: React.FC<SettingsProps> = ({
           <div className="text-center space-y-2 pt-8 relative z-10">
             <div className="flex items-center justify-center space-x-2 text-registry-teal">
               <Zap className="w-3 h-3" />
-              <span className="text-[10px] font-black uppercase tracking-[0.4em]">SPI Master Core v4.0.4</span>
+              <span className="text-[11px] font-black uppercase tracking-[0.4em]">SPI Master Core v4.0.4</span>
             </div>
-            <p className="text-[8px] font-bold text-slate-600 uppercase tracking-[0.2em]">Build: 2026.03.24-MASTER | Neural Link: STABLE</p>
+            <p className="text-[11px] font-bold text-slate-600 uppercase tracking-[0.2em]">Build: 2026.03.24-MASTER | Neural Link: STABLE</p>
           </div>
 
         </div>
