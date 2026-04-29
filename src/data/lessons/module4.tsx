@@ -12,39 +12,60 @@ import {
   KnowledgeVisual,
   LectureTag,
   VideoTutorialLink
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { Activity } from 'lucide-react';
+import { LessonData } from '../../types';
 
 export const module4Lessons: Record<string, LessonData> = {
   "4.1": {
-    title: "The Doppler Principle",
-    narrationScript: "Welcome to the physics of motion. I've spent years analyzing vascular cases and reading the core Doppler papers so you don't have to. Today, we're mastering the Doppler Principle. Today's roadmap: Part 1: Definitions—What actually is the Doppler Effect? Part 2: The Doppler Equation—The variables you control vs. the ones you don't. Part 3: The 90-Degree Trap—Why blood flow can disappear in an instant. Part 4: The 'Holy Sh*t' Insight—The cosine effect and why 60 degrees is the magic number. Doppler isn't measuring speed; it's measuring a frequency shift. Think of it like an ambulance siren—the pitch changes based on direction and velocity. If your system for Doppler is 'just aim and shoot,' you'll miss critical pathology. Let's build a better system. As promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on The Doppler Principle.",
+    title: "The Doppler Principle & Equation",
+    narrationScript: "Doppler is not measuring speed; it's measuring a frequency shift. Think of an ambulance siren—the pitch changes based on direction and velocity. In this lesson, we break down the Doppler Equation. You'll see why the choice of transducer frequency and the angle of your beam are the two most critical factors you control. If your angle is 90 degrees, your Doppler shift is ZERO, no matter how fast that blood is moving. Holy Sh*t Insight: The cosine of 60 degrees is exactly 0.5. This means that at 60 degrees, you are only measuring HALF of the actual velocity. This is why consistent angle correction is the only way to get accurate, reproducible measurements.",
     content: (
       <div className="space-y-8 md:space-y-12 animate-in fade-in duration-1000">
         <VideoTutorialLink videoId="TkjyyzsNpaU" title="Doppler Principles Deep Dive" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <DopplerShiftVisual />
-          <div className="space-y-6">
-            <LectureTag type="Concept" label="Doppler Shift" content="The difference between the transmitted and received frequencies. Measured in Hz (audible range)." />
-            <LectureTag type="Def" label="Demodulation" content="The process of extracting the low-frequency Doppler shift (Hz) from the high-frequency carrier wave (MHz)." />
-            <LectureTag type="Tip" label="Registry Rule" content="Doppler shift is directly related to Velocity and Frequency, and inversely related to Propagation Speed." />
-            <LectureTag type="Tip" label="Angle is Everything" content="Always aim for a 60-degree angle or less. 0 degrees is the greatest shift. 90 degrees = NO shift." />
+          <div className="space-y-6 flex flex-col justify-center">
+            <LectureTag type="Concept" label="Doppler Shift" content="The difference between transmitted (f_t) and received (f_r) frequencies. f_d = f_r - f_t. Usually 20Hz - 20kHz (Audible!)." />
+            <LectureTag type="Def" label="Demodulation" content="The electronics that extract the low-frequency shift from the high-frequency MHz carrier wave." />
+            <LectureTag type="Tip" label="Relationship Rule" content="Doppler Shift ∝ (Velocity × Frequency × Cosine θ). Shift is INVERSELY proportional to propagation speed (c)." />
           </div>
         </div>
+        <section className="premium-glass p-10 rounded-[3rem] border border-white/5 bg-registry-teal/5 relative overflow-hidden">
+           <Activity className="absolute -right-8 -bottom-8 w-48 h-48 text-registry-teal opacity-10" />
+           <h4 className="text-2xl font-black uppercase italic tracking-tighter mb-6">The "Zero Shift" Trap</h4>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-4">
+                 <p className="text-sm leading-relaxed opacity-80">
+                    If your beam is perpendicular (90°) to flow, the <strong>Cosine is 0</strong>. The math forces the shift to be zero. No matter the velocity, you see nothing.
+                 </p>
+                 <div className="bg-stealth-900 p-6 rounded-2xl border border-white/5">
+                    <p className="text-[10px] font-mono text-registry-teal uppercase tracking-[0.2em] text-center">90 Degrees = 0 Cosine = 0 Signal</p>
+                 </div>
+              </div>
+              <div className="space-y-6">
+                 <DopplerAngleExplainer />
+                 <DopplerAngleVisual />
+              </div>
+           </div>
+        </section>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            <LectureTag type="Concept" label="Doppler Equation" content="Shift = (2 × Velocity × Frequency × Cosine θ) / Propagation Speed." />
-            <LectureTag type="Not" label="Cosine of 90°" content="At 90 degrees, the cosine is zero. This means you will see NO Doppler shift even if blood is moving fast!" />
-            <div className="p-8 bg-slate-100 dark:bg-stealth-900 rounded-[2.5rem] border border-slate-200 dark:border-stealth-800">
-               <h4 className="text-xl font-black uppercase italic mb-6">The Mnemonic</h4>
-               <p className="text-sm font-bold uppercase tracking-tight text-registry-teal">"Two Crazy Foxes Velocity Cosine"</p>
-               <p className="text-[11px] text-slate-500 mt-2">(2 x Frequency x Velocity x Cosine)</p>
+            <h4 className="text-xl font-black uppercase italic tracking-tighter">The Doppler Equation</h4>
+            <div className="p-8 bg-slate-100 dark:bg-stealth-900 rounded-[2.5rem] border border-slate-200 dark:border-stealth-800 text-center font-mono">
+               <p className="text-2xl font-black text-registry-teal mb-4">Δf = 2 v f₀ cosθ / c</p>
+               <p className="text-[10px] text-slate-500 uppercase tracking-widest">v = velocity | f₀ = transducer freq | θ = angle | c = 1540 m/s</p>
             </div>
+            <LectureTag type="Not" label="The Factor of 2" content="Why is there a 2 in the equation? Because there are TWO Doppler shifts: one when the sound hits the RBC, and another when the sound reflects back to the probe." />
           </div>
-          <div className="space-y-6">
-            <DopplerAngleExplainer />
-            <DopplerAngleVisual />
+          <div className="flex flex-col justify-center p-8 bg-registry-teal/10 rounded-[2.5rem] border border-registry-teal/20">
+             <h4 className="text-lg font-black uppercase italic tracking-tighter mb-4 text-registry-teal">Mnemonic: Two Crazy Foxes</h4>
+             <p className="text-sm italic leading-relaxed">"Two... (The factor of 2)"</p>
+             <p className="text-sm italic leading-relaxed">"Crazy... (Cosine)"</p>
+             <p className="text-sm italic leading-relaxed">"Foxes... (Frequency)"</p>
+             <p className="text-sm italic leading-relaxed">"Velocity... (v)"</p>
           </div>
         </div>
       </div>
@@ -98,6 +119,10 @@ export const module4Lessons: Record<string, LessonData> = {
       </div>
     ),
     clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/TkjyyzsNpaU",
+        caption: "Video: The Doppler Equation & Aliasing"
+      },
       {
         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Carotid_ultrasound.jpg/800px-Carotid_ultrasound.jpg",
         caption: "Color Doppler of the Carotid Artery - Showing flow direction and velocity estimates."

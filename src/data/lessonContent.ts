@@ -1,4 +1,4 @@
-import { LessonContentMap } from '../../types';
+import { LessonContentMap } from '../types';
 import { module1Lessons } from './lessons/module1';
 import { module2Lessons } from './lessons/module2';
 import { module3Lessons } from './lessons/module3';

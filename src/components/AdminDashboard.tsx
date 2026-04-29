@@ -6,8 +6,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
-import { VideoItem, VisualItem, Question } from '../src/mediaData';
-import { DicomProcessor } from '../src/components/DicomProcessor';
+import { VideoItem, VisualItem, Question } from '../mediaData';
+import { DicomProcessor } from './DicomProcessor';
 
 interface AdminDashboardProps {
   onClose: () => void;
@@ -79,6 +79,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
     toast.info("Logo updates coming in next iteration");
   };
 
+  const handleResetRegistry = async () => {
+    if (!window.confirm('WARNING: This will wipe all current media data and restore the system defaults. This action cannot be undone. Continue?')) return;
+    
+    setLoading(true);
+    try {
+      const response = await fetch('/api/media/reset', { method: 'POST' });
+      if (response.ok) {
+        const defaults = await response.json();
+        setVideos(defaults.videos || []);
+        setVisuals(defaults.visuals || []);
+        setDefaultBackground(defaults.defaultBackground || null);
+        toast.success('Registry Restored to System Defaults');
+      } else {
+        throw new Error('Failed to reset media');
+      }
+    } catch (error) {
+      console.error('Reset error:', error);
+      toast.error('Failed to reset registry');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleAddItem = () => {
     const newItem = activeTab === 'videos' ? {
       id: `vid-${Date.now()}`,
@@ -102,7 +125,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose, isDarkM
     setEditingItem(newItem);
   };
 
-  const handleDicomImport = (metadata: any, file: File, previewUrl: string | null) => {
+  const handleDicomImport = async (metadata: any, file: File, previewUrl: string | null) => {
     // Convert DICOM metadata to Visual Item structure
     const newItem: VisualItem = {
       id: `vis-dicom-${Date.now()}`,
@@ -126,9 +149,39 @@ Frames: ${metadata.frames || 1} Loop Sequence.`,
       ]
     };
 
-    setEditingItem(newItem);
+    const updatedVisuals = [...visuals, newItem];
+    await saveMedia(videos, updatedVisuals);
     setActiveTab('visuals');
-    toast.success('DICOM Context Extracted and Ready for Registry Injection');
+    toast.success('DICOM Context Extracted and Synchronized with Registry');
+  };
+
+  const handleBatchDicomImport = async (items: { metadata: any, file: File, previewUrl: string | null }[]) => {
+    const newItems: VisualItem[] = items.map((item, idx) => ({
+      id: `vis-dicom-batch-${Date.now()}-${idx}`,
+      title: `${item.metadata.modality || 'US'} Study: ${item.metadata.patientName || 'Anonymous'} - Frame ${idx + 1}`,
+      description: `DICOM Import from External Disk. 
+Study Description: ${item.metadata.studyDescription || 'N/A'}
+Modality: ${item.metadata.modality || 'Ultrasound'}
+Acquisition Date: ${item.metadata.studyDate || 'N/A'}
+Institution: ${item.metadata.institutionName || 'N/A'}
+Part of a studies sequence.`,
+      imageUrl: item.previewUrl || 'https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&w=1920&q=80',
+      category: item.metadata.modality === 'US' ? 'Physics Basics' : 'Advanced Case Studies',
+      assessment: [
+        {
+          id: `q-dicom-batch-${Date.now()}-${idx}`,
+          question: `Based on this ${item.metadata.modality || 'US'} study acquired on ${item.metadata.studyDate || 'the machine'}, what is the primary acoustic artifact typically seen in standard imaging?`,
+          options: ['Reverberation', 'Shadowing', 'Enhancement', 'All of the above'],
+          correctAnswer: 3,
+          explanation: "Automated physics assessment based on DICOM modality."
+        }
+      ]
+    }));
+
+    const updatedVisuals = [...visuals, ...newItems];
+    await saveMedia(videos, updatedVisuals);
+    setActiveTab('visuals');
+    toast.success(`Synchronized ${newItems.length} DICOM nodes with Registry`);
   };
 
   const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -293,8 +346,8 @@ Frames: ${metadata.frames || 1} Loop Sequence.`,
   };
 
   const filteredItems = activeTab === 'videos' 
-    ? videos.filter(v => v.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    : visuals.filter(v => v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    ? [...videos].reverse().filter(v => v.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    : [...visuals].reverse().filter(v => v.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <div className={`fixed inset-0 z-[200] flex flex-col ${isDarkMode ? 'bg-stealth-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
@@ -473,9 +526,34 @@ Frames: ${metadata.frames || 1} Loop Sequence.`,
                   Configure Logo
                 </button>
               </div>
+
+              <div className={`p-8 rounded-[3rem] border border-registry-rose/20 bg-registry-rose/5`}>
+                 <div className="flex items-center space-x-4 mb-4">
+                  <div className="p-3 bg-registry-rose/10 rounded-2xl">
+                    <Trash2 className="w-6 h-6 text-registry-rose" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black uppercase italic">Hard Reset Protocol</h3>
+                    <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Wipe registry & Restore figures</p>
+                  </div>
+                </div>
+                <p className="text-[11px] font-bold text-slate-500 uppercase mb-6 tracking-widest leading-loose">
+                  Use this protocol if the figure nodes are missing or the registry has been corrupted. This will restore the original high-resolution figure images.
+                </p>
+                <button 
+                  onClick={handleResetRegistry}
+                  className="px-8 py-4 bg-registry-rose text-white rounded-2xl font-black uppercase text-[11px] tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg shadow-registry-rose/20"
+                >
+                  Restore System Defaults
+                </button>
+              </div>
             </div>
           ) : activeTab === 'dicom' ? (
-            <DicomProcessor isDarkMode={isDarkMode} onImport={handleDicomImport} />
+            <DicomProcessor 
+              isDarkMode={isDarkMode} 
+              onImport={handleDicomImport} 
+              onBatchImport={handleBatchDicomImport}
+            />
           ) : (
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredItems.map((item) => (

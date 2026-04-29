@@ -4,8 +4,8 @@ import { generateText, generateSpeech, AIServiceError } from './services/aiServi
 import { decodeBase64, decodeAudioData } from './lib/audioUtils';
 import { motion, AnimatePresence } from 'motion/react';
 import { Toaster, toast } from 'sonner';
-import { StudyPlan } from '../components/StudyPlan';
-import { AudioPlayer } from '../components/AudioPlayer';
+import { StudyPlan } from './components/StudyPlan';
+import { AudioPlayer } from './components/AudioPlayer';
 import { 
   Waves, CheckCircle, 
   Menu, X, Trophy, Brain, Radio, Activity, Monitor,
@@ -14,7 +14,7 @@ import {
   AlertTriangle, ShieldCheck, Home, Calendar, Bot, Stethoscope,
   FileText, Target, Timer, Volume2, Quote, Play, Headphones, HeartPulse, FlaskConical, Target as TargetIcon,
   Sun, Moon, Cloud, Bell, Layers, Info, Terminal, Cpu, Database, Book, Pause, VolumeX, ChevronRight, ChevronLeft, Gauge, Save, ScrollText, User, Users,
-  Mic2,
+  Mic2, Library, HelpCircle, Search,
   LayoutGrid, Settings as SettingsIcon, Lock, Shield, Power, Crown, Maximize, Minimize, Video, Image as ImageIcon, BarChart3,
   Sword,
   Coins, Flame, ArrowRight
@@ -22,7 +22,7 @@ import {
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { auth, onAuthStateChanged, signInWithGoogle, logout } from '../firebase';
+import { auth, onAuthStateChanged, signInWithGoogle, logout } from './firebase';
 import { firebaseService } from './services/firebaseService';
 import { 
   TransducerCrossSection,
@@ -81,47 +81,49 @@ import {
   SpectralDopplerVisual,
   DopplerAngleVisual,
   KnowledgeVisual
-} from '../components/VisualElements';
-import { AITutor } from '../components/AITutor';
-import { CompanionAvatar } from '../components/CompanionAvatar';
-import { Reminders } from '../components/Reminders';
-import { ExamEngine } from '../components/ExamEngine';
-import { Flashcards } from '../components/Flashcards';
-import { Glossary, SPI_GLOSSARY } from '../components/Glossary';
-import { AdvancedQuiz } from '../components/AdvancedQuiz';
-import { UserProfile } from '../components/UserProfile';
-import { LegalDocs } from '../components/LegalDocs';
-import { Pricing } from '../components/Pricing';
-import { GlobalRadio } from '../components/GlobalRadio';
+} from './components/VisualElements';
+import { AITutor } from './components/AITutor';
+import { CompanionAvatar } from './components/CompanionAvatar';
+import { Reminders } from './components/Reminders';
+import { ExamEngine } from './components/ExamEngine';
+import { Flashcards } from './components/Flashcards';
+import { Glossary, SPI_GLOSSARY } from './components/Glossary';
+import { AdvancedQuiz } from './components/AdvancedQuiz';
+import { UserProfile } from './components/UserProfile';
+import { LegalDocs } from './components/LegalDocs';
+import { Pricing } from './components/Pricing';
+import { GlobalRadio } from './components/GlobalRadio';
+import { VisualItem } from './mediaData';
 import { useRadio } from './context/RadioContext';
-import { StudyStreak } from '../components/StudyStreak';
-import { DailyChallenge } from '../components/DailyChallenge';
-import { StudyAnalytics } from '../components/StudyAnalytics';
-import { Settings } from '../components/Settings';
-import { Achievements } from '../components/Achievements';
-import { NeuralLoad } from '../components/NeuralLoad';
-import { FullscreenToggle } from '../components/FullscreenToggle';
-import { AssetLibrary } from '../components/AssetLibrary';
-import { PodcastDemo } from '../components/PodcastDemo';
-import { BrainXTalks } from '../components/BrainXTalks';
-import { VictoryOverlay } from '../components/VictoryOverlay';
-import { DailyInsight } from '../components/DailyInsight';
-import { MediaLibrary } from '../components/MediaLibrary';
-import { AdminDashboard } from '../components/AdminDashboard';
-import { InteractiveWave } from '../components/InteractiveWave';
-import { OnboardingTour } from '../components/OnboardingTour';
-import { QuestSystem } from '../components/QuestSystem';
+import { StudyStreak } from './components/StudyStreak';
+import { DailyChallenge } from './components/DailyChallenge';
+import { StudyAnalytics } from './components/StudyAnalytics';
+import { Settings } from './components/Settings';
+import { Achievements } from './components/Achievements';
+import { NeuralLoad } from './components/NeuralLoad';
+import { FullscreenToggle } from './components/FullscreenToggle';
+import { AssetLibrary } from './components/AssetLibrary';
+import { PodcastDemo } from './components/PodcastDemo';
+import { BrainXTalks } from './components/BrainXTalks';
+import { SonographyLounge } from './components/SonographyLounge';
+import { VictoryOverlay } from './components/VictoryOverlay';
+import { DailyInsight } from './components/DailyInsight';
+import { MediaLibrary } from './components/MediaLibrary';
+import { AdminDashboard } from './components/AdminDashboard';
+import { InteractiveWave } from './components/InteractiveWave';
+import { OnboardingTour } from './components/OnboardingTour';
+import { QuestSystem } from './components/QuestSystem';
 import { updateQuestProgress, checkModuleCompletionQuests } from './lib/questUtils';
-import { LiveSuite } from '../components/LiveSuite';
-import { ScenarioSim } from '../components/ScenarioSim';
-import { RegistryLab } from '../components/RegistryLab';
+import { LiveSuite } from './components/LiveSuite';
+import { ScenarioSim } from './components/ScenarioSim';
+import { RegistryLab } from './components/RegistryLab';
 import { modules } from './data/modules';
 import { lessonContent as externalLessonContent } from './data/lessonContent';
-import { CinematicIntro } from '../components/CinematicIntro';
+import { CinematicIntro } from './components/CinematicIntro';
 import { CLINICAL_TIPS } from './constants/clinicalTips';
 import { AudioCache } from './lib/audioCache';
 import { playSound } from './lib/soundEffects';
-import { Module, LessonContentMap, Win, ExamQuestion, ExamResults, AdvancedQuestion, UserProfile as UserProfileType, LessonData } from '../types';
+import { Module, LessonContentMap, Win, ExamQuestion, ExamResults, AdvancedQuestion, UserProfile as UserProfileType, LessonData } from './types';
 
 // --- PARALLAX BACKGROUND ---
 const ParallaxBackground: React.FC<{ isDarkMode: boolean; bgImage?: string | null }> = ({ isDarkMode, bgImage }) => {
@@ -676,14 +678,24 @@ const PremiumTopBar: React.FC<{
   totalCompleted: number;
   activeOverlay: string | null;
   current: [number, number] | null;
-}> = ({ onOpenSidebar, onOpenProfile, onOpenSettings, onClose, isDarkMode, onToggleTheme, profile, totalCompleted, activeOverlay, current }) => {
+  sidebarCollapsed: boolean;
+}> = ({ onOpenSidebar, onOpenProfile, onOpenSettings, onClose, isDarkMode, onToggleTheme, profile, totalCompleted, activeOverlay, current, sidebarCollapsed }) => {
   return (
     <motion.div 
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 lg:left-80 right-0 z-[100] px-6 py-4 md:px-10 md:py-6 pointer-events-none"
+      className={`fixed top-0 left-0 transition-all duration-500 ${sidebarCollapsed ? 'lg:left-20' : 'lg:left-80'} right-0 z-[100] px-6 py-4 md:px-10 md:py-6 pointer-events-none`}
     >
       <div className="flex justify-between items-center h-16">
+        <div className="flex items-center space-x-3 pointer-events-auto lg:hidden">
+          <button 
+            onClick={activeOverlay === 'sidebar' ? onClose : onOpenSidebar}
+            className={`p-3 rounded-xl border transition-all ${isDarkMode ? 'bg-white/5 border-white/10 text-white shadow-glow' : 'bg-white border-slate-200 text-slate-900 shadow-sm'}`}
+          >
+            {activeOverlay === 'sidebar' ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+        
         <AnimatePresence>
           {(activeOverlay || current) && (
             <motion.div 
@@ -706,8 +718,12 @@ const PremiumTopBar: React.FC<{
           )}
         </AnimatePresence>
 
-        <div className="flex items-center space-x-6 pointer-events-auto ml-auto">
-          <div className="hidden md:flex items-center space-x-6 premium-glass rounded-xl px-5 py-2.5 tech-border shadow-glow shadow-registry-teal/5">
+          <div className="flex items-center space-x-6 pointer-events-auto ml-auto">
+            <FullscreenToggle 
+              className={`hidden md:flex p-2.5 rounded-xl border transition-all hover:scale-105 active:scale-95 ${isDarkMode ? 'bg-white/5 border-white/10 text-white shadow-glow' : 'bg-white border-slate-200 text-slate-900 shadow-sm'}`}
+              iconClassName="w-4.5 h-4.5"
+            />
+            <div className="hidden md:flex items-center space-x-6 premium-glass rounded-xl px-5 py-2.5 tech-border shadow-glow shadow-registry-teal/5">
             <div className="flex items-center space-x-4 border-r border-white/10 pr-4">
                <div className="flex space-x-1">
                  {[1, 2, 3, 4, 5].map(i => (
@@ -756,62 +772,64 @@ const PremiumTopBar: React.FC<{
 // --- DASHBOARD HUD ---
 const DashboardHUD: React.FC<{ progress: number; isDarkMode: boolean }> = ({ progress, isDarkMode }) => {
   const stats = [
-    { label: 'Neural Integration', value: `${progress}%`, icon: Brain, color: 'text-registry-teal', bg: 'bg-registry-teal/10', progressWidth: `${progress}%`, trend: 'SYNCING', subValue: '0.84 syn/ms' },
-    { label: 'Signal Velocity', value: '1.2c', icon: Zap, color: 'text-registry-amber', bg: 'bg-registry-amber/10', progressWidth: '92%', trend: 'SUPER_STABLE', subValue: '2.4 PB/s' },
-    { label: 'Active Linkage', value: '14/48', icon: Activity, color: 'text-registry-rose', bg: 'bg-registry-rose/10', progressWidth: '32%', trend: 'RE-LINKING', subValue: 'Lat: 4ms' },
-    { label: 'Diagnostic Load', value: '38.2%', icon: Gauge, color: 'text-registry-cobalt', bg: 'bg-registry-cobalt/10', progressWidth: '38%', trend: 'OPTIMAL', subValue: 'CPU: 12%' },
+    { label: 'Neural Integration', value: `${progress}%`, icon: Brain, color: 'text-registry-teal', bg: 'bg-registry-teal/10', trend: 'SYNCING', subValue: '2.173913', desc: 'Active Uplink' },
+    { label: 'Signal Velocity', value: '1.2c', icon: Zap, color: 'text-registry-amber', bg: 'bg-registry-amber/10', trend: 'SUPER_STABLE', subValue: '2.4 PB/s', desc: 'Linear Flow' },
+    { label: 'Active Linkage', value: '14/48', icon: Activity, color: 'text-registry-rose', bg: 'bg-registry-rose/10', trend: 'RE-LINKING', subValue: 'Lat: 4ms', desc: 'Sync Matrix' },
+    { label: 'Diagnostic Load', value: '38.2%', icon: Gauge, color: 'text-registry-cobalt', bg: 'bg-registry-cobalt/10', trend: 'OPTIMAL', subValue: 'CPU: 12%', desc: 'Thermal Nominal' },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 relative z-10">
       {stats.map((stat, i) => (
         <motion.div
            key={stat.label + i}
-           initial={{ opacity: 0, scale: 0.98, y: 15 }}
-           animate={{ opacity: 1, scale: 1, y: 0 }}
-           whileHover={{ y: -4 }}
-           transition={{ delay: i * 0.05, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-           className="premium-glass p-6 md:p-8 rounded-[1.5rem] border tech-border shadow-premium group relative overflow-hidden flex flex-col justify-between min-h-[220px]"
+           initial={{ opacity: 0, scale: 0.95 }}
+           animate={{ opacity: 1, scale: 1 }}
+           whileHover={{ y: -12, scale: 1.02 }}
+           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+           className="bg-stealth-900/60 backdrop-blur-3xl p-10 md:p-12 rounded-[3rem] border-2 border-white/5 shadow-2xl group flex flex-col min-h-[340px] relative overflow-hidden"
         >
-           {/* Precise Hardware Detail */}
-           <div className="absolute top-0 right-0 p-3 flex space-x-1 opacity-20 group-hover:opacity-100 transition-opacity">
-              <div className="w-[1px] h-3 bg-white" />
-              <div className="w-[1px] h-2 bg-white" />
-              <div className="w-[1px] h-3 bg-white" />
+           {/* Static Scanline Overlay */}
+           <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+           
+           {/* Top Accent Bar */}
+           <div className={`absolute top-0 left-12 right-12 h-1 ${stat.color.replace('text-', 'bg-')} opacity-30 shadow-glow shadow-current/40`} />
+
+           {/* Hardware Identification Labels */}
+           <div className="absolute top-8 right-10 flex gap-2 opacity-30">
+              <div className="text-[8px] font-mono font-black uppercase text-white/40 tracking-widest">{stat.desc}</div>
            </div>
 
-           <div className="flex items-center justify-between mb-8 relative z-10">
-              <div className={`p-4 ${stat.bg} rounded-xl border border-white/5 backdrop-blur-md transition-all group-hover:border-white/20`}>
-                 <stat.icon className={`w-5 h-5 ${stat.color} drop-shadow-glow`} />
+           <div className="flex items-start justify-between mb-12 relative z-10">
+              <div className={`p-6 ${stat.bg} rounded-[1.75rem] border-2 border-white/10 shadow-glow shadow-current/10 group-hover:scale-110 transition-transform duration-500`}>
+                 <stat.icon className={`w-8 h-8 ${stat.color} drop-shadow-glow`} />
               </div>
-              <div className="flex flex-col items-end">
-                <span className={`text-[11px] font-black uppercase tracking-[0.4em] ${stat.color} italic leading-none`}>{stat.trend}</span>
-                <span className="text-[11px] font-mono text-white/20 tracking-widest mt-1.5 uppercase font-bold">Protocol.v4</span>
+              <div className="text-right">
+                <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${stat.color} italic block mb-2`}>{stat.trend}</span>
+                <span className="text-[9px] font-mono text-white/30 tracking-widest uppercase font-black">X-Matrix.v4</span>
               </div>
            </div>
 
-           <div className="space-y-1 mb-6 relative z-10">
-              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 opacity-80 mb-2">{stat.label}</p>
-              <div className="flex items-baseline space-x-2">
-                <h3 className={`text-4xl md:text-5xl font-black italic uppercase tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'} transition-all group-hover:scale-105 origin-left`}>
+           <div className="space-y-6 relative z-10 flex-1 flex flex-col justify-end">
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-600 italic">0{i+1} : {stat.label}</p>
+                <div className="w-8 h-[1px] bg-slate-800" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className={`text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'} group-hover:text-registry-teal transition-all duration-700`}>
                    {stat.value}
                 </h3>
-                <span className="text-[11px] font-mono font-black text-slate-500 italic tabular-nums tracking-widest">{stat.subValue}</span>
-              </div>
-           </div>
-
-           <div className="space-y-2 relative z-10">
-              <div className="flex justify-between items-center px-1">
-                <span className="text-[11px] font-black uppercase tracking-widest opacity-40">Integration Depth</span>
-                <span className="text-[11px] font-mono font-black opacity-100 text-registry-teal">{stat.progressWidth}</span>
-              </div>
-              <div className="h-1.5 w-full bg-black/20 dark:bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
-                 <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: stat.progressWidth }}
-                    transition={{ duration: 1.5, delay: i * 0.1 }}
-                    className={`h-full ${stat.color.replace('text-', 'bg-')} shadow-glow`}
-                 />
+                <div className="flex items-center gap-3 mt-4">
+                  <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '0%' }}
+                      transition={{ duration: 2, delay: i * 0.2 }}
+                      className={`h-full w-2/3 ${stat.color.replace('text-', 'bg-')} shadow-glow`}
+                    />
+                  </div>
+                  <span className="text-[11px] font-mono font-black text-slate-500 italic tabular-nums tracking-wider uppercase">{stat.subValue}</span>
+                </div>
               </div>
            </div>
         </motion.div>
@@ -830,20 +848,20 @@ const DashboardGridScroll = () => (
 // --- NEURAL MAP ---
 const NeuralMap: React.FC<{ modules: Module[], completed: Set<string>, isDarkMode?: boolean }> = ({ modules, completed, isDarkMode }) => {
   return (
-    <div className={`premium-glass rounded-[3rem] border tech-border shadow-premium relative overflow-hidden h-[450px] lg:h-[550px] group ${isDarkMode ? 'bg-stealth-900' : 'bg-white'}`}>
+    <div className={`premium-glass rounded-[3rem] border-2 tech-border shadow-2xl relative overflow-hidden h-[500px] lg:h-[600px] group ${isDarkMode ? 'bg-stealth-900/40 backdrop-blur-3xl' : 'bg-white'}`}>
       <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
-      <div className="absolute inset-0 neural-grid opacity-[0.03] pointer-events-none" />
+      <div className="absolute inset-0 neural-grid opacity-[0.05] pointer-events-none" />
       
-      <div className="absolute top-10 left-12 flex items-center space-x-6 z-20">
+      <div className="absolute top-12 left-12 flex items-center space-x-8 z-20">
         <div className="relative">
-          <div className="w-10 h-10 bg-registry-teal rounded-2xl animate-ping absolute inset-0 opacity-20" />
-          <div className="w-10 h-10 bg-stealth-950 rounded-2xl relative z-10 border border-registry-teal/30 flex items-center justify-center">
-            <div className="w-3 h-3 bg-registry-teal rounded-full animate-pulse shadow-glow" />
+          <div className="w-14 h-14 bg-registry-teal/20 rounded-2xl animate-ping absolute inset-0 opacity-20" />
+          <div className="w-14 h-14 bg-stealth-950 rounded-2xl relative z-10 border-2 border-registry-teal flex items-center justify-center shadow-glow shadow-registry-teal/20">
+            <Brain className="w-7 h-7 text-registry-teal drop-shadow-glow" />
           </div>
         </div>
         <div className="flex flex-col">
-          <span className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Neural Network Topology</span>
-          <h4 className="text-2xl font-black italic text-registry-teal tracking-tighter uppercase mt-1 leading-none shadow-glow">Active Synaptic Link Map</h4>
+          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-slate-500 italic">Neural Network Topology</span>
+          <h4 className="text-3xl font-black italic text-registry-teal tracking-tighter uppercase mt-1 leading-none drop-shadow-glow">Synaptic Link Matrix</h4>
         </div>
       </div>
 
@@ -1088,6 +1106,13 @@ const App: React.FC = () => {
     setProfile((prev: any) => ({ ...prev, ...updates }));
   };
 
+  useEffect(() => {
+    fetch('/api/health')
+      .then(r => r.json())
+      .then(d => console.log('Server health:', d))
+      .catch(e => console.error('Server health check failed:', e));
+  }, []);
+
   const [userId, setUserId] = useState<string | null>(null);
 
   // --- FIREBASE AUTH SYNC ---
@@ -1140,6 +1165,7 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('spi_theme_mode') === 'dark');
   const [currentTheme, setCurrentTheme] = useState(() => localStorage.getItem('spi_theme_name') || 'registry');
   const [current, setCurrent] = useState<[number, number] | null>(null);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showModuleIntro, setShowModuleIntro] = useState<number | null>(null);
   const [showLessonIntro, setShowLessonIntro] = useState<boolean>(false);
   const [showTabIntro, setShowTabIntro] = useState<boolean>(false);
@@ -1147,7 +1173,7 @@ const App: React.FC = () => {
   const [showVictory, setShowVictory] = useState(false);
   const [victoryTitle, setVictoryTitle] = useState('');
   const [tabIntroTitle, setTabIntroTitle] = useState<string>('');
-  const [activeOverlay, setActiveOverlay] = useState<'sidebar' | 'tutor' | 'reminders' | 'flashcards' | 'glossary' | 'plan' | 'profile' | 'legal' | 'exam' | 'pricing' | 'radio' | 'settings' | 'quest' | 'podcast' | 'brainx' | 'media' | 'live' | 'scenarios' | 'lab' | null>(null);
+  const [activeOverlay, setActiveOverlay] = useState<'sidebar' | 'tutor' | 'reminders' | 'flashcards' | 'glossary' | 'plan' | 'profile' | 'legal' | 'exam' | 'pricing' | 'radio' | 'settings' | 'quest' | 'podcast' | 'brainx' | 'media' | 'live' | 'scenarios' | 'sonographyLounge' | 'lab' | null>(null);
   const [sessionStartTime] = useState<number>(Date.now());
 
   const lastAccountedSeconds = useRef(0);
@@ -1238,7 +1264,7 @@ const App: React.FC = () => {
   });
 
 
-  const allLessons = useMemo(() => modules.flatMap(m => m.lessons), [modules]);
+  const allLessons = useMemo(() => modules.flatMap(m => m.lessons.map(l => ({ ...l, moduleId: m.title }))), [modules]);
 
   // --- CUSTOM API SYNC LAYER ---
   useEffect(() => {
@@ -1253,18 +1279,26 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!userId) return;
 
-    const fetchData = async () => {
+    const fetchData = async (retryCount = 0) => {
       try {
-        const response = await fetch(`/api/sync/${userId}`);
+        const response = await fetch(`/api/sync/${encodeURIComponent(userId)}`);
         if (response.ok) {
           const data = await response.json();
           if (data.completed) setCompleted(new Set(data.completed));
           if (data.profile) setProfile(data.profile);
           if (data.streak) setStreak(data.streak);
           if (data.completedToday !== undefined) setCompletedToday(data.completedToday);
+        } else if (retryCount < 3) {
+          setTimeout(() => fetchData(retryCount + 1), 1000 * Math.pow(2, retryCount));
+        } else {
+          console.error(`Sync fetch failed after retries with status: ${response.status}`);
         }
       } catch (error) {
-        console.error("Sync error:", error);
+        if (retryCount < 3) {
+          setTimeout(() => fetchData(retryCount + 1), 1000 * Math.pow(2, retryCount));
+        } else {
+          console.error("Sync error after retries:", error);
+        }
       }
     };
 
@@ -1277,7 +1311,7 @@ const App: React.FC = () => {
     const saveData = async (retryCount = 0) => {
       if (!userId) return;
       try {
-        const response = await fetch(`/api/sync/${userId}`, {
+        const response = await fetch(`/api/sync/${encodeURIComponent(userId)}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1421,6 +1455,27 @@ const App: React.FC = () => {
 
   const currentRank = getRank();
 
+  const [syncedVisuals, setSyncedVisuals] = useState<VisualItem[]>([]);
+  const [activeVisualOverlay, setActiveVisualOverlay] = useState<VisualItem | null>(null);
+
+  useEffect(() => {
+    const fetchSyncedMedia = async () => {
+      try {
+        const response = await fetch('/api/media');
+        if (response.ok) {
+          const data = await response.json();
+          setSyncedVisuals(data.visuals || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch synced media:", error);
+      }
+    };
+    
+    fetchSyncedMedia();
+    const interval = setInterval(fetchSyncedMedia, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
   const moduleProgress = useMemo(() => {
     const breakdown: { [title: string]: number } = {};
     modules.forEach(m => {
@@ -1495,18 +1550,23 @@ const App: React.FC = () => {
 
   // Fetch Global Configuration
   useEffect(() => {
-    const fetchConfig = async () => {
+    const fetchConfig = async (retryCount = 0) => {
       try {
         const res = await fetch('/api/media');
         if (res.ok) {
           const data = await res.json();
-          // Apply global background if user hasn't set a personal one
           if (data.defaultBackground && !localStorage.getItem('registry_bg_image')) {
             setBgImage(data.defaultBackground);
           }
+        } else if (retryCount < 3) {
+          setTimeout(() => fetchConfig(retryCount + 1), 1000 * Math.pow(2, retryCount));
         }
       } catch (e) {
-        console.error("System Identity Fetch Failed:", e);
+        if (retryCount < 3) {
+          setTimeout(() => fetchConfig(retryCount + 1), 1000 * Math.pow(2, retryCount));
+        } else {
+          console.error("System Identity Fetch Failed after retries:", e);
+        }
       }
     };
     fetchConfig();
@@ -2346,7 +2406,14 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
   );
 
   return (
-    <div className={`min-h-[100dvh] overflow-x-hidden transition-colors duration-300 ${isDarkMode ? 'bg-stealth-950 text-white' : 'bg-warm-paper text-ink-900'}`}>
+    <div className={`min-h-[100dvh] overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'bg-stealth-950 text-white' : 'bg-warm-paper text-ink-900'}`}>
+      {isDarkMode && isIntroFinished && (
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(45,212,191,0.1)_0%,transparent_50%)]" />
+          <div className="absolute inset-0 neural-grid opacity-[0.04]" />
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-registry-teal/30 to-transparent" />
+        </div>
+      )}
       <AnimatePresence mode="wait">
         {showCinematicIntro && (
           <CinematicIntro onComplete={handleCinematicComplete} />
@@ -2477,28 +2544,41 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
       <SonarPulse isDarkMode={isDarkMode} />
       <div className="scanline" />
       
-      <aside className={`hidden lg:flex w-80 fixed left-0 top-0 bottom-0 ${isDarkMode ? 'bg-stealth-950/80 border-white/5 shadow-2xl' : 'bg-white/90 border-slate-200/60 shadow-premium-light'} border-r flex-col shrink-0 z-30 transition-colors duration-300 backdrop-blur-xl`}>
+      <aside className={`fixed lg:flex ${isSidebarCollapsed ? 'w-20' : 'w-80'} left-0 top-0 bottom-0 ${isDarkMode ? 'bg-stealth-950/80 border-white/5 shadow-2xl' : 'bg-white/90 border-slate-200/60 shadow-premium-light'} border-r flex flex-col shrink-0 z-[150] transition-all duration-500 backdrop-blur-xl overflow-y-auto scrollbar-custom hidden`}>
         <div className="absolute inset-0 neural-grid opacity-[0.02] pointer-events-none" />
         
         {/* Diagnostic Cockpit Header */}
-        <div className="p-8 pt-10 space-y-10 relative z-10 flex flex-col items-center">
+        <div className={`p-6 transition-all duration-500 ${isSidebarCollapsed ? 'items-center pt-8' : 'p-8 pt-10'} space-y-10 relative z-10 flex flex-col`}>
           <button 
             onClick={() => { setActiveOverlay(null); setCurrent(null); }} 
             className="flex flex-col space-y-4 w-full group focus-visible:outline-none items-center"
           >
-            <div className="w-14 h-14 bg-stealth-950 rounded-[1.25rem] flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform duration-500 relative overflow-hidden border border-white/10">
+            <div className={`transition-all duration-500 ${isSidebarCollapsed ? 'w-10 h-10 rounded-lg' : 'w-14 h-14 rounded-[1.25rem]'} bg-stealth-950 flex items-center justify-center shadow-glow group-hover:scale-110 relative overflow-hidden border border-white/10`}>
               <div className="absolute inset-0 bg-gradient-to-br from-registry-teal/20 to-transparent opacity-50" />
-              <Waves className="text-registry-teal w-7 h-7 relative z-10 drop-shadow-glow" />
+              <Waves className={`text-registry-teal ${isSidebarCollapsed ? 'w-5 h-5' : 'w-7 h-7'} relative z-10 drop-shadow-glow`} />
             </div>
-            <div className="flex flex-col items-center">
-              <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter leading-none italic uppercase">
-                Echo<span className="text-registry-teal">Master</span>
-              </h1>
-              <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.5em] mt-2">Registry Elite Protocol</span>
-            </div>
+            {!isSidebarCollapsed && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center"
+              >
+                <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter leading-none italic uppercase">
+                  Echo<span className="text-registry-teal">Master</span>
+                </h1>
+                <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.5em] mt-2 text-center">Registry Elite Protocol</span>
+              </motion.div>
+            )}
           </button>
 
-          <nav className="w-full space-y-1.5 pt-4">
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className={`p-2 rounded-xl border transition-all ${isDarkMode ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'} hidden lg:flex items-center justify-center`}
+          >
+            {isSidebarCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+          </button>
+
+          <nav className="w-full space-y-2 pt-6">
             {[
               { id: 'dashboard', label: 'Command Center', icon: LayoutGrid, overlay: null, index: '01' },
               { id: 'matrix', label: 'Skill Matrix', icon: Cpu, overlay: 'plan', index: '02' },
@@ -2506,29 +2586,57 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
               { id: 'cases', label: 'Clinical Cases', icon: Stethoscope, overlay: 'scenarios', index: '04' },
               { id: 'registry', label: 'Registry Path', icon: Globe, overlay: 'exam', index: '05' },
               { id: 'brainx', label: 'BrainX Talks', icon: Mic2, overlay: 'brainx', index: '06' },
-              { id: 'docs', label: 'Neural Lexicon', icon: Database, overlay: 'glossary', index: '07' },
+              { id: 'sonography-lounge', label: 'Sonography Lounge', icon: Radio, overlay: 'sonographyLounge', index: '07' },
+              { id: 'docs', label: 'Neural Lexicon', icon: Database, overlay: 'glossary', index: '08' },
+              { id: 'media', label: 'Media Library', icon: Video, overlay: 'media', index: '09' },
             ].map((item) => {
               const isActive = (item.id === 'dashboard' && current === null && activeOverlay === null) || activeOverlay === item.overlay;
               return (
                 <button 
                   key={item.id}
+                  title={isSidebarCollapsed ? item.label : ''}
                   onClick={() => {
                     if (item.id === 'dashboard') { setActiveOverlay(null); setCurrent(null); }
                     else setActiveOverlay(item.overlay as any);
                   }} 
-                  className={`w-full group relative flex items-center p-3.5 rounded-xl transition-all duration-300 overflow-hidden border ${
+                  className={`w-full group relative flex items-center p-3.5 rounded-xl transition-all duration-500 overflow-visible ${
                     isActive 
-                      ? 'bg-registry-teal shadow-glow shadow-registry-teal/40 border-registry-teal text-stealth-950' 
-                      : isDarkMode 
-                        ? 'text-slate-400 hover:text-white hover:bg-white/5 border-transparent hover:border-white/5'
-                        : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100 border-transparent hover:border-slate-200'
-                  }`}
+                      ? 'text-stealth-950 font-black italic' 
+                      : 'text-slate-500 hover:text-white transition-colors'
+                  } ${isSidebarCollapsed ? 'justify-center' : ''}`}
                 >
-                  <div className={`mr-4 font-mono text-[11px] ${isActive ? 'text-stealth-950 opacity-60' : 'text-slate-400 opacity-20'} group-hover:opacity-60 transition-opacity`}>
-                    {item.index}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="sidebar-active-bg"
+                      className="absolute inset-0 bg-registry-teal rounded-xl z-0 shadow-[0_10px_30px_rgba(45,212,191,0.4)]"
+                      transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+                    />
+                  )}
+                  
+                  {!isSidebarCollapsed && (
+                    <div className={`relative z-10 mr-4 font-mono text-[9px] font-black tracking-[0.3em] ${isActive ? 'text-stealth-950/60' : 'text-slate-700'}`}>
+                      {item.index}
+                    </div>
+                  )}
+                  
+                  <div className={`relative z-10 w-5 h-5 flex items-center justify-center transition-transform duration-500 ${isActive ? 'scale-110' : 'group-hover:scale-110'} ${isSidebarCollapsed ? '' : 'mr-3'}`}>
+                     <item.icon className={`w-4 h-4 ${isActive ? 'text-stealth-950' : 'text-current'}`} />
                   </div>
-                  <item.icon className={`w-4 h-4 mr-3 transition-transform duration-500 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                  <span className={`text-[11px] font-black uppercase tracking-[0.2em] flex-1 text-left ${isActive ? 'italic' : ''}`}>{item.label}</span>
+
+                  {!isSidebarCollapsed && (
+                    <span className={`relative z-10 text-[10px] font-black uppercase tracking-[0.3em] flex-1 text-left ${isActive ? 'text-stealth-950' : ''}`}>
+                      {item.label}
+                    </span>
+                  )}
+
+                  {isActive && !isSidebarCollapsed && (
+                    <motion.div 
+                      layoutId="sidebar-active-indicator"
+                      className="absolute left-[-2rem] top-1/4 bottom-1/4 w-1.5 bg-registry-teal rounded-r shadow-glow" 
+                      initial={{ x: -10 }}
+                      animate={{ x: 0 }}
+                    />
+                  )}
                 </button>
               );
             })}
@@ -2537,45 +2645,49 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
 
         <div className="flex-1" />
 
-        <div className="p-8 pb-10 space-y-8 relative z-10">
+        <div className={`p-8 pb-10 space-y-8 relative z-10 ${isSidebarCollapsed ? 'items-center' : ''}`}>
           <div className="space-y-6">
-            <div className="bg-stealth-950 rounded-[2rem] p-6 text-white overflow-hidden relative border border-white/5 shadow-2xl">
-               <div className="absolute top-0 right-0 w-24 h-24 bg-registry-teal/10 rounded-full -translate-y-12 translate-x-12 blur-2xl" />
-               <div className="relative z-10">
-                 <div className="flex justify-between items-center mb-5">
-                    <span className="micro-label !opacity-60">System Tier</span>
-                    <span className="text-[11px] font-black tracking-widest text-registry-teal italic">PREMIUM_V4</span>
+            {!isSidebarCollapsed && (
+              <div className="bg-stealth-950 rounded-[2rem] p-6 text-white overflow-hidden relative border border-white/5 shadow-2xl">
+                 <div className="absolute top-0 right-0 w-24 h-24 bg-registry-teal/10 rounded-full -translate-y-12 translate-x-12 blur-2xl" />
+                 <div className="relative z-10">
+                   <div className="flex justify-between items-center mb-5">
+                      <span className="micro-label !opacity-60">System Tier</span>
+                      <span className="text-[11px] font-black tracking-widest text-registry-teal italic">PREMIUM_V4</span>
+                   </div>
+                   <div className="flex items-center space-x-3 mb-6">
+                      <Crown className="w-4 h-4 text-registry-amber shadow-glow" />
+                      <span className="text-xs font-black uppercase tracking-widest leading-none">Level 1 Operator</span>
+                   </div>
+                   <div className="space-y-2">
+                      <div className="flex justify-between items-end">
+                        <span className="text-[11px] font-mono opacity-40 uppercase">Synaptic XP</span>
+                        <span className="text-[11px] font-mono font-black text-registry-teal leading-none">0 / 1000</span>
+                      </div>
+                      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                         <div className="h-full bg-registry-teal rounded-full w-[0%] shadow-glow" />
+                      </div>
+                   </div>
                  </div>
-                 <div className="flex items-center space-x-3 mb-6">
-                    <Crown className="w-4 h-4 text-registry-amber shadow-glow" />
-                    <span className="text-xs font-black uppercase tracking-widest leading-none">Level 1 Operator</span>
-                 </div>
-                 <div className="space-y-2">
-                    <div className="flex justify-between items-end">
-                      <span className="text-[11px] font-mono opacity-40 uppercase">Synaptic XP</span>
-                      <span className="text-[11px] font-mono font-black text-registry-teal leading-none">0 / 1000</span>
-                    </div>
-                    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                       <div className="h-full bg-registry-teal rounded-full w-[0%] shadow-glow" />
-                    </div>
-                 </div>
-               </div>
-            </div>
+              </div>
+            )}
 
-            <div className={`p-1.5 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} rounded-2xl border flex items-center`}>
+            <div className={`p-1.5 ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'} rounded-2xl border flex flex-wrap items-center ${isSidebarCollapsed ? 'flex-col space-y-2' : ''}`}>
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-xl transition-all ${isDarkMode ? 'bg-registry-teal text-stealth-950 shadow-glow' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-xl transition-all ${isDarkMode ? 'bg-registry-teal text-stealth-950 shadow-glow' : 'text-slate-400 hover:text-slate-600'} ${isSidebarCollapsed ? 'w-full' : ''}`}
+                title={isSidebarCollapsed ? (isDarkMode ? 'Light Mode' : 'Dark Mode') : ''}
               >
                 {isDarkMode ? <Moon className="w-4 h-4 shadow-glow" /> : <Sun className="w-4 h-4" />}
-                <span className="text-[11px] font-black uppercase tracking-widest">{isDarkMode ? 'Dark' : 'Light'}</span>
+                {!isSidebarCollapsed && <span className="text-[11px] font-black uppercase tracking-widest">{isDarkMode ? 'Dark' : 'Light'}</span>}
               </button>
               <button 
                 onClick={() => setActiveOverlay('settings')}
-                className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-xl transition-all ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-900'}`}
+                className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-xl transition-all ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-900'} ${isSidebarCollapsed ? 'w-full' : ''}`}
+                title={isSidebarCollapsed ? 'Settings' : ''}
               >
                 <SettingsIcon className="w-4 h-4" />
-                <span className="text-[11px] font-black uppercase tracking-widest">Settings</span>
+                {!isSidebarCollapsed && <span className="text-[11px] font-black uppercase tracking-widest">Settings</span>}
               </button>
             </div>
           </div>
@@ -2583,7 +2695,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
       </aside>
 
       {/* Main Content View */}
-      <div className="flex flex-col min-w-0 relative min-h-[100dvh] lg:ml-80">
+      <div className={`flex flex-col min-w-0 relative min-h-[100dvh] transition-all duration-500 ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-80'}`}>
         <DashboardGridScroll />
         <PremiumTopBar 
           onOpenSidebar={() => setActiveOverlay('sidebar')}
@@ -2596,11 +2708,65 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
           totalCompleted={completed.size}
           activeOverlay={activeOverlay}
           current={current}
+          sidebarCollapsed={isSidebarCollapsed}
         />
 
         <main className="flex-1 pt-24 md:pt-40 pb-32 lg:pb-12 relative">
           <ParallaxBackground isDarkMode={isDarkMode} bgImage={bgImage} />
           <div className="max-w-[2000px] mx-auto w-full px-4 md:px-12 py-6 md:py-12 relative z-10 flex flex-col gap-6 md:gap-12 lg:gap-16">
+            {/* Featured Video Transmission */}
+            {!current && !activeOverlay && (
+              <section className="animate-in fade-in slide-in-from-top-12 duration-1000">
+                <div className="premium-glass p-8 md:p-12 rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-premium border border-registry-teal/20 relative group">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_50%,rgba(0,210,255,0.08),transparent_60%)] pointer-events-none" />
+                  <div className="flex flex-col lg:flex-row gap-12 items-center">
+                    <div className="lg:w-1/2 space-y-6">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-registry-teal/10 rounded-xl flex items-center justify-center border border-registry-teal/20">
+                          <Video className="w-5 h-5 text-registry-teal" />
+                        </div>
+                        <span className="micro-label !text-registry-teal italic">Featured Transmission // SPI_PHYSICS_CORE</span>
+                      </div>
+                      <h2 className={`text-4xl md:text-6xl font-black italic uppercase tracking-tighter leading-[0.9] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        Ultrasound Physics:<br/>Essential Mastery
+                      </h2>
+                      <p className={`text-sm md:text-base ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} leading-relaxed max-w-xl`}>
+                        This focused session dives into the fundamental building blocks of acoustic wave behavior, specifically designed for upcoming registry candidates.
+                      </p>
+                      <div className="flex items-center gap-4">
+                        <div className="flex -space-x-2">
+                           {[1,2,3].map(i => (
+                             <div key={i} className="w-8 h-8 rounded-full border-2 border-stealth-950 overflow-hidden">
+                               <img src={`https://i.pravatar.cc/100?img=${i + 20}`} alt="Viewer" referrerPolicy="no-referrer" />
+                             </div>
+                           ))}
+                        </div>
+                        <span className="text-[11px] font-black uppercase text-slate-500 tracking-widest">+1.4k synchronized now</span>
+                      </div>
+                    </div>
+                    <div className="lg:w-1/2 w-full">
+                      <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 bg-black aspect-video group/video">
+                        <div style={{ position: 'relative', padding: '56.25% 0 0 0', width: '100%' }}>
+                          <iframe 
+                            src="https://viddle.in/embed/uz9LVZni/?title=true&autoplay=true&share=true&controls=true&context=true&color=blue" 
+                            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%', border: 'none', overflow: 'hidden' }} 
+                            allowFullScreen
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-black/40 group-hover/video:bg-transparent transition-colors duration-500">
+                           <div className="flex items-center space-x-2 px-4 py-2 bg-registry-teal text-stealth-950 text-[10px] font-black uppercase tracking-widest rounded-full shadow-glow animate-pulse">
+                             <Activity className="w-3 h-3" />
+                             <span>Live Uplink</span>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {current ? (
               <>
                 <div className="mb-12 md:mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700 relative">
@@ -2612,33 +2778,50 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                         <div className="w-2.5 h-2.5 bg-registry-teal rounded-full animate-ping shadow-glow" />
                         <span className="micro-label text-registry-teal italic font-bold">Node {current[0] + 1}.{current[1] + 1} // Active Registry Protocol</span>
                       </div>
-                      <h2 className={`text-2xl sm:text-4xl md:text-6xl lg:text-[7rem] font-black ${isDarkMode ? 'text-white' : 'text-ink-900'} tracking-[-0.05em] leading-[0.9] md:leading-[0.8] uppercase italic select-none drop-shadow-2xl break-words`}>
+                      <h2 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black ${isDarkMode ? 'text-white' : 'text-ink-900'} tracking-[-0.05em] leading-[1] md:leading-[0.9] uppercase italic select-none drop-shadow-2xl break-words max-w-full`}>
                         {lessonData?.title}
                       </h2>
                       {lessonData?.narrationScript && (
-                        <div className="flex flex-wrap items-center gap-4 mt-4">
-                          <button 
+                        <div className="flex flex-wrap items-center gap-6 mt-10 p-2">
+                          <motion.button 
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => handlePlayLecture(lessonData.narrationScript!, curLesson!.id)}
                             disabled={isTtsLoading}
-                            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest flex items-center space-x-2 transition-all ${isNarrating ? 'bg-registry-teal text-stealth-950 shadow-glow' : isDarkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
+                            className={`px-10 py-6 rounded-[2rem] text-sm font-black uppercase tracking-[0.2em] italic flex items-center space-x-4 transition-all duration-300 shadow-2xl relative overflow-hidden group ${
+                              isNarrating 
+                                ? 'bg-registry-teal text-stealth-950 shadow-glow ring-2 ring-registry-teal ring-offset-4 ring-offset-stealth-950' 
+                                : isDarkMode 
+                                  ? 'bg-registry-teal text-stealth-950 hover:bg-white shadow-glow' 
+                                  : 'bg-registry-teal text-white hover:bg-registry-teal/90 shadow-glow shadow-registry-teal/40'
+                            }`}
                           >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                             {isTtsLoading ? (
-                              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                              <Loader2 className="w-6 h-6 animate-spin" />
                             ) : isNarrating ? (
-                              <VolumeX className="w-4 h-4" />
+                              <VolumeX className="w-6 h-6 animate-pulse" />
                             ) : (
-                              <Volume2 className="w-4 h-4" />
+                              <PlayCircle className="w-6 h-6 transition-transform group-hover:scale-110" />
                             )}
-                            <span>{isNarrating ? 'Stop Narration' : 'Play Narration'}</span>
-                          </button>
+                            <span className="relative z-10">{isNarrating ? 'Cease Narration' : 'Initiate Audio Protocol'}</span>
+                          </motion.button>
 
-                          <button 
+                          <motion.button 
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => setShowTranscript(!showTranscript)}
-                            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest flex items-center space-x-2 transition-all ${showTranscript ? 'bg-registry-cobalt text-white shadow-glow' : isDarkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
+                            className={`px-8 py-5 rounded-[1.5rem] text-xs font-bold uppercase tracking-widest flex items-center space-x-3 transition-all ${
+                              showTranscript 
+                                ? 'bg-registry-cobalt text-white shadow-glow' 
+                                : isDarkMode 
+                                  ? 'bg-white/10 text-white hover:bg-white/20 border border-white/10' 
+                                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300 border border-slate-300/50'
+                            }`}
                           >
-                            <ScrollText className="w-4 h-4" />
-                            <span>{showTranscript ? 'Hide Transcript' : 'View Transcript'}</span>
-                          </button>
+                            <ScrollText className="w-4.5 h-4.5" />
+                            <span>{showTranscript ? 'Hide Map' : 'View Script'}</span>
+                          </motion.button>
                         </div>
                       )}
 
@@ -2851,67 +3034,92 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
             ) : (
                 <div className="space-y-12">
                    {/* Greeting Section */}
-                    <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-6 mb-8 md:mb-12 relative">
+                    <header className="flex flex-col pt-6 mb-12 relative">
                         {/* Mobile Background Flourish */}
                         <div className="absolute -top-24 -left-12 w-64 h-64 bg-registry-teal/10 rounded-full blur-[100px] pointer-events-none md:hidden" />
                         
-                        <div className="space-y-4 relative z-10">
+                        <div className="space-y-6 relative z-10 w-full">
                           <motion.div
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="flex items-center space-x-3"
+                            className="flex items-center"
                           >
-                            <div className="px-3 py-1 bg-registry-teal/10 border border-registry-teal/20 rounded-full flex items-center space-x-2">
-                              <div className="w-1 h-1 rounded-full bg-registry-teal animate-pulse" />
-                              <span className="text-registry-teal text-[11px] font-black uppercase tracking-[0.4em]">Biometric Auth Verified</span>
+                            <div className="px-4 py-1.5 bg-registry-teal/5 border border-registry-teal/20 rounded-full flex items-center space-x-2 backdrop-blur-md">
+                              <div className="w-1.5 h-1.5 rounded-full bg-registry-teal animate-pulse shadow-glow" />
+                              <span className="text-registry-teal text-[10px] font-black uppercase tracking-[0.4em] italic">Biometric Auth Verified</span>
                             </div>
                           </motion.div>
+
                           <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1, duration: 0.8 }}
-                            className="space-y-4"
+                            className="relative"
                           >
-                            <h2 className={`text-6xl sm:text-8xl md:text-[11rem] font-black ${isDarkMode ? 'text-white' : 'text-slate-900'} leading-[0.75] tracking-tighter uppercase italic select-none`}>
-                              Link <span className="text-registry-teal drop-shadow-glow">Mastery</span>
+                            <h2 className="flex flex-col text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[7rem] 2xl:text-[9rem] font-black leading-[0.8] tracking-[-0.06em] uppercase italic select-none pointer-events-none perspective-[1000px] whitespace-nowrap overflow-hidden max-w-[90vw]">
+                              <span className={`${isDarkMode ? 'text-white' : 'text-slate-900'} drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] transition-all duration-700`}>Link</span>
+                              <span className="text-registry-teal drop-shadow-[0_20px_80px_rgba(45,212,191,0.4)] -mt-4 md:-mt-8 lg:-mt-12 group-hover:tracking-widest transition-all duration-1000">Mastery</span>
                             </h2>
-                            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-4">
-                               <div className="flex flex-col">
-                                  <span className="micro-label">Identity_Hash</span>
-                                  <p className={`font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] ${isDarkMode ? 'text-white' : 'text-slate-900'} italic font-bold`}>
-                                    {userId?.substring(0, 12) || 'STR-999-UNIT-B'}
+
+                            {/* Complex Decorative Rings */}
+                            <div className="absolute -top-40 -right-40 opacity-[0.1] pointer-events-none hidden xl:block">
+                               <div className="relative">
+                                  <motion.div 
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                                    className="w-[800px] h-[800px] border-[40px] border-registry-teal rounded-full border-dashed" 
+                                  />
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                     <motion.div 
+                                       animate={{ rotate: -360 }}
+                                       transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+                                       className="w-[600px] h-[600px] border-[20px] border-registry-teal/40 rounded-full border-dotted" 
+                                     />
+                                     <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="w-[400px] h-[400px] border-[2px] border-registry-teal/20 rounded-full" />
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-x-20 gap-y-8 mt-12 pt-12 border-t-2 border-white/5 max-w-5xl relative">
+                               <div className="absolute top-0 left-0 w-24 h-[2px] bg-registry-teal shadow-glow" />
+                               
+                               <div className="flex flex-col space-y-2">
+                                  <span className="text-[9px] font-black uppercase tracking-[0.6em] text-slate-500 italic flex items-center gap-2">
+                                    <div className="w-1 h-1 bg-registry-teal rounded-full" />
+                                    Identity_Hash
+                                  </span>
+                                  <p className={`font-mono text-sm md:text-xl uppercase tracking-[0.3em] ${isDarkMode ? 'text-white' : 'text-slate-900'} italic font-black`}>
+                                    {userId?.substring(0, 12).toUpperCase() || 'STR-999-UNIT-B'}
                                   </p>
                                </div>
-                               <div className="h-8 w-[1px] bg-white/10 hidden md:block" />
-                               <div className="flex flex-col">
-                                  <span className="micro-label">Synaptic_Tier</span>
-                                  <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-registry-amber italic font-black">
+                               <div className="h-12 w-[1px] bg-white/10 hidden md:block" />
+                               <div className="flex flex-col space-y-2">
+                                  <span className="text-[9px] font-black uppercase tracking-[0.6em] text-slate-500 italic flex items-center gap-2">
+                                    <div className="w-1 h-1 bg-registry-amber rounded-full" />
+                                    Synaptic_Tier
+                                  </span>
+                                  <p className="font-mono text-sm md:text-xl uppercase tracking-[0.2em] text-registry-amber italic font-black">
                                     // ELITE_OPERATOR
                                   </p>
                                </div>
-                               <div className="h-8 w-[1px] bg-white/10 hidden md:block" />
-                               <div className="flex flex-col">
-                                  <span className="micro-label">Neural_Sync</span>
-                                  <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-registry-teal italic font-bold">
+                               <div className="h-12 w-[1px] bg-white/10 hidden md:block" />
+                               <div className="flex flex-col space-y-2">
+                                  <span className="text-[9px] font-black uppercase tracking-[0.6em] text-slate-500 italic flex items-center gap-2">
+                                    <div className="w-1 h-1 bg-registry-teal rounded-full animate-pulse" />
+                                    Neural_Sync
+                                  </span>
+                                  <p className="font-mono text-sm md:text-xl uppercase tracking-[0.3em] text-registry-teal italic font-black">
                                     ACTIVE_CHANNEL.04
                                   </p>
                                </div>
                             </div>
                           </motion.div>
                         </div>
-                        
-                        {/* Decorative background element */}
-                        <div className="absolute -top-10 -right-10 opacity-[0.05] pointer-events-none hidden lg:block translate-y-20">
-                           <div className="relative">
-                              <div className="w-[500px] h-[500px] border-[40px] border-registry-teal rounded-full" />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                 <div className="w-[300px] h-[300px] border-[20px] border-registry-teal/40 rounded-full" />
-                              </div>
-                           </div>
-                        </div>
                       </header>
 
-                   <div className="mb-10 md:mb-16">
+                   <div className="mb-16 md:mb-24">
                       <DashboardHUD progress={progressPercent} isDarkMode={isDarkMode} />
                    </div>
 
@@ -2924,7 +3132,10 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                       </div>
 
                       {/* Left Side: Major Dashboard Area */}
-                      <div className="lg:col-span-8 space-y-10 md:space-y-16">
+                      <div className="lg:col-span-8 space-y-12 md:space-y-16">
+                         {/* Neural Map Centerpiece - MOVED UP */}
+                         <NeuralMap modules={modules} completed={profile?.completedLessons || new Set()} isDarkMode={isDarkMode} />
+
                          <DailyInsight 
                            profile={profile} 
                            onUpdateProfile={handleProfileUpdate} 
@@ -2971,16 +3182,104 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                             </motion.button>
                          </div>
                          
-                         {/* Neural Map Centerpiece */}
-                         <NeuralMap modules={modules} completed={profile?.completedLessons || new Set()} isDarkMode={isDarkMode} />
-
                          {/* Neural Analytics Section */}
                          <StudyAnalytics 
-                          profile={profile}
+                           profile={profile}
                            moduleBreakdown={moduleProgress} 
                            activityHistory={profile?.activityHistory || []} 
-                           isDarkMode={isDarkMode} 
+                           isDarkMode={isDarkMode}
                          />
+
+                         {/* Dynamic Synced Media Section */}
+                         {syncedVisuals.length > 0 && (
+                           <section className="space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-700">
+                              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
+                                 <div className="space-y-3">
+                                    <div className="flex items-center space-x-3">
+                                       <div className="w-2 h-2 bg-registry-teal rounded-full animate-pulse shadow-glow" />
+                                       <h4 className="text-[11px] font-black uppercase tracking-[0.6em] text-registry-teal italic leading-none">Synchronized Archives</h4>
+                                    </div>
+                                    <h3 className={`text-4xl md:text-5xl font-black italic uppercase tracking-tighter ${isDarkMode ? 'text-white' : 'text-slate-900'} leading-none`}>Recent Study Nodes</h3>
+                                 </div>
+                                 <button 
+                                   onClick={() => setActiveOverlay('media')}
+                                   className="px-6 py-3 rounded-full border border-registry-teal/20 text-registry-teal text-[10px] font-black uppercase tracking-widest hover:bg-registry-teal/10 transition-all active:scale-95 flex items-center space-x-2"
+                                 >
+                                   <span>Explorer Full Vault</span>
+                                   <ChevronRight className="w-4 h-4" />
+                                 </button>
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                 {[...syncedVisuals].reverse().slice(0, 3).map((visual, idx) => (
+                                    <motion.div 
+                                      key={visual.id}
+                                      initial={{ opacity: 0, y: 20 }}
+                                      animate={{ opacity: 1, y: 0 }}
+                                      transition={{ delay: idx * 0.1 }}
+                                      whileHover={{ y: -8 }}
+                                      className={`group p-6 rounded-[2.5rem] border tech-border relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-white shadow-premium hover:shadow-2xl'}`}
+                                    >
+                                       <div className="absolute inset-0 bg-gradient-to-br from-registry-teal/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                       
+                                       <div className="relative z-10 space-y-6 flex flex-col h-full">
+                                          <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black">
+                                             <img 
+                                               src={visual.imageUrl} 
+                                               alt={visual.title} 
+                                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                               referrerPolicy="no-referrer"
+                                             />
+                                             <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                                                <span className="text-[10px] font-black text-registry-teal uppercase tracking-widest">{visual.category}</span>
+                                             </div>
+                                             <button 
+                                               onClick={() => setActiveVisualOverlay(visual)}
+                                               className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px]"
+                                             >
+                                                <div className="px-6 py-2.5 bg-registry-teal text-stealth-950 text-[10px] font-black uppercase tracking-[0.3em] rounded-full shadow-glow">Access Tile</div>
+                                             </button>
+                                          </div>
+
+                                          <div className="space-y-2 flex-1">
+                                             <h5 className={`text-xl font-black italic uppercase tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{visual.title}</h5>
+                                             <p className="text-[11px] font-medium opacity-60 leading-relaxed italic line-clamp-2">"{visual.description}"</p>
+                                          </div>
+
+                                          <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                                             <div className="flex items-center space-x-2">
+                                                <Activity className="w-3.5 h-3.5 text-registry-teal" />
+                                                <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">Live_Sync</span>
+                                             </div>
+                                             <button 
+                                               onClick={() => setActiveVisualOverlay(visual)}
+                                               className="text-registry-teal hover:text-white transition-colors"
+                                             >
+                                               <ChevronRight className="w-5 h-5" />
+                                             </button>
+                                          </div>
+                                       </div>
+
+                                       {/* Serial hardware accent */}
+                                       <div className="absolute top-4 right-4 text-[9px] font-mono text-slate-600 uppercase tracking-tighter tabular-nums opacity-40">NODE.{visual.id.substring(visual.id.length - 4)}</div>
+                                    </motion.div>
+                                 ))}
+                                 
+                                 {syncedVisuals.length > 3 && (
+                                   <motion.button 
+                                     whileHover={{ scale: 1.02 }}
+                                     onClick={() => setActiveOverlay('media')}
+                                     className={`p-6 rounded-[2.5rem] border-2 border-dashed flex flex-col items-center justify-center space-y-4 group transition-all h-full min-h-[300px] ${isDarkMode ? 'border-white/10 hover:border-registry-teal/40 hover:bg-registry-teal/5' : 'border-slate-200 hover:border-registry-teal/40 hover:bg-slate-50'}`}
+                                   >
+                                      <div className="w-12 h-12 bg-registry-teal/10 rounded-2xl flex items-center justify-center border border-registry-teal/20 group-hover:scale-110 transition-transform">
+                                         <Library className="w-6 h-6 text-registry-teal" />
+                                      </div>
+                                      <span className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500 group-hover:text-registry-teal transition-colors">+{syncedVisuals.length - 3} More Studies</span>
+                                   </motion.button>
+                                 )}
+                              </div>
+                           </section>
+                         )}
                       </div>
 
                       {/* Right Side: Operations Side Panel */}
@@ -3096,11 +3395,12 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
         <motion.button 
           whileHover={{ scale: 1.1, rotate: 10 }}
           whileTap={{ scale: 0.9 }}
-          className="fixed bottom-10 right-10 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-slate-100 z-[100] group"
+          onClick={() => setActiveOverlay('radio')}
+          className="fixed bottom-28 right-4 lg:bottom-10 lg:right-10 w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.2)] border border-slate-100 z-[450] group"
         >
           <div className="relative">
              <div className="absolute inset-0 bg-slate-100 rounded-full animate-ping opacity-20" />
-             <Radio className="w-6 h-6 text-slate-800 relative z-10 group-hover:text-registry-teal transition-colors" />
+             <Radio className="w-5 h-5 md:w-6 md:h-6 text-slate-800 relative z-10 group-hover:text-registry-teal transition-colors" />
           </div>
         </motion.button>
 
@@ -3113,7 +3413,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
             { id: 'study', label: 'SYNC', icon: GraduationCap, active: !!current && !activeOverlay, onClick: () => {setActiveOverlay(null); if(!current) setCurrent([0,0]);} },
             { id: 'lab', label: 'LAB', icon: FlaskConical, active: activeOverlay === 'lab', onClick: () => setActiveOverlay('lab') },
             { id: 'exam', label: 'EXAM', icon: Trophy, active: activeOverlay === 'exam', onClick: () => setActiveOverlay('exam') },
-            { id: 'menu', label: 'MENU', icon: Menu, active: activeOverlay === 'sidebar', onClick: () => setActiveOverlay('sidebar') }
+            { id: 'menu', label: 'MENU', icon: Menu, active: activeOverlay === 'sidebar', onClick: () => setActiveOverlay(activeOverlay === 'sidebar' ? null : 'sidebar') }
           ].map((item) => (
             <button 
               key={item.id}
@@ -3183,34 +3483,43 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
 
         <AnimatePresence>
           {activeOverlay === 'sidebar' && (
-            <motion.div 
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed inset-y-0 left-0 z-[120] w-full md:w-[420px]"
-            >
-              <div className={`h-full flex flex-col border-r transition-colors duration-500 ${isDarkMode ? 'bg-stealth-950/80 border-white/5 shadow-2xl shadow-black' : 'bg-white/80 border-slate-200/60 shadow-premium'} backdrop-blur-3xl`}>
-                 <header className={`p-10 border-b flex justify-between items-center relative overflow-hidden ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                    <div className="absolute inset-0 scanline opacity-10" />
-                    <div className="flex items-center space-x-5 relative z-10">
-                       <div className="p-4 bg-registry-teal/10 rounded-3xl glow-teal">
-                         <Activity className="w-7 h-7 text-registry-teal" />
-                       </div>
-                       <div>
-                         <h4 className={`font-black italic uppercase text-2xl tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Registry Nodes</h4>
-                         <p className="text-[11px] font-black uppercase tracking-[0.4em] text-registry-teal mt-2">SYSTEM SCAN ACTIVE</p>
-                       </div>
-                    </div>
-                    <button 
-                      onClick={() => setActiveOverlay(null)} 
-                      className={`p-4 rounded-3xl transition-all ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}
-                    >
-                      <X className="w-7 h-7" />
-                    </button>
-                 </header>
-                 <div className="flex-1 overflow-y-auto p-10 space-y-12 scrollbar-hide">
-                    <div className="space-y-8">
+            <div className="fixed inset-0 z-[120] flex justify-start">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setActiveOverlay(null)}
+                className="absolute inset-0 bg-stealth-950/40 backdrop-blur-sm"
+              />
+              <motion.div 
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+                className="relative h-full w-full md:w-[420px] shadow-2xl"
+              >
+                <div className={`h-full flex flex-col border-r transition-colors duration-500 ${isDarkMode ? 'bg-stealth-950/95 border-white/5 shadow-2xl shadow-black' : 'bg-white/98 border-slate-200/60 shadow-premium'} backdrop-blur-3xl`}>
+                   <header className={`p-6 md:p-10 border-b flex justify-between items-center relative overflow-hidden ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                      <div className="absolute inset-0 scanline opacity-10" />
+                      <div className="flex items-center space-x-5 relative z-10">
+                         <div className="p-4 bg-registry-teal/10 rounded-3xl glow-teal">
+                           <Activity className="w-7 h-7 text-registry-teal" />
+                         </div>
+                         <div>
+                           <h4 className={`font-black italic uppercase text-2xl tracking-tighter leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Registry Nodes</h4>
+                           <p className="text-[11px] font-black uppercase tracking-[0.4em] text-registry-teal mt-2">SYSTEM SCAN ACTIVE</p>
+                         </div>
+                      </div>
+                      <button 
+                        onClick={() => setActiveOverlay(null)} 
+                        className={`group flex items-center space-x-3 px-5 py-3 rounded-2xl border transition-all ${isDarkMode ? 'bg-white/5 border-white/10 hover:bg-white/10' : 'bg-slate-50 border-slate-200 hover:bg-slate-100'}`}
+                      >
+                        <span className={`text-[10px] font-black uppercase tracking-[0.2em] transition-opacity group-hover:opacity-100 ${isDarkMode ? 'text-white opacity-40' : 'text-slate-500 opacity-60'}`}>Close</span>
+                        <X className={`w-5 h-5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`} />
+                      </button>
+                   </header>
+                   <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-10 md:space-y-12 scrollbar-custom">
+                      <div className="space-y-8">
                       <h4 className="text-[11px] font-black uppercase text-slate-400 dark:text-slate-500 tracking-[0.5em] px-2 flex items-center space-x-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-registry-teal shadow-glow" />
                         <span>Strategic Protocols</span>
@@ -3225,6 +3534,7 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                           { id: 'radio', label: 'Neural Radio', icon: Music, overlay: 'radio' },
                           { id: 'tutor', label: 'Harvey AI Tutor', icon: Cpu, overlay: 'tutor' },
                           { id: 'podcast', label: 'Physics Podcast', icon: Radio, overlay: 'podcast' },
+                          { id: 'lounge', label: 'Sono Lounge', icon: Headphones, overlay: 'sonographyLounge' },
                           { id: 'flashcards', label: 'Neural Flashcards', icon: Layers, overlay: 'flashcards' },
                           { id: 'glossary', label: 'Physics Lexicon', icon: Book, overlay: 'glossary' },
                         ].map((item) => {
@@ -3301,8 +3611,9 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                  </footer>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
+          </div>
+        )}
+      </AnimatePresence>
 
         <AnimatePresence>
           {activeOverlay === 'tutor' && (
@@ -3610,6 +3921,13 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
             </motion.div>
           )}
 
+          {activeOverlay === 'sonographyLounge' && (
+            <SonographyLounge 
+              onClose={() => setActiveOverlay(null)} 
+              isDarkMode={isDarkMode} 
+            />
+          )}
+
           {activeOverlay === 'brainx' && (
             <BrainXTalks 
               onClose={() => setActiveOverlay(null)} 
@@ -3635,6 +3953,96 @@ Ensure the final output is a spoken script format, ready to be read aloud by an 
                 isTtsLoading={isTtsLoading}
               />
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Dynamic Visual Detail Overlay (Sync with Dashboard) */}
+        <AnimatePresence>
+          {activeVisualOverlay && (
+            <div className="fixed inset-0 z-[600] flex items-center justify-center p-4 md:p-12">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setActiveVisualOverlay(null)}
+                className="absolute inset-0 bg-black/95 backdrop-blur-xl"
+              />
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0, y: 30 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 30 }}
+                className={`relative w-full max-w-6xl h-full max-h-[85vh] rounded-[3rem] overflow-hidden flex flex-col md:flex-row border border-white/10 ${isDarkMode ? 'bg-stealth-950 shadow-2xl shadow-black' : 'bg-white shadow-premium'}`}
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-registry-teal shadow-glow z-20" />
+                
+                <button 
+                  onClick={() => setActiveVisualOverlay(null)}
+                  className="absolute top-6 right-6 p-4 rounded-full bg-black/40 text-white hover:bg-black/60 transition-all z-30 backdrop-blur-md border border-white/10"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+
+                <div className="flex-1 bg-black flex items-center justify-center p-6 relative group">
+                  <img 
+                    src={activeVisualOverlay.imageUrl} 
+                    alt={activeVisualOverlay.title} 
+                    className="max-w-full max-h-full object-contain shadow-2xl transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                  
+                  {/* Digital Overlays on Image */}
+                  <div className="absolute top-10 left-10 w-20 h-20 border-t-2 border-l-2 border-registry-teal/40 pointer-events-none" />
+                  <div className="absolute bottom-10 right-10 w-20 h-20 border-b-2 border-r-2 border-registry-teal/40 pointer-events-none" />
+                </div>
+
+                <div className="w-full md:w-[450px] p-10 flex flex-col overflow-y-auto scrollbar-hide border-l border-white/5 relative">
+                  <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+                  
+                  <div className="flex items-center justify-between mb-8 relative z-10">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-3 bg-registry-teal/10 rounded-2xl border border-registry-teal/20 glow-teal">
+                        <Database className="w-5 h-5 text-registry-teal" />
+                      </div>
+                      <span className="text-registry-teal text-[10px] font-black uppercase tracking-[0.4em] italic mt-1">Telemetry Record</span>
+                    </div>
+                  </div>
+                  
+                  <h3 className={`text-4xl lg:text-5xl font-black italic uppercase tracking-tighter leading-[0.9] mb-8 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    {activeVisualOverlay.title}
+                  </h3>
+
+                  <div className="space-y-8 flex-1 relative z-10">
+                    <div className="space-y-4">
+                      <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Metadata Analysis</h5>
+                      <p className={`text-sm md:text-base font-medium leading-relaxed italic ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                        {activeVisualOverlay.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-8 border-t border-white/5 space-y-6">
+                      <div className="p-6 rounded-3xl bg-white/5 border border-white/5 space-y-4">
+                         <div className="flex items-center space-x-3">
+                            <Activity className="w-4 h-4 text-registry-teal" />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-registry-teal">Registry Protocol Index</span>
+                         </div>
+                         <p className="text-[11px] font-medium opacity-60 leading-relaxed italic">
+                           Cross-referencing with {activeVisualOverlay.category} physics modules. Validation score: 98.4% Confidence. Original ID: {activeVisualOverlay.id}
+                         </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-12 space-y-4 relative z-10">
+                    <button 
+                      onClick={() => setActiveVisualOverlay(null)}
+                      className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.3em] text-[10px] sm:text-xs border transition-all active:scale-95 ${isDarkMode ? 'border-white/10 text-white hover:bg-white/5' : 'border-slate-200 text-slate-900 hover:bg-slate-50'}`}
+                    >
+                      Return to Command Center
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
 

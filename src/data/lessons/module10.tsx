@@ -5,9 +5,9 @@ import {
   LectureTag,
   VideoTutorialLink,
   KnowledgeVisual
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { LessonData } from '../../types';
 
 export const module10Lessons: Record<string, LessonData> = {
   "10.1": {
@@ -25,6 +25,12 @@ export const module10Lessons: Record<string, LessonData> = {
         </div>
       </div>
     ),
+    clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/xtdfCGz6e1Y",
+        caption: "Video: Non-Linear Propagation & Harmonics"
+      }
+    ],
     quiz: {
       id: "q10.1",
       type: "mcq",
@@ -51,6 +57,12 @@ export const module10Lessons: Record<string, LessonData> = {
         </div>
       </div>
     ),
+    clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/wzXGB0V5Igw",
+        caption: "Video: Tissue Harmonic Imaging Physics"
+      }
+    ],
     quiz: {
       id: "q10.2",
       type: "mcq",

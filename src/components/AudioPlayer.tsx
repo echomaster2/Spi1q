@@ -145,35 +145,46 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
 
         {/* Controls Area */}
-        <div className={`flex items-center ${isExpanded ? 'justify-center space-x-8 w-full pb-4' : 'space-x-2'}`}>
-          <button 
+        <div className={`flex items-center ${isExpanded ? 'justify-center space-x-12 w-full pb-8' : 'space-x-4'}`}>
+          <motion.button 
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onToggle}
             disabled={isLoading}
-            className={`flex items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal ${
+            className={`flex items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-teal relative overflow-hidden ${
               isExpanded 
-                ? 'w-20 h-20 bg-registry-teal hover:bg-registry-teal/80 text-white shadow-xl shadow-registry-teal/20' 
-                : 'w-10 h-10 bg-registry-teal/10 text-registry-teal hover:bg-registry-teal/20'
+                ? 'w-24 h-24 bg-registry-teal text-stealth-950 shadow-glow shadow-registry-teal/40' 
+                : 'w-12 h-12 bg-registry-teal/20 text-registry-teal hover:bg-registry-teal/30 hover:shadow-glow'
             }`}
             aria-label={isPlaying ? "Pause study pulse" : "Play study pulse"}
           >
-            {isPlaying ? (
-              <Pause className={isExpanded ? 'w-8 h-8' : 'w-5 h-5'} fill="currentColor" />
-            ) : (
-              <Play className={isExpanded ? 'w-8 h-8 ml-1' : 'w-5 h-5 ml-0.5'} fill="currentColor" />
+            {isPlaying && (
+              <motion.div 
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute inset-0 bg-registry-teal/20 rounded-full"
+              />
             )}
-          </button>
+            {isPlaying ? (
+              <Pause className={isExpanded ? 'w-10 h-10 relative z-10' : 'w-6 h-6 relative z-10'} fill="currentColor" />
+            ) : (
+              <Play className={isExpanded ? 'w-10 h-10 ml-2 relative z-10' : 'w-6 h-6 ml-1 relative z-10'} fill="currentColor" />
+            )}
+          </motion.button>
           
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onStop}
             className={`flex items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-registry-rose ${
               isExpanded 
-                ? 'w-16 h-16 bg-registry-rose/20 text-registry-rose hover:bg-registry-rose/30' 
-                : 'w-10 h-10 bg-registry-rose/10 text-registry-rose hover:bg-registry-rose/20'
+                ? 'w-16 h-16 bg-registry-rose/10 text-registry-rose border border-registry-rose/20 hover:bg-registry-rose/20' 
+                : 'w-10 h-10 bg-registry-rose/5 text-registry-rose hover:bg-registry-rose/10 border border-registry-rose/10'
             }`}
             aria-label="Stop study pulse"
           >
             <Square className={isExpanded ? 'w-6 h-6' : 'w-4 h-4'} fill="currentColor" />
-          </button>
+          </motion.button>
         </div>
 
       </div>

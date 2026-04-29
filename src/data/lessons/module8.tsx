@@ -5,9 +5,9 @@ import {
   LectureTag,
   VideoTutorialLink,
   KnowledgeVisual
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { LessonData } from '../../types';
 
 export const module8Lessons: Record<string, LessonData> = {
   "8.1": {

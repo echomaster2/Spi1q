@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Play, X, Video, ChevronRight, Search, Volume2, VolumeX, Image as ImageIcon, CheckCircle2, AlertCircle, RotateCcw, HelpCircle, Music } from 'lucide-react';
+import { Play, X, Video, ChevronRight, Search, Volume2, VolumeX, Image as ImageIcon, CheckCircle2, AlertCircle, RotateCcw, HelpCircle, Music, Activity, Library, Database } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { VideoItem, VisualItem, Question } from '../src/mediaData';
+import { VideoItem, VisualItem, Question } from '../mediaData';
 
 interface MediaLibraryProps {
   onClose: () => void;
@@ -88,12 +88,14 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
     }
   };
 
-  const filteredVideos = videos.filter(v => 
+  const [activeVisual, setActiveVisual] = useState<VisualItem | null>(null);
+
+  const filteredVideos = [...videos].reverse().filter(v => 
     v.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
     v.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredVisuals = visuals.filter(v => 
+  const filteredVisuals = [...visuals].reverse().filter(v => 
     v.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
     v.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     v.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -246,16 +248,24 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
               {filteredVisuals.map(visual => (
                 <div 
                   key={visual.id}
-                  className={`rounded-2xl overflow-hidden border flex flex-col ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200 shadow-sm'}`}
+                  className={`rounded-2xl overflow-hidden border flex flex-col group ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200 shadow-sm'}`}
                 >
-                  <div className="relative aspect-video bg-black">
+                  <div className="relative aspect-video bg-black overflow-hidden">
                     {visual.imageUrl ? (
-                      <img src={visual.imageUrl} alt={visual.title} className="w-full h-full object-cover opacity-80" referrerPolicy="no-referrer" />
+                      <img src={visual.imageUrl} alt={visual.title} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                     ) : (
                       <div className="w-full h-full bg-slate-800 flex items-center justify-center">
                         <ImageIcon className="w-8 h-8 text-slate-600" />
                       </div>
                     )}
+                    <button 
+                      onClick={() => setActiveVisual(visual)}
+                      className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center"
+                    >
+                      <div className="px-4 py-2 bg-registry-teal text-stealth-950 rounded-full text-[10px] font-black uppercase tracking-widest scale-90 group-hover:scale-100 transition-transform">
+                        Explore Protocol
+                      </div>
+                    </button>
                     <div className="absolute top-2 left-2 px-2 py-1 rounded bg-black/80 text-registry-teal text-[11px] font-bold uppercase tracking-widest border border-registry-teal/30">
                       {visual.category}
                     </div>
@@ -264,15 +274,25 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
                     <h3 className="font-black mb-2 text-sm">{visual.title}</h3>
                     <p className={`text-xs leading-relaxed mb-4 flex-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{visual.description}</p>
                     
-                    {visual.assessment && visual.assessment.length > 0 && (
+                    <div className="flex flex-col space-y-2 mt-auto">
                       <button 
-                        onClick={() => startAssessment(visual, 'visual')}
-                        className={`mt-auto w-full py-2 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center space-x-2 transition-all ${isDarkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
+                        onClick={() => setActiveVisual(visual)}
+                        className={`w-full py-2 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center space-x-2 transition-all ${isDarkMode ? 'bg-white/5 text-white hover:bg-white/10' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
                       >
-                        <HelpCircle className="w-3 h-3" />
-                        <span>Take Assessment</span>
+                        <Search className="w-3 h-3" />
+                        <span>View Protocol</span>
                       </button>
-                    )}
+
+                      {visual.assessment && visual.assessment.length > 0 && (
+                        <button 
+                          onClick={() => startAssessment(visual, 'visual')}
+                          className={`w-full py-2 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center space-x-2 transition-all ${isDarkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
+                        >
+                          <HelpCircle className="w-3 h-3" />
+                          <span>Take Assessment</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -294,6 +314,98 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onClose, isDarkMode,
           )}
         </div>
       </div>
+
+      {/* Visual Detail Modal */}
+      <AnimatePresence>
+        {activeVisual && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveVisual(null)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className={`relative w-full max-w-6xl h-full max-h-[85vh] rounded-[3rem] overflow-hidden flex flex-col md:flex-row border border-white/10 ${isDarkMode ? 'bg-stealth-950' : 'bg-white'}`}
+            >
+              <button 
+                onClick={() => setActiveVisual(null)}
+                className="absolute top-6 right-6 p-3 rounded-full bg-black/40 text-white hover:bg-black/60 transition-all z-20"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex-1 bg-black flex items-center justify-center p-4 min-h-[300px]">
+                <img 
+                  src={activeVisual.imageUrl} 
+                  alt={activeVisual.title} 
+                  className="max-w-full max-h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="w-full md:w-[400px] p-10 flex flex-col overflow-y-auto scrollbar-hide">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="px-3 py-1 rounded-full bg-registry-teal/10 text-registry-teal text-[10px] font-black uppercase tracking-widest border border-registry-teal/20">
+                    {activeVisual.category}
+                  </div>
+                  <span className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">ID: {activeVisual.id}</span>
+                </div>
+                
+                <h3 className={`text-4xl font-black italic uppercase tracking-tighter leading-tight mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  {activeVisual.title}
+                </h3>
+
+                <div className="space-y-6 flex-1">
+                  <div className="space-y-3">
+                    <p className={`text-sm font-medium leading-relaxed italic ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      {activeVisual.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-8 border-t border-white/5 space-y-4">
+                    <div className="flex items-start space-x-4">
+                      <div className="p-3 bg-registry-teal/10 rounded-xl">
+                        <Activity className="w-5 h-5 text-registry-teal" />
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-black uppercase tracking-widest text-registry-teal mb-1">Observation Protocol</h5>
+                        <p className="text-[11px] font-medium opacity-60">Study identified as {activeVisual.category} context. Recommended analysis: Spatial Resolution and Acoustic Impedance validation.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-10 space-y-4">
+                  {activeVisual.assessment && activeVisual.assessment.length > 0 && (
+                    <button 
+                      onClick={() => {
+                        const v = activeVisual;
+                        setActiveVisual(null);
+                        startAssessment(v, 'visual');
+                      }}
+                      className="w-full py-4 bg-registry-teal text-stealth-950 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 shadow-glow"
+                    >
+                      <HelpCircle className="w-4 h-4" />
+                      <span>Start Validation Quiz</span>
+                    </button>
+                  )}
+                  <button 
+                    onClick={() => setActiveVisual(null)}
+                    className={`w-full py-4 rounded-2xl text-xs font-black uppercase tracking-widest border ${isDarkMode ? 'border-white/10 text-white hover:bg-white/5' : 'border-slate-200 text-slate-900 hover:bg-slate-50'}`}
+                  >
+                    Close Protocol
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Video Player Modal */}
       {activeVideo && (

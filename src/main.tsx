@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { RadioProvider } from './context/RadioContext';
-import { ErrorBoundary } from '../components/ErrorBoundary';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 console.log("🚀 SPI Master System Boot Sequence Initiated");
 

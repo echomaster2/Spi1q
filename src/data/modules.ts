@@ -3,7 +3,7 @@ import {
   HeartPulse, FlaskConical, Target as TargetIcon, Sparkles, 
   Monitor, Cpu, Database, BarChart3
 } from 'lucide-react';
-import { Module } from '../../types';
+import { Module } from '../types';
 
 export const modules: Module[] = [
   { title: "Waves and Sound", weight: "15%", icon: Waves, color: "from-registry-teal/80 to-registry-teal", lessons: [{ title: "The Nature of Sound", id: "1.1" }, { title: "Essential Wave Parameters", id: "1.2" }, { title: "Interaction with Media", id: "1.3" }] },

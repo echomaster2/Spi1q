@@ -4,8 +4,8 @@ import {
   HemodynamicsPrinciplesVisual,
   LectureTag,
   VideoTutorialLink
-} from '../../../components/VisualElements';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonData } from '../../types';
 
 export const module7Lessons: Record<string, LessonData> = {
   "7.1": {
@@ -31,6 +31,12 @@ export const module7Lessons: Record<string, LessonData> = {
         </div>
       </div>
     ),
+    clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/-jhRhhA62Mo",
+        caption: "Video: Hemodynamics Deep Dive"
+      }
+    ],
     quiz: {
       id: "q7.1",
       type: "mcq",

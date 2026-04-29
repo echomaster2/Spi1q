@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Trophy, Target, Zap, CheckCircle2, Circle, Star, Sword, Shield, Crown, ChevronRight, X, Sparkles } from 'lucide-react';
-import { Quest, INITIAL_QUESTS } from '../src/lib/questUtils';
+import { Quest, INITIAL_QUESTS } from '../lib/questUtils';
 
 export const QuestSystem: React.FC<{ 
   onClose: () => void;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Music, Play, Pause } from 'lucide-react';
+import { Music, Pause, Play } from 'lucide-react';
 import { useRadio } from '../context/RadioContext';
 
 export const LessonAnthem: React.FC<{ stationName: string }> = ({ stationName }) => {
@@ -13,17 +13,29 @@ export const LessonAnthem: React.FC<{ stationName: string }> = ({ stationName })
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="p-4 bg-slate-50 dark:bg-registry-teal/5 border border-slate-200 dark:border-registry-teal/20 rounded-2xl flex items-center justify-between group hover:bg-slate-100 dark:hover:bg-registry-teal/10 transition-all shadow-sm dark:shadow-none"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="p-6 bg-white dark:bg-stealth-900 border tech-border rounded-[2rem] flex items-center justify-between group hover:border-registry-teal/40 transition-all shadow-premium-light dark:shadow-premium backdrop-blur-md"
     >
-      <div className="flex items-center space-x-4">
-        <div className="p-3 bg-registry-teal/10 dark:bg-registry-teal/20 rounded-xl">
-          <Music className="w-5 h-5 text-registry-teal" />
+      <div className="flex items-center space-x-6">
+        <div className="relative">
+          <div className={`p-4 rounded-xl transition-all duration-500 ${isActive && isPlaying ? 'bg-registry-teal text-stealth-950 shadow-glow scale-110' : 'bg-registry-teal/10 text-registry-teal'}`}>
+            <Music className={`w-6 h-6 ${isActive && isPlaying ? 'animate-pulse' : ''}`} />
+          </div>
+          {isActive && isPlaying && (
+            <motion.div 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-registry-rose rounded-full border-2 border-white dark:border-stealth-900 shadow-glow" 
+            />
+          )}
         </div>
         <div>
-          <h5 className="text-[11px] font-black uppercase text-registry-teal tracking-widest">Lesson Anthem</h5>
-          <p className="text-xs font-bold italic text-slate-900 dark:text-white">{stationName}</p>
+          <div className="flex items-center space-x-2 mb-1.5">
+            <span className="micro-label !opacity-60 italic tracking-[0.2em]">Neural Frequency</span>
+            <div className={`w-1 h-1 rounded-full ${isActive && isPlaying ? 'bg-registry-teal animate-pulse' : 'bg-slate-300 dark:bg-white/10'}`} />
+          </div>
+          <p className="text-xl font-black italic tracking-tighter text-slate-900 dark:text-white uppercase leading-none">{stationName}</p>
         </div>
       </div>
       <button 
@@ -34,9 +46,9 @@ export const LessonAnthem: React.FC<{ stationName: string }> = ({ stationName })
             changeStation(station);
           }
         }}
-        className="p-3 bg-registry-teal text-stealth-950 rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+        className={`p-4 rounded-xl transition-all duration-500 shadow-lg active:scale-90 border ${isActive && isPlaying ? 'bg-registry-rose border-registry-rose text-white shadow-glow' : 'bg-white dark:bg-stealth-800 border-slate-100 dark:border-white/5 text-registry-teal hover:border-registry-teal/40'}`}
       >
-        {isActive && isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+        {isActive && isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 ml-1 fill-current" />}
       </button>
     </motion.div>
   );

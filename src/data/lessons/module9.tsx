@@ -6,9 +6,9 @@ import {
   LectureTag,
   VideoTutorialLink,
   KnowledgeVisual
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { LessonData } from '../../types';
 
 export const module9Lessons: Record<string, LessonData> = {
   "9.1": {
@@ -34,6 +34,12 @@ export const module9Lessons: Record<string, LessonData> = {
         </div>
       </div>
     ),
+    clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/c-Ifw98J9V4",
+        caption: "Video: Spatial Resolutions Explained"
+      }
+    ],
     quiz: {
       id: "q9.1",
       type: "mcq",

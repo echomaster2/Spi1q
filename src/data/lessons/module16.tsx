@@ -1,8 +1,8 @@
 import React from 'react';
 import { 
   KnowledgeVisual
-} from '../../../components/VisualElements';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonData } from '../../types';
 
 export const module16Lessons: Record<string, LessonData> = {
   "16.1": {

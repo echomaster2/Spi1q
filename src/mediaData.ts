@@ -1,3 +1,4 @@
+// Media data exported from JSON
 export interface Question {
   id: string;
   question: string;
@@ -10,12 +11,13 @@ export interface VideoItem {
   id: string;
   title: string;
   description: string;
-  citation?: string;
+  citation: string;
   embedUrl: string;
   thumbnail: string;
   duration: string;
   script: string;
-  assessment?: Question[];
+  assessment: Question[];
+  isLocal?: boolean;
 }
 
 export interface VisualItem {
@@ -27,679 +29,870 @@ export interface VisualItem {
   assessment?: Question[];
 }
 
-export interface MediaLibrary {
-  videos: VideoItem[];
-  visuals: VisualItem[];
-  defaultBackground?: string | null;
-}
-
-export const VISUALS: VisualItem[] = [
+export const mediaData = {
+  videos: [
   {
-    id: 'v1',
-    title: 'Figure 1.1: Frequency of Sound',
-    description: 'Frequency of sound is the number of cycles per second (s) and is expressed in Hertz (1 cycle / sec). In Wave A, the frequency is 2 cycles per sec or 2 Hertz and in wave B the frequency is 3 cycles per sec or 3 Hertz.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png',
-    category: 'Physics Basics',
-    assessment: [
+    "id": "1",
+    "title": "Ultrasound Physics Basics",
+    "description": "A comprehensive overview of sound waves, frequency, and propagation in tissue.",
+    "citation": "Source: Radiology Tutorials",
+    "embedUrl": "https://www.youtube.com/embed/xtdfCGz6e1Y",
+    "thumbnail": "https://img.youtube.com/vi/xtdfCGz6e1Y/hqdefault.jpg",
+    "duration": "9:07",
+    "script": "I read through 5 different physics textbooks and 20 hours of lectures for you, so here is the cliffnotes version to save you 30 hours of study time.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment. If you can answer these questions by the end, you are officially \"educated\" on Ultrasound Physics Basics.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Ultrasound?).\n• Part 2: Core Concepts (Frequency, Wavelength, Propagation, and Attenuation).\n• Part 3: Practical Application (Choosing the right transducer).\n• Part 4: The \"Holy Sh*t\" Insight (The ultimate trade-off).\n\n**2. What it is NOT**\nThe easiest way to first define Ultrasound is the given example of what is not Ultrasound. Audible sound is what you hear every day, ranging from 20 Hz to 20,000 Hz. Ultrasound is simply sound waves with frequencies higher than humans can hear—above 20,000 Hz. It is also NOT an electromagnetic wave like an X-ray; it is a mechanical, longitudinal wave that requires a medium to travel through.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the parameters of a sound wave... just think about \"Fat Walruses Play Ping-pong\" (Frequency, Wavelength, Period, Propagation speed). These are the core variables we manipulate to get a clear image.\n\n**4. Core Concepts / Crash Course**\n- **Frequency (f):** Cycles per second. Higher frequency = better resolution but less penetration.\n- **Propagation Speed (c):** How fast sound travels. In soft tissue, it is exactly 1,540 m/s.\n- **Attenuation:** The weakening of sound as it travels. It happens through Absorption, Scattering, and Reflection.\n\n**5. The Analogy**\nThink of sound propagation through tissue like a crowded concert. If the crowd is tightly packed and stiff (like bone), the \"wave\" of people pushing each other travels super fast. If the crowd is sparse and squishy (like air or lungs), the wave dissipates and travels slowly. \n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to choose the right transducer. If you are scanning a superficial structure like a thyroid, you use a high-frequency linear probe. If you are scanning a deep liver, you use a lower-frequency curvilinear probe. You sacrifice some resolution for the penetration you need.\n\n**7. The \"Holy Sh*t\" Insight**\nThe ultimate trade-off in ultrasound is always Penetration vs. Resolution. You cannot have both. This is the fundamental law of ultrasound physics. If you want to see deeper, you must accept a blurrier image.\n\n**8. The Mindset Shift**\nFocus on showing up rather than perfection. You do not rise to the level of your goals, you fall to the level of your systems. Build the system of always adjusting your frequency and depth on every single patient.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Ultrasound Physics Basics.\n1. What is the average propagation speed of sound in soft tissue?\n2. Which of the following is NOT a component of attenuation?\n3. As frequency increases, what happens to wavelength?",
+    "assessment": [
       {
-        id: 'q-v1-1',
-        question: 'If a sound wave has a frequency of 5 Hertz, how many cycles occur in 2 seconds?',
-        options: ['5 cycles', '10 cycles', '2.5 cycles', '20 cycles'],
-        correctAnswer: 1,
-        explanation: 'Frequency is cycles per second. 5 Hz means 5 cycles per second. In 2 seconds, 5 * 2 = 10 cycles occur.'
-      }
-    ]
-  },
-  {
-    id: 'v2',
-    title: 'Figure 1.2: Amplitude',
-    description: 'Amplitude (A) is defined by the difference between the peak (maximum) or trough (minimum) of the wave and the average value. Units of amplitude are expressed in million Pascals (MPa).',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png',
-    category: 'Physics Basics',
-    assessment: [
-      {
-        id: 'q-v2-1',
-        question: 'Which of the following units is used to express the amplitude of an acoustic pressure wave in clinical imaging?',
-        options: ['Watts', 'Hertz', 'MegaPascals (MPa)', 'Rayls'],
-        correctAnswer: 2,
-        explanation: 'In clinical ultrasound imaging, pressure amplitude is typically expressed in MegaPascals (MPa).'
-      }
-    ]
-  },
-  {
-    id: 'v3',
-    title: 'Figure 1.3: Wavelength',
-    description: 'The wavelength of a sound wave is the length of a wave and is defined as the distance of a complete cycle. It is designated by the symbol lambda (λ), and is expressed in mm.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png',
-    category: 'Physics Basics',
-    assessment: [
-      {
-        id: 'q-v3-1',
-        question: 'As frequency increases, what happens to the wavelength in a given medium?',
-        options: ['Increases', 'Decreases', 'Stays the same', 'Doubles'],
-        correctAnswer: 1,
-        explanation: 'Wavelength and frequency are inversely proportional (λ = c/f). As frequency increases, wavelength decreases.'
-      }
-    ]
-  },
-  {
-    id: 'v4',
-    title: 'Figure 1.4: Piezoelectric Crystals',
-    description: 'Piezoelectric crystals shown within a transducer. Note the symmetrical arrangement of the crystals. The crystals convert electric current to ultrasound and vice versa.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Ultrasound_transducer_types.jpg/800px-Ultrasound_transducer_types.jpg',
-    category: 'Transducers',
-    assessment: [
-      {
-        id: 'q-v4-1',
-        question: 'What is the primary material used for piezoelectric elements in modern transducers?',
-        options: ['Quartz', 'Lead Zirconate Titanate (PZT)', 'Tungsten', 'Silicon'],
-        correctAnswer: 1,
-        explanation: 'PZT (Lead Zirconate Titanate) is the most common synthetic ceramic used for piezoelectric elements.'
-      }
-    ]
-  },
-  {
-    id: 'v5',
-    title: 'Figure 1.5: Echogenicity',
-    description: 'Ultrasound image of fetal extremities. Note the hyperechoic femur, the hypoechoic soft tissue in the thigh and anechoic amniotic fluid.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Ultrasound_of_the_liver_and_right_kidney.jpg/800px-Ultrasound_of_the_liver_and_right_kidney.jpg',
-    category: 'Image Formation',
-    assessment: [
-      {
-        id: 'q-v5-1',
-        question: 'Which term describes a structure that is completely black (echo-free) on ultrasound?',
-        options: ['Hyperechoic', 'Hypoechoic', 'Isoechoic', 'Anechoic'],
-        correctAnswer: 3,
-        explanation: 'Anechoic means without echoes, appearing black on the screen (e.g., simple fluid).'
-      }
-    ]
-  },
-  {
-    id: 'v6',
-    title: 'A-Mode Ultrasound',
-    description: 'Amplitude mode (A-mode) display showing spikes representing the depth and strength of echoes. Commonly used in ophthalmology.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/A-scan_ultrasound_of_the_eye.jpg/800px-A-scan_ultrasound_of_the_eye.jpg',
-    category: 'Display Modes',
-    assessment: [
-      {
-        id: 'q-v6-1',
-        question: 'In A-mode, what does the height of the spike represent?',
-        options: [
-          'Depth',
-          'Amplitude (Strength)',
-          'Velocity',
-          'Frequency'
+        "id": "q1-1",
+        "question": "What is the average propagation speed of sound in soft tissue?",
+        "options": [
+          "330 m/s",
+          "1,450 m/s",
+          "1,540 m/s",
+          "3,500 m/s"
         ],
-        correctAnswer: 1,
-        explanation: 'The height of the spike in A-mode represents the amplitude or strength of the returning echo.'
-      }
-    ]
-  },
-  {
-    id: 'v7',
-    title: 'M-Mode Echocardiogram',
-    description: 'Motion mode (M-mode) showing the movement of the mitral valve over time. Excellent for assessing fast-moving structures like heart valves.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mitral_valve_M-mode.jpg/800px-Mitral_valve_M-mode.jpg',
-    category: 'Display Modes',
-    assessment: [
+        "correctAnswer": 2,
+        "explanation": "The standard assumed speed for soft tissue is 1,540 m/s."
+      },
       {
-        id: 'q-v7-1',
-        question: 'What is the primary advantage of M-mode?',
-        options: [
-          'High spatial resolution',
-          'High temporal resolution',
-          '3D imaging',
-          'Color flow mapping'
+        "id": "q1-2",
+        "question": "Which of the following is NOT a component of attenuation?",
+        "options": [
+          "Absorption",
+          "Scattering",
+          "Reflection",
+          "Demodulation"
         ],
-        correctAnswer: 1,
-        explanation: 'M-mode has very high temporal resolution, making it ideal for tracking rapid motion.'
-      }
-    ]
-  },
-  {
-    id: 'v8',
-    title: 'Spectral Doppler: Carotid Artery',
-    description: 'Spectral Doppler waveform of the common carotid artery showing peak systolic and end diastolic velocities.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Carotid_ultrasound.jpg/800px-Carotid_ultrasound.jpg',
-    category: 'Doppler',
-    assessment: [
+        "correctAnswer": 3,
+        "explanation": "Demodulation is a receiver function, not a component of sound attenuation."
+      },
       {
-        id: 'q-v8-1',
-        question: 'What does the x-axis represent in a spectral Doppler display?',
-        options: [
-          'Velocity',
-          'Time',
-          'Depth',
-          'Amplitude'
+        "id": "q1-3",
+        "question": "As frequency increases, what happens to wavelength?",
+        "options": [
+          "Increases",
+          "Decreases",
+          "Stays the same",
+          "Doubles"
         ],
-        correctAnswer: 1,
-        explanation: 'In spectral Doppler, the x-axis represents time and the y-axis represents velocity (or frequency shift).'
+        "correctAnswer": 1,
+        "explanation": "Wavelength and frequency are inversely proportional (λ = c/f)."
       }
-    ]
+    ],
+    "isLocal": false
   },
   {
-    id: 'v9',
-    title: 'Color Doppler: Cardiac Flow',
-    description: 'Color Doppler in an apical 4-chamber view showing blood flow through the mitral and tricuspid valves.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Apical_four_chamber_view.jpg/800px-Apical_four_chamber_view.jpg',
-    category: 'Doppler',
-    assessment: [
+    "id": "2",
+    "title": "Doppler Ultrasound Principles",
+    "description": "Understanding the Doppler effect, color flow, and spectral Doppler.",
+    "citation": "Source: Radiology Tutorials",
+    "embedUrl": "https://www.youtube.com/embed/TkjyyzsNpaU",
+    "thumbnail": "https://img.youtube.com/vi/TkjyyzsNpaU/hqdefault.jpg",
+    "duration": "22:10",
+    "script": "I spent 40 hours analyzing vascular ultrasound cases and reading the core Doppler physics papers for you, so here is the cliffnotes version to save you a week of studying.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is the Doppler Effect?).\n• Part 2: Core Concepts (The Doppler Equation and Aliasing).\n• Part 3: Practical Application (Color vs. Spectral Doppler).\n• Part 4: The \"Holy Sh*t\" Insight (The 90-degree trap).\n\n**2. What it is NOT**\nThe easiest way to first define the Doppler Effect is what it is not. It is not a measurement of the actual speed of blood. It is a measurement of the *change in frequency* of a sound wave when it bounces off moving red blood cells.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the Doppler Equation variables... just think about \"Two Crazy Foxes Velocity Cosine\" (2 x Frequency x Velocity x Cosine). This tells you exactly what creates a Doppler shift.\n\n**4. Core Concepts / Crash Course**\n- **The Doppler Shift:** Toward the probe = higher frequency. Away = lower frequency.\n- **Cosine Theta:** The angle is critical. Cosine of 90 degrees is 0, meaning NO shift is detected.\n- **Aliasing:** When high velocity flow \"wraps around\" the baseline. This happens when the shift exceeds the Nyquist Limit (PRF/2).\n\n**5. The Analogy**\nThink of the Doppler angle like a radar gun catching a speeding car. If the car is driving directly at the police officer (0 degrees), the radar gets a perfect read. If the car is driving perfectly sideways past the officer (90 degrees), the radar registers zero speed.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to set up a vascular workflow. Always steer your color box with the angle of the vessel to avoid a 90-degree angle. Keep your spectral Doppler angle at 60 degrees or less.\n\n**7. The \"Holy Sh*t\" Insight**\nIf you are exactly perpendicular (90 degrees) to a vessel, your Color Doppler will show no color, and your Spectral Doppler will show a flat line. You might falsely diagnose a total occlusion just because of bad physics!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Build a system where you automatically check your angle correction before you ever hit \"freeze\" on a spectral waveform.\n\n**9. The Assessment**\nAs promised, here is a little assessment.\n1. What happens to the Doppler shift at a 90-degree angle?\n2. What artifact happens when the Doppler shift exceeds the Nyquist Limit?\n3. Which Doppler mode is most sensitive to slow flow?",
+    "assessment": [
       {
-        id: 'q-v9-1',
-        question: 'In standard color maps (BART), what does blue represent?',
-        options: [
-          'Flow toward the transducer',
-          'Flow away from the transducer',
-          'Turbulent flow',
-          'Slow flow'
+        "id": "q2-1",
+        "question": "What happens to the Doppler shift at a 90-degree angle?",
+        "options": [
+          "It is maximum",
+          "It is zero",
+          "It is negative",
+          "It is doubled"
         ],
-        correctAnswer: 1,
-        explanation: 'BART stands for Blue Away, Red Toward.'
-      }
-    ]
-  },
-  {
-    id: 'v10',
-    title: 'Edge Shadowing Artifact',
-    description: 'Refraction at the curved edges of a circular structure (like a cyst) causes the beam to diverge, creating shadows at the edges.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg',
-    category: 'Artifacts',
-    assessment: [
+        "correctAnswer": 1,
+        "explanation": "The cosine of 90 degrees is zero, so no Doppler shift is detected."
+      },
       {
-        id: 'q-v10-1',
-        question: 'What physical principle causes edge shadowing?',
-        options: [
-          'Reflection',
-          'Refraction',
-          'Scattering',
-          'Absorption'
+        "id": "q2-2",
+        "question": "What artifact happens when the Doppler shift exceeds the Nyquist Limit?",
+        "options": [
+          "Shadowing",
+          "Enhancement",
+          "Aliasing",
+          "Mirror Image"
         ],
-        correctAnswer: 1,
-        explanation: 'Edge shadowing is a refraction artifact occurring at curved boundaries.'
+        "correctAnswer": 2,
+        "explanation": "Aliasing occurs when the frequency shift is greater than half the PRF."
+      },
+      {
+        "id": "q2-3",
+        "question": "Which Doppler mode is most sensitive to slow flow and independent of angle?",
+        "options": [
+          "Color Doppler",
+          "Spectral Doppler",
+          "Power Doppler",
+          "Continuous Wave Doppler"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Power Doppler is highly sensitive to slow flow and does not depend on the Doppler angle."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "3",
+    "title": "Transducer Anatomy & Function",
+    "description": "How piezoelectric crystals work and the different types of ultrasound probes.",
+    "citation": "Source: Radiology Tutorials",
+    "embedUrl": "https://www.youtube.com/embed/3oVf0r51Fzw",
+    "thumbnail": "https://img.youtube.com/vi/3oVf0r51Fzw/hqdefault.jpg",
+    "duration": "18:45",
+    "script": "I tore apart three broken ultrasound probes and read the engineering manuals for you, so here is the cliffnotes version to save you 15 hours of technical reading.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Piezoelectricity?).\n• Part 2: Core Concepts (Anatomy of a transducer).\n• Part 3: Practical Application (Choosing the right probe footprint).\n• Part 4: The \"Holy Sh*t\" Insight (The matching layer miracle).\n\n**2. What it is NOT**\nThe easiest way to first define a transducer is what it is not. It is not just a camera. A camera only receives light. A transducer is both a speaker and a microphone—it sends sound pulses and then listens for the echoes.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the layers of a transducer... just think about \"Big Cats Make Dinners\" (Backing material, Crystals, Matching layer, Damping). \n\n**4. Core Concepts / Crash Course**\n- **PZT Crystal:** Converts electricity to sound and vice versa.\n- **Matching Layer:** Reduces impedance mismatch between crystal and skin. It is 1/4 wavelength thick.\n- **Backing Material:** Dampens the crystal ringing to create short pulses, improving axial resolution.\n\n**5. The Analogy**\nThink of the Piezoelectric crystals like a group of dancers. When you hit them with electricity, they physically change shape and vibrate, creating sound waves. Think of the Backing Material like a hand grabbing a ringing cymbal to stop the sound quickly.\n\n**6. Practical Application**\nTo make this actually all practical, let's look at probe selection. Linear probes for superficial structures, Curved probes for deep structures, and Phased Array probes for cardiac imaging to peek between ribs.\n\n**7. The \"Holy Sh*t\" Insight**\nWithout the matching layer and gel, 99% of the sound would reflect off the skin. The matching layer literally makes ultrasound possible by bridging the impedance gap.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Treat your probes like fragile glass. Build a system of careful handling to avoid cracking the PZT crystals.\n\n**9. The Assessment**\nAs promised, here is a little assessment.\n1. How thick is the matching layer compared to the wavelength?\n2. What is the primary purpose of the backing material?\n3. Which resolution is improved by shorter pulses?",
+    "assessment": [
+      {
+        "id": "q3-1",
+        "question": "How thick is the matching layer compared to the wavelength?",
+        "options": [
+          "1/2 wavelength",
+          "1/4 wavelength",
+          "1 wavelength",
+          "2 wavelengths"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The matching layer is designed to be exactly 1/4 wavelength thick."
+      },
+      {
+        "id": "q3-2",
+        "question": "What is the primary purpose of the backing material?",
+        "options": [
+          "Increase frequency",
+          "Dampen crystal ringing",
+          "Focus the beam",
+          "Protect the patient"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Backing material stops the crystal from ringing, creating shorter pulses."
+      },
+      {
+        "id": "q3-3",
+        "question": "Which resolution is improved by shorter spatial pulse lengths?",
+        "options": [
+          "Lateral Resolution",
+          "Axial Resolution",
+          "Elevational Resolution",
+          "Temporal Resolution"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Axial resolution (LARRD) is improved by shorter pulses."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "4",
+    "title": "Ultrasound Artifacts Explained",
+    "description": "Common imaging artifacts: reverberation, shadowing, enhancement, and more.",
+    "citation": "Source: Radiology Tutorials",
+    "embedUrl": "https://www.youtube.com/embed/auG2nND0e7w",
+    "thumbnail": "https://img.youtube.com/vi/auG2nND0e7w/hqdefault.jpg",
+    "duration": "25:30",
+    "script": "I reviewed 500 artifact cases and read the physics guidelines for you, so here is the cliffnotes version to save you 20 hours of confusion.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is an artifact?).\n• Part 2: Core Concepts (Propagation vs. Attenuation Artifacts).\n• Part 3: Practical Application (Using artifacts to diagnose).\n• Part 4: The \"Holy Sh*t\" Insight (Artifacts aren't always bad).\n\n**2. What it is NOT**\nThe easiest way to first define an artifact is what it is not. It is not a real anatomical structure. It is an error in imaging—something on the screen that doesn't actually exist in the body.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the main artifacts... just think about \"Really Silly Elephants Can't Dance\" (Reverberation, Shadowing, Enhancement, Comet-tail, Dirty shadowing).\n\n**4. Core Concepts / Crash Course**\n- **Shadowing:** Sound hits a highly attenuating structure (stone), leaving a dark area behind.\n- **Enhancement:** Sound passes through a weakly attenuating structure (cyst), making the area behind look bright.\n- **Mirror Image:** Sound reflects off a strong angled reflector (diaphragm), creating a fake duplicate.\n\n**5. The Analogy**\nThink of acoustic shadowing like standing behind a brick wall with a flashlight. The wall blocks the light. Posterior enhancement is like shining a light through a clear glass of water—it passes through so easily that the area behind it looks extra bright.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to use artifacts to your advantage. A shadow proves a stone is real. Enhancement proves a cyst is fluid.\n\n**7. The \"Holy Sh*t\" Insight**\nArtifacts are not your enemy; they are your secret weapon. Without these \"errors\" in the image, diagnosing pathology would be ten times harder.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Build a system where your eyes automatically scan the tissue *behind* a structure to check for diagnostic artifacts.\n\n**9. The Assessment**\nAs promised, here is a little assessment.\n1. What artifact is created by sound bouncing between two strong reflectors?\n2. What artifact proves that a structure is fluid-filled?\n3. Where is the fake duplicate located in a mirror image artifact?",
+    "assessment": [
+      {
+        "id": "q4-1",
+        "question": "What artifact is created by sound bouncing between two strong reflectors, creating equally spaced lines?",
+        "options": [
+          "Shadowing",
+          "Enhancement",
+          "Reverberation",
+          "Refraction"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Reverberation is caused by sound bouncing back and forth between two reflectors."
+      },
+      {
+        "id": "q4-2",
+        "question": "What artifact proves that a structure is fluid-filled?",
+        "options": [
+          "Acoustic Shadowing",
+          "Posterior Enhancement",
+          "Mirror Image",
+          "Edge Shadowing"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Posterior enhancement occurs behind weakly attenuating structures like fluid."
+      },
+      {
+        "id": "q4-3",
+        "question": "In a mirror image artifact, where is the fake duplicate located?",
+        "options": [
+          "Superficial to the reflector",
+          "Deep to the reflector",
+          "Inside the reflector",
+          "To the side of the reflector"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The machine places the mirror image deeper than the real structure."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "5",
+    "title": "Vascular Ultrasound & Hemodynamics",
+    "description": "Deep dive into blood flow patterns, pressure gradients, and vascular pathology.",
+    "citation": "Source: Radiology Tutorials",
+    "embedUrl": "https://www.youtube.com/embed/-jhRhhA62Mo",
+    "thumbnail": "https://img.youtube.com/vi/-jhRhhA62Mo/hqdefault.jpg",
+    "duration": "28:15",
+    "script": "I spent 50 hours in the clinical vascular lab and read the hemodynamics manuals for you, so here is the cliffnotes version to save you 40 hours of study.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What is Hemodynamics?).\n• Part 2: Core Concepts (Bernoulli and Poiseuille).\n• Part 3: Practical Application (Measuring stenosis).\n• Part 4: The \"Holy Sh*t\" Insight (The pressure drop paradox).\n\n**2. What it is NOT**\nThe easiest way to first define Hemodynamics is what it is not. It is not just looking at a vessel. It is understanding the *forces* that move blood.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember Bernoulli's principle... just think about \"Pressure Drops When Velocity Soars\". This is the key to understanding stenosis.\n\n**4. Core Concepts / Crash Course**\n- **Bernoulli's Principle:** As velocity increases (at a stenosis), pressure must decrease to maintain energy.\n- **Laminar vs. Turbulent Flow:** Smooth parallel layers vs. chaotic swirling (bruit/thrill).\n- **Poiseuille's Law:** Relationship between pressure, resistance, and flow.\n\n**5. The Analogy**\nThink of a garden hose. If you put your thumb over the end (creating a stenosis), the water shoots out faster (increased velocity), but the pressure inside the stream actually drops.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to measure Peak Systolic Velocity (PSV). This is the gold standard for grading carotid artery stenosis.\n\n**7. The \"Holy Sh*t\" Insight**\nThe pressure is actually *lowest* at the point of highest velocity in a stenosis. This seems backwards, but it's the law of conservation of energy.\n\n**8. The Mindset Shift**\nUse the \"2-minute rule\". If you can't get a good waveform in 2 minutes, adjust your patient's position or your probe angle. Don't fight the physics; work with them.\n\n**9. The Assessment**\nAs promised, here is a little assessment.\n1. According to Bernoulli, what happens to pressure at a stenosis?\n2. What type of flow is characterized by chaotic swirling?\n3. What is the gold standard measurement for grading carotid stenosis?",
+    "assessment": [
+      {
+        "id": "q5-1",
+        "question": "According to Bernoulli's Principle, what happens to pressure at the site of a stenosis where velocity is highest?",
+        "options": [
+          "Pressure increases",
+          "Pressure decreases",
+          "Pressure stays the same",
+          "Pressure fluctuates"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Bernoulli's Principle states that as velocity increases, pressure must decrease."
+      },
+      {
+        "id": "q5-2",
+        "question": "What type of flow is characterized by chaotic swirling and spectral broadening?",
+        "options": [
+          "Laminar Flow",
+          "Plug Flow",
+          "Turbulent Flow",
+          "Parabolic Flow"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Turbulent flow is chaotic and often seen distal to a stenosis."
+      },
+      {
+        "id": "q5-3",
+        "question": "What is the primary measurement used to grade carotid artery stenosis?",
+        "options": [
+          "Mean Velocity",
+          "Peak Systolic Velocity (PSV)",
+          "End Diastolic Velocity",
+          "Volume Flow"
+        ],
+        "correctAnswer": 1,
+        "explanation": "PSV is the primary metric for grading carotid stenosis."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "6",
+    "title": "Ultrasound Bioeffects & Safety",
+    "description": "Understanding Thermal and Mechanical Indices (TI and MI) and the ALARA principle.",
+    "citation": "Source: Radiology Tutorials",
+    "embedUrl": "https://www.youtube.com/embed/R_7_O-0-7_Y",
+    "thumbnail": "https://img.youtube.com/vi/R_7_O-0-7_Y/hqdefault.jpg",
+    "duration": "15:45",
+    "script": "I read over 15 FDA regulatory documents, AIUM statements, and thermal physics papers for you so here is the cliffnotes version to save you 10 hours of regulatory reading. A single document wasn't enough to get the whole picture, so I aggregated all the standards into this ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even are ultrasound bioeffects?).\n• Part 2: Core Concepts (Thermal vs. Mechanical Index).\n• Part 3: Practical Application (Applying ALARA on the machine).\n• Part 4: The \"Holy Sh*t\" Insight (Fetal bone heating).\n\n**2. What it is NOT**\nThe easiest way to first define Bioeffects is what they are not. They are not radiation. X-rays use ionizing radiation which damages DNA. Ultrasound uses mechanical energy, meaning the risks are entirely physical: heat and vibration, not radiation damage.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the safety limits... just think about \"Tiny Hippos Make Bubbles\" (Thermal Heat, Mechanical Cavitation Bubbles).\n\n**4. Core Concepts / Crash Course**\n- **Thermal Index (TI):** The potential for tissue heating. Always keep it below 1.0 for obstetric scanning.\n- **Mechanical Index (MI):** The risk of cavitation (gas bubbles forming and popping). Important when scanning near lungs or bowel.\n- **ALARA Principle:** As Low As Reasonably Achievable.\n\n**5. The Analogy**\nThink of the Mechanical Index like singing next to a glass of water. If you sing loud and hit the right frequency, the glass shatters (cavitation). Thermal Index is simply leaving your hand over a lightbulb—eventually, the absorbed energy creates heat.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to apply ALARA which does not require any code. If you cannot see a structure, do not immediately turn up the transmit power. Instead, increase your receiver gain. Receiver gain doesn't increase patient exposure; power does.\n\n**7. The \"Holy Sh*t\" Insight**\nFetal bone absorbs heat way faster than soft tissue. After 12 weeks, when fetal bones mineralize, the risk of heating (TI) skyrockets. This is why you must minimize scan times over fetal skulls!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Focus on showing up safely. Build a system where your eyes automatically check the TI/MI numbers on the screen every single time you unfreeze the image.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Bioeffects and Safety.\n1. What type of energy does ultrasound use instead of ionizing radiation?\n2. Which index relates to the formation of cavitation bubbles?\n3. How can you increase image brightness without increasing patient exposure?\nDrop your answers in the comments below!",
+    "assessment": [
+      {
+        "id": "q6-1",
+        "question": "What does the ALARA principle stand for?",
+        "options": [
+          "Always Look At Real Anatomy",
+          "As Low As Reasonably Achievable",
+          "Acoustic Levels Are Really Awesome",
+          "All Levels Are Reasonably Acceptable"
+        ],
+        "correctAnswer": 1,
+        "explanation": "ALARA stands for As Low As Reasonably Achievable, emphasizing safety."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "7",
+    "title": "Knobology and Image Optimization",
+    "description": "Mastering the basic controls of the ultrasound machine: Gain, TGC, Depth, and Focus.",
+    "citation": "Source: Ultrasound Physics Clinicals",
+    "embedUrl": "https://www.youtube.com/embed/5D1gV37bKOU",
+    "thumbnail": "https://img.youtube.com/vi/5D1gV37bKOU/hqdefault.jpg",
+    "duration": "12:10",
+    "script": "I spent weeks taking machine optimization courses, reading user manuals, and learning knobology from veteran sonographers for you so here is the cliffnotes version to save you 15 hours of trial and error. A single source wasn't enough, so I aggregated all these workflows into the ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Knobology?).\n• Part 2: Core Concepts (Gain, Depth, Focus).\n• Part 3: Practical Application (The 3-step optimization workflow).\n• Part 4: The \"Holy Sh*t\" Insight (The frame rate collapse).\n\n**2. What it is NOT**\nThe easiest way to first define image optimization is what it is not. It is not just turning up the brightness until you see something. It is strategically manipulating physics to enhance real signals while suppressing noise.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the primary controls... just think about \"Great Dogs Find Cats\" (Gain, Depth, Focus, Contrast/Dynamic Range).\n\n**4. Core Concepts / Crash Course**\n- **Global Gain:** Amplifies all returning echoes equally.\n- **Depth:** Determines how deep the machine listens for echoes. Keep it shallow for better frame rates.\n- **Focus:** Narrows the beam at a specific depth for maximum lateral resolution.\n- **TGC (Time Gain Compensation):** Compensates for attenuation at specific depths.\n\n**5. The Analogy**\nThink of the Focus like a magnifying glass burning a leaf. Where the light beam is the narrowest, the energy is highest and the focus is sharpest. Adjusting global gain is like turning up the volume on a radio—it makes the music louder, but it also makes the static louder.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a simple workflow which does not require any code. 1: Adjust your depth so the organ fills 3/4 of the screen. 2: Move your focal zone precisely to the level of interest. 3: Sweep your TGC slide pots to create a uniform brightness from top to bottom.\n\n**7. The \"Holy Sh*t\" Insight**\nIf you add multiple focal zones, your frame rate collapses. It takes the machine mathematical time to send out multiple pulses per scan line. If your image is lagging, check your focal zones!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the 2-minute rule. If you can't see the organ clearly in 2 minutes, stop randomly twisting knobs and reset: Depth first, Focus second, Gain third.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Knobology and Image Optimization.\n1. Which control adjusts the amplification of all returning echoes equally?\n2. Where should the focal zone be placed for maximum resolution?\n3. What happens to frame rate if multiple focal zones are used?\nDrop your answers in the comments below!",
+    "assessment": [
+      {
+        "id": "q7-1",
+        "question": "What is the primary function of Time Gain Compensation (TGC)?",
+        "options": [
+          "Increase the frequency of the transducer",
+          "Adjust the focal zone depth",
+          "Compensate for acoustic attenuation",
+          "Change the display colors"
+        ],
+        "correctAnswer": 2,
+        "explanation": "TGC compensates for the attenuation of sound as it travels deeper into the tissue."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "8",
+    "title": "Spatial Resolutions Explained",
+    "description": "Breaking down Axial, Lateral, and Elevational resolution in 2D imaging.",
+    "citation": "Source: Sonography Institute",
+    "embedUrl": "https://www.youtube.com/embed/c-Ifw98J9V4",
+    "thumbnail": "https://img.youtube.com/vi/c-Ifw98J9V4/hqdefault.jpg",
+    "duration": "14:45",
+    "script": "I read thick textbooks, analyzed physics diagrams, and took detailed notes on spatial resolution for you so here is the cliffnotes version to save you 12 hours of studying. A single source wasn't enough, so I compiled multiple physics papers to create the ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Spatial Resolution?).\n• Part 2: Core Concepts (Axial, Lateral, and Elevational).\n• Part 3: Practical Application (How to improve each one).\n• Part 4: The \"Holy Sh*t\" Insight (The slice thickness illusion).\n\n**2. What it is NOT**\nThe easiest way to first define spatial resolution is what it is not. It is not temporal resolution (frame rate), nor is it contrast resolution (shades of gray). Spatial resolution is strictly the ability to accurately locate structures in physical space.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the three resolutions... just think about \"Apples Look Excellent\" (Axial, Lateral, Elevational). Or for what determines them: \"Short Pulses, Narrow Beams, Thin Slices\".\n\n**4. Core Concepts / Crash Course**\n- **Axial Resolution:** Distinguishing objects parallel to the beam. Determined by Spatial Pulse Length (SPL).\n- **Lateral Resolution:** Distinguishing objects perpendicular to the beam. Determined by beam width.\n- **Elevational Resolution:** Distinguishing objects in the Z-axis (slice thickness).\n\n**5. The Analogy**\nThink of Axial resolution like train cars on a track. If the cars are too close together, they look like one long train. Shorter train cars (shorter pulses) make it easier to see the gap between them. Lateral resolution is like trying to point at two stars with a wide flashlight beam—if the beam covers both, they blur into one.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to optimize resolution. To improve axial, increase your frequency (creates shorter pulses). To improve lateral, adjust your focal zone to narrow the beam at the object.\n\n**7. The \"Holy Sh*t\" Insight**\nElevational resolution (slice thickness) is often the worst resolution of the three, and it causes \"fill-in\" artifacts in cysts because the slice has a fixed thickness and grabs echoes from the surrounding tissue alongside the cyst.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Build the habit of prioritizing which resolution matters most for the pathology you are scanning.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Spatial Resolutions.\n1. Which resolution is determined by Spatial Pulse Length?\n2. Which resolution is determined by the width of the beam?\n3. How can you most easily improve axial resolution?\nDrop your answers in the comments!",
+    "assessment": [
+      {
+        "id": "q8-1",
+        "question": "Which of the following determines lateral resolution?",
+        "options": [
+          "Spatial Pulse Length",
+          "Beam Width",
+          "Bandwidth",
+          "Frame Rate"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Lateral resolution is directly related to the beam width."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "9",
+    "title": "Tissue Harmonic Imaging Physics",
+    "description": "How harmonic imaging improves signal-to-noise ratio and reduces artifacts.",
+    "citation": "Source: Physics for Sonographers",
+    "embedUrl": "https://www.youtube.com/embed/wzXGB0V5Igw",
+    "thumbnail": "https://img.youtube.com/vi/wzXGB0V5Igw/hqdefault.jpg",
+    "duration": "18:20",
+    "script": "I read through dozens of papers on non-linear propagation and signal processing for you so here is the cliffnotes version to save you 20 hours of reading on harmonics. A single textbook wasn't enough, so I aggregated courses and clinical case studies to create this ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even are Harmonics?).\n• Part 2: Core Concepts (Fundamental vs Harmonic frequency).\n• Part 3: Practical Application (Cleaning up the image).\n• Part 4: The \"Holy Sh*t\" Insight (The cancellation effect).\n\n**2. What it is NOT**\nThe easiest way to first define Harmonic imaging is what it is not. It is not just a digital filter applied to the image. It is an active utilization of non-linear sound wave behavior deep within the tissue.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember how Harmonics work... just think about \"Double The Digits\" (The harmonic frequency is strictly double the fundamental transmitted frequency).\n\n**4. Core Concepts / Crash Course**\n- **Fundamental Frequency:** The frequency transmitted by the transducer.\n- **Harmonic Frequency:** Exactly twice the fundamental frequency.\n- **Tissue Harmonics:** Created by non-linear sound propagation (sound speeds up slightly in compression, slows down in rarefaction).\n\n**5. The Analogy**\nThink of Harmonics like singing in a canyon. The fundamental frequency is your voice. The harmonic is the echo reflecting back, not at the same pitch, but at a perfect octave higher. Because that higher pitch is generated deep in the canyon, it doesn't suffer from the distortion at the entrance.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a workflow which does not require any code. If you are scanning a gallbladder on a technically difficult patient and the bladder is filled with artifactual noise, toggle 'THI' (Tissue Harmonic Imaging) on. The noise will vanish.\n\n**7. The \"Holy Sh*t\" Insight**\nHarmonics are completely absent at the skin surface. They only generate dynamically as the wave travels deeper. This is why surface reverberation artifacts are miraculously eliminated when using THI.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the rule: When the image gets muddy, push the magic button (THI). Build this into your baseline system rather than struggling for 10 minutes.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Tissue Harmonic Imaging.\n1. If the fundamental frequency is 3 MHz, what is the harmonic frequency?\n2. Where are tissue harmonics actually created?\n3. What is the main benefit of using harmonic imaging?\nDrop your answers in the comments below!",
+    "assessment": [
+      {
+        "id": "q9-1",
+        "question": "What is the primary advantage of Tissue Harmonic Imaging?",
+        "options": [
+          "Increases penetration depth",
+          "Reduces scattering",
+          "Improves signal-to-noise ratio by reducing artifacts",
+          "Decreases bioeffects"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Harmonics improve image quality primarily by filtering out superficial reverberation artifacts and narrowing the beam."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "10",
+    "title": "Specular vs. Diffuse Scattering",
+    "description": "Explaining the difference between reflection off smooth surfaces and scattering from small, rough interfaces.",
+    "citation": "Source: Sonography Institute",
+    "embedUrl": "https://www.youtube.com/embed/5F_fB2WwLqI",
+    "thumbnail": "https://img.youtube.com/vi/5F_fB2WwLqI/hqdefault.jpg",
+    "duration": "11:30",
+    "script": "I dug into the complex physics of acoustic scattering, Rayleigh dynamics, and reflection coefficients for you so here is the cliffnotes version to save you 15 hours of math. A single source wasn't enough, so I compiled multiple physics papers to create the ultimate guide on reflection.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Specular Reflection?).\n• Part 2: Core Concepts (Specular vs. Diffuse vs. Rayleigh).\n• Part 3: Practical Application (Angling the probe).\n• Part 4: The \"Holy Sh*t\" Insight (The angle of incidence).\n\n**2. What it is NOT**\nThe easiest way to first define Specular Reflection is what it is not. It is not the grainy, textured parenchyma of an organ like the liver. It is a mirror-like bounce.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the types of reflection... just think about \"Smooth Mirrors, Rough Scatters, Tiny Rayleighs\" (Specular for smooth, Diffuse for rough, Rayleigh for tiny red blood cells).\n\n**4. Core Concepts / Crash Course**\n- **Specular Reflection:** Sound hits a large, perfectly smooth boundary. Strongly angle-dependent.\n- **Diffuse Scattering (Backscatter):** Sound hits a boundary that is rough or small. It scatters in all directions.\n- **Rayleigh Scattering:** Sound hits structures much smaller than the wavelength (like red blood cells). Very weak reflection.\n\n**5. The Analogy**\nThink of Specular Reflection like shining a laser pointer at a bathroom mirror—if you are at an angle, the laser bounces away and you don't see it. Diffuse scattering is like shining a flashlight at a bumpy brick wall—the light scatters everywhere, so you can see the wall from any angle.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to scan a diaphragm (a specular reflector). To get the brightest line on your screen, your ultrasound beam must hit the diaphragm at exactly 90 degrees. If you are off by even a few degrees, the echo bounces away from the probe and the structure fades.\n\n**7. The \"Holy Sh*t\" Insight**\nThe beautiful, uniform \"texture\" of the liver that we use to diagnose disease is entirely made up of diffuse scattering. If our bodies only had specular reflectors, we would only see outlines of organs and the insides would be black!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Build a system where you always \"heel and toe\" the probe automatically to find that perfect perfect 90-degree angle for boundaries.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Specular and Diffuse Scattering.\n1. What type of reflection requires a 90-degree angle to be seen best?\n2. What type of scattering is produced by red blood cells?\n3. What creates the textured appearance of solid organs?\nDrop your answers in the comments below!",
+    "assessment": [
+      {
+        "id": "q10-1",
+        "question": "Which type of reflection occurs when sound hits the diaphragm?",
+        "options": [
+          "Specular Reflection",
+          "diffuse Scattering",
+          "Rayleigh Scattering",
+          "Refraction"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The diaphragm is a large, smooth reflector, creating specular reflection."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "11",
+    "title": "The Pulse-Echo Principle",
+    "description": "How the machine calculates depth using the 13-microsecond rule.",
+    "citation": "Source: Physics for Sonographers",
+    "embedUrl": "https://www.youtube.com/embed/fVfU6J0y5K0",
+    "thumbnail": "https://img.youtube.com/vi/fVfU6J0y5K0/hqdefault.jpg",
+    "duration": "09:45",
+    "script": "I studied the timing circuitry modules and range equation math breakdowns for you so here is the cliffnotes version to save you 10 hours of physics calculations. A single source wasn't enough, so I aggregated textbooks and technical lectures to create the ultimate guide on the Pulse-Echo Principle.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is the Pulse-Echo Principle?).\n• Part 2: Core Concepts (The Range Equation and the 13-microsecond rule).\n• Part 3: Practical Application (How the machine draws the image).\n• Part 4: The \"Holy Sh*t\" Insight (The limitation of speed).\n\n**2. What it is NOT**\nThe easiest way to first define the Pulse-Echo Principle is what it is not. The machine does NOT know how deep anything is magically. It does not measure distance directly. It exclusively measures *Time*.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the rule... just think about \"Thirteen Travels One\" (13 microseconds of travel time equals 1 centimeter of depth).\n\n**4. Core Concepts / Crash Course**\n- **The Pulse-Echo Principle:** The transducer sends a pulse, starts a timer, waits for the echo, stops the timer, and calculates depth based on the travel time.\n- **The Range Equation:** Distance = (Speed x Time) / 2.\n- **The 13-Microsecond Rule:** In soft tissue (1540 m/s), every 13 microseconds of go-and-return time means the reflector is 1cm deeper into the body.\n\n**5. The Analogy**\nThink of the Pulse-Echo principle like throwing a rubber ball at a wall in the dark. You can't see the wall, but if you know how fast you throw the ball, and you time how long it takes to bounce back to your hand, you can perfectly calculate how far away the wall is.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a calculation workflow which does not require any code. If the machine clocks an echo returning at exactly 39 microseconds, it divides 39 by 13. The result is 3. The machine plots a bright dot exactly 3cm deep on the screen.\n\n**7. The \"Holy Sh*t\" Insight**\nThe speed of sound in the body is fixed. Because of this, the deeper you ask the machine to look, the longer it must wait for the echoes. This fundamental speed limit is the reason frame rates drop dramatically when you increase your depth! You literally cannot defy physics.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the principle of \"shallow depth first\". Build the habit of keeping your depth as shallow as possible to maximize your frame rate based on the machine's fixed timing loop.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on the Pulse-Echo Principle.\n1. What does the ultrasound machine actually measure to determine depth?\n2. If an echo returns in 26 microseconds, how deep is the structure?\n3. Why does increasing depth lower frame rate?\nDrop your answers in the comments below!",
+    "assessment": [
+      {
+        "id": "q11-1",
+        "question": "If the time of flight is 39 microseconds, how deep is the reflector?",
+        "options": [
+          "1 cm",
+          "2 cm",
+          "3 cm",
+          "6 cm"
+        ],
+        "correctAnswer": 2,
+        "explanation": "39 / 13 = 3 cm depth."
+      }
+    ],
+    "isLocal": false
+  },
+  {
+    "id": "12",
+    "title": "Mastering Global Gain vs. TGC",
+    "description": "A practical guide to optimizing your image brightness and compensating for attenuation.",
+    "citation": "Source: Clinical Sonography Tips",
+    "embedUrl": "https://www.youtube.com/embed/nU2U6qUuV5o",
+    "thumbnail": "https://img.youtube.com/vi/nU2U6qUuV5o/hqdefault.jpg",
+    "duration": "08:20",
+    "script": "I spent weeks shadowing experts, reading the physics of attenuation, and learning exact knobology workflows for you so here is the cliffnotes version to save you 20 hours of frustrating scanning. A single source wasn't enough, so I aggregated multiple clinical courses to create the ultimate guide on Gain and TGC.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even are Gain and TGC?).\n• Part 2: Core Concepts (Attenuation and Amplification).\n• Part 3: Practical Application (The swept-gain workflow).\n• Part 4: The \"Holy Sh*t\" Insight (Signal-to-Noise Ratio).\n\n**2. What it is NOT**\nThe easiest way to first define Receiver Gain is what it is not. It is not Output Power. Gain does not change the strength of the pulse entering the patient. It only amplifies the echoes *after* they return.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the difference... just think about \"Global Gives All, Time Targets Depth\" (Global Gain amplifies all depths equally, Time Gain Compensation targets specific depths).\n\n**4. Core Concepts / Crash Course**\n- **Attenuation:** Sound weakens as it travels deep into tissue, making deep echoes artificially dark.\n- **Global Gain:** Amplifies all returning electrical signals uniformly in the receiver.\n- **TGC (Time Gain Compensation):** Selectively amplifies echoes coming from deeper structures to compensate for attenuation, making a liver look uniformly bright.\n\n**5. The Analogy**\nThink of your ultrasound echoes like a group of people whispering. Global gain is turning up your hearing aid—it makes everyone louder, including background noise. TGC is like pointing a directional microphone only at the people whispering far away in the back of the room so you can hear them better without blowing your ears out from the people in front.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a TGC workflow which does not require any code. Look at your liver image. The top half is bright, the bottom half is black. Do NOT turn up Global Gain, because the top will get overly bright. Instead, push the bottom TGC sliders to the right to selectively amplify only the deep echoes until the image is uniform.\n\n**7. The \"Holy Sh*t\" Insight**\nTurning up gain DOES NOT improve the underlying quality of the beam. It just amplifies everything, including noise. If your image is garbage initially, increasing the gain just gives you brighter garbage! You must fix the penetration (frequency) first.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the \"Uniformity Rule\". Build a system where your first instinct is never to touch the main gain knob until you've leveled out your TGC sliders to create a uniform tissue texture.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Global Gain and TGC.\n1. Which control amplifies all returning echoes equally?\n2. What physical process is TGC designed to explicitly compensate for?\n3. Does turning up Global Gain increase acoustic exposure to the patient?\nDrop your answers in the comments below!",
+    "assessment": [
+      {
+        "id": "q12-1",
+        "question": "Which control should you use if the bottom of your image is too dark due to attenuation?",
+        "options": [
+          "Global Gain",
+          "TGC",
+          "Frequency",
+          "Power"
+        ],
+        "correctAnswer": 1,
+        "explanation": "TGC is specifically designed to compensate for attenuation at specific depths."
+      }
+    ],
+    "isLocal": false
+  }
+] as VideoItem[],
+  visuals: [
+  {
+    "id": "v1",
+    "title": "Figure 1.1: Frequency of Sound",
+    "description": "Frequency of sound is the number of cycles per second (s) and is expressed in Hertz (1 cycle / sec). In Wave A, the frequency is 2 cycles per sec or 2 Hertz and in wave B the frequency is 3 cycles per sec or 3 Hertz.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png",
+    "category": "Physics Basics",
+    "assessment": [
+      {
+        "id": "q-v1-1",
+        "question": "If a sound wave has a frequency of 5 Hertz, how many cycles occur in 2 seconds?",
+        "options": [
+          "5 cycles",
+          "10 cycles",
+          "2.5 cycles",
+          "20 cycles"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Frequency is cycles per second. 5 Hz means 5 cycles per second. In 2 seconds, 5 * 2 = 10 cycles occur."
       }
     ]
   },
   {
-    id: 'v19',
-    title: 'Diaphragm Mirror Image',
-    description: 'A classic example of a mirror image artifact. The diaphragm acts as a strong specular reflector, creating a duplicate of the liver parenchyma or a mass above the diaphragm.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ultrasound_mirror_image_artifact.jpg/800px-Ultrasound_mirror_image_artifact.jpg',
-    category: 'Artifacts',
-    assessment: [
+    "id": "v2",
+    "title": "Figure 1.2: Amplitude",
+    "description": "Amplitude (A) is defined by the difference between the peak (maximum) or trough (minimum) of the wave and the average value. Units of amplitude are expressed in million Pascals (MPa).",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png",
+    "category": "Physics Basics",
+    "assessment": [
       {
-        id: 'q-v19-1',
-        question: 'In a mirror image artifact of the liver, where is the false duplicate image located?',
-        options: ['Deep to the diaphragm', 'Superficial to the diaphragm', 'Inside the gallbladder', 'In the kidney'],
-        correctAnswer: 0,
-        explanation: 'The false duplicate is always placed deeper than the real structure because the sound takes longer to return after reflecting off the mirror.'
+        "id": "q-v2-1",
+        "question": "Which of the following units is used to express the amplitude of an acoustic pressure wave in clinical imaging?",
+        "options": [
+          "Watts",
+          "Hertz",
+          "MegaPascals (MPa)",
+          "Rayls"
+        ],
+        "correctAnswer": 2,
+        "explanation": "In clinical ultrasound imaging, pressure amplitude is typically expressed in MegaPascals (MPa)."
       }
     ]
   },
   {
-    id: 'v20',
-    title: 'Gallstone with Posterior Shadowing',
-    description: 'A highly attenuating gallstone blocks the sound beam, creating a dark "clean" shadow deep to the stone.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg',
-    category: 'Artifacts',
-    assessment: [
+    "id": "v3",
+    "title": "Figure 1.3: Wavelength",
+    "description": "The wavelength of a sound wave is the length of a wave and is defined as the distance of a complete cycle. It is designated by the symbol lambda (λ), and is expressed in mm.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png",
+    "category": "Physics Basics",
+    "assessment": [
       {
-        id: 'q-v20-1',
-        question: 'What physical process primarily causes the shadowing seen behind a gallstone?',
-        options: ['Refraction', 'Absorption and Reflection', 'Scattering', 'Enhancement'],
-        correctAnswer: 1,
-        explanation: 'Shadowing occurs because the stone either absorbs or reflects nearly all the sound energy, leaving none to travel deeper.'
+        "id": "q-v3-1",
+        "question": "As frequency increases, what happens to the wavelength in a given medium?",
+        "options": [
+          "Increases",
+          "Decreases",
+          "Stays the same",
+          "Doubles"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Wavelength and frequency are inversely proportional (λ = c/f). As frequency increases, wavelength decreases."
       }
     ]
   },
   {
-    id: 'v21',
-    title: 'Renal Cyst with Enhancement',
-    description: 'A simple renal cyst showing posterior acoustic enhancement. The fluid in the cyst attenuates sound less than the surrounding kidney tissue.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg',
-    category: 'Artifacts',
-    assessment: [
+    "id": "v4",
+    "title": "Figure 1.4: Piezoelectric Crystals",
+    "description": "Piezoelectric crystals shown within a transducer. Note the symmetrical arrangement of the crystals. The crystals convert electric current to ultrasound and vice versa.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Ultrasound_transducer_types.jpg/800px-Ultrasound_transducer_types.jpg",
+    "category": "Transducers",
+    "assessment": [
       {
-        id: 'q-v21-1',
-        question: 'Why does posterior enhancement occur behind a simple cyst?',
-        options: ['The cyst reflects more sound', 'The cyst is highly attenuating', 'The cyst is weakly attenuating', 'The cyst refracts the beam'],
-        correctAnswer: 2,
-        explanation: 'Fluid-filled cysts are weakly attenuating, meaning more sound energy reaches the tissues behind them compared to surrounding tissues.'
+        "id": "q-v4-1",
+        "question": "What is the primary material used for piezoelectric elements in modern transducers?",
+        "options": [
+          "Quartz",
+          "Lead Zirconate Titanate (PZT)",
+          "Tungsten",
+          "Silicon"
+        ],
+        "correctAnswer": 1,
+        "explanation": "PZT (Lead Zirconate Titanate) is the most common synthetic ceramic used for piezoelectric elements."
       }
     ]
   },
   {
-    id: 'v22',
-    title: 'Fetal Profile - 20 Weeks',
-    description: 'A mid-sagittal view of a fetal profile. This view is used to assess the nasal bone and nuchal translucency.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Fetal_ultrasound.jpg/800px-Fetal_ultrasound.jpg',
-    category: 'OB/GYN',
-    assessment: [
+    "id": "v5",
+    "title": "Figure 1.5: Echogenicity",
+    "description": "Ultrasound image of fetal extremities. Note the hyperechoic femur, the hypoechoic soft tissue in the thigh and anechoic amniotic fluid.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Ultrasound_of_the_liver_and_right_kidney.jpg/800px-Ultrasound_of_the_liver_and_right_kidney.jpg",
+    "category": "Image Formation",
+    "assessment": [
       {
-        id: 'q-v22-1',
-        question: 'Which of the following is a key landmark in a mid-sagittal fetal profile view?',
-        options: ['Stomach', 'Nasal bone', 'Kidneys', 'Bladder'],
-        correctAnswer: 1,
-        explanation: 'The nasal bone is a critical landmark assessed in the fetal profile view during the second trimester.'
+        "id": "q-v5-1",
+        "question": "Which term describes a structure that is completely black (echo-free) on ultrasound?",
+        "options": [
+          "Hyperechoic",
+          "Hypoechoic",
+          "Isoechoic",
+          "Anechoic"
+        ],
+        "correctAnswer": 3,
+        "explanation": "Anechoic means without echoes, appearing black on the screen (e.g., simple fluid)."
       }
     ]
   },
   {
-    id: 'v23',
-    title: 'Color Doppler Aliasing',
-    description: 'Color Doppler image showing aliasing. Notice the color wrapping from red to blue without passing through the black baseline, indicating the velocity exceeds the Nyquist limit.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/ColourDopplerA.jpg',
-    category: 'Doppler',
-    assessment: [
+    "id": "v6",
+    "title": "A-Mode Ultrasound",
+    "description": "Amplitude mode (A-mode) display showing spikes representing the depth and strength of echoes. Commonly used in ophthalmology.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/A-scan_ultrasound_of_the_eye.jpg/800px-A-scan_ultrasound_of_the_eye.jpg",
+    "category": "Display Modes",
+    "assessment": [
       {
-        id: 'q-v23-1',
-        question: 'How can you correct color aliasing in this image?',
-        options: ['Decrease the PRF (scale)', 'Increase the PRF (scale)', 'Increase the frequency', 'Decrease the wall filter'],
-        correctAnswer: 1,
-        explanation: 'Increasing the PRF (scale) increases the Nyquist limit, which helps resolve aliasing.'
+        "id": "q-v6-1",
+        "question": "In A-mode, what does the height of the spike represent?",
+        "options": [
+          "Depth",
+          "Amplitude (Strength)",
+          "Velocity",
+          "Frequency"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The height of the spike in A-mode represents the amplitude or strength of the returning echo."
       }
     ]
   },
   {
-    id: 'v24',
-    title: 'Comet Tail Artifact',
-    description: 'A type of reverberation artifact caused by small, highly reflective structures like cholesterol crystals or metal, creating a solid bright line extending downwards.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Comet_tail_artifact_on_ultrasound.jpg/800px-Comet_tail_artifact_on_ultrasound.jpg',
-    category: 'Artifacts',
-    assessment: [
+    "id": "v7",
+    "title": "M-Mode Echocardiogram",
+    "description": "Motion mode (M-mode) showing the movement of the mitral valve over time. Excellent for assessing fast-moving structures like heart valves.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mitral_valve_M-mode.jpg/800px-Mitral_valve_M-mode.jpg",
+    "category": "Display Modes",
+    "assessment": [
       {
-        id: 'q-v24-1',
-        question: 'Comet tail artifact is a specific form of which broader category of artifact?',
-        options: ['Refraction', 'Shadowing', 'Reverberation', 'Enhancement'],
-        correctAnswer: 2,
-        explanation: 'Comet tail is a form of reverberation where the reflective interfaces are very close together.'
+        "id": "q-v7-1",
+        "question": "What is the primary advantage of M-mode?",
+        "options": [
+          "High spatial resolution",
+          "High temporal resolution",
+          "3D imaging",
+          "Color flow mapping"
+        ],
+        "correctAnswer": 1,
+        "explanation": "M-mode has very high temporal resolution, making it ideal for tracking rapid motion."
+      }
+    ]
+  },
+  {
+    "id": "v8",
+    "title": "Spectral Doppler: Carotid Artery",
+    "description": "Spectral Doppler waveform of the common carotid artery showing peak systolic and end diastolic velocities.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Carotid_ultrasound.jpg/800px-Carotid_ultrasound.jpg",
+    "category": "Doppler",
+    "assessment": [
+      {
+        "id": "q-v8-1",
+        "question": "What does the x-axis represent in a spectral Doppler display?",
+        "options": [
+          "Velocity",
+          "Time",
+          "Depth",
+          "Amplitude"
+        ],
+        "correctAnswer": 1,
+        "explanation": "In spectral Doppler, the x-axis represents time and the y-axis represents velocity (or frequency shift)."
+      }
+    ]
+  },
+  {
+    "id": "v9",
+    "title": "Color Doppler: Cardiac Flow",
+    "description": "Color Doppler in an apical 4-chamber view showing blood flow through the mitral and tricuspid valves.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Apical_four_chamber_view.jpg/800px-Apical_four_chamber_view.jpg",
+    "category": "Doppler",
+    "assessment": [
+      {
+        "id": "q-v9-1",
+        "question": "In standard color maps (BART), what does blue represent?",
+        "options": [
+          "Flow toward the transducer",
+          "Flow away from the transducer",
+          "Turbulent flow",
+          "Slow flow"
+        ],
+        "correctAnswer": 1,
+        "explanation": "BART stands for Blue Away, Red Toward."
+      }
+    ]
+  },
+  {
+    "id": "v10",
+    "title": "Edge Shadowing Artifact",
+    "description": "Refraction at the curved edges of a circular structure (like a cyst) causes the beam to diverge, creating shadows at the edges.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg",
+    "category": "Artifacts",
+    "assessment": [
+      {
+        "id": "q-v10-1",
+        "question": "What physical principle causes edge shadowing?",
+        "options": [
+          "Reflection",
+          "Refraction",
+          "Scattering",
+          "Absorption"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Edge shadowing is a refraction artifact occurring at curved boundaries."
+      }
+    ]
+  },
+  {
+    "id": "v19",
+    "title": "Diaphragm Mirror Image",
+    "description": "A classic example of a mirror image artifact. The diaphragm acts as a strong specular reflector, creating a duplicate of the liver parenchyma or a mass above the diaphragm.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ultrasound_mirror_image_artifact.jpg/800px-Ultrasound_mirror_image_artifact.jpg",
+    "category": "Artifacts",
+    "assessment": [
+      {
+        "id": "q-v19-1",
+        "question": "In a mirror image artifact of the liver, where is the false duplicate image located?",
+        "options": [
+          "Deep to the diaphragm",
+          "Superficial to the diaphragm",
+          "Inside the gallbladder",
+          "In the kidney"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The false duplicate is always placed deeper than the real structure because the sound takes longer to return after reflecting off the mirror."
+      }
+    ]
+  },
+  {
+    "id": "v20",
+    "title": "Gallstone with Posterior Shadowing",
+    "description": "A highly attenuating gallstone blocks the sound beam, creating a dark \"clean\" shadow deep to the stone.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg",
+    "category": "Artifacts",
+    "assessment": [
+      {
+        "id": "q-v20-1",
+        "question": "What physical process primarily causes the shadowing seen behind a gallstone?",
+        "options": [
+          "Refraction",
+          "Absorption and Reflection",
+          "Scattering",
+          "Enhancement"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Shadowing occurs because the stone either absorbs or reflects nearly all the sound energy, leaving none to travel deeper."
+      }
+    ]
+  },
+  {
+    "id": "v21",
+    "title": "Renal Cyst with Enhancement",
+    "description": "A simple renal cyst showing posterior acoustic enhancement. The fluid in the cyst attenuates sound less than the surrounding kidney tissue.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg",
+    "category": "Artifacts",
+    "assessment": [
+      {
+        "id": "q-v21-1",
+        "question": "Why does posterior enhancement occur behind a simple cyst?",
+        "options": [
+          "The cyst reflects more sound",
+          "The cyst is highly attenuating",
+          "The cyst is weakly attenuating",
+          "The cyst refracts the beam"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Fluid-filled cysts are weakly attenuating, meaning more sound energy reaches the tissues behind them compared to surrounding tissues."
+      }
+    ]
+  },
+  {
+    "id": "v22",
+    "title": "Fetal Profile - 20 Weeks",
+    "description": "A mid-sagittal view of a fetal profile. This view is used to assess the nasal bone and nuchal translucency.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Fetal_ultrasound.jpg/800px-Fetal_ultrasound.jpg",
+    "category": "OB/GYN",
+    "assessment": [
+      {
+        "id": "q-v22-1",
+        "question": "Which of the following is a key landmark in a mid-sagittal fetal profile view?",
+        "options": [
+          "Stomach",
+          "Nasal bone",
+          "Kidneys",
+          "Bladder"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The nasal bone is a critical landmark assessed in the fetal profile view during the second trimester."
+      }
+    ]
+  },
+  {
+    "id": "v23",
+    "title": "Color Doppler Aliasing",
+    "description": "Color Doppler image showing aliasing. Notice the color wrapping from red to blue without passing through the black baseline, indicating the velocity exceeds the Nyquist limit.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cc/ColourDopplerA.jpg",
+    "category": "Doppler",
+    "assessment": [
+      {
+        "id": "q-v23-1",
+        "question": "How can you correct color aliasing in this image?",
+        "options": [
+          "Decrease the PRF (scale)",
+          "Increase the PRF (scale)",
+          "Increase the frequency",
+          "Decrease the wall filter"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Increasing the PRF (scale) increases the Nyquist limit, which helps resolve aliasing."
+      }
+    ]
+  },
+  {
+    "id": "v24",
+    "title": "Comet Tail Artifact",
+    "description": "A type of reverberation artifact caused by small, highly reflective structures like cholesterol crystals or metal, creating a solid bright line extending downwards.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Comet_tail_artifact_on_ultrasound.jpg/800px-Comet_tail_artifact_on_ultrasound.jpg",
+    "category": "Artifacts",
+    "assessment": [
+      {
+        "id": "q-v24-1",
+        "question": "Comet tail artifact is a specific form of which broader category of artifact?",
+        "options": [
+          "Refraction",
+          "Shadowing",
+          "Reverberation",
+          "Enhancement"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Comet tail is a form of reverberation where the reflective interfaces are very close together."
+      }
+    ]
+  },
+  {
+    "id": "weaver-echo-1",
+    "title": "Case Study: Severe LV Dysfunction (Simpson's Method)",
+    "description": "Apical 4 Chamber view showing manual trace of the Left Ventrical at end-systole. Calculated EF of 13.8% indicates severe global hypokinesis.",
+    "imageUrl": "/image_vault/weaver_simpsons.txt",
+    "category": "Advanced Case Studies",
+    "assessment": [
+      {
+        "id": "q-weaver-1",
+        "question": "Based on the Simpson's Biplane measurement of 13.8%, what is the clinical classification of this patient's LV function?",
+        "options": [
+          "Normal",
+          "Mildly Reduced",
+          "Moderately Reduced",
+          "Severely Reduced"
+        ],
+        "correctAnswer": 3,
+        "explanation": "An EF below 30% is generally classified as severely reduced systolic function."
+      }
+    ]
+  },
+  {
+    "id": "weaver-echo-2",
+    "title": "Mitral Regurgitation: CW Doppler Profile",
+    "description": "Continuous Wave Doppler of the mitral valve showing a high-velocity, holosystolic regurgitant jet (Vmax 459 cm/s).",
+    "imageUrl": "/image_vault/weaver_mr_doppler.txt",
+    "category": "Advanced Case Studies",
+    "assessment": [
+      {
+        "id": "q-weaver-2",
+        "question": "A MR jet velocity of 4.6 m/s corresponds to a peak pressure gradient of approximately?",
+        "options": [
+          "16 mmHg",
+          "36 mmHg",
+          "64 mmHg",
+          "85 mmHg"
+        ],
+        "correctAnswer": 3,
+        "explanation": "Using the simplified Bernoulli equation (4v^2): 4 * (4.6^2) ≈ 84.6 mmHg."
+      }
+    ]
+  },
+  {
+    "id": "weaver-echo-3",
+    "title": "LA Volume Indexing",
+    "description": "Left Atrial volume measurement in A4C view (129 ml). Indexed LA volume is a critical marker for chronic diastolic pressure elevation.",
+    "imageUrl": "/image_vault/weaver_la_vol.txt",
+    "category": "Advanced Case Studies",
+    "assessment": [
+      {
+        "id": "q-weaver-3",
+        "question": "What is the threshold for a 'severely dilated' Left Atrium in indexed volume (ml/m2)?",
+        "options": [
+          "> 28",
+          "> 34",
+          "> 42",
+          "> 48"
+        ],
+        "correctAnswer": 3,
+        "explanation": "Current guidelines define severely dilated LA as an indexed volume > 48 ml/m2."
+      }
+    ]
+  },
+  {
+    "id": "weaver-echo-4",
+    "title": "RV Function: TAPSE Measurement",
+    "description": "M-mode tracking of the lateral tricuspid annulus. TAPSE is a simple and reproducible measure of RV longitudinal function.",
+    "imageUrl": "/image_vault/weaver_tapse.txt",
+    "category": "Advanced Case Studies",
+    "assessment": [
+      {
+        "id": "q-weaver-4",
+        "question": "The measured TAPSE of 1.75 cm in this patient is considered?",
+        "options": [
+          "Normal",
+          "Mildly Reduced",
+          "Severely Reduced",
+          "Inconclusive"
+        ],
+        "correctAnswer": 0,
+        "explanation": "A TAPSE ≥ 1.7 cm is typically considered within the normal range for RV systolic function."
+      }
+    ]
+  },
+  {
+    "id": "weaver-echo-5",
+    "title": "LV contractility: dP/dt",
+    "description": "Calculated dP/dt of 1102 mmHg/s derived from the MR spectral envelope. This measures the rate of pressure rise in the LV during isovolumetric contraction.",
+    "imageUrl": "/image_vault/weaver_dpdt.txt",
+    "category": "Advanced Case Studies",
+    "assessment": [
+      {
+        "id": "q-weaver-5",
+        "question": "A dP/dt value of 1102 mmHg/s is generally indicative of?",
+        "options": [
+          "Normal systolic function",
+          "Impaired systolic function",
+          "Hyperdynamic function",
+          "Diastolic dysfunction only"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Normal dP/dt is > 1200 mmHg/s. A value of 1102 suggests impaired LV global contractility."
       }
     ]
   }
-];
-
-export const VIDEOS: VideoItem[] = [
-  {
-    id: '1',
-    title: 'Ultrasound Physics Basics',
-    description: 'A comprehensive overview of sound waves, frequency, and propagation in tissue.',
-    citation: 'Source: Radiology Tutorials',
-    embedUrl: 'https://www.youtube.com/embed/xtdfCGz6e1Y',
-    thumbnail: 'https://img.youtube.com/vi/xtdfCGz6e1Y/hqdefault.jpg',
-    duration: '9:07',
-    script: `I read through 5 different physics textbooks and 20 hours of lectures for you, so here is the cliffnotes version to save you 30 hours of study time.
-
-But as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment. If you can answer these questions by the end, you are officially "educated" on Ultrasound Physics Basics.
-
-**1. The Roadmap**
-• Part 1: Definitions (What even is Ultrasound?).
-• Part 2: Core Concepts (Frequency, Wavelength, Propagation, and Attenuation).
-• Part 3: Practical Application (Choosing the right transducer).
-• Part 4: The "Holy Sh*t" Insight (The ultimate trade-off).
-
-**2. What it is NOT**
-The easiest way to first define Ultrasound is the given example of what is not Ultrasound. Audible sound is what you hear every day, ranging from 20 Hz to 20,000 Hz. Ultrasound is simply sound waves with frequencies higher than humans can hear—above 20,000 Hz. It is also NOT an electromagnetic wave like an X-ray; it is a mechanical, longitudinal wave that requires a medium to travel through.
-
-**3. The Mnemonic**
-Here is a mnemonic in case you can't remember the parameters of a sound wave... just think about "Fat Walruses Play Ping-pong" (Frequency, Wavelength, Period, Propagation speed). These are the core variables we manipulate to get a clear image.
-
-**4. Core Concepts / Crash Course**
-- **Frequency (f):** Cycles per second. Higher frequency = better resolution but less penetration.
-- **Propagation Speed (c):** How fast sound travels. In soft tissue, it is exactly 1,540 m/s.
-- **Attenuation:** The weakening of sound as it travels. It happens through Absorption, Scattering, and Reflection.
-
-**5. The Analogy**
-Think of sound propagation through tissue like a crowded concert. If the crowd is tightly packed and stiff (like bone), the "wave" of people pushing each other travels super fast. If the crowd is sparse and squishy (like air or lungs), the wave dissipates and travels slowly. 
-
-**6. Practical Application**
-To make this actually all practical, I'm going to show you how to choose the right transducer. If you are scanning a superficial structure like a thyroid, you use a high-frequency linear probe. If you are scanning a deep liver, you use a lower-frequency curvilinear probe. You sacrifice some resolution for the penetration you need.
-
-**7. The "Holy Sh*t" Insight**
-The ultimate trade-off in ultrasound is always Penetration vs. Resolution. You cannot have both. This is the fundamental law of ultrasound physics. If you want to see deeper, you must accept a blurrier image.
-
-**8. The Mindset Shift**
-Focus on showing up rather than perfection. You do not rise to the level of your goals, you fall to the level of your systems. Build the system of always adjusting your frequency and depth on every single patient.
-
-**9. The Assessment**
-As promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Ultrasound Physics Basics.
-1. What is the average propagation speed of sound in soft tissue?
-2. Which of the following is NOT a component of attenuation?
-3. As frequency increases, what happens to wavelength?`,
-    assessment: [
-      {
-        id: 'q1-1',
-        question: 'What is the average propagation speed of sound in soft tissue?',
-        options: ['330 m/s', '1,450 m/s', '1,540 m/s', '3,500 m/s'],
-        correctAnswer: 2,
-        explanation: 'The standard assumed speed for soft tissue is 1,540 m/s.'
-      },
-      {
-        id: 'q1-2',
-        question: 'Which of the following is NOT a component of attenuation?',
-        options: ['Absorption', 'Scattering', 'Reflection', 'Demodulation'],
-        correctAnswer: 3,
-        explanation: 'Demodulation is a receiver function, not a component of sound attenuation.'
-      },
-      {
-        id: 'q1-3',
-        question: 'As frequency increases, what happens to wavelength?',
-        options: ['Increases', 'Decreases', 'Stays the same', 'Doubles'],
-        correctAnswer: 1,
-        explanation: 'Wavelength and frequency are inversely proportional (λ = c/f).'
-      }
-    ]
-  },
-  {
-    id: '2',
-    title: 'Doppler Ultrasound Principles',
-    description: 'Understanding the Doppler effect, color flow, and spectral Doppler.',
-    citation: 'Source: Radiology Tutorials',
-    embedUrl: 'https://www.youtube.com/embed/TkjyyzsNpaU',
-    thumbnail: 'https://img.youtube.com/vi/TkjyyzsNpaU/hqdefault.jpg',
-    duration: '22:10',
-    script: `I spent 40 hours analyzing vascular ultrasound cases and reading the core Doppler physics papers for you, so here is the cliffnotes version to save you a week of studying.
-
-But as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.
-
-**1. The Roadmap**
-• Part 1: Definitions (What even is the Doppler Effect?).
-• Part 2: Core Concepts (The Doppler Equation and Aliasing).
-• Part 3: Practical Application (Color vs. Spectral Doppler).
-• Part 4: The "Holy Sh*t" Insight (The 90-degree trap).
-
-**2. What it is NOT**
-The easiest way to first define the Doppler Effect is what it is not. It is not a measurement of the actual speed of blood. It is a measurement of the *change in frequency* of a sound wave when it bounces off moving red blood cells.
-
-**3. The Mnemonic**
-Here is a mnemonic in case you can't remember the Doppler Equation variables... just think about "Two Crazy Foxes Velocity Cosine" (2 x Frequency x Velocity x Cosine). This tells you exactly what creates a Doppler shift.
-
-**4. Core Concepts / Crash Course**
-- **The Doppler Shift:** Toward the probe = higher frequency. Away = lower frequency.
-- **Cosine Theta:** The angle is critical. Cosine of 90 degrees is 0, meaning NO shift is detected.
-- **Aliasing:** When high velocity flow "wraps around" the baseline. This happens when the shift exceeds the Nyquist Limit (PRF/2).
-
-**5. The Analogy**
-Think of the Doppler angle like a radar gun catching a speeding car. If the car is driving directly at the police officer (0 degrees), the radar gets a perfect read. If the car is driving perfectly sideways past the officer (90 degrees), the radar registers zero speed.
-
-**6. Practical Application**
-To make this actually all practical, I'm going to show you how to set up a vascular workflow. Always steer your color box with the angle of the vessel to avoid a 90-degree angle. Keep your spectral Doppler angle at 60 degrees or less.
-
-**7. The "Holy Sh*t" Insight**
-If you are exactly perpendicular (90 degrees) to a vessel, your Color Doppler will show no color, and your Spectral Doppler will show a flat line. You might falsely diagnose a total occlusion just because of bad physics!
-
-**8. The Mindset Shift**
-You do not rise to the level of your goals, you fall to the level of your systems. Build a system where you automatically check your angle correction before you ever hit "freeze" on a spectral waveform.
-
-**9. The Assessment**
-As promised, here is a little assessment.
-1. What happens to the Doppler shift at a 90-degree angle?
-2. What artifact happens when the Doppler shift exceeds the Nyquist Limit?
-3. Which Doppler mode is most sensitive to slow flow?`,
-    assessment: [
-      {
-        id: 'q2-1',
-        question: 'What happens to the Doppler shift at a 90-degree angle?',
-        options: ['It is maximum', 'It is zero', 'It is negative', 'It is doubled'],
-        correctAnswer: 1,
-        explanation: 'The cosine of 90 degrees is zero, so no Doppler shift is detected.'
-      },
-      {
-        id: 'q2-2',
-        question: 'What artifact happens when the Doppler shift exceeds the Nyquist Limit?',
-        options: ['Shadowing', 'Enhancement', 'Aliasing', 'Mirror Image'],
-        correctAnswer: 2,
-        explanation: 'Aliasing occurs when the frequency shift is greater than half the PRF.'
-      },
-      {
-        id: 'q2-3',
-        question: 'Which Doppler mode is most sensitive to slow flow and independent of angle?',
-        options: ['Color Doppler', 'Spectral Doppler', 'Power Doppler', 'Continuous Wave Doppler'],
-        correctAnswer: 2,
-        explanation: 'Power Doppler is highly sensitive to slow flow and does not depend on the Doppler angle.'
-      }
-    ]
-  },
-  {
-    id: '3',
-    title: 'Transducer Anatomy & Function',
-    description: 'How piezoelectric crystals work and the different types of ultrasound probes.',
-    citation: 'Source: Radiology Tutorials',
-    embedUrl: 'https://www.youtube.com/embed/3oVf0r51Fzw',
-    thumbnail: 'https://img.youtube.com/vi/3oVf0r51Fzw/hqdefault.jpg',
-    duration: '18:45',
-    script: `I tore apart three broken ultrasound probes and read the engineering manuals for you, so here is the cliffnotes version to save you 15 hours of technical reading.
-
-But as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.
-
-**1. The Roadmap**
-• Part 1: Definitions (What even is Piezoelectricity?).
-• Part 2: Core Concepts (Anatomy of a transducer).
-• Part 3: Practical Application (Choosing the right probe footprint).
-• Part 4: The "Holy Sh*t" Insight (The matching layer miracle).
-
-**2. What it is NOT**
-The easiest way to first define a transducer is what it is not. It is not just a camera. A camera only receives light. A transducer is both a speaker and a microphone—it sends sound pulses and then listens for the echoes.
-
-**3. The Mnemonic**
-Here is a mnemonic in case you can't remember the layers of a transducer... just think about "Big Cats Make Dinners" (Backing material, Crystals, Matching layer, Damping). 
-
-**4. Core Concepts / Crash Course**
-- **PZT Crystal:** Converts electricity to sound and vice versa.
-- **Matching Layer:** Reduces impedance mismatch between crystal and skin. It is 1/4 wavelength thick.
-- **Backing Material:** Dampens the crystal ringing to create short pulses, improving axial resolution.
-
-**5. The Analogy**
-Think of the Piezoelectric crystals like a group of dancers. When you hit them with electricity, they physically change shape and vibrate, creating sound waves. Think of the Backing Material like a hand grabbing a ringing cymbal to stop the sound quickly.
-
-**6. Practical Application**
-To make this actually all practical, let's look at probe selection. Linear probes for superficial structures, Curved probes for deep structures, and Phased Array probes for cardiac imaging to peek between ribs.
-
-**7. The "Holy Sh*t" Insight**
-Without the matching layer and gel, 99% of the sound would reflect off the skin. The matching layer literally makes ultrasound possible by bridging the impedance gap.
-
-**8. The Mindset Shift**
-You do not rise to the level of your goals, you fall to the level of your systems. Treat your probes like fragile glass. Build a system of careful handling to avoid cracking the PZT crystals.
-
-**9. The Assessment**
-As promised, here is a little assessment.
-1. How thick is the matching layer compared to the wavelength?
-2. What is the primary purpose of the backing material?
-3. Which resolution is improved by shorter pulses?`,
-    assessment: [
-      {
-        id: 'q3-1',
-        question: 'How thick is the matching layer compared to the wavelength?',
-        options: ['1/2 wavelength', '1/4 wavelength', '1 wavelength', '2 wavelengths'],
-        correctAnswer: 1,
-        explanation: 'The matching layer is designed to be exactly 1/4 wavelength thick.'
-      },
-      {
-        id: 'q3-2',
-        question: 'What is the primary purpose of the backing material?',
-        options: ['Increase frequency', 'Dampen crystal ringing', 'Focus the beam', 'Protect the patient'],
-        correctAnswer: 1,
-        explanation: 'Backing material stops the crystal from ringing, creating shorter pulses.'
-      },
-      {
-        id: 'q3-3',
-        question: 'Which resolution is improved by shorter spatial pulse lengths?',
-        options: ['Lateral Resolution', 'Axial Resolution', 'Elevational Resolution', 'Temporal Resolution'],
-        correctAnswer: 1,
-        explanation: 'Axial resolution (LARRD) is improved by shorter pulses.'
-      }
-    ]
-  },
-  {
-    id: '4',
-    title: 'Ultrasound Artifacts Explained',
-    description: 'Common imaging artifacts: reverberation, shadowing, enhancement, and more.',
-    citation: 'Source: Radiology Tutorials',
-    embedUrl: 'https://www.youtube.com/embed/auG2nND0e7w',
-    thumbnail: 'https://img.youtube.com/vi/auG2nND0e7w/hqdefault.jpg',
-    duration: '25:30',
-    script: `I reviewed 500 artifact cases and read the physics guidelines for you, so here is the cliffnotes version to save you 20 hours of confusion.
-
-But as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.
-
-**1. The Roadmap**
-• Part 1: Definitions (What even is an artifact?).
-• Part 2: Core Concepts (Propagation vs. Attenuation Artifacts).
-• Part 3: Practical Application (Using artifacts to diagnose).
-• Part 4: The "Holy Sh*t" Insight (Artifacts aren't always bad).
-
-**2. What it is NOT**
-The easiest way to first define an artifact is what it is not. It is not a real anatomical structure. It is an error in imaging—something on the screen that doesn't actually exist in the body.
-
-**3. The Mnemonic**
-Here is a mnemonic in case you can't remember the main artifacts... just think about "Really Silly Elephants Can't Dance" (Reverberation, Shadowing, Enhancement, Comet-tail, Dirty shadowing).
-
-**4. Core Concepts / Crash Course**
-- **Shadowing:** Sound hits a highly attenuating structure (stone), leaving a dark area behind.
-- **Enhancement:** Sound passes through a weakly attenuating structure (cyst), making the area behind look bright.
-- **Mirror Image:** Sound reflects off a strong angled reflector (diaphragm), creating a fake duplicate.
-
-**5. The Analogy**
-Think of acoustic shadowing like standing behind a brick wall with a flashlight. The wall blocks the light. Posterior enhancement is like shining a light through a clear glass of water—it passes through so easily that the area behind it looks extra bright.
-
-**6. Practical Application**
-To make this actually all practical, I'm going to show you how to use artifacts to your advantage. A shadow proves a stone is real. Enhancement proves a cyst is fluid.
-
-**7. The "Holy Sh*t" Insight**
-Artifacts are not your enemy; they are your secret weapon. Without these "errors" in the image, diagnosing pathology would be ten times harder.
-
-**8. The Mindset Shift**
-You do not rise to the level of your goals, you fall to the level of your systems. Build a system where your eyes automatically scan the tissue *behind* a structure to check for diagnostic artifacts.
-
-**9. The Assessment**
-As promised, here is a little assessment.
-1. What artifact is created by sound bouncing between two strong reflectors?
-2. What artifact proves that a structure is fluid-filled?
-3. Where is the fake duplicate located in a mirror image artifact?`,
-    assessment: [
-      {
-        id: 'q4-1',
-        question: 'What artifact is created by sound bouncing between two strong reflectors, creating equally spaced lines?',
-        options: ['Shadowing', 'Enhancement', 'Reverberation', 'Refraction'],
-        correctAnswer: 2,
-        explanation: 'Reverberation is caused by sound bouncing back and forth between two reflectors.'
-      },
-      {
-        id: 'q4-2',
-        question: 'What artifact proves that a structure is fluid-filled?',
-        options: ['Acoustic Shadowing', 'Posterior Enhancement', 'Mirror Image', 'Edge Shadowing'],
-        correctAnswer: 1,
-        explanation: 'Posterior enhancement occurs behind weakly attenuating structures like fluid.'
-      },
-      {
-        id: 'q4-3',
-        question: 'In a mirror image artifact, where is the fake duplicate located?',
-        options: ['Superficial to the reflector', 'Deep to the reflector', 'Inside the reflector', 'To the side of the reflector'],
-        correctAnswer: 1,
-        explanation: 'The machine places the mirror image deeper than the real structure.'
-      }
-    ]
-  },
-  {
-    id: '5',
-    title: 'Vascular Ultrasound & Hemodynamics',
-    description: 'Deep dive into blood flow patterns, pressure gradients, and vascular pathology.',
-    citation: 'Source: Radiology Tutorials',
-    embedUrl: 'https://www.youtube.com/embed/-jhRhhA62Mo',
-    thumbnail: 'https://img.youtube.com/vi/-jhRhhA62Mo/hqdefault.jpg',
-    duration: '28:15',
-    script: `I spent 50 hours in the clinical vascular lab and read the hemodynamics manuals for you, so here is the cliffnotes version to save you 40 hours of study.
-
-But as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.
-
-**1. The Roadmap**
-• Part 1: Definitions (What is Hemodynamics?).
-• Part 2: Core Concepts (Bernoulli and Poiseuille).
-• Part 3: Practical Application (Measuring stenosis).
-• Part 4: The "Holy Sh*t" Insight (The pressure drop paradox).
-
-**2. What it is NOT**
-The easiest way to first define Hemodynamics is what it is not. It is not just looking at a vessel. It is understanding the *forces* that move blood.
-
-**3. The Mnemonic**
-Here is a mnemonic in case you can't remember Bernoulli's principle... just think about "Pressure Drops When Velocity Soars". This is the key to understanding stenosis.
-
-**4. Core Concepts / Crash Course**
-- **Bernoulli's Principle:** As velocity increases (at a stenosis), pressure must decrease to maintain energy.
-- **Laminar vs. Turbulent Flow:** Smooth parallel layers vs. chaotic swirling (bruit/thrill).
-- **Poiseuille's Law:** Relationship between pressure, resistance, and flow.
-
-**5. The Analogy**
-Think of a garden hose. If you put your thumb over the end (creating a stenosis), the water shoots out faster (increased velocity), but the pressure inside the stream actually drops.
-
-**6. Practical Application**
-To make this actually all practical, I'm going to show you how to measure Peak Systolic Velocity (PSV). This is the gold standard for grading carotid artery stenosis.
-
-**7. The "Holy Sh*t" Insight**
-The pressure is actually *lowest* at the point of highest velocity in a stenosis. This seems backwards, but it's the law of conservation of energy.
-
-**8. The Mindset Shift**
-Use the "2-minute rule". If you can't get a good waveform in 2 minutes, adjust your patient's position or your probe angle. Don't fight the physics; work with them.
-
-**9. The Assessment**
-As promised, here is a little assessment.
-1. According to Bernoulli, what happens to pressure at a stenosis?
-2. What type of flow is characterized by chaotic swirling?
-3. What is the gold standard measurement for grading carotid stenosis?`,
-    assessment: [
-      {
-        id: 'q5-1',
-        question: 'According to Bernoulli\'s Principle, what happens to pressure at the site of a stenosis where velocity is highest?',
-        options: ['Pressure increases', 'Pressure decreases', 'Pressure stays the same', 'Pressure fluctuates'],
-        correctAnswer: 1,
-        explanation: 'Bernoulli\'s Principle states that as velocity increases, pressure must decrease.'
-      },
-      {
-        id: 'q5-2',
-        question: 'What type of flow is characterized by chaotic swirling and spectral broadening?',
-        options: ['Laminar Flow', 'Plug Flow', 'Turbulent Flow', 'Parabolic Flow'],
-        correctAnswer: 2,
-        explanation: 'Turbulent flow is chaotic and often seen distal to a stenosis.'
-      },
-      {
-        id: 'q5-3',
-        question: 'What is the primary measurement used to grade carotid artery stenosis?',
-        options: ['Mean Velocity', 'Peak Systolic Velocity (PSV)', 'End Diastolic Velocity', 'Volume Flow'],
-        correctAnswer: 1,
-        explanation: 'PSV is the primary metric for grading carotid stenosis.'
-      }
-    ]
-  },
-  {
-    id: '6',
-    title: 'Ultrasound Bioeffects & Safety',
-    description: 'Understanding Thermal and Mechanical Indices (TI and MI) and the ALARA principle.',
-    citation: 'Source: Radiology Tutorials',
-    embedUrl: 'https://www.youtube.com/embed/R_7_O-0-7_Y',
-    thumbnail: 'https://img.youtube.com/vi/R_7_O-0-7_Y/hqdefault.jpg',
-    duration: '15:45',
-    script: `I reviewed the AIUM and FDA safety guidelines for you, so here is the cliffnotes version to save you 10 hours of regulatory reading.
-
-**1. The Roadmap**
-• Part 1: Thermal Index (TI).
-• Part 2: Mechanical Index (MI).
-• Part 3: The ALARA Principle.
-
-**2. Core Concepts**
-- **TI:** Relates to the potential for tissue heating. Keep it below 1.0 for most exams.
-- **MI:** Relates to cavitation (bubble formation). Keep it low, especially in lung and bowel.
-- **ALARA:** As Low As Reasonably Achievable. Use the minimum power and time needed for a diagnosis.`,
-    assessment: [
-      {
-        id: 'q6-1',
-        question: 'What does the ALARA principle stand for?',
-        options: [
-          'Always Look At Real Anatomy',
-          'As Low As Reasonably Achievable',
-          'Acoustic Levels Are Really Awesome',
-          'All Levels Are Reasonably Acceptable'
-        ],
-        correctAnswer: 1,
-        explanation: 'ALARA stands for As Low As Reasonably Achievable, emphasizing safety.'
-      }
-    ]
-  }
-];
+] as VisualItem[]
+};

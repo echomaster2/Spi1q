@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
-import { generateText } from '../src/services/aiService';
+import { generateText } from '../services/aiService';
 import { Send, Brain, User, Bot, X, Sparkles, ChevronLeft, Save, Volume2, Pause, Loader2, Activity, Stethoscope } from 'lucide-react';
-import { CLINICAL_TIPS } from '../src/constants/clinicalTips';
+import { CLINICAL_TIPS } from '../constants/clinicalTips';
 import { ChatMessage } from '../types';
-import { updateQuestProgress } from '../src/lib/questUtils';
+import { updateQuestProgress } from '../lib/questUtils';
 import { FullscreenToggle } from './FullscreenToggle';
 import { CompanionAvatar } from './CompanionAvatar';
 

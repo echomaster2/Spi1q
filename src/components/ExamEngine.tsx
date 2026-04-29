@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AdvancedQuestion, UserProfile, ExamResults } from '../types';
-import { generateExamQuestions, AIServiceError } from '../src/services/aiService';
+import { generateExamQuestions, AIServiceError } from '../services/aiService';
 import { db, auth } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'sonner';

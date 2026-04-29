@@ -10,18 +10,15 @@ const __dirname = path.dirname(__filename);
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      base: './',
+      base: '/',
       build: { 
-        minify: false,
         outDir: 'dist',
         emptyOutDir: true
       },
       server: {
         port: 3000,
         host: '0.0.0.0',
-        watch: {
-          ignored: ['**/user_data.json', '**/media_data.json', '**/remote_client_logs.txt', '**/*.txt']
-        }
+        hmr: process.env.DISABLE_HMR === 'true' ? false : undefined,
       },
       plugins: [
         react(),

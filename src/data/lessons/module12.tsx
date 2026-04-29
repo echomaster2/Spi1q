@@ -4,9 +4,9 @@ import {
   ContrastAgentVisual,
   PulseInversionVisual,
   LectureTag
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { LessonData } from '../../types';
 
 export const module12Lessons: Record<string, LessonData> = {
   "12.1": {

@@ -9,19 +9,28 @@ import http from "http";
 
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const getDirname = () => {
+  if (typeof __dirname !== 'undefined') {
+    return __dirname;
+  }
+  try {
+    return path.dirname(fileURLToPath(import.meta.url));
+  } catch (e) {
+    return process.cwd();
+  }
+};
+const _dirname = getDirname();
 
-const DATA_FILE = path.resolve(__dirname, ".data/user_data.json");
-const MEDIA_FILE = path.resolve(__dirname, ".data/media_data.json");
-const DATA_DIR = path.resolve(__dirname, ".data");
+const DATA_FILE = path.resolve(process.cwd(), ".data/user_data.json");
+const MEDIA_FILE = path.resolve(process.cwd(), ".data/media_data.json");
+const DATA_DIR = path.resolve(process.cwd(), ".data");
 
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
-const AUDIO_DIR = path.resolve(__dirname, "audio_vault");
-const IMAGE_DIR = path.resolve(__dirname, "image_vault");
-const VIDEO_DIR = path.resolve(__dirname, "video_vault");
+const AUDIO_DIR = path.resolve(process.cwd(), "audio_vault");
+const IMAGE_DIR = path.resolve(process.cwd(), "image_vault");
+const VIDEO_DIR = path.resolve(process.cwd(), "video_vault");
 
 if (!fs.existsSync(AUDIO_DIR)) {
   fs.mkdirSync(AUDIO_DIR);
@@ -65,11 +74,16 @@ const uploadImages = multer({
   limits: { fileSize: 20 * 1024 * 1024 } // 20MB limit
 });
 
+let userDataCache: any = null;
+let mediaDataCache: any = null;
+
 // Helper to read/write data
 const readData = () => {
+  if (userDataCache) return userDataCache;
   if (fs.existsSync(DATA_FILE)) {
     try {
-      return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+      userDataCache = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+      return userDataCache;
     } catch (e) {
       return {};
     }
@@ -78,6 +92,7 @@ const readData = () => {
 };
 
 const writeData = (data: any) => {
+  userDataCache = data;
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data));
   } catch (e) {
@@ -86,9 +101,11 @@ const writeData = (data: any) => {
 };
 
 const readMedia = () => {
+  if (mediaDataCache) return mediaDataCache;
   if (fs.existsSync(MEDIA_FILE)) {
     try {
-      return JSON.parse(fs.readFileSync(MEDIA_FILE, "utf-8"));
+      mediaDataCache = JSON.parse(fs.readFileSync(MEDIA_FILE, "utf-8"));
+      return mediaDataCache;
     } catch (e) {
       return { visuals: [], videos: [], defaultBackground: null };
     }
@@ -97,6 +114,7 @@ const readMedia = () => {
 };
 
 const writeMedia = (data: any) => {
+  mediaDataCache = data;
   try {
     fs.writeFileSync(MEDIA_FILE, JSON.stringify(data));
   } catch (e) {
@@ -104,15 +122,159 @@ const writeMedia = (data: any) => {
   }
 };
 
+// Seeding logic
+const seedMedia = () => {
+  const existingMedia = readMedia();
+  
+  console.log("Synchronizing media registry with clinical defaults...");
+  const defaultMedia = {
+    videos: [
+      {
+        id: "1",
+        title: "Ultrasound Physics Basics",
+        description: "A comprehensive overview of sound waves, frequency, and propagation in tissue. Topics include wavelength, speed of sound, and medium properties.",
+        citation: "Source: Radiology Tutorials",
+        embedUrl: "https://www.youtube.com/embed/xtdfCGz6e1Y",
+        thumbnail: "https://img.youtube.com/vi/xtdfCGz6e1Y/hqdefault.jpg",
+        duration: "9:07",
+        script: "In this session, we investigate the fundamental physics of diagnostic ultrasound. Sound is a mechanical, longitudinal wave that requires a medium to propagate. Frequency, measured in Hertz, determines the pitch of the sound and, in ultrasound, influences axial resolution and penetration depth. Propagation speed in soft tissue is standardized at 1540 meters per second, though it varies significantly in bone or air.",
+        assessment: [
+          { id: "q1-1", question: "What is the average propagation speed of sound in soft tissue?", options: ["1450 m/s", "1540 m/s", "2000 m/s", "330 m/s"], correctAnswer: 1, explanation: "Standard soft tissue propagation speed is 1540 m/s." },
+          { id: "q1-2", question: "Sound is what type of wave?", options: ["Transverse & Electromagnetic", "Mechanical & Longitudinal", "Transverse & Mechanical", "Longitudinal & Electromagnetic"], correctAnswer: 1, explanation: "Sound is a mechanical wave that travels longitudinally through a medium." }
+        ]
+      },
+      {
+        id: "2",
+        title: "Doppler Ultrasound Principles",
+        description: "Understanding the Doppler effect, color flow, and spectral Doppler for hemodynamic analysis.",
+        citation: "Source: Radiology Tutorials",
+        embedUrl: "https://www.youtube.com/embed/TkjyyzsNpaU",
+        thumbnail: "https://img.youtube.com/vi/TkjyyzsNpaU/hqdefault.jpg",
+        duration: "22:10",
+        script: "Doppler ultrasound is the cornerstone of hemodynamic assessment. By measuring the shift in frequency from moving red blood cells, we can determine velocity and direction of flow. Pulse Repetition Frequency (PRF) is critical; if the Doppler shift exceeds half the PRF, aliasing occurs. This session covers Color Doppler, Power Doppler, and Spectral waveform analysis.",
+        assessment: [
+          { id: "q2-1", question: "What occurs when the Doppler shift exceeds the Nyquist limit?", options: ["Mirror Imaging", "Enhancement", "Aliasing", "Shadowing"], correctAnswer: 2, explanation: "Aliasing is the wrapping around of the spectral waveform when the PRF is too low." },
+          { id: "q2-2", question: "Power Doppler is primarily useful for?", options: ["Measuring high velocities", "Determining flow direction", "Detecting low-velocity flow", "Precise spectral measurement"], correctAnswer: 2, explanation: "Power Doppler is highly sensitive to low flow but does not show direction." }
+        ]
+      }
+    ],
+    visuals: [
+      {
+        id: "v1",
+        title: "Physics: Sound Wave Propagation",
+        description: "Schematic representation of sound as a mechanical longitudinal wave comprising areas of compression and rarefaction.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png",
+        category: "Physics Basics"
+      },
+      {
+        id: "v5",
+        title: "Clinical: Normal RUQ Survey",
+        description: "Sonographic view of Morison's Pouch showing the liver and right kidney. Note the comparative echogenicity: normal liver parenchyma is typically isoechoic or slightly hyperechoic relative to the renal cortex.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Ultrasound_of_the_liver_and_right_kidney.jpg/800px-Ultrasound_of_the_liver_and_right_kidney.jpg",
+        category: "Clinical Scans"
+      },
+      {
+        id: "v7",
+        title: "Clinical: M-Mode Mitral Valve",
+        description: "Motion mode display of the cardiac mitral valve. Demonstrates high temporal resolution, capturing the characteristic 'E' and 'A' peaks of leaflet motion.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mitral_valve_M-mode.jpg/800px-Mitral_valve_M-mode.jpg",
+        category: "Clinical Scans"
+      },
+      {
+        id: "v8",
+        title: "Clinical: Carotid Bifurcation (B-Mode)",
+        description: "High-resolution linear scan of the common carotid artery (CCA) bifurcating into the internal (ICA) and external (ECA) carotid arteries.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Carotid_ultrasound.jpg",
+        category: "Clinical Scans"
+      },
+      {
+        id: "v9",
+        title: "Artifact: Mirror Image Diaphragm",
+        description: "Redundant liver structure appearing deep to the diaphragmatic interface due to extended travel time of the reflected sound beam.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ultrasound_Mirror_artifact.jpg/320px-Ultrasound_Mirror_artifact.jpg",
+        category: "Artifacts"
+      },
+      {
+        id: "v20",
+        title: "Pathology: Gallstone w/ Shadowing",
+        description: "Large, hyperechoic intraluminal stone within the gallbladder showing distinct posterior acoustic shadowing.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg",
+        category: "Clinical Scans"
+      },
+      {
+        id: "v21",
+        title: "Pathology: Simple Breast Cyst",
+        description: "Anechoic fluid-filled structure in the breast demonstrating posterior acoustic enhancement, a key indicator of cystic nature.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Ultrasound_of_a_simple_breast_cyst.png",
+        category: "Artifacts"
+      },
+      {
+        id: "v23",
+        title: "Artifact: Spectral Doppler Aliasing",
+        description: "Wrap-around of the spectral waveform indicating that the recorded velocity exceeds the Nyquist limit.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Aliasing_in_Doppler_ultrasound.jpg/640px-Aliasing_in_Doppler_ultrasound.jpg",
+        category: "Doppler"
+      },
+      {
+        id: "v24",
+        title: "Artifact: Comet Tail (Adenomyomatosis)",
+        description: "Reverberation artifact appearing as a tapering metallic signal, often seen in gallbladder wall pathologies.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Ultrasound_Comet_tail_artifact.jpg/640px-Ultrasound_Comet_tail_artifact.jpg",
+        category: "Artifacts"
+      },
+      {
+        id: "v25",
+        title: "Clinical: Abdominal Aorta Survey",
+        description: "Longitudinal view of the abdominal aorta showing clear visualization of the vessel lumen and wall layers.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Abdominal_aorta_ultrasound.jpg/640px-Abdominal_aorta_ultrasound.jpg",
+        category: "Clinical Scans"
+      }
+    ],
+    defaultBackground: existingMedia.defaultBackground || "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1920&q=80"
+  };
+
+  const updatedVideos = [...existingMedia.videos];
+  defaultMedia.videos.forEach(sv => {
+    if (!updatedVideos.some(v => v.id === sv.id)) updatedVideos.push(sv);
+  });
+
+  const updatedVisuals = [...existingMedia.visuals];
+  defaultMedia.visuals.forEach(sv => {
+    const idx = updatedVisuals.findIndex(v => v.id === sv.id);
+    if (idx === -1) {
+      updatedVisuals.push(sv);
+    } else {
+      // Update existing if it was a placeholder
+      if (updatedVisuals[idx].imageUrl.includes('unsplash') || updatedVisuals[idx].title.includes('Figure')) {
+        updatedVisuals[idx] = sv;
+      }
+    }
+  });
+
+  writeMedia({ videos: updatedVideos, visuals: updatedVisuals, defaultBackground: defaultMedia.defaultBackground });
+};
+
 async function startServer() {
   const app = express();
   
+  // 1. Basic Middlewares FIRST
+  app.use(express.json({ limit: "200mb" }));
+  app.use(express.urlencoded({ limit: "200mb", extended: true }));
+
+  // Seed on start
+  seedMedia();
+
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"]
     }
+  });
+
+  // Health check - MUST be early
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
 
   io.on('connection', (socket) => {
@@ -141,12 +303,11 @@ async function startServer() {
     });
   });
 
-  const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  const PORT = 3000;
 
-  // 1. Health check endpoint - MUST be defined before everything
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", timestamp: new Date().toISOString() });
-  });
+  // Sync profile changes to Firestore (Debounced or on specific updates)
+  app.use('/image_vault', express.static(IMAGE_DIR));
+  app.use('/video_vault', express.static(VIDEO_DIR));
 
   app.get("/api/podcast/rss", async (req, res) => {
     try {
@@ -162,22 +323,35 @@ async function startServer() {
     }
   });
 
-  app.use(express.json({ limit: "200mb" }));
-  app.use(express.urlencoded({ limit: "200mb", extended: true }));
+  app.get("/api/podcast/sonography-lounge", async (req, res) => {
+    try {
+      const response = await fetch("https://feed.podbean.com/thesonographylounge/feed.xml");
+      if (!response.ok) {
+         throw new Error(`Failed to fetch rss: ${response.statusText}`);
+      }
+      const text = await response.text();
+      res.set('Content-Type', 'text/xml');
+      res.send(text);
+    } catch(err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
 
   app.post("/api/remote-log", (req, res) => {
     const logBatch = `--- CLIENT REMOTE LOG ---\n${JSON.stringify(req.body, null, 2)}\n--------------------------\n`;
-    fs.appendFileSync(path.resolve(__dirname, 'remote_client_logs.txt'), logBatch);
+    fs.appendFileSync(path.resolve(process.cwd(), 'remote_client_logs.txt'), logBatch);
     res.json({ success: true });
   });
 
   // API Routes
   app.get("/api/sync/:id", (req, res) => {
+    console.log(`GET /api/sync/${req.params.id}`);
     const data = readData();
     res.json(data[req.params.id] || {});
   });
 
   app.post("/api/sync/:id", (req, res) => {
+    console.log(`POST /api/sync/${req.params.id}`);
     const data = readData();
     data[req.params.id] = {
       ...data[req.params.id],
@@ -188,12 +362,131 @@ async function startServer() {
     res.json({ success: true });
   });
 
+  // Media reset to defaults
+  app.post("/api/media/reset", (req, res) => {
+    const defaults = {
+      videos: [
+        {
+          id: "1",
+          title: "Ultrasound Physics Basics",
+          description: "A comprehensive overview of sound waves, frequency, and propagation in tissue.",
+          citation: "Source: Radiology Tutorials",
+          embedUrl: "https://www.youtube.com/embed/xtdfCGz6e1Y",
+          thumbnail: "https://img.youtube.com/vi/xtdfCGz6e1Y/hqdefault.jpg",
+          duration: "9:07",
+          script: "In clinical ultrasound, we use longitudinal mechanical waves. Frequency is determined by the transducer, while propagation speed is determined by the medium. In soft tissue, the average speed is 1540 meters per second. This fundamental property allows us to calculate depth using the range equation.",
+          assessment: [
+            { id: "q1-1", question: "What is the average propagation speed in soft tissue?", options: ["330 m/s", "1540 m/s", "4080 m/s", "1450 m/s"], correctAnswer: 1, explanation: "1540 m/s is the standard value used by ultrasound systems for depth calculations." },
+            { id: "q1-2", question: "Ultrasound frequency is defined as sound above?", options: ["20 Hz", "2,000 Hz", "20,000 Hz", "2 MHz"], correctAnswer: 2, explanation: "Human hearing ends at 20 kHz (20,000 Hz); sound above this is ultrasound." }
+          ]
+        },
+        {
+          id: "2",
+          title: "Doppler Ultrasound Principles",
+          description: "Understanding the Doppler effect, color flow, and spectral Doppler.",
+          citation: "Source: Radiology Tutorials",
+          embedUrl: "https://www.youtube.com/embed/TkjyyzsNpaU",
+          thumbnail: "https://img.youtube.com/vi/TkjyyzsNpaU/hqdefault.jpg",
+          duration: "22:10",
+          script: "Doppler ultrasound is the cornerstone of hemodynamic assessment. By measuring the shift in frequency from moving red blood cells, we can determine velocity and direction of flow. Pulse Repetition Frequency (PRF) is critical; if the Doppler shift exceeds half the PRF, aliasing occurs. This session covers Color Doppler, Power Doppler, and Spectral waveform analysis.",
+          assessment: [
+            { id: "q2-1", question: "What occurs when the Doppler shift exceeds the Nyquist limit?", options: ["Mirror Imaging", "Enhancement", "Aliasing", "Shadowing"], correctAnswer: 2, explanation: "Aliasing is the wrapping around of the spectral waveform when the PRF is too low." },
+            { id: "q2-2", question: "Power Doppler is primarily useful for?", options: ["Measuring high velocities", "Determining flow direction", "Detecting low-velocity flow", "Precise spectral measurement"], correctAnswer: 2, explanation: "Power Doppler is highly sensitive to low flow but does not show direction." }
+          ]
+        }
+      ],
+      visuals: [
+        {
+          id: "v1",
+          title: "Physics: Sound Wave Propagation",
+          description: "Schematic representation of sound as a mechanical longitudinal wave comprising areas of compression and rarefaction.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png",
+          category: "Physics Basics"
+        },
+        {
+          id: "v5",
+          title: "Clinical: Normal RUQ Survey",
+          description: "Sonographic view of Morison's Pouch showing the liver and right kidney. Note the comparative echogenicity: normal liver parenchyma is typically isoechoic or slightly hyperechoic relative to the renal cortex.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Ultrasound_of_the_liver_and_right_kidney.jpg/800px-Ultrasound_of_the_liver_and_right_kidney.jpg",
+          category: "Clinical Scans"
+        },
+        {
+          id: "v7",
+          title: "Clinical: M-Mode Mitral Valve",
+          description: "Motion mode display of the cardiac mitral valve. Demonstrates high temporal resolution, capturing the characteristic 'E' and 'A' peaks of leaflet motion.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mitral_valve_M-mode.jpg/800px-Mitral_valve_M-mode.jpg",
+          category: "Clinical Scans"
+        },
+        {
+          id: "v8",
+          title: "Clinical: Carotid Bifurcation (B-Mode)",
+          description: "High-resolution linear scan of the common carotid artery (CCA) bifurcating into the internal (ICA) and external (ECA) carotid arteries.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Carotid_ultrasound.jpg",
+          category: "Clinical Scans"
+        },
+        {
+          id: "v9",
+          title: "Artifact: Mirror Image Diaphragm",
+          description: "Redundant liver structure appearing deep to the diaphragmatic interface due to extended travel time of the reflected sound beam.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ultrasound_Mirror_artifact.jpg/320px-Ultrasound_Mirror_artifact.jpg",
+          category: "Artifacts"
+        },
+        {
+          id: "v20",
+          title: "Pathology: Gallstone w/ Shadowing",
+          description: "Large, hyperechoic intraluminal stone within the gallbladder showing distinct posterior acoustic shadowing.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg",
+          category: "Clinical Scans"
+        },
+        {
+          id: "v21",
+          title: "Pathology: Simple Breast Cyst",
+          description: "Anechoic fluid-filled structure in the breast demonstrating posterior acoustic enhancement, a key indicator of cystic nature.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Ultrasound_of_a_simple_breast_cyst.png",
+          category: "Artifacts"
+        },
+        {
+          id: "v23",
+          title: "Artifact: Spectral Doppler Aliasing",
+          description: "Wrap-around of the spectral waveform indicating that the recorded velocity exceeds the Nyquist limit.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Aliasing_in_Doppler_ultrasound.jpg/640px-Aliasing_in_Doppler_ultrasound.jpg",
+          category: "Doppler"
+        },
+        {
+          id: "v24",
+          title: "Artifact: Comet Tail (Adenomyomatosis)",
+          description: "Reverberation artifact appearing as a tapering metallic signal, often seen in gallbladder wall pathologies.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Ultrasound_Comet_tail_artifact.jpg/640px-Ultrasound_Comet_tail_artifact.jpg",
+          category: "Artifacts"
+        },
+        {
+          id: "v25",
+          title: "Clinical: Abdominal Aorta Survey",
+          description: "Longitudinal view of the abdominal aorta showing clear visualization of the vessel lumen and wall layers.",
+          imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Abdominal_aorta_ultrasound.jpg/640px-Abdominal_aorta_ultrasound.jpg",
+          category: "Clinical Scans"
+        }
+      ],
+      defaultBackground: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1920&q=80"
+    };
+
+    mediaDataCache = defaults;
+    try {
+      fs.writeFileSync(MEDIA_FILE, JSON.stringify(defaults));
+      res.json(defaults);
+    } catch (e) {
+      res.status(500).json({ error: "Failed to reset media data" });
+    }
+  });
+
   // Media Management API
   app.get("/api/media", (req, res) => {
+    console.log(`GET /api/media`);
     res.json(readMedia());
   });
 
   app.post("/api/media", (req, res) => {
+    console.log(`POST /api/media`);
     writeMedia(req.body);
     res.json({ success: true });
   });
@@ -291,12 +584,25 @@ async function startServer() {
     res.json({ success: true, url: `/api/video/${req.file.filename}` });
   });
 
-  // Bulk Video Upload
-  app.post("/api/bulk-upload-videos", uploadVideo.array("videos", 10), (req, res) => {
-    if (!req.files || !(req.files as Express.Multer.File[]).length) {
+  app.post("/api/bulk-upload-videos", (req, res, next) => {
+    console.log("Bulk video upload request received. Content-Type:", req.headers['content-type']);
+    uploadVideo.array("videos", 50)(req, res, (err) => {
+      if (err) {
+        console.error("Multer video upload error:", err);
+        return res.status(500).json({ 
+          error: err.message,
+          code: (err as any).code || 'UNKNOWN_ERROR'
+        });
+      }
+      next();
+    });
+  }, (req, res) => {
+    const filesCount = req.files ? (req.files as any).length : 0;
+    console.log(`Multer processed ${filesCount} videos`);
+    const files = req.files as Express.Multer.File[];
+    if (!files || !files.length) {
       return res.status(400).json({ error: "No files uploaded" });
     }
-    const files = req.files as Express.Multer.File[];
     const results = files.map(file => ({
       success: true,
       url: `/api/video/${file.filename}`,
@@ -305,12 +611,25 @@ async function startServer() {
     res.json({ success: true, files: results });
   });
 
-  // Bulk Image Upload (for visuals)
-  app.post("/api/bulk-upload-images", uploadImages.array("images", 50), (req, res) => {
-    if (!req.files || !(req.files as Express.Multer.File[]).length) {
+  app.post("/api/bulk-upload-images", (req, res, next) => {
+    console.log("Bulk image upload request received. Content-Type:", req.headers['content-type']);
+    uploadImages.array("images", 50)(req, res, (err) => {
+      if (err) {
+        console.error("Multer image upload error:", err);
+        return res.status(500).json({ 
+          error: err.message,
+          code: (err as any).code || 'UNKNOWN_ERROR'
+        });
+      }
+      next();
+    });
+  }, (req, res) => {
+    const filesCount = req.files ? (req.files as any).length : 0;
+    console.log(`Multer processed ${filesCount} images`);
+    const files = req.files as Express.Multer.File[];
+    if (!files || !files.length) {
       return res.status(400).json({ error: "No files uploaded" });
     }
-    const files = req.files as Express.Multer.File[];
     const results = files.map(file => ({
       success: true,
       url: `/api/img/${file.filename}`,
@@ -427,6 +746,17 @@ async function startServer() {
     });
   });
 
+  // Error handling middleware
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error('Express Error:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+  });
+
+  // Start listening immediately so health checks pass
+  httpServer.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+
   console.log("NODE_ENV:", process.env.NODE_ENV);
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
@@ -437,17 +767,24 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.resolve(__dirname, "dist");
+    // If serving from dist/server.cjs, the public files could be in the same dir
+    // We try to resolve 'dist' from process.cwd() as well
+    let distPath = path.resolve(_dirname, "dist");
+    if (!fs.existsSync(distPath)) {
+      distPath = path.resolve(process.cwd(), "dist");
+    }
+    if (!fs.existsSync(distPath)) {
+      distPath = _dirname; // fallback: we might be inside dist already
+    }
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
+      // Don't serve index.html for API routes or paths with extensions (likely missing files)
+      if (req.path.startsWith('/api/') || req.path.includes('.')) {
+        return res.status(404).send('Not Found');
+      }
       res.sendFile(path.resolve(distPath, 'index.html'));
     });
   }
-
-  // Start listening only after all middlewares are ready
-  httpServer.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
 }
 
 startServer().catch(err => {

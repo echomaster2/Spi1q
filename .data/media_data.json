@@ -253,7 +253,7 @@
       "embedUrl": "https://www.youtube.com/embed/R_7_O-0-7_Y",
       "thumbnail": "https://img.youtube.com/vi/R_7_O-0-7_Y/hqdefault.jpg",
       "duration": "15:45",
-      "script": "I reviewed the AIUM and FDA safety guidelines for you, so here is the cliffnotes version to save you 10 hours of regulatory reading.\n\n**1. The Roadmap**\n• Part 1: Thermal Index (TI).\n• Part 2: Mechanical Index (MI).\n• Part 3: The ALARA Principle.\n\n**2. Core Concepts**\n- **TI:** Relates to the potential for tissue heating. Keep it below 1.0 for most exams.\n- **MI:** Relates to cavitation (bubble formation). Keep it low, especially in lung and bowel.\n- **ALARA:** As Low As Reasonably Achievable. Use the minimum power and time needed for a diagnosis.",
+      "script": "I read over 15 FDA regulatory documents, AIUM statements, and thermal physics papers for you so here is the cliffnotes version to save you 10 hours of regulatory reading. A single document wasn't enough to get the whole picture, so I aggregated all the standards into this ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even are ultrasound bioeffects?).\n• Part 2: Core Concepts (Thermal vs. Mechanical Index).\n• Part 3: Practical Application (Applying ALARA on the machine).\n• Part 4: The \"Holy Sh*t\" Insight (Fetal bone heating).\n\n**2. What it is NOT**\nThe easiest way to first define Bioeffects is what they are not. They are not radiation. X-rays use ionizing radiation which damages DNA. Ultrasound uses mechanical energy, meaning the risks are entirely physical: heat and vibration, not radiation damage.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the safety limits... just think about \"Tiny Hippos Make Bubbles\" (Thermal Heat, Mechanical Cavitation Bubbles).\n\n**4. Core Concepts / Crash Course**\n- **Thermal Index (TI):** The potential for tissue heating. Always keep it below 1.0 for obstetric scanning.\n- **Mechanical Index (MI):** The risk of cavitation (gas bubbles forming and popping). Important when scanning near lungs or bowel.\n- **ALARA Principle:** As Low As Reasonably Achievable.\n\n**5. The Analogy**\nThink of the Mechanical Index like singing next to a glass of water. If you sing loud and hit the right frequency, the glass shatters (cavitation). Thermal Index is simply leaving your hand over a lightbulb—eventually, the absorbed energy creates heat.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to apply ALARA which does not require any code. If you cannot see a structure, do not immediately turn up the transmit power. Instead, increase your receiver gain. Receiver gain doesn't increase patient exposure; power does.\n\n**7. The \"Holy Sh*t\" Insight**\nFetal bone absorbs heat way faster than soft tissue. After 12 weeks, when fetal bones mineralize, the risk of heating (TI) skyrockets. This is why you must minimize scan times over fetal skulls!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Focus on showing up safely. Build a system where your eyes automatically check the TI/MI numbers on the screen every single time you unfreeze the image.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Bioeffects and Safety.\n1. What type of energy does ultrasound use instead of ionizing radiation?\n2. Which index relates to the formation of cavitation bubbles?\n3. How can you increase image brightness without increasing patient exposure?\nDrop your answers in the comments below!",
       "assessment": [
         {
           "id": "q6-1",
@@ -266,6 +266,156 @@
           ],
           "correctAnswer": 1,
           "explanation": "ALARA stands for As Low As Reasonably Achievable, emphasizing safety."
+        }
+      ],
+      "isLocal": false
+    },
+    {
+      "id": "7",
+      "title": "Knobology and Image Optimization",
+      "description": "Mastering the basic controls of the ultrasound machine: Gain, TGC, Depth, and Focus.",
+      "citation": "Source: Ultrasound Physics Clinicals",
+      "embedUrl": "https://www.youtube.com/embed/5D1gV37bKOU",
+      "thumbnail": "https://img.youtube.com/vi/5D1gV37bKOU/hqdefault.jpg",
+      "duration": "12:10",
+      "script": "I spent weeks taking machine optimization courses, reading user manuals, and learning knobology from veteran sonographers for you so here is the cliffnotes version to save you 15 hours of trial and error. A single source wasn't enough, so I aggregated all these workflows into the ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Knobology?).\n• Part 2: Core Concepts (Gain, Depth, Focus).\n• Part 3: Practical Application (The 3-step optimization workflow).\n• Part 4: The \"Holy Sh*t\" Insight (The frame rate collapse).\n\n**2. What it is NOT**\nThe easiest way to first define image optimization is what it is not. It is not just turning up the brightness until you see something. It is strategically manipulating physics to enhance real signals while suppressing noise.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the primary controls... just think about \"Great Dogs Find Cats\" (Gain, Depth, Focus, Contrast/Dynamic Range).\n\n**4. Core Concepts / Crash Course**\n- **Global Gain:** Amplifies all returning echoes equally.\n- **Depth:** Determines how deep the machine listens for echoes. Keep it shallow for better frame rates.\n- **Focus:** Narrows the beam at a specific depth for maximum lateral resolution.\n- **TGC (Time Gain Compensation):** Compensates for attenuation at specific depths.\n\n**5. The Analogy**\nThink of the Focus like a magnifying glass burning a leaf. Where the light beam is the narrowest, the energy is highest and the focus is sharpest. Adjusting global gain is like turning up the volume on a radio—it makes the music louder, but it also makes the static louder.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a simple workflow which does not require any code. 1: Adjust your depth so the organ fills 3/4 of the screen. 2: Move your focal zone precisely to the level of interest. 3: Sweep your TGC slide pots to create a uniform brightness from top to bottom.\n\n**7. The \"Holy Sh*t\" Insight**\nIf you add multiple focal zones, your frame rate collapses. It takes the machine mathematical time to send out multiple pulses per scan line. If your image is lagging, check your focal zones!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the 2-minute rule. If you can't see the organ clearly in 2 minutes, stop randomly twisting knobs and reset: Depth first, Focus second, Gain third.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Knobology and Image Optimization.\n1. Which control adjusts the amplification of all returning echoes equally?\n2. Where should the focal zone be placed for maximum resolution?\n3. What happens to frame rate if multiple focal zones are used?\nDrop your answers in the comments below!",
+      "assessment": [
+        {
+          "id": "q7-1",
+          "question": "What is the primary function of Time Gain Compensation (TGC)?",
+          "options": [
+            "Increase the frequency of the transducer",
+            "Adjust the focal zone depth",
+            "Compensate for acoustic attenuation",
+            "Change the display colors"
+          ],
+          "correctAnswer": 2,
+          "explanation": "TGC compensates for the attenuation of sound as it travels deeper into the tissue."
+        }
+      ],
+      "isLocal": false
+    },
+    {
+      "id": "8",
+      "title": "Spatial Resolutions Explained",
+      "description": "Breaking down Axial, Lateral, and Elevational resolution in 2D imaging.",
+      "citation": "Source: Sonography Institute",
+      "embedUrl": "https://www.youtube.com/embed/c-Ifw98J9V4",
+      "thumbnail": "https://img.youtube.com/vi/c-Ifw98J9V4/hqdefault.jpg",
+      "duration": "14:45",
+      "script": "I read thick textbooks, analyzed physics diagrams, and took detailed notes on spatial resolution for you so here is the cliffnotes version to save you 12 hours of studying. A single source wasn't enough, so I compiled multiple physics papers to create the ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Spatial Resolution?).\n• Part 2: Core Concepts (Axial, Lateral, and Elevational).\n• Part 3: Practical Application (How to improve each one).\n• Part 4: The \"Holy Sh*t\" Insight (The slice thickness illusion).\n\n**2. What it is NOT**\nThe easiest way to first define spatial resolution is what it is not. It is not temporal resolution (frame rate), nor is it contrast resolution (shades of gray). Spatial resolution is strictly the ability to accurately locate structures in physical space.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the three resolutions... just think about \"Apples Look Excellent\" (Axial, Lateral, Elevational). Or for what determines them: \"Short Pulses, Narrow Beams, Thin Slices\".\n\n**4. Core Concepts / Crash Course**\n- **Axial Resolution:** Distinguishing objects parallel to the beam. Determined by Spatial Pulse Length (SPL).\n- **Lateral Resolution:** Distinguishing objects perpendicular to the beam. Determined by beam width.\n- **Elevational Resolution:** Distinguishing objects in the Z-axis (slice thickness).\n\n**5. The Analogy**\nThink of Axial resolution like train cars on a track. If the cars are too close together, they look like one long train. Shorter train cars (shorter pulses) make it easier to see the gap between them. Lateral resolution is like trying to point at two stars with a wide flashlight beam—if the beam covers both, they blur into one.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to optimize resolution. To improve axial, increase your frequency (creates shorter pulses). To improve lateral, adjust your focal zone to narrow the beam at the object.\n\n**7. The \"Holy Sh*t\" Insight**\nElevational resolution (slice thickness) is often the worst resolution of the three, and it causes \"fill-in\" artifacts in cysts because the slice has a fixed thickness and grabs echoes from the surrounding tissue alongside the cyst.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Build the habit of prioritizing which resolution matters most for the pathology you are scanning.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Spatial Resolutions.\n1. Which resolution is determined by Spatial Pulse Length?\n2. Which resolution is determined by the width of the beam?\n3. How can you most easily improve axial resolution?\nDrop your answers in the comments!",
+      "assessment": [
+        {
+          "id": "q8-1",
+          "question": "Which of the following determines lateral resolution?",
+          "options": [
+            "Spatial Pulse Length",
+            "Beam Width",
+            "Bandwidth",
+            "Frame Rate"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Lateral resolution is directly related to the beam width."
+        }
+      ],
+      "isLocal": false
+    },
+    {
+      "id": "9",
+      "title": "Tissue Harmonic Imaging Physics",
+      "description": "How harmonic imaging improves signal-to-noise ratio and reduces artifacts.",
+      "citation": "Source: Physics for Sonographers",
+      "embedUrl": "https://www.youtube.com/embed/wzXGB0V5Igw",
+      "thumbnail": "https://img.youtube.com/vi/wzXGB0V5Igw/hqdefault.jpg",
+      "duration": "18:20",
+      "script": "I read through dozens of papers on non-linear propagation and signal processing for you so here is the cliffnotes version to save you 20 hours of reading on harmonics. A single textbook wasn't enough, so I aggregated courses and clinical case studies to create this ultimate guide.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even are Harmonics?).\n• Part 2: Core Concepts (Fundamental vs Harmonic frequency).\n• Part 3: Practical Application (Cleaning up the image).\n• Part 4: The \"Holy Sh*t\" Insight (The cancellation effect).\n\n**2. What it is NOT**\nThe easiest way to first define Harmonic imaging is what it is not. It is not just a digital filter applied to the image. It is an active utilization of non-linear sound wave behavior deep within the tissue.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember how Harmonics work... just think about \"Double The Digits\" (The harmonic frequency is strictly double the fundamental transmitted frequency).\n\n**4. Core Concepts / Crash Course**\n- **Fundamental Frequency:** The frequency transmitted by the transducer.\n- **Harmonic Frequency:** Exactly twice the fundamental frequency.\n- **Tissue Harmonics:** Created by non-linear sound propagation (sound speeds up slightly in compression, slows down in rarefaction).\n\n**5. The Analogy**\nThink of Harmonics like singing in a canyon. The fundamental frequency is your voice. The harmonic is the echo reflecting back, not at the same pitch, but at a perfect octave higher. Because that higher pitch is generated deep in the canyon, it doesn't suffer from the distortion at the entrance.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a workflow which does not require any code. If you are scanning a gallbladder on a technically difficult patient and the bladder is filled with artifactual noise, toggle 'THI' (Tissue Harmonic Imaging) on. The noise will vanish.\n\n**7. The \"Holy Sh*t\" Insight**\nHarmonics are completely absent at the skin surface. They only generate dynamically as the wave travels deeper. This is why surface reverberation artifacts are miraculously eliminated when using THI.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the rule: When the image gets muddy, push the magic button (THI). Build this into your baseline system rather than struggling for 10 minutes.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Tissue Harmonic Imaging.\n1. If the fundamental frequency is 3 MHz, what is the harmonic frequency?\n2. Where are tissue harmonics actually created?\n3. What is the main benefit of using harmonic imaging?\nDrop your answers in the comments below!",
+      "assessment": [
+        {
+          "id": "q9-1",
+          "question": "What is the primary advantage of Tissue Harmonic Imaging?",
+          "options": [
+            "Increases penetration depth",
+            "Reduces scattering",
+            "Improves signal-to-noise ratio by reducing artifacts",
+            "Decreases bioeffects"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Harmonics improve image quality primarily by filtering out superficial reverberation artifacts and narrowing the beam."
+        }
+      ],
+      "isLocal": false
+    },
+    {
+      "id": "10",
+      "title": "Specular vs. Diffuse Scattering",
+      "description": "Explaining the difference between reflection off smooth surfaces and scattering from small, rough interfaces.",
+      "citation": "Source: Sonography Institute",
+      "embedUrl": "https://www.youtube.com/embed/5F_fB2WwLqI",
+      "thumbnail": "https://img.youtube.com/vi/5F_fB2WwLqI/hqdefault.jpg",
+      "duration": "11:30",
+      "script": "I dug into the complex physics of acoustic scattering, Rayleigh dynamics, and reflection coefficients for you so here is the cliffnotes version to save you 15 hours of math. A single source wasn't enough, so I compiled multiple physics papers to create the ultimate guide on reflection.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is Specular Reflection?).\n• Part 2: Core Concepts (Specular vs. Diffuse vs. Rayleigh).\n• Part 3: Practical Application (Angling the probe).\n• Part 4: The \"Holy Sh*t\" Insight (The angle of incidence).\n\n**2. What it is NOT**\nThe easiest way to first define Specular Reflection is what it is not. It is not the grainy, textured parenchyma of an organ like the liver. It is a mirror-like bounce.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the types of reflection... just think about \"Smooth Mirrors, Rough Scatters, Tiny Rayleighs\" (Specular for smooth, Diffuse for rough, Rayleigh for tiny red blood cells).\n\n**4. Core Concepts / Crash Course**\n- **Specular Reflection:** Sound hits a large, perfectly smooth boundary. Strongly angle-dependent.\n- **Diffuse Scattering (Backscatter):** Sound hits a boundary that is rough or small. It scatters in all directions.\n- **Rayleigh Scattering:** Sound hits structures much smaller than the wavelength (like red blood cells). Very weak reflection.\n\n**5. The Analogy**\nThink of Specular Reflection like shining a laser pointer at a bathroom mirror—if you are at an angle, the laser bounces away and you don't see it. Diffuse scattering is like shining a flashlight at a bumpy brick wall—the light scatters everywhere, so you can see the wall from any angle.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you how to scan a diaphragm (a specular reflector). To get the brightest line on your screen, your ultrasound beam must hit the diaphragm at exactly 90 degrees. If you are off by even a few degrees, the echo bounces away from the probe and the structure fades.\n\n**7. The \"Holy Sh*t\" Insight**\nThe beautiful, uniform \"texture\" of the liver that we use to diagnose disease is entirely made up of diffuse scattering. If our bodies only had specular reflectors, we would only see outlines of organs and the insides would be black!\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Build a system where you always \"heel and toe\" the probe automatically to find that perfect perfect 90-degree angle for boundaries.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Specular and Diffuse Scattering.\n1. What type of reflection requires a 90-degree angle to be seen best?\n2. What type of scattering is produced by red blood cells?\n3. What creates the textured appearance of solid organs?\nDrop your answers in the comments below!",
+      "assessment": [
+        {
+          "id": "q10-1",
+          "question": "Which type of reflection occurs when sound hits the diaphragm?",
+          "options": [
+            "Specular Reflection",
+            "diffuse Scattering",
+            "Rayleigh Scattering",
+            "Refraction"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The diaphragm is a large, smooth reflector, creating specular reflection."
+        }
+      ],
+      "isLocal": false
+    },
+    {
+      "id": "11",
+      "title": "The Pulse-Echo Principle",
+      "description": "How the machine calculates depth using the 13-microsecond rule.",
+      "citation": "Source: Physics for Sonographers",
+      "embedUrl": "https://www.youtube.com/embed/fVfU6J0y5K0",
+      "thumbnail": "https://img.youtube.com/vi/fVfU6J0y5K0/hqdefault.jpg",
+      "duration": "09:45",
+      "script": "I studied the timing circuitry modules and range equation math breakdowns for you so here is the cliffnotes version to save you 10 hours of physics calculations. A single source wasn't enough, so I aggregated textbooks and technical lectures to create the ultimate guide on the Pulse-Echo Principle.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even is the Pulse-Echo Principle?).\n• Part 2: Core Concepts (The Range Equation and the 13-microsecond rule).\n• Part 3: Practical Application (How the machine draws the image).\n• Part 4: The \"Holy Sh*t\" Insight (The limitation of speed).\n\n**2. What it is NOT**\nThe easiest way to first define the Pulse-Echo Principle is what it is not. The machine does NOT know how deep anything is magically. It does not measure distance directly. It exclusively measures *Time*.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the rule... just think about \"Thirteen Travels One\" (13 microseconds of travel time equals 1 centimeter of depth).\n\n**4. Core Concepts / Crash Course**\n- **The Pulse-Echo Principle:** The transducer sends a pulse, starts a timer, waits for the echo, stops the timer, and calculates depth based on the travel time.\n- **The Range Equation:** Distance = (Speed x Time) / 2.\n- **The 13-Microsecond Rule:** In soft tissue (1540 m/s), every 13 microseconds of go-and-return time means the reflector is 1cm deeper into the body.\n\n**5. The Analogy**\nThink of the Pulse-Echo principle like throwing a rubber ball at a wall in the dark. You can't see the wall, but if you know how fast you throw the ball, and you time how long it takes to bounce back to your hand, you can perfectly calculate how far away the wall is.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a calculation workflow which does not require any code. If the machine clocks an echo returning at exactly 39 microseconds, it divides 39 by 13. The result is 3. The machine plots a bright dot exactly 3cm deep on the screen.\n\n**7. The \"Holy Sh*t\" Insight**\nThe speed of sound in the body is fixed. Because of this, the deeper you ask the machine to look, the longer it must wait for the echoes. This fundamental speed limit is the reason frame rates drop dramatically when you increase your depth! You literally cannot defy physics.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the principle of \"shallow depth first\". Build the habit of keeping your depth as shallow as possible to maximize your frame rate based on the machine's fixed timing loop.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on the Pulse-Echo Principle.\n1. What does the ultrasound machine actually measure to determine depth?\n2. If an echo returns in 26 microseconds, how deep is the structure?\n3. Why does increasing depth lower frame rate?\nDrop your answers in the comments below!",
+      "assessment": [
+        {
+          "id": "q11-1",
+          "question": "If the time of flight is 39 microseconds, how deep is the reflector?",
+          "options": [
+            "1 cm",
+            "2 cm",
+            "3 cm",
+            "6 cm"
+          ],
+          "correctAnswer": 2,
+          "explanation": "39 / 13 = 3 cm depth."
+        }
+      ],
+      "isLocal": false
+    },
+    {
+      "id": "12",
+      "title": "Mastering Global Gain vs. TGC",
+      "description": "A practical guide to optimizing your image brightness and compensating for attenuation.",
+      "citation": "Source: Clinical Sonography Tips",
+      "embedUrl": "https://www.youtube.com/embed/nU2U6qUuV5o",
+      "thumbnail": "https://img.youtube.com/vi/nU2U6qUuV5o/hqdefault.jpg",
+      "duration": "08:20",
+      "script": "I spent weeks shadowing experts, reading the physics of attenuation, and learning exact knobology workflows for you so here is the cliffnotes version to save you 20 hours of frustrating scanning. A single source wasn't enough, so I aggregated multiple clinical courses to create the ultimate guide on Gain and TGC.\n\nBut as per usual, it is not enough just to listen to me talk about stuff, so at the end of the video, there is a little assessment.\n\n**1. The Roadmap**\n• Part 1: Definitions (What even are Gain and TGC?).\n• Part 2: Core Concepts (Attenuation and Amplification).\n• Part 3: Practical Application (The swept-gain workflow).\n• Part 4: The \"Holy Sh*t\" Insight (Signal-to-Noise Ratio).\n\n**2. What it is NOT**\nThe easiest way to first define Receiver Gain is what it is not. It is not Output Power. Gain does not change the strength of the pulse entering the patient. It only amplifies the echoes *after* they return.\n\n**3. The Mnemonic**\nHere is a mnemonic in case you can't remember the difference... just think about \"Global Gives All, Time Targets Depth\" (Global Gain amplifies all depths equally, Time Gain Compensation targets specific depths).\n\n**4. Core Concepts / Crash Course**\n- **Attenuation:** Sound weakens as it travels deep into tissue, making deep echoes artificially dark.\n- **Global Gain:** Amplifies all returning electrical signals uniformly in the receiver.\n- **TGC (Time Gain Compensation):** Selectively amplifies echoes coming from deeper structures to compensate for attenuation, making a liver look uniformly bright.\n\n**5. The Analogy**\nThink of your ultrasound echoes like a group of people whispering. Global gain is turning up your hearing aid—it makes everyone louder, including background noise. TGC is like pointing a directional microphone only at the people whispering far away in the back of the room so you can hear them better without blowing your ears out from the people in front.\n\n**6. Practical Application**\nTo make this actually all practical, I'm going to show you a TGC workflow which does not require any code. Look at your liver image. The top half is bright, the bottom half is black. Do NOT turn up Global Gain, because the top will get overly bright. Instead, push the bottom TGC sliders to the right to selectively amplify only the deep echoes until the image is uniform.\n\n**7. The \"Holy Sh*t\" Insight**\nTurning up gain DOES NOT improve the underlying quality of the beam. It just amplifies everything, including noise. If your image is garbage initially, increasing the gain just gives you brighter garbage! You must fix the penetration (frequency) first.\n\n**8. The Mindset Shift**\nYou do not rise to the level of your goals, you fall to the level of your systems. Use the \"Uniformity Rule\". Build a system where your first instinct is never to touch the main gain knob until you've leveled out your TGC sliders to create a uniform tissue texture.\n\n**9. The Assessment**\nAs promised, here is a little assessment. If you can answer these questions then congratulations, you can consider yourself educated on Global Gain and TGC.\n1. Which control amplifies all returning echoes equally?\n2. What physical process is TGC designed to explicitly compensate for?\n3. Does turning up Global Gain increase acoustic exposure to the patient?\nDrop your answers in the comments below!",
+      "assessment": [
+        {
+          "id": "q12-1",
+          "question": "Which control should you use if the bottom of your image is too dark due to attenuation?",
+          "options": [
+            "Global Gain",
+            "TGC",
+            "Frequency",
+            "Power"
+          ],
+          "correctAnswer": 1,
+          "explanation": "TGC is specifically designed to compensate for attenuation at specific depths."
         }
       ],
       "isLocal": false
@@ -713,7 +863,5 @@
         }
       ]
     }
-  ]
-}
   ]
 }

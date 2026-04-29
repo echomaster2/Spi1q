@@ -10,8 +10,8 @@ import {
   serverTimestamp,
   increment
 } from 'firebase/firestore';
-import { db, auth } from '../../firebase';
-import { OperationType, FirestoreErrorInfo, UserProfile as UserProfileData, ProgressData } from '../../types';
+import { db, auth } from '../firebase';
+import { OperationType, FirestoreErrorInfo, UserProfile as UserProfileData, ProgressData } from '../types';
 
 function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
   const errInfo: FirestoreErrorInfo = {

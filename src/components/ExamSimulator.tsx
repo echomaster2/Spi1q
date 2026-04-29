@@ -11,7 +11,7 @@ import { CompanionAvatar } from './CompanionAvatar';
 import { FullscreenToggle } from './FullscreenToggle';
 import { ExamQuestion, ExamResults } from '../types';
 import { MOCK_EXAM_QUESTIONS } from '../examData';
-import { CLINICAL_TIPS } from '../src/constants/clinicalTips';
+import { CLINICAL_TIPS } from '../constants/clinicalTips';
 
 interface ExamSimulatorProps {
   onClose: () => void;

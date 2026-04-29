@@ -1,4 +1,4 @@
-import { Scenario } from '../../types';
+import { Scenario } from '../types';
 
 export const scenarios: Scenario[] = [
   // Part 1: Ultrasound Physics Principles
@@ -7,7 +7,8 @@ export const scenarios: Scenario[] = [
     part: 1,
     category: 'Ultrasound Physics Principles',
     scenario: 'You are performing an abdominal ultrasound on a patient. Based on the principles of thermal bioeffects, where would you expect the largest temperature rise in tissue to occur?',
-    answer: 'The highest temperatures tend to occur in tissue in the region between where the ultrasound beam enters the tissue and the focal region.'
+    answer: 'The highest temperatures tend to occur in tissue in the region between where the ultrasound beam enters the tissue and the focal region.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Sine_wave_amplitude_wavelength.svg/800px-Sine_wave_amplitude_wavelength.svg.png'
   },
   {
     id: 's1-2',
@@ -28,7 +29,8 @@ export const scenarios: Scenario[] = [
     part: 1,
     category: 'Ultrasound Physics Principles',
     scenario: 'You notice that the far field of your ultrasound image appears too dark. To correct this and brighten the image, what is the recommended first adjustment you should make?',
-    answer: 'You should increase the receiver gain.'
+    answer: 'You should increase the receiver gain.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ultrasound_of_a_normal_kidney.jpg/800px-Ultrasound_of_a_normal_kidney.jpg'
   },
   {
     id: 's1-5',
@@ -70,7 +72,8 @@ export const scenarios: Scenario[] = [
     part: 1,
     category: 'Ultrasound Physics Principles',
     scenario: 'An ultrasound image displays a region described as "hyperechoic." What does this term indicate about the echoes returning from that region?',
-    answer: 'A hyperechoic region is echogenic, meaning it produces echoes.'
+    answer: 'A hyperechoic region is echogenic, meaning it produces echoes.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gallstone_on_ultrasound.jpg/800px-Gallstone_on_ultrasound.jpg'
   },
   {
     id: 's1-11',
@@ -105,7 +108,8 @@ export const scenarios: Scenario[] = [
     part: 1,
     category: 'Ultrasound Physics Principles',
     scenario: 'You are asked about the typical frequency range used for diagnostic ultrasound imaging. What is this range?',
-    answer: 'The typical range of frequency for diagnostic ultrasound imaging is 1 to 20 MHz.'
+    answer: 'The typical range of frequency for diagnostic ultrasound imaging is 1 to 20 MHz.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Abdominal_aorta_ultrasound.jpg/640px-Abdominal_aorta_ultrasound.jpg'
   },
   {
     id: 's1-16',
@@ -140,7 +144,8 @@ export const scenarios: Scenario[] = [
     part: 1,
     category: 'Ultrasound Physics Principles',
     scenario: 'You observe a strong, echo-free region appearing directly behind a weakly attenuating structure on your ultrasound image. What useful artifact is this demonstrating?',
-    answer: 'This is an example of enhancement, a useful artifact seen behind weakly attenuating structures.'
+    answer: 'This is an example of enhancement, a useful artifact seen behind weakly attenuating structures.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Ultrasound_of_a_simple_breast_cyst.png'
   },
   {
     id: 's1-21',
@@ -352,7 +357,8 @@ export const scenarios: Scenario[] = [
     part: 2,
     category: 'Transducers & Imaging Components',
     scenario: 'Which mode in ultrasound imaging is primarily interested in documenting the movement of reflectors along one scan line, such as heart valve motion?',
-    answer: 'M-mode (motion mode) is used when documentation of the movement of a reflector is needed.'
+    answer: 'M-mode (motion mode) is used when documentation of the movement of a reflector is needed.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Mitral_valve_M-mode.jpg/800px-Mitral_valve_M-mode.jpg'
   },
   {
     id: 's2-21',
@@ -396,14 +402,16 @@ export const scenarios: Scenario[] = [
     part: 3,
     category: 'Hemodynamics & Doppler Principles',
     scenario: 'You are performing a spectral Doppler examination and notice aliasing. You increase the PRF/scale setting. What effect does this have on the potential for aliasing?',
-    answer: 'Increasing the PRF/scale setting decreases the potential of aliasing.'
+    answer: 'Increasing the PRF/scale setting decreases the potential of aliasing.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Aliasing_in_Doppler_ultrasound.jpg/640px-Aliasing_in_Doppler_ultrasound.jpg'
   },
   {
     id: 's3-2',
     part: 3,
     category: 'Hemodynamics & Doppler Principles',
     scenario: 'Under what angle of insonation is the Doppler shift highest?',
-    answer: 'The Doppler shift is highest when the beam is parallel (0 degrees) to the direction of flow.'
+    answer: 'The Doppler shift is highest when the beam is parallel (0 degrees) to the direction of flow.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Carotid_ultrasound.jpg'
   },
   {
     id: 's3-3',
@@ -510,7 +518,8 @@ export const scenarios: Scenario[] = [
     part: 4,
     category: 'Quality Assurance & Patient Care',
     scenario: 'You need to evaluate the flow direction, depth capability, and accuracy of sample volume location for a Doppler system. Which specific test object would you use for this purpose?',
-    answer: 'The Doppler phantom is used for these evaluations.'
+    answer: 'The Doppler phantom is used for these evaluations.',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Doppler_ultrasound_of_systolic_velocity_%28Vs%29%2C_diastolic_velocity_%28Vd%29%2C_acceleration_time_%28AoAT%29%2C_systolic_acceleration_%28Ao_Accel%29_and_resistive_index_%28RI%29_of_normal_kidney.jpg'
   },
   {
     id: 's4-3',

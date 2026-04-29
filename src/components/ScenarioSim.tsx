@@ -9,9 +9,9 @@ import {
   Lightbulb, Briefcase, GraduationCap, Sparkles
 } from 'lucide-react';
 import { Scenario } from '../types';
-import { scenarios } from '../src/data/scenarios';
-import { generateSpeech, generateText } from '../src/services/aiService';
-import { decodeBase64 } from '../src/lib/audioUtils';
+import { scenarios } from '../data/scenarios';
+import { generateSpeech, generateText } from '../services/aiService';
+import { decodeBase64 } from '../lib/audioUtils';
 import { CompanionAvatar } from './CompanionAvatar';
 import { 
   BeamLab,
@@ -39,7 +39,7 @@ export const ScenarioSim: React.FC<ScenarioSimProps> = ({ isDarkMode = true, pro
   const [isNarrating, setIsNarrating] = useState(false);
   const [isInsightGenerating, setIsInsightGenerating] = useState(false);
   const [aiInsight, setAiInsight] = useState<string | null>(null);
-  const [filter, setFilter] = useState<number | 'all'>('all');
+  const [filter, setFilter] = useState<number | 'all' | 'clinical'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isChallengeMode, setIsChallengeMode] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -47,7 +47,8 @@ export const ScenarioSim: React.FC<ScenarioSimProps> = ({ isDarkMode = true, pro
 
   const filteredScenarios = useMemo(() => {
     return scenarios.filter(s => {
-      const matchesFilter = filter === 'all' || s.part === filter;
+      const matchesFilter = filter === 'all' || 
+                            (filter === 'clinical' ? !!s.imageUrl : s.part === filter);
       const matchesSearch = s.scenario.toLowerCase().includes(searchQuery.toLowerCase()) || 
                            s.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesFilter && matchesSearch;
@@ -169,7 +170,27 @@ export const ScenarioSim: React.FC<ScenarioSimProps> = ({ isDarkMode = true, pro
   const renderVisual = () => {
     if (!currentScenario) return null;
 
-    // Specific mapping
+    // If a clinical ultrasound scan is provided, prioritize it
+    if (currentScenario.imageUrl) {
+      return (
+        <div className="w-full h-full flex flex-col items-center justify-center p-6 space-y-4">
+          <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-2 border-white/10 shadow-2xl bg-black group/img">
+            <img 
+              src={currentScenario.imageUrl} 
+              alt="Clinical Ultrasound Scan" 
+              className="w-full h-full object-contain transition-transform duration-700 group-hover/img:scale-105"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute top-6 left-6 px-4 py-1.5 bg-registry-teal text-stealth-950 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-glow">
+              Clinical Specimen
+            </div>
+          </div>
+          <p className="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em] italic">Telemetry Signal: Verified Clinical Data</p>
+        </div>
+      );
+    }
+
+    // Specific mapping for labs
     const sid = currentScenario.id;
     
     // Bioeffects
@@ -237,6 +258,12 @@ export const ScenarioSim: React.FC<ScenarioSimProps> = ({ isDarkMode = true, pro
               className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${filter === 'all' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
             >
               All Cases
+            </button>
+            <button 
+              onClick={() => { setFilter('clinical'); setCurrentIdx(0); }}
+              className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${filter === 'clinical' ? 'bg-registry-teal text-stealth-950 shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            >
+              Clinical Scans
             </button>
             {[1, 2, 3, 4].map(p => (
               <button 

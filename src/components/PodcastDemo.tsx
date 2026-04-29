@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Play, Pause, Loader2, Headphones, Radio, Mic2, Sparkles, Volume2, SkipForward, User, BookOpen } from 'lucide-react';
-import { generateText, generateSpeech } from '../src/services/aiService';
-import { decodeBase64 } from '../src/lib/audioUtils';
+import { generateText, generateSpeech } from '../services/aiService';
+import { decodeBase64 } from '../lib/audioUtils';
 
 interface PodcastDemoProps {
   onClose: () => void;

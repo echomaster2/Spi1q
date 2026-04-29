@@ -38,9 +38,10 @@ export class AudioCache {
       if (lessonId && lessonId.length > 0) {
         try {
           const res = await fetch(`/audio_cache/${lessonId}.txt`);
-          if (res.ok) {
+          const contentType = res.headers.get('Content-Type');
+          if (res.ok && contentType && !contentType.includes('text/html')) {
             const b64 = await res.text();
-            if (b64 && b64.length > 100) {
+            if (b64 && b64.length > 100 && !b64.startsWith('<!DOCTYPE')) {
               // Save into IndexedDB for next time
               await this.set(id, b64);
               return b64;

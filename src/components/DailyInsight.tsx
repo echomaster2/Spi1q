@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Brain, Zap, RefreshCw, ChevronRight, BookOpen } from 'lucide-react';
-import { generateText } from '../src/services/aiService';
+import { generateText } from '../services/aiService';
 import { UserProfile } from '../types';
 
 interface DailyInsightProps {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Radio, X, Play, Pause, SkipForward, Volume2, VolumeX, Music, Zap, Activity, Waves, Plus, Globe, Tag, Link as LinkIcon, AlertCircle } from 'lucide-react';
-import { useRadio } from '../src/context/RadioContext';
+import { useRadio } from '../context/RadioContext';
 
 interface GlobalRadioProps {
   onClose: () => void;

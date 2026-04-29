@@ -10,9 +10,9 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { signInWithGoogle, logout } from '../firebase';
-import { generateText, generateSpeech } from '../src/services/aiService';
+import { generateText, generateSpeech } from '../services/aiService';
 import { UserProfile as UserProfileType, Module, LessonContentMap } from '../types';
-import { AudioCache } from '../src/lib/audioCache';
+import { AudioCache } from '../lib/audioCache';
 import { CompanionAvatar, CompanionSkin } from './CompanionAvatar';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Image as ImageIcon, Upload, Trash2, Grid, Folder, Plus, X, Loader2, Check, Search, Filter, Edit2, Camera, Film, ZoomIn, ZoomOut, Maximize2, Minimize2, Link as LinkIcon, Play, FileVideo } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Asset {
   id: string;
@@ -62,8 +63,14 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
       if (response.ok) {
         const data = await response.json();
         setUserAssets(data.map((img: any) => {
-          const type = img.data.startsWith('data:video') ? 'video' : 'user';
-          return { ...img, type, category: type === 'video' ? 'Videos' : 'User Uploads' };
+          const isVideo = img.data.startsWith('vvid:') || img.data.startsWith('data:video');
+          return { 
+            ...img, 
+            type: isVideo ? 'video' : 'user', 
+            category: isVideo ? 'Videos' : 'User Uploads',
+            // Normalize path for videos
+            data: img.data.startsWith('vvid:') ? img.data.substring(5) : img.data
+          };
         }));
       }
     } catch (error) {
@@ -83,141 +90,72 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
 
     setUploading(true);
     
-    // If only one file and it's an image, keep old logic for backward compatibility with base64 storage if preferred,
-    // but for bulk we definitely want the new server-side file storage.
-    
-    if (files.length > 1) {
-      // Bulk logic
-      const formData = new FormData();
-      files.forEach(file => {
-        if (file.type.startsWith('video/')) {
-          formData.append('videos', file);
-        } else {
-          formData.append('images', file);
-        }
-      });
+    try {
+      const imageFiles = files.filter(f => f.type.startsWith('image/'));
+      const videoFiles = files.filter(f => f.type.startsWith('video/'));
+      const otherFiles = files.filter(f => !f.type.startsWith('image/') && !f.type.startsWith('video/'));
 
-      try {
-        // We separate them or use a combined endpoint. 
-        // Let's just handle them sequentially or update server to handle mixed.
-        // Actually, let's just use the image endpoint if they are mostly images.
-        
-        const imageFiles = files.filter(f => f.type.startsWith('image/'));
-        const videoFiles = files.filter(f => f.type.startsWith('video/'));
-
-        if (imageFiles.length > 0) {
-          const imgFormData = new FormData();
-          imageFiles.forEach(f => imgFormData.append('images', f));
-          const res = await fetch('/api/bulk-upload-images', { method: 'POST', body: imgFormData });
-          if (res.ok) {
-            const result = await res.json();
-            for (const file of result.files) {
-              const imageId = `user-${Date.now()}-${Math.random().toString(36).substring(7)}`;
-              await fetch(`/api/images/${userId}/${imageId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: file.url }), // Save URL instead of base64
-              });
-            }
-          }
-        }
-
-        if (videoFiles.length > 0) {
-          const vidFormData = new FormData();
-          videoFiles.forEach(f => vidFormData.append('videos', f));
-          const res = await fetch('/api/bulk-upload-videos', { method: 'POST', body: vidFormData });
-          if (res.ok) {
-            const result = await res.json();
-            for (const file of result.files) {
-                const imageId = `video-${Date.now()}-${Math.random().toString(36).substring(7)}`;
-                await fetch(`/api/images/${userId}/${imageId}`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ data: `data:video/mp4;base64,${file.url}` }),
-                });
-            }
-          }
-        }
-        
-        fetchUserAssets();
-      } catch (error) {
-        console.error('Bulk upload failed:', error);
-      } finally {
-        setUploading(false);
-        if (fileInputRef.current) fileInputRef.current.value = '';
-      }
-      return;
-    }
-
-    const file = files[0];
-    
-    // Check if it's a video
-    if (file.type.startsWith('video/')) {
-      const formData = new FormData();
-      formData.append('video', file);
-      
-      try {
-        const response = await fetch('/api/upload-video', {
-          method: 'POST',
-          body: formData,
+      if (otherFiles.length > 0) {
+        toast.warning(`Skipped ${otherFiles.length} non-media files`, {
+          description: `Supported formats: Images and Videos only.`
         });
-        
-        if (response.ok) {
-          const result = await response.json();
-          // For videos, we save the URL to the user's image vault as a reference
-          const imageId = `video-${Date.now()}`;
-          await fetch(`/api/images/${userId}/${imageId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data: `data:video/mp4;base64,${result.url}` }), // We use a special prefix to identify it's a server-hosted video
-          });
-          fetchUserAssets();
-        } else {
-          const err = await response.json();
-          console.error('Video upload failed:', err);
-          alert(`Video upload failed: ${err.error || 'Unknown error'}`);
-        }
-      } catch (error) {
-        console.error('Video upload error:', error);
-        alert('Video upload failed. Please check your connection and file size.');
-      } finally {
-        setUploading(false);
-        if (fileInputRef.current) fileInputRef.current.value = '';
       }
-      return;
-    }
 
-    // Handle images as before, but with better error handling
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64 = reader.result as string;
-      const imageId = `user-${Date.now()}`;
-      try {
-        const response = await fetch(`/api/images/${userId}/${imageId}`, {
+      if (imageFiles.length === 0 && videoFiles.length === 0) {
+        if (otherFiles.length === 0) toast.error('No files selected');
+        return;
+      }
+
+      const saveReference = async (data: string, prefix: string) => {
+        const id = `${prefix}-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        await fetch(`/api/images/${userId}/${id}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: base64 }),
+          body: JSON.stringify({ data }),
         });
-        if (response.ok) {
-          fetchUserAssets();
+      };
+
+      if (imageFiles.length > 0) {
+        toast.loading('Uploading images...', { id: 'upload-img' });
+        const imgFormData = new FormData();
+        imageFiles.forEach(f => imgFormData.append('images', f));
+        const res = await fetch('/api/bulk-upload-images', { method: 'POST', body: imgFormData });
+        if (res.ok) {
+          const result = await res.json();
+          await Promise.all(result.files.map((file: any) => saveReference(file.url, 'user')));
+          toast.success(`Successfully uploaded ${imageFiles.length} images`, { id: 'upload-img' });
         } else {
-          console.error('Image upload failed');
-          alert('Image upload failed. The file might be too large.');
+          const err = await res.json();
+          toast.error(`Images upload failed: ${err.error || 'Unknown error'}`, { id: 'upload-img' });
+          throw new Error(`Images upload failed: ${err.error || 'Unknown error'}`);
         }
-      } catch (error) {
-        console.error('Upload failed:', error);
-        alert('Upload failed. Please check your connection.');
-      } finally {
-        setUploading(false);
-        if (fileInputRef.current) fileInputRef.current.value = '';
       }
-    };
-    reader.onerror = () => {
-      console.error('File reading failed');
-      alert('Failed to read the file.');
+
+      if (videoFiles.length > 0) {
+        toast.loading('Uploading videos...', { id: 'upload-vid' });
+        const vidFormData = new FormData();
+        videoFiles.forEach(f => vidFormData.append('videos', f));
+        const res = await fetch('/api/bulk-upload-videos', { method: 'POST', body: vidFormData });
+        if (res.ok) {
+          const result = await res.json();
+          // We use a simpler prefix for videos: 'vvid:' followed by the URL
+          await Promise.all(result.files.map((file: any) => saveReference(`vvid:${file.url}`, 'video')));
+          toast.success(`Successfully uploaded ${videoFiles.length} videos`, { id: 'upload-vid' });
+        } else {
+          const err = await res.json();
+          toast.error(`Videos upload failed: ${err.error || 'Unknown error'}`, { id: 'upload-vid' });
+          throw new Error(`Videos upload failed: ${err.error || 'Unknown error'}`);
+        }
+      }
+      
+      fetchUserAssets();
+    } catch (error: any) {
+      console.error('Upload failed:', error);
+      // Removed alert, using console for now, maybe add a toast later
+    } finally {
       setUploading(false);
-    };
-    reader.readAsDataURL(file);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
   const handleDelete = async (imageId: string) => {
     setShowDeleteConfirm(null);
@@ -306,6 +244,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                 onChange={handleUpload} 
                 className="hidden" 
                 accept="image/*,video/*"
+                multiple
               />
               <button 
                 onClick={() => fileInputRef.current?.click()}
@@ -323,7 +262,16 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10">
+      <div 
+        className="flex-1 overflow-y-auto p-6 space-y-6 relative z-10"
+        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+        onDrop={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const files = Array.from(e.dataTransfer.files);
+          if (files.length > 0) handleUpload({ target: { files } } as any);
+        }}
+      >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className={`flex items-center space-x-2 p-1 rounded-2xl border w-fit ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-300'}`}>
             <div className="flex items-center space-x-2 px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest bg-registry-teal text-stealth-950 shadow-lg shadow-registry-teal/20">
@@ -389,7 +337,7 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
                     </div>
                   ) : (
                     <div className="relative w-full h-full">
-                      {asset.type === 'video' || (asset.data && asset.data.startsWith('data:video')) ? (
+                      {asset.type === 'video' ? (
                         <div 
                           onClick={() => onSelect(asset)}
                           className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'bg-stealth-900' : 'bg-slate-200'}`}
@@ -537,30 +485,26 @@ export const AssetLibrary: React.FC<AssetLibraryProps> = ({ userId, isDarkMode, 
               dragElastic={0.1}
             >
               <div className="relative">
-                {selectedAssetForView.type === 'video' || selectedAssetForView.data.startsWith('data:video') ? (
-                  selectedAssetForView.data ? (
-                    <motion.video 
-                      src={selectedAssetForView.data.startsWith('data:video/mp4;base64,/api/video/') 
-                        ? selectedAssetForView.data.replace('data:video/mp4;base64,', '') 
-                        : selectedAssetForView.data} 
-                      controls
-                      autoPlay
-                      animate={{ scale: zoom }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                      className="max-w-full max-h-full object-contain filter brightness-90 contrast-110 saturate-125 rounded-2xl shadow-2xl"
-                    />
-                  ) : null
+                {selectedAssetForView.type === 'video' ? (
+                  <motion.video 
+                    src={selectedAssetForView.data.startsWith('data:video/mp4;base64,') 
+                      ? selectedAssetForView.data.replace('data:video/mp4;base64,', '') 
+                      : selectedAssetForView.data} 
+                    controls
+                    autoPlay
+                    animate={{ scale: zoom }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    className="max-w-full max-h-full object-contain filter brightness-90 contrast-110 saturate-125 rounded-2xl shadow-2xl"
+                  />
                 ) : (
-                  selectedAssetForView.data ? (
-                    <motion.img 
-                      src={selectedAssetForView.data} 
-                      alt="Preview"
-                      animate={{ scale: zoom }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                      className="max-w-full max-h-full object-contain pointer-events-none select-none filter brightness-90 contrast-110 saturate-125"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : null
+                  <motion.img 
+                    src={selectedAssetForView.data} 
+                    alt="Preview"
+                    animate={{ scale: zoom }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    className="max-w-full max-h-full object-contain pointer-events-none select-none filter brightness-90 contrast-110 saturate-125"
+                    referrerPolicy="no-referrer"
+                  />
                 )}
                 {/* Diagnostic Overlay for Viewer */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -3,7 +3,7 @@ import { Search, X, Book, Hash, ChevronLeft, Bookmark, Waves, Volume2, Pause, Lo
 import { motion, AnimatePresence } from 'motion/react';
 import { FullscreenToggle } from './FullscreenToggle';
 import { GlossaryTerm, UserProfile as UserProfileType } from '../types';
-import { generateText } from '../src/services/aiService';
+import { generateText } from '../services/aiService';
 import { toast } from 'sonner';
 
 interface GlossaryProps {
@@ -468,8 +468,9 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
   },
   { 
     term: "Rayleigh Scattering", 
-    definition: "Special scattering occurring when the reflector is much smaller than the wavelength (e.g., Red Blood Cells).", 
+    definition: "Special scattering occurring when the reflector is much smaller than the wavelength (e.g., RBCs). Proportional to Frequency to the 4th power (f⁴).", 
     category: "Media Interaction",
+    clinicalPearl: "Doubling your frequency results in a 16x increase in Rayleigh scattering! This is why RBCs are such efficient scatterers for Doppler.",
     visual: (
       <div className="relative w-10 h-10 flex items-center justify-center">
         <div className="w-1 h-1 bg-rose-500 rounded-full" />
@@ -816,11 +817,11 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     visual: (
       <div className="relative w-12 h-10 bg-slate-900 rounded-sm overflow-hidden">
         <motion.div 
-          animate={{ y: [0, -20, 20, 0] }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-full h-1 bg-registry-rose shadow-[0_0_8px_rgba(244,63,94,0.8)]"
+          animate={{ y: [-15, -30, 20, 15] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          className="w-full h-1.5 bg-registry-rose shadow-[0_0_8px_rgba(244,63,94,0.8)] rounded-full"
         />
-        <div className="absolute inset-y-0 left-1/2 w-px bg-white/10" />
+        <div className="absolute top-1/2 left-0 w-full h-[0.5px] bg-white/30" />
       </div>
     )
   },
@@ -1253,7 +1254,13 @@ export const SPI_GLOSSARY: GlossaryTerm[] = [
     definition: "The formula used to calculate the angle of refraction: sin(θt)/sin(θi) = c2/c1.",
     category: "Media Interaction",
     relatedLessonIds: ["1.3"],
-    visual: <MoveRight className="w-4 h-4 text-registry-teal rotate-45" />
+    visual: (
+      <svg width="40" height="20" viewBox="0 0 40 20" className="text-registry-teal">
+        <line x1="5" y1="18" x2="20" y2="10" stroke="currentColor" strokeWidth="1" />
+        <line x1="20" y1="10" x2="35" y2="4" stroke="currentColor" strokeWidth="1" strokeDasharray="2" />
+        <line x1="0" y1="10" x2="40" y2="10" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      </svg>
+    )
   },
   {
     term: "Critical Angle",

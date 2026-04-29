@@ -4,11 +4,12 @@ import {
   FlaskConical, Activity, Zap, Waves, 
   Target, Monitor, Shield, Sparkles,
   Maximize2, X, Play, RefreshCcw, 
-  Settings, Info, Sliders, LayoutGrid, ChevronLeft
+  Settings, Info, Sliders, LayoutGrid, ChevronLeft,
+  Heart
 } from 'lucide-react';
 import * as Visuals from './visuals';
 
-import { updateQuestProgress } from '../src/lib/questUtils';
+import { updateQuestProgress } from '../lib/questUtils';
 
 interface RegistryLabProps {
   onClose: () => void;
@@ -68,6 +69,18 @@ const TOOL_CATEGORIES = [
       { id: 'micro', name: 'Microbubble Dynamics', component: 'ContrastBubbleVisual', description: 'Harmonics and contrast agent physics.' },
       { id: 'qa', name: 'Phantom Testing', component: 'QAPhantomVisual', description: 'Quality assurance and system calibration.' },
       { id: 'art', name: 'Artifact Lab', component: 'ArtifactsVisual', description: 'Shadowing, Enhancement, and Reverberation.' }
+    ]
+  },
+  { 
+    id: 'clinical', 
+    name: 'Clinical Scans', 
+    icon: Heart, 
+    tools: [
+      { id: 'fast', name: 'FAST Exam', component: 'FASTExamVisual', description: 'Simulated Focused Assessment with Sonography for Trauma.' },
+      { id: 'cardiac', name: 'Cardiac Cycle', component: 'CardiacCycleVisual', description: 'Dynamic valve and wall motion analysis in M-Mode and 2D.' },
+      { id: 'vascular', name: 'Vascular Lab', component: 'VascularBifurcationVisual', description: 'Hemodynamics at the carotid bifurcation.' },
+      { id: 'obstetric', name: 'OB/GYN Survey', component: 'ObstetricSurveyVisual', description: 'Fetal biometry and placental Doppler analysis.' },
+      { id: 'atlas', name: 'Pathology Atlas', component: 'PathologyAtlasVisual', description: 'Interactive database of critical ultrasound findings.' }
     ]
   }
 ];

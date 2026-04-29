@@ -1,6 +1,6 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import OpenAI from "openai";
-import { UserProfile } from "../../types";
+import { UserProfile } from "../types";
 import { AudioCache } from "../lib/audioCache";
 import { wrapPcmInWav } from "../lib/audioUtils";
 

@@ -23,6 +23,7 @@ export interface AdvancedQuestion {
 export interface Lesson {
   id: string;
   title: string;
+  moduleId?: string;
 }
 
 export interface Module {
@@ -130,6 +131,7 @@ export interface Scenario {
   category: string;
   scenario: string;
   answer: string;
+  imageUrl?: string;
 }
 
 export interface UserProfile {

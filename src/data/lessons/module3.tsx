@@ -5,9 +5,9 @@ import {
   LectureTag,
   VideoTutorialLink,
   KnowledgeVisual
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { LessonData } from '../../types';
 
 export const module3Lessons: Record<string, LessonData> = {
   "3.1": {
@@ -28,6 +28,10 @@ export const module3Lessons: Record<string, LessonData> = {
       </div>
     ),
     clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/c-Ifw98J9V4",
+        caption: "Video: Spatial Resolutions & Pulse Physics"
+      },
       {
         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Ultrasound_liver_right_lobe_and_right_kidney.jpg/800px-Ultrasound_liver_right_lobe_and_right_kidney.jpg",
         caption: "Liver and Kidney Interface - Demonstrating depth perception and the pulse-echo principle in action."
@@ -62,6 +66,34 @@ export const module3Lessons: Record<string, LessonData> = {
           </div>
         </div>
         <DutyFactorVisual />
+        
+        <section className="mt-12 p-8 md:p-12 bg-stealth-900 border border-white/5 rounded-[3.5rem] relative overflow-hidden">
+           <div className="absolute inset-0 scanline opacity-5 pointer-events-none" />
+           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+              <div className="space-y-4 max-w-xl">
+                 <h4 className="text-3xl font-black italic uppercase tracking-tighter text-white">The <span className="text-registry-teal">Duty Factor</span> Breakdown</h4>
+                 <p className="text-sm leading-relaxed text-slate-400">
+                    If you struggle with the math of pulsed waves, remember this: the machine is a master of multitasking, but it spends almost all its life listening to you.
+                 </p>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                       <p className="text-[10px] font-black uppercase tracking-widest text-registry-teal mb-1">Imaging Wave</p>
+                       <p className="text-xl font-black italic">0.2% - 0.5%</p>
+                       <p className="text-[10px] opacity-40 uppercase">Percent of time 'on'</p>
+                    </div>
+                    <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                       <p className="text-[10px] font-black uppercase tracking-widest text-registry-rose mb-1">Continuous Wave</p>
+                       <p className="text-xl font-black italic">100%</p>
+                       <p className="text-[10px] opacity-40 uppercase">Always transmitting</p>
+                    </div>
+                 </div>
+              </div>
+              <div className="p-10 bg-registry-teal rounded-3xl text-stealth-950 flex flex-col items-center justify-center transform rotate-2">
+                 <span className="text-xs font-black uppercase tracking-[0.2em] mb-1">Formula Mastery</span>
+                 <p className="text-2xl font-black italic">DF = (PD / PRP) × 100</p>
+              </div>
+           </div>
+        </section>
       </div>
     ),
     quiz: {

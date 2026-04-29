@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { FullscreenToggle } from './FullscreenToggle';
 import { UserProfile } from '../types';
 import { Toaster, toast } from 'sonner';
-import { generateStudyPlan, AIServiceError } from '../src/services/aiService';
-import { CLINICAL_TIPS } from '../src/constants/clinicalTips';
+import { generateStudyPlan, AIServiceError } from '../services/aiService';
+import { CLINICAL_TIPS } from '../constants/clinicalTips';
 
 interface StudyPlanProps {
   profile: UserProfile;
@@ -150,6 +150,10 @@ export const StudyPlan: React.FC<StudyPlanProps> = ({ profile, completed = new S
             </button>
           )}
           <div className="h-8 w-[1px] bg-slate-200 dark:bg-white/10 mx-1 hidden md:block" />
+          <FullscreenToggle 
+            className={`p-2.5 rounded-xl border transition-all ${isDarkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'} hover:scale-105 active:scale-95`}
+            iconClassName="w-5 h-5"
+          />
           <button onClick={onClose} className="p-2.5 hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-colors text-slate-400 dark:text-slate-500">
             <X className="w-6 h-6" />
           </button>

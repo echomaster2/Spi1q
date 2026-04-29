@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
-import { checkAIHealth } from '../src/services/aiService';
+import { checkAIHealth } from '../services/aiService';
 
 interface SettingsProps {
   onClose: () => void;
@@ -339,7 +339,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
                   <button
                     onClick={async () => {
-                      const { AudioCache } = await import('../src/lib/audioCache');
+                      const { AudioCache } = await import('../lib/audioCache');
                       await AudioCache.clear();
                       window.location.reload();
                     }}

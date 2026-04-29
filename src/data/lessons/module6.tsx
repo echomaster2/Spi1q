@@ -5,9 +5,9 @@ import {
   SafetyIndicesVisual,
   LectureTag,
   VideoTutorialLink
-} from '../../../components/VisualElements';
-import { LessonAnthem } from '../../../components/LessonAnthem';
-import { LessonData } from '../../../types';
+} from '../../components/VisualElements';
+import { LessonAnthem } from '../../components/LessonAnthem';
+import { LessonData } from '../../types';
 
 export const module6Lessons: Record<string, LessonData> = {
   "6.1": {
@@ -34,7 +34,13 @@ export const module6Lessons: Record<string, LessonData> = {
           <CavitationVisual />
         </div>
       </div>
-    )
+    ),
+    clinicalImages: [
+      {
+        url: "https://www.youtube.com/embed/R_7_O-0-7_Y",
+        caption: "Video: Ultrasound Bioeffects & Safety"
+      }
+    ]
   },
   "6.2": {
     title: "Safety Indices",
